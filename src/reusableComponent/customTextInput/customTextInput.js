@@ -14,6 +14,7 @@ import { theme } from '../../utils';
   onLeftIconPress,
   rightIcon,
   numberOfLines,
+  ref,
   multiline = false,
   editable= true,
   // key,
@@ -38,6 +39,7 @@ import { theme } from '../../utils';
         secureTextEntry={secureTextEntry}
         style={[styles.input, inputStyle]}
         placeholderTextColor={'black'}
+        ref={ref}
       />
       {rightIcon && (
         <TouchableOpacity onPress={onRightIconPress} style={styles.iconContainer}>
@@ -52,13 +54,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor:theme.lightColor.orangeColor,
+    backgroundColor:theme.lightColor.whiteColor,
     borderRadius:10,
     borderWidth:1,
     borderColor: theme.lightColor.grayColor,
     paddingHorizontal: theme.horizontalSpacing.space_12,
-    height: theme.verticalSpacing.space_56,
-    marginTop:theme.verticalSpacing.space_20
+    height: theme.verticalSpacing.space_50,
+    // marginTop:theme.verticalSpacing.space_10
   },
   input: {
     flex: 1,
