@@ -1,34 +1,26 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import RegisterLoginScreen from './src/screen/registerLoginScree/welcomeScreen';
-import LoginScreen from './src/screen/authScreen/loginScreen';
-import ForgotPasswordScreen from './src/screen/authScreen/forgotPasswordScreen';
-import CreateNewPassword from './src/screen/authScreen/createNewPassword';
-import StackNavigation from './src/navigation/stackNavigation/navigation';
-const App=()=>{
-  return(
-    
-    <View style={{flex:1}}>
-      <StackNavigation/>
-    </View>
-  )
-}
+import { View, ActivityIndicator } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/redux/store';
+import MainStackNavigation from './src/navigation/stackNavigation/mainStacknavigation';
+import RootNavigator from './src/navigation/rootNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+import { ToastComponent } from './src/utils/Toast';
+import BackgroundLayout from './src/reusableComponent/backgroundLayout/backgroundLayout';
+const App = () => (
+  <View style={{ flex: 1 }}>
+    <Provider store={store}>
+      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+      <NavigationContainer>
+        <RootNavigator/>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
+     
+     <ToastComponent/>
+   
+  </View>
+);
 
 export default App;

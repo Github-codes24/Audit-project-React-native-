@@ -19,12 +19,13 @@ const CreateNewPassword=({navigation})=>{
         />
       <Text style={style.Textstyle}>Please enter and confirm your new password.You will need to login after you reset.</Text>
       <View style={style.inputView}>
-      
+        <Text>New Password</Text>
         <CustomTextInput
         placeholder={'New password'}
          rightIcon={<Svg.EyeOpen/>}
         />
        <Text style={{marginLeft:8}}>{'must have 8 char.'}</Text>
+        <Text style={{marginTop:20}}>Confirm Password</Text>
         <CustomTextInput
          placeholder={'Confirm password'}
          rightIcon={<Svg.EyeOpen/>}

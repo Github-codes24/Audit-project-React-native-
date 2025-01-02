@@ -2023,6 +2023,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@react-native-async-storage/async-storage@npm:2.1.0"
+  dependencies:
+    merge-options: "npm:^3.0.4"
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.65 <1.0
+  checksum: 10c0/76a81a55059e93e256f6e9cf3f33a49d24ba83ce2f88e52343107953a66168c533bb387111a88708247c926297ee93c681c4936bcb66993dba78ea7fb28c9fdf
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:15.0.1":
   version: 15.0.1
   resolution: "@react-native-community/cli-clean@npm:15.0.1"
@@ -2441,6 +2452,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-navigation/bottom-tabs@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "@react-navigation/bottom-tabs@npm:7.2.0"
+  dependencies:
+    "@react-navigation/elements": "npm:^2.2.5"
+    color: "npm:^4.2.3"
+  peerDependencies:
+    "@react-navigation/native": ^7.0.14
+    react: ">= 18.2.0"
+    react-native: "*"
+    react-native-safe-area-context: ">= 4.0.0"
+    react-native-screens: ">= 4.0.0"
+  checksum: 10c0/7cd658036c844b29aba818a32bd9f55ce7843a39b7c589f33f7e51850405a8391f631d2fd2970ac2f5805b5c261fe53cf1aeb7698d3820f6731091ad04cc0789
+  languageName: node
+  linkType: hard
+
 "@react-navigation/core@npm:^7.3.1":
   version: 7.3.1
   resolution: "@react-navigation/core@npm:7.3.1"
@@ -2719,6 +2746,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/redux-logger@npm:^3":
+  version: 3.0.13
+  resolution: "@types/redux-logger@npm:3.0.13"
+  dependencies:
+    redux: "npm:^5.0.0"
+  checksum: 10c0/dcbddf89dbdf9ab3be1d49e987beb912f500a19f842b29b868a622a9fafbab7aa65ba75f5a8a3cecab1d9809fea8d761d0d81f9ee30b5ef8dac8d64ccf82efb4
+  languageName: node
+  linkType: hard
+
 "@types/semver@npm:^7.3.12":
   version: 7.5.8
   resolution: "@types/semver@npm:7.5.8"
@@ -2960,6 +2996,7 @@ __metadata:
     "@babel/core": "npm:^7.25.2"
     "@babel/preset-env": "npm:^7.25.3"
     "@babel/runtime": "npm:^7.25.0"
+    "@react-native-async-storage/async-storage": "npm:^2.1.0"
     "@react-native-community/cli": "npm:15.0.1"
     "@react-native-community/cli-platform-android": "npm:15.0.1"
     "@react-native-community/cli-platform-ios": "npm:15.0.1"
@@ -2967,11 +3004,13 @@ __metadata:
     "@react-native/eslint-config": "npm:0.76.5"
     "@react-native/metro-config": "npm:0.76.5"
     "@react-native/typescript-config": "npm:0.76.5"
+    "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
     "@react-navigation/stack": "npm:^7.1.1"
     "@reduxjs/toolkit": "npm:^2.5.0"
     "@types/react": "npm:^18.2.6"
     "@types/react-test-renderer": "npm:^18.0.0"
+    "@types/redux-logger": "npm:^3"
     babel-jest: "npm:^29.6.3"
     eslint: "npm:^8.19.0"
     jest: "npm:^29.6.3"
@@ -2983,8 +3022,12 @@ __metadata:
     react-native-safe-area-context: "npm:^5.0.0"
     react-native-screens: "npm:^4.4.0"
     react-native-svg: "npm:^15.10.1"
+    react-native-swiper: "npm:^1.6.0"
+    react-native-toast-message: "npm:^2.2.1"
     react-redux: "npm:^9.2.0"
     react-test-renderer: "npm:18.3.1"
+    redux-logger: "npm:^3.0.6"
+    redux-persist: "npm:^6.0.0"
     typescript: "npm:5.0.4"
   languageName: unknown
   linkType: soft
@@ -4145,6 +4188,13 @@ __metadata:
     babel-plugin-macros:
       optional: true
   checksum: 10c0/d94bde6e6f780be4da4fd760288fcf755ec368872f4ac5218197200d86430aeb8d90a003a840bff1c20221188e3f23adced0119cb811c6873c70d0ac66d12832
+  languageName: node
+  linkType: hard
+
+"deep-diff@npm:^0.3.5":
+  version: 0.3.8
+  resolution: "deep-diff@npm:0.3.8"
+  checksum: 10c0/dbb10937ccff21b1ad1ee5e64ad926643a7000cb9837bc2165bacfddf569788c78b8bfd74401c32121af3fb1cb1092b7447319d9f01900676473a1b840c08ade
   languageName: node
   linkType: hard
 
@@ -5839,6 +5889,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: 10c0/e5c9814cdaa627a9ad0a0964ded0e0491bfd9ace405c49a5d63c88b30a162f1512c069d5b80997893c4d0181eadc3fed02b4ab4b81059aba5620bfcdfdeb9c53
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -6947,6 +7004,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: "npm:^2.1.0"
+  checksum: 10c0/02b5891ceef09b0b497b5a0154c37a71784e68ed71b14748f6fd4258ffd3fe4ecd5cb0fd6f7cae3954fd11e7686c5cb64486daffa63c2793bbe8b614b61c7055
+  languageName: node
+  linkType: hard
+
 "merge-stream@npm:^2.0.0":
   version: 2.0.0
   resolution: "merge-stream@npm:2.0.0"
@@ -8032,7 +8098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8191,6 +8257,25 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/f6b9491f321e80b56b50a0d0a4872fbc7adbe04892a7fca953eb1d1e984597f02a95a08560443bab7c074e6767631245d6f737c571d6a6977987311d44d3a717
+  languageName: node
+  linkType: hard
+
+"react-native-swiper@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "react-native-swiper@npm:1.6.0"
+  dependencies:
+    prop-types: "npm:^15.5.10"
+  checksum: 10c0/5cddf220f8a910b82220aafd1b17a51dd6d2cc2cab14304c133409b2198f88ff8de9cde016f2d1ca1e0f2c742500bc2db98db4b44317ad49feea9d68747b596e
+  languageName: node
+  linkType: hard
+
+"react-native-toast-message@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "react-native-toast-message@npm:2.2.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/03418b03ae345f5fe1c1747a98ae9c420a9ea37402d849920a14bfc6eb01541ad934266ae2656433604448d2fba1266ab6f6be649a49c9b22445e86444c1f6de
   languageName: node
   linkType: hard
 
@@ -8353,6 +8438,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redux-logger@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "redux-logger@npm:3.0.6"
+  dependencies:
+    deep-diff: "npm:^0.3.5"
+  checksum: 10c0/65eb71a1c72d9636368672a684bde62c746e64c19c8b92e3f00bdf5cf240ea1695eccb95a0fa3d5044f6a86cbf11fd35dc5150fd3351fa53c72721c336e9098f
+  languageName: node
+  linkType: hard
+
+"redux-persist@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "redux-persist@npm:6.0.0"
+  peerDependencies:
+    redux: ">4.0.0"
+  checksum: 10c0/8242d265ab8d28bbc95cf2dc2a05b869eb67aa309b1ed08163c926f3af56dd8eb1ea62118286083461b8ef2024d3b349fd264e5a62a70eb2e74d068c832d5bf2
+  languageName: node
+  linkType: hard
+
 "redux-thunk@npm:^3.1.0":
   version: 3.1.0
   resolution: "redux-thunk@npm:3.1.0"
@@ -8362,7 +8465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^5.0.1":
+"redux@npm:^5.0.0, redux@npm:^5.0.1":
   version: 5.0.1
   resolution: "redux@npm:5.0.1"
   checksum: 10c0/b10c28357194f38e7d53b760ed5e64faa317cc63de1fb95bc5d9e127fab956392344368c357b8e7a9bedb0c35b111e7efa522210cfdc3b3c75e5074718e9069c

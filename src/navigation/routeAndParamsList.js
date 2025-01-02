@@ -10,6 +10,11 @@ export const MainRoutes = {
   LOGIN_SCREEN:'LoginScreen',
   REGISTER_SCREEN:'RegisterScreen',
   REGISTER_COMPANY_SCREEN:"RegisterCompanyScreen",
+  OTP_SCREEN:'OtpScreen',
+  EMAIL_VERIFICATION_SCREEN:"EmailVerificationScreen",
+  ACCOUNT_VERIFIED_SCREEN:'AccountVerifiedScreen',
+  DASHBOARD_SCREEN:"DashBoardScreen",
+  ONBOARDING_SCREEN:'OnboardingScreen',
 };
 
 export const RootStackParamList = {
@@ -20,6 +25,12 @@ export const RootStackParamList = {
   [MainRoutes.LOGIN_SCREEN]: {}|undefined,
  [MainRoutes.REGISTER_SCREEN]: {}|undefined,
  [MainRoutes.REGISTER_COMPANY_SCREEN]: {}|undefined,
+  [MainRoutes.OTP_SCREEN]: {}|undefined,
+  [MainRoutes.EMAIL_VERIFICATION_SCREEN]: {}|undefined,
+  [MainRoutes.ACCOUNT_VERIFIED_SCREEN]: {}|undefined,
+  [MainRoutes.DASHBOARD_SCREEN]: {}|undefined,
+  [MainRoutes.ONBOARDING_SCREEN]: {}|undefined,
+
 };
 
 export const MainStack = createStackNavigator();
