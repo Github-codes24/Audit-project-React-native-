@@ -5,7 +5,8 @@ import { MainRoutes } from '../routeAndParamsList';
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
 import { ToastComponent } from '../../utils/Toast';
 import BottomTabNavigator from '../bottomTabNavigation/bottomTabNavigation';
-
+import ProfileScreen from '../../screen/profileScreen/profileScreen';
+import DeleteScreen from '../../screen/deletAccountScreen';
 
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
@@ -19,6 +20,14 @@ const MainStackNavigation = () => {
          <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
         component={BottomTabNavigator} 
+      />
+      <Stack.Screen
+        name={MainRoutes.PROFILE_SCREEN}
+        component={ProfileScreen} 
+      />
+       <Stack.Screen
+        name={MainRoutes.DELETE_SCREEN}
+        component={DeleteScreen} 
       />
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    

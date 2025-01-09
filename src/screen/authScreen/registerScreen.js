@@ -22,12 +22,7 @@ import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
       const [lastName,setLastName]=useState('')
       const [confirmPassword,setConfirmPassword]=useState('')
    
-  //   const [registerApi,{
-  //   isLoading: isRegisterApiLoading,
-  //     isSuccess: isRegisterApiSuccess,
-  //     error:registerApiError,
-  //     data:registerApiData,
-  //  }]=useRegisterMutation()
+ 
  
 const handleRegister = () => {
  
@@ -66,11 +61,7 @@ const handleRegister = () => {
 };
 
 
-// useEffect(()=>{
-//     if(isRegisterApiSuccess){
-//     dispatch(setLoginResponse(registerApiData))
-//     }
-// },[isRegisterApiSuccess,registerApiData])
+
 
 
 return(

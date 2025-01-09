@@ -29,20 +29,23 @@ const RegisterButton=()=>{
         style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_269,}}
         source={require('../../asstets/images/welcomeImage.png')}
         />
-        <Text style={style.textStyle}>{'Welcome'}</Text>
+        <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
         <View style={{width:theme.horizontalSpacing.space_230}}>
-        <Text style={{textAlign:"center",fontWeight:'600',color:"#592951",fontSize:theme.fontSizes.size_20,margin:20}}>{'Discover Your Dream Job Here'}</Text>
-        <Text style={{textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_14}}>{'Explore all the existing job roles based on your interest and study major'}</Text>
+        {/* <Text style={{textAlign:"center",fontWeight:'600',color:"#592951",fontSize:theme.fontSizes.size_20,margin:20}}>{'Discover Your Dream Job Here'}</Text> */}
+        <Text style={{textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_14,marginTop:theme.verticalSpacing.space_20,width:theme.horizontalSpacing.space_260}}>{'Securely manage your compliance andsponsor license requirements in one place'}</Text>
+        
+        <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
         <TouchableOpacity style={style.button}
         onPress={LoginNavigation}
         >
-          <Text style={{textAlign:"center"}}>Login</Text>
+          <Text style={{textAlign:"center",color:theme.lightColor.whiteColor}}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[style.button,{marginTop:20}]}
+        <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,marginLeft:10}]}
         onPress={RegisterButton}
         >
-          <Text style={{textAlign:"center"}}>{'Register'}</Text>
+          <Text style={{color:theme.lightColor.brownColor}}>{'Get Started Free'}</Text>
         </TouchableOpacity>
+        </View>
        </View>
       </View>
     </View>
@@ -63,16 +66,17 @@ const style = StyleSheet.create({
     color: 'black',
   },
   textStyle: {
+    width:theme.horizontalSpacing.space_260,
     textAlign: "center",
      marginTop: theme.verticalSpacing.space_20,
     fontSize: theme.fontSizes.size_30,
     fontWeight: 'bold',
-    color: theme.lightColor.brownColor,
+    color: theme.lightColor.blackColor,
   },
   button:{
     width:theme.horizontalSpacing.space_170,
     height:theme.verticalSpacing.space_46,
-    backgroundColor:theme.lightColor.orangeColor,
+    backgroundColor:theme.lightColor.brownColor,
     alignItems:"center",
    justifyContent:'center',
     borderRadius:10,

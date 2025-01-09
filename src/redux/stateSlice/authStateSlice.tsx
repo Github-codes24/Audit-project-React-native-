@@ -17,7 +17,6 @@ export const authSlice = createSlice({
     },
     
     resetAuth: state => {
-      // Reset the entire state to its initial state
       Object.assign(state, initialState);
     },
   },

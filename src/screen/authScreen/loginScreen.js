@@ -19,12 +19,15 @@ const LoginScreen=({navigation})=>{
     const dispatch=useDispatch()
     const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+const [isRememberChecked,setIsRemberChecked]=useState(false)
+   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const loginResponse=useSelector(getLoginResponse)
-  console.log('loginResponse3652452367',loginResponse)
-    
+const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prevState => !prevState);
+  };
 
-
+const loginResponse=useSelector(getLoginResponse)
+  
  const [loginApi,{
     isLoading: isLoginApiLoading,
       isSuccess: isLoginApiSuccess,
@@ -32,10 +35,10 @@ const LoginScreen=({navigation})=>{
       data:loginApiData,
 }]=useLoginApiMutation()
 
-console.log("isLoginApiLoading:", isLoginApiLoading);
-console.log("isLoginApiSuccess:", isLoginApiSuccess);
-console.log("loginApiError:", loginApiError);
-console.log("loginApiData:", loginApiData);
+// console.log("isLoginApiLoading:", isLoginApiLoading);
+// console.log("isLoginApiSuccess:", isLoginApiSuccess);
+// console.log("loginApiError:", loginApiError);
+// console.log("loginApiData:", loginApiData);
 
 
 const handleSignIn = () => {
@@ -54,7 +57,7 @@ useEffect(()=>{
 },[isLoginApiSuccess,loginApiData,loginApiError])
 
 
- const [isRememberChecked,setIsRemberChecked]=useState(false)
+ 
 return(
     // <BackgroundLayout>
     <View style={{backgroundColor:'#F2F3F5'}}>
@@ -77,8 +80,16 @@ return(
          <CustomTextInput
           value={password}
         onChangeText={(text) => setPassword(text)}
+        secureTextEntry={!isPasswordVisible}
         placeholder={'Enter your password'}
-        rightIcon={<Svg.EyeOpen/>}
+        rightIcon={
+          // Use an SVG eye icon to toggle password visibility
+          <View style={style.eyeIcon}>
+            <Text onPress={togglePasswordVisibility}>
+              {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
+            </Text>
+          </View>
+        }
         />
        <TouchableOpacity style={style.forgetView}
        onPress={()=>navigation.navigate(MainRoutes.FORGOT_PASSWORD_SCREEN)}
@@ -92,18 +103,23 @@ return(
     </TouchableOpacity>
     
     
-    <TouchableOpacity style={{width:'100%',alignItems:"center",justifyContent:"center",marginTop:theme.verticalSpacing.space_40}}
-    onPress={()=>navigation.navigate(MainRoutes.REGISTER_SCREEN)}
-    >
-     <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'600',color:theme.lightColor.brownColor}}>{'Create new account'}</Text>
-    </TouchableOpacity>
+   
     </View>
      <View style={{marginTop:theme.verticalSpacing.space_40}}>
     <CustomButton
     onPress={handleSignIn}
-    title={'Sign in'}
+    title={'Log in'}
     />
     </View>
+    <View style={{flexDirection:"row",alignItems:'center',width:'100%',justifyContent:'center',height:theme.verticalSpacing.space_165}}>
+      <Text>{"Don't have an account?"}</Text>
+      <TouchableOpacity style={{}}
+    onPress={()=>navigation.navigate(MainRoutes.REGISTER_SCREEN)}
+    >
+     <Text style={{fontSize:theme.fontSizes.size_14,fontWeight:'600',color:theme.lightColor.brownColor,marginLeft:5}}>{'Register'}</Text>
+    </TouchableOpacity>
+  
+   </View>
     </View>
     // </BackgroundLayout>
 )
@@ -119,6 +135,10 @@ const style=StyleSheet.create({
     password:{
     marginTop:10
     },
+    eyeIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     forgetView:{
         width: '100%', 
         marginTop:10,

@@ -14,8 +14,13 @@ import Eligibility from "./common/eligibility";
 import Resource from "./common/resource";
 import Contact from "./common/contact";
 import RightArrow from "./common/rightArrow";
-
-
+import CheckIcon from "./common/checkIcon";
+import Arrow from "./common/arrow";
+import supportIcon from "./common/supportIcon";
+import Termsofuse from "./common/termsofuse";
+import Privacy from "./common/privacy";
+import AboutUs from "./common/aboutUs";
+import Notification from "./common/notification";
 export {
 ArrowBack,
 EyeOpen,
@@ -33,8 +38,11 @@ Eligibility,
 Resource,
 Contact,
 RightArrow,
-
-
-
-
+CheckIcon,
+Arrow,
+supportIcon,
+Termsofuse,
+Privacy,
+AboutUs,
+Notification
 };

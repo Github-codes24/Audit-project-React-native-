@@ -15,6 +15,9 @@ export const MainRoutes = {
   ACCOUNT_VERIFIED_SCREEN:'AccountVerifiedScreen',
   DASHBOARD_SCREEN:"DashBoardScreen",
   ONBOARDING_SCREEN:'OnboardingScreen',
+  CHANGE_PASSWORD_SUCCESSFULLY_SCREEN:"PasswordChnageSuccessFullyScreen",
+  PROFILE_SCREEN:'ProfileScreen',
+  DELETE_SCREEN:"DeleteScreen"
 };
 
 export const RootStackParamList = {
@@ -30,6 +33,9 @@ export const RootStackParamList = {
   [MainRoutes.ACCOUNT_VERIFIED_SCREEN]: {}|undefined,
   [MainRoutes.DASHBOARD_SCREEN]: {}|undefined,
   [MainRoutes.ONBOARDING_SCREEN]: {}|undefined,
+   [MainRoutes.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN]: {}|undefined,
+   [MainRoutes.PROFILE_SCREEN]: {}|undefined,
+    [MainRoutes.DELETE_SCREEN]: {}|undefined,
 
 };
 

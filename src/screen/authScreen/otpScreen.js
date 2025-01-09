@@ -7,23 +7,60 @@ import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertSuccess, ToastComponent } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-const OtpScreen = ({ navigation }) => {
+import { useForgotPasswordApiMutation } from '../../redux/apiSlice/authApiSlice';
+  
+const OtpScreen = ({ navigation,route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+   console.log('otp',otp)
+  const {email}=route.params||{}
 
-  // Timer logic
-  useEffect(() => {
-    let interval;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    } else {
-      setIsResendDisabled(false); 
+  console.log('emaill22222',email)
+
+  function convertOtpToString(otpArray) {
+  if (!Array.isArray(otpArray)) {
+    throw new Error("Input must be an array");
+  }
+  return otpArray.join("");
+}
+
+
+
+const [forgotPasswordVerifyOtp,{
+   isLoading: ForgotPasswordverifyOtpApiLoading,
+      isSuccess: isForgotPasswordVerifyOtpApiSuccess,
+      error:  forgotPasswordVerifyOtpApiError,
+      data: forgotPasswordVerifyOtpApiData,
+ }]=useForgotPasswordApiMutation()
+
+const handleForgotPasswordVerifyAccount=()=>{
+ let otpString=convertOtpToString(otp)
+ console.log('otpString',otpString)
+  forgotPasswordVerifyOtp({email,otp:otpString})
+ }
+
+ useEffect(()=>{
+    if(isForgotPasswordVerifyOtpApiSuccess){
+     navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD,{email})
+    alertSuccess('Success','Otp verification successfully')
+    }else if(forgotPasswordVerifyOtpApiError){
+    console.log('loginApiError',forgotPasswordVerifyOtpApiError.data?.message)
+    alertError(forgotPasswordVerifyOtpApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
     }
-    return () => clearInterval(interval); 
-  }, [timer]);
+},[isForgotPasswordVerifyOtpApiSuccess,forgotPasswordVerifyOtpApiData,forgotPasswordVerifyOtpApiError])
+  // Timer logic
+  // useEffect(() => {
+  //   let interval;
+  //   if (timer > 0) {
+  //     interval = setInterval(() => {
+  //       setTimer((prevTimer) => prevTimer - 1);
+  //     }, 1000);
+  //   } else {
+  //     setIsResendDisabled(false); 
+  //   }
+  //   return () => clearInterval(interval); 
+  // }, [timer]);
 
   
   const handleResendCode = () => {
@@ -59,7 +96,7 @@ const OtpScreen = ({ navigation }) => {
       />
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
-        Code has been sent to <Text style={styles.email}>yourEmail@gmail.com</Text>. Please enter the code below.
+        Code has been sent to <Text style={styles.email}>{email}</Text>. Please enter the code below.
       </Text>
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
@@ -78,7 +115,7 @@ const OtpScreen = ({ navigation }) => {
 
       <View style={{marginTop:theme.verticalSpacing.space_80}}>
        <CustomButton
-       onPress={()=>navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD)}
+       onPress={handleForgotPasswordVerifyAccount}
        title={'Create New Password'}
        />
        </View>

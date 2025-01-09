@@ -8,7 +8,8 @@ import ForgotPasswordScreen from '../../screen/authScreen/forgotPasswordScreen';
 import OtpScreen from '../../screen/authScreen/otpScreen';
 import WelcomeScreen from '../../screen/registerLoginScree/welcomeScreen';
 import EmailVerificationScreen from '../../screen/authScreen/emailVerification';
-import AccountVerifiedScreen from '../../screen/accountVerifiedScreen/accountVerifiedScreen';
+import AccountVerifiedScreen from '../../screen/authScreen/accountVerifiedScreen';
+import PasswordChnageSuccessFullyScreen from '../../screen/authScreen/passwordChangeSuccessfullyScreen';
 import { MainRoutes } from '../routeAndParamsList';
 
 const AuthStack = () => {
@@ -51,6 +52,10 @@ const AuthStack = () => {
       <Stack.Screen 
         name={MainRoutes?.ACCOUNT_VERIFIED_SCREEN} 
         component={AccountVerifiedScreen} 
+      />
+       <Stack.Screen 
+        name={MainRoutes?.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN} 
+        component={PasswordChnageSuccessFullyScreen} 
       />
     </Stack.Navigator>
   );
