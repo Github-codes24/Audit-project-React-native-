@@ -12,7 +12,7 @@ const RootNavigator = () => {
   const [splashVisible, setSplashVisible] = useState(true);
   const loginResponse = useSelector(getLoginResponse);
 
-  console.log('loginResponse5555',loginResponse)
+  
   const stack = createStackNavigator();
 
   useEffect(() => {

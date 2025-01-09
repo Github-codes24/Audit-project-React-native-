@@ -15,14 +15,19 @@ import { useSelector,useDispatch } from "react-redux";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 const RegisterCompanyScreen=({navigation,route})=>{
 
-const { email, password, firstName, lastName,} = route.params || {};
-console.log('dataaaa',{
-  email, password, firstName, lastName,
-})
+const { email, password, firstName, lastName,confirmPassword} = route.params || {};
+
+
+
  const [isPrivacyChecked, setPrivacyChecked] = useState(false);
   const [isTermsChecked, setTermsChecked] = useState(false);
   const [companyName,setCompanyName]=useState('')
  const [phoneNumber,setPhoneNumber]=useState('')
+
+
+console.log('dataaaa',{
+  email, password, firstName, lastName,confirmPassword,companyName,phoneNumber
+})
 
   const dispatch=useDispatch()
   
@@ -32,7 +37,7 @@ console.log('dataaaa',{
       return;
     }
     if (isPrivacyChecked && isTermsChecked) {
-      registerApi({ email, password, firstName, lastName, companyName, phoneNumber })
+      registerApi({ email, password, firstName, lastName, companyName, phoneNumber,confirmPassword })
         .unwrap();
     } else {
       alertError('Please agree to both terms to continue.');
@@ -56,11 +61,9 @@ const [registerApi,{
     }
 
     if (isRegisterApiSuccess) {
-      dispatch(setLoginResponse(registerApiData));
-      console.log('setLoginResponse', registerApiData);
-      navigation.navigate(MainRoutes.EMAIL_VERIFICATION_SCREEN);
+      navigation.navigate(MainRoutes.EMAIL_VERIFICATION_SCREEN,{email});
     }
-  }, [isRegisterApiSuccess, registerApiError, registerApiData, dispatch, navigation]);
+  }, [isRegisterApiSuccess,registerApiError, registerApiData, dispatch, navigation]);
 
 return(
     <BackgroundLayout>

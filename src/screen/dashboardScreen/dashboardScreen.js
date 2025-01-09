@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { theme } from "../../utils";
@@ -7,25 +7,73 @@ import LicenseCard from "../../utils/licenceCard";
 import ImageCard from "../../utils/imageCard";
 import HorizontalCardList from "../../utils/imageCardList";
 import { imageCarddata } from "../../utils/imageCardData";
-const DashBoardScreen=()=>{
+import { MainRoutes } from "../../navigation/routeAndParamsList";
+import CustomModal from "../../reusableComponent/customModal/customModal";
+
+
+const DashBoardScreen=({navigation})=>{
+
+const [isModalVisible, setModalVisible] = useState(true);
+
+const closeModal = () => {
+    setModalVisible(false);
+  };
+
     return(
         // <BackgroundLayout>
         <View style={style.main}>
             <StatusBar backgroundColor={'#592951'}/>
             <View style={style.headerView}>
 
+
+         <CustomModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        title="Privacy & Cookie Settings"
+        description={"We use cookies and similar technologies to provide our Service, to give you the best experience, to improve and advertise the Service, to ensure it is safe and secure for users, and to measure the effectiveness of advertising campaigns. If you select 'Accept All', you agree to us and the partners we work with storing cookies and similar technologies on your device for advertising purposes.You can also 'Reject All' non-essential cookies or choose which types of cookies you'd like to accept or disable by clicking 'Customise Cookies' below or at any time in your privacy settings. We do not collect cookies for tracking purposes on iOS App. For more details, see our Cookies and Similar Technologies Policy."}
+        buttons={[
+          {
+            label: "Accept all",
+            type: "primary",
+            onPress: () => {
+              console.log("Accepted all");
+              closeModal();
+            },
+          },
+          {
+            label: "Reject all",
+            type: "secondary",
+            onPress: () => {
+              console.log("Rejected all");
+              closeModal();
+            },
+          },
+          {
+            label: "Customize cookie",
+            type: "secondary",
+            onPress: () => {
+              console.log("Customizing cookies");
+            },
+          },
+        ]}
+      />
            <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:20,alignItems:'center'}}>
             <View style={{flexDirection:"row"}}>
+                <TouchableOpacity style={{flexDirection:'row'}}
+                onPress={()=>navigation.navigate(MainRoutes.PROFILE_SCREEN)}
+                >
            <View style={{width:60,height:60,borderWidth:1,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
             <Image
             style={{width:60,height:60}}
             source={require('../../asstets/images/manImage.png')}
             />
            </View>
-           <View style={{marginLeft:20}}>
+           <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
             <Text style={{color:theme.lightColor.whiteColor}}>Hello, Welcome 🎉</Text>
             <Text style={{color:theme.lightColor.whiteColor,fontSize:theme.fontSizes.size_24}}>{'NAYAN Moudekar'}</Text>
+            
            </View>
+           </TouchableOpacity>
            </View>
            <Svg.BellIcon/>
 

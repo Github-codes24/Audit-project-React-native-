@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../asstets/images/svg';
@@ -8,12 +8,64 @@ import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import CustomCheckbox from "../../reusableComponent/customCheckBox/customCheckBox";
+import { useForgotPasswordApiMutation } from "../../redux/apiSlice/authApiSlice";
+import { alertError } from "../../utils/Toast";
+import CustomModal from "../../reusableComponent/customModal/customModal";
+import { useNavigation } from "@react-navigation/native";
 
-const ForgotPasswordScreen=({navigation})=>{
 
-  return(
+const ForgotPasswordScreen=()=>{
+const navigation=useNavigation()
+const [isModalVisible, setModalVisible] = useState(false);
+const [email,setEmail]=useState('')
+  
+const closeModal = () => {
+    setModalVisible(false);
+  };
+  const [
+    forgotPasswordApi,{
+        isLoading: isForgotPasswordApiLoading,
+        isSuccess: isForgotPasswordApiSuccess,
+        error: forgotPasswordApiError,
+        data:forgotPasswordApiData,
+        }
+    ]=useForgotPasswordApiMutation()
+   
+    const handleNext=()=>{
+   forgotPasswordApi({email})
+    }
+  useEffect(() => {
+  if (isForgotPasswordApiSuccess) {
+     setModalVisible(true);
+  } else if (forgotPasswordApiError) {
+    alertError(
+      "Forgot Password Error",
+      forgotPasswordApiError?.data?.message || "Something went wrong. Please try again."
+    );
+  }
+}, [isForgotPasswordApiSuccess, forgotPasswordApiError]);
+   
+
+return(
     <BackgroundLayout>
     <View style={{}}>
+        
+        <CustomModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        title="Code sent!"
+        description={"Code has been sent to your email please check your email"}
+        buttons={[
+          {
+            label: "Verify code",
+            type: "primary",
+            onPress: () => {
+             closeModal(); // Close the modal
+              navigation.navigate(MainRoutes.OTP_SCREEN, { email });
+            },
+          },
+        ]}
+        />
         <CustomHeader
         onBackPress={()=>navigation.goBack()}
         leftIcon={<Svg.ArrowBack/>}
@@ -23,6 +75,8 @@ const ForgotPasswordScreen=({navigation})=>{
       <View style={style.inputView}>
         <Text>E-mail</Text>
         <CustomTextInput
+        value={email}
+        onChangeText={(text)=>setEmail(text)}
         leftIcon={<Svg.MessageIcon/>}
         placeholder={'Enter your email address'}
         />
@@ -34,7 +88,7 @@ const ForgotPasswordScreen=({navigation})=>{
             </TouchableOpacity>
         <View style={{width:'100%',height:"100%",marginTop:theme.verticalSpacing.space_269}}>
         <CustomButton
-        onPress={()=>navigation.navigate(MainRoutes.OTP_SCREEN)}
+         onPress={handleNext}
         title={'Send Reset Instruction'}
         />
         </View>

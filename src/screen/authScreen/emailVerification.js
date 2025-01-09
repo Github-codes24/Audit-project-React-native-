@@ -5,29 +5,70 @@ import * as Svg from '../../asstets/images/svg'
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
 import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
-import { alertSuccess, ToastComponent } from '../../utils/Toast';
+import { alertError, alertSuccess, ToastComponent } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
+import { useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
+import { useSelector,useDispatch } from 'react-redux';
+import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
 
-
-const EmailVerificationScreen = ({ navigation }) => {
+const EmailVerificationScreen = ({ navigation,route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+   
+const dispatch=useDispatch()
+  console.log('otp44',otp)
+ const {email}=route?.params||{}
+ console.log('emaill333',email)
 
-  // Timer logic
-  useEffect(() => {
-    let interval;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    } else {
-      setIsResendDisabled(false); 
-    }
-    return () => clearInterval(interval); 
-  }, [timer]);
+
+function convertOtpToString(otpArray) {
+  if (!Array.isArray(otpArray)) {
+    throw new Error("Input must be an array");
+  }
+  return otpArray.join("");
+}
+
+const [verifyOtp,{
+   isLoading: verifyOtpApiLoading,
+      isSuccess: isVerifyOtpApiSuccess,
+      error: verifyOtpApiError,
+      data:verifyOtpApiData,
+ }]=useVerifyOtpForRegistrationMutation()
+ 
+ console.log('verifyOtpApiData',verifyOtpApiData,isVerifyOtpApiSuccess)
+ 
+ const handleVerifyAccount=()=>{
+ let otpString=convertOtpToString(otp)
+ console.log('otpString',otpString)
+  verifyOtp({email,otp:otpString})
+ }
+ 
+ 
+  // useEffect(() => {
+  //   let interval;
+  //   if (timer > 0) {
+  //     interval = setInterval(() => {
+  //       setTimer((prevTimer) => prevTimer - 1);
+  //     }, 1000);
+  //   } else {
+  //     setIsResendDisabled(false); 
+  //   }
+  //   return () => clearInterval(interval); 
+  // }, []);
 
   
+useEffect(()=>{
+    if(isVerifyOtpApiSuccess){
+    dispatch(setLoginResponse(verifyOtpApiData))
+     navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN)
+    alertSuccess('Success','Email verification Successful')
+    }else if(verifyOtpApiError){
+    console.log('loginApiError',verifyOtpApiError.data?.message)
+    alertError(verifyOtpApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
+    }
+},[isVerifyOtpApiSuccess,verifyOtpApiData,verifyOtpApiError])
+
   const handleResendCode = () => {
      alertSuccess('send')
     if (!isResendDisabled) {
@@ -61,7 +102,7 @@ const EmailVerificationScreen = ({ navigation }) => {
       />
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
-        Code has been sent to <Text style={styles.email}>yourEmail@gmail.com</Text>. Enter the code to verify your account
+        Code has been sent to <Text style={styles.email}>{email}</Text>. Enter the code to verify your account
       </Text>
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
@@ -89,7 +130,7 @@ const EmailVerificationScreen = ({ navigation }) => {
        <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
       <View style={{marginTop:theme.verticalSpacing.space_230}}>
        <CustomButton
-       onPress={()=>navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN)}
+       onPress={handleVerifyAccount}
        title={'Verify Account'}
        />
        </View>
@@ -155,7 +196,7 @@ const styles = StyleSheet.create({
     borderColor: '#DDD',
     textAlign: 'center',
     fontSize: theme.fontSizes.size_18,
-    backgroundColor:'red',
+   
   },
   submitButton: {
     marginTop: 30,

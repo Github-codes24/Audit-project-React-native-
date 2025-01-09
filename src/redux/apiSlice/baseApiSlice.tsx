@@ -61,17 +61,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: [
-    'getPendingPayments',
-    'getDashboardData',
-    'getComplaint',
-    'getRequest',
-    'getMealsMenu',
-    'getTenantProfile',
-    'propertyProfile',
-    'getPropertyList',
-    'getBranchList'
-  ],
   endpoints: () => ({}),
   refetchOnFocus: true,
   refetchOnReconnect: true,

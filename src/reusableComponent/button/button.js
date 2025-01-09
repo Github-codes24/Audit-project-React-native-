@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width:theme.horizontalSpacing.space_358,
-    height:theme.verticalSpacing.space_40,
+    height:theme.verticalSpacing.space_50,
     alignSelf:'center',
     
     // marginHorizontal:theme.horizontalSpacing.space_20

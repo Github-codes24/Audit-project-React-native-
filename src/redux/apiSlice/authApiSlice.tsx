@@ -5,10 +5,10 @@ import {apiEndPoints} from '../../constants/apiConstants';
 export const AuthApiSlice = baseApi.injectEndpoints({
   endpoints: builder => ({
     register: builder.mutation({
-      query: ({firstName,email,password,lastName,phoneNumber,company}) => ({
+      query: (body) => ({
         url: apiEndPoints?.registerApi,
         method: 'POST',
-        body: {firstName,email,password,lastName,phoneNumber,company},
+        body: body,
         keepUnusedDataFor: 5,
       }),
     }),
@@ -19,41 +19,50 @@ export const AuthApiSlice = baseApi.injectEndpoints({
         body:{email,password},
         // keepUnusedDataFor: 5,
 
-        // invalidatesTags: _ => [
-        //   'getPendingPayments',
-        //   'getDashboardData',
-        //   'getComplaint',
-        //   'getRequest',
-        // ],
       }),
     }),
+    
     forgotPasswordApi: builder.mutation({
       query: email => ({
         url: apiEndPoints?.forgotPasswordApi,
         method: 'POST',
-        body:{email},
+        body:email,
         keepUnusedDataFor: 5,
       }),
     }),
-    verifyOtp: builder.mutation({
+
+
+    verifyOtpForgotPassword: builder.mutation({
       query: ({email,otp}) => ({
         url: apiEndPoints?.verifyOtp,
         method: 'POST',
        body:{email,otp}
         // keepUnusedDataFor: 5,
 
-        // invalidatesTags: _ => [
-        //   'getPendingPayments',
-        //   'getDashboardData',
-        //   'getComplaint',
-        //   'getRequest',
-        // ],
+        
       }),
 
      
 
 
     }),
+
+    verifyOtpForRegistration: builder.mutation({
+      query: ({email,otp}) => ({
+        url: apiEndPoints?.OtpForRegisteration,
+        method: 'POST',
+       body:{email,otp}
+        // keepUnusedDataFor: 5,
+
+        
+      }),
+
+     
+
+
+    }),
+
+
 
  resetPasswordApi: builder.mutation({
       query: ({email,newPassword,confirmPassword}) => ({
@@ -62,19 +71,29 @@ export const AuthApiSlice = baseApi.injectEndpoints({
        body:{email,newPassword,confirmPassword}
         // keepUnusedDataFor: 5,
 
-        // invalidatesTags: _ => [
-        //   'getPendingPayments',
-        //   'getDashboardData',
-        //   'getComplaint',
-        //   'getRequest',
-        // ],
+       
       }),
 
      
 
 
     }),
+  
 
+    deleteAccountApi: builder.mutation({
+      query:(id) => ({
+        url: apiEndPoints?.deleteAccount,
+        method: 'POST',
+       body:{id}
+      
+
+        
+      }),
+
+     
+
+
+    }),
 
   }),
   overrideExisting: true,
@@ -84,6 +103,9 @@ export const {
  useForgotPasswordApiMutation,
  useLoginApiMutation,
  useRegisterMutation,
- useVerifyOtpMutation,
- useResetPasswordApiMutation
+ useVerifyOtpForgotPasswordMutation,
+ useResetPasswordApiMutation,
+ useVerifyOtpForRegistrationMutation,
+ useDeleteAccountApiMutation
+ 
 } = AuthApiSlice;
