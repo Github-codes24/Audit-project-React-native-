@@ -34,7 +34,9 @@ const closeModal = () => {
     const handleNext=()=>{
    forgotPasswordApi({email})
     }
-  useEffect(() => {
+  
+  
+    useEffect(() => {
   if (isForgotPasswordApiSuccess) {
      setModalVisible(true);
   } else if (forgotPasswordApiError) {
@@ -60,7 +62,7 @@ return(
             label: "Verify code",
             type: "primary",
             onPress: () => {
-             closeModal(); // Close the modal
+             closeModal(); 
               navigation.navigate(MainRoutes.OTP_SCREEN, { email });
             },
           },

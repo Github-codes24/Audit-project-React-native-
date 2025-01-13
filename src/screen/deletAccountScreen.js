@@ -6,18 +6,19 @@ import * as Svg from '../asstets/images/svg'
 import { theme } from '../utils';
 import { MainRoutes } from '../navigation/routeAndParamsList';
 import { getLoginResponse } from '../redux/stateSelector/authStateSelector';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccountApiMutation } from '../redux/apiSlice/authApiSlice';
-
+import { resetAuth } from '../redux/stateSlice/authStateSlice';
 const DeleteScreen = ({navigation}) => {
 
 const response=useSelector(getLoginResponse)
 
  const [deleteAccount, { isLoading, isSuccess, isError }] = useDeleteAccountApiMutation();
    
-    console.log('response',response)
+   const dispatch=useDispatch()
+
  const handleDelete = () => {
-  const userId = response?.data?.id;
+  const userId = response?.id;
 
   if (userId) {
     Alert.alert(
@@ -33,6 +34,7 @@ const response=useSelector(getLoginResponse)
           text: 'Yes', 
           onPress: () => {
             deleteAccount(userId); 
+             dispatch(resetAuth()); 
           },
         },
       ],

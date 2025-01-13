@@ -1,6 +1,6 @@
   export const imageCarddata = [
     {
-      image: require('../asstets/images/manImage.png'), // Replace with your main image path
+      image: require('../asstets/images/nature2.png'), // Replace with your main image path
       profileImage:require('../asstets/images/manImage.png'), // Replace with your profile image path
       title: 'The Beauty Of The Valley Of Fires',
       date: 'Jan 2, 2025',
@@ -9,7 +9,7 @@
       onPress: () => console.log('Card 1 Pressed'),
     },
     {
-      image: require('../asstets/images/manImage.png'), // Replace with your main image path
+      image: require('../asstets/images/cricket.png'), // Replace with your main image path
       profileImage: require('../asstets/images/manImage.png'), // Replace with your profile image path
       title: 'The Cricket Chronicles',
       date: 'Dec 15, 2024',
@@ -18,7 +18,7 @@
       onPress: () => console.log('Card 2 Pressed'),
     },
     {
-      image: require('../asstets/images/manImage.png'), // Replace with your main image path
+      image: require('../asstets/images/cricket.png'), // Replace with your main image path
       profileImage: require('../asstets/images/manImage.png'), // Replace with your profile image path
       title: 'The Beauty Of The Valley Of Fires',
       date: 'Jan 2, 2025',
@@ -27,7 +27,7 @@
       onPress: () => console.log('Card 3 Pressed'),
     },
     {
-     image: require('../asstets/images/manImage.png'), // Replace with your main image path
+     image: require('../asstets/images/cricket.png'), // Replace with your main image path
       profileImage:require('../asstets/images/manImage.png'), // Replace with your profile image path
       title: 'The Beauty Of The Valley Of Fires',
       date: 'Jan 2, 2025',

@@ -29,6 +29,7 @@ const MainStackNavigation = () => {
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
       />
+      
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    
 

@@ -112,12 +112,12 @@ const ComplianceScreen = () => {
          
           {getQuestionsToDisplay().map((questionData, index) => (
             <QuestionCard
-                key={questionData.id}
+              key={questionData.id}
               question={questionData.question}
               options={questions[currentIndex].options}
               onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData.id)}
               currentIndex={questionData.id}
-               totalQuestions={questions.length}
+              totalQuestions={questions.length}
 
             />
           ))}

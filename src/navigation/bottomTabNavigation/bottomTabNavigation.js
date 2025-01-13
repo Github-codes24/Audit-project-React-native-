@@ -8,7 +8,7 @@ import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import ContactScreen from '../../screen/contactScreen/contactScreen';
 import * as Svg from '../../asstets/images/svg'; // Import SVG icons
 import { theme } from '../../utils';
-
+import RemainderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -86,10 +86,10 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Contact"
-        component={ContactScreen}
+        name="Remainder"
+        component={RemainderListScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <Svg.Contact color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Svg.RemianderIcon color={color} size={size} />,
         }}
       />
     </Tab.Navigator>
