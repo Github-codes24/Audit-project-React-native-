@@ -6,6 +6,7 @@ import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
 import { ScrollView } from "react-native-gesture-handler";
+import { MainRoutes } from "../../navigation/routeAndParamsList";
 
 const questions = [
   {
@@ -25,7 +26,7 @@ const questions = [
   },
 ];
 
-const ComplianceScreen = () => {
+const ComplianceScreen = ({navigation}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
  
@@ -76,6 +77,7 @@ const ComplianceScreen = () => {
 
   // Find the selected category
   const selectedCategory = categories.find((category) => category.isSelected);
+  
 
   return (
     <View style={styles.main}>
@@ -93,7 +95,9 @@ const ComplianceScreen = () => {
               <Text style={styles.userName}>NAYAN Moudekar</Text>
             </View>
           </View>
+          <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.NOTIFICATION_SCREEN) }>
           <Svg.BellIcon />
+          </TouchableOpacity>
         </View>
       </View>
      

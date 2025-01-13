@@ -7,6 +7,8 @@ import { ToastComponent } from '../../utils/Toast';
 import BottomTabNavigator from '../bottomTabNavigation/bottomTabNavigation';
 import ProfileScreen from '../../screen/profileScreen/profileScreen';
 import DeleteScreen from '../../screen/deletAccountScreen';
+import { Notification } from '../../asstets/images/svg';
+import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
 
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
@@ -28,6 +30,10 @@ const MainStackNavigation = () => {
        <Stack.Screen
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
+      />
+       <Stack.Screen
+        name={MainRoutes.NOTIFICATION_SCREEN}
+        component={NotificationScreen} 
       />
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    
