@@ -16,7 +16,7 @@ export const complianceApiSlice = baseApi.injectEndpoints({
       query:(params) => ({
         url: apiEndPoints?.getEligibilityQuestions,
         method: 'GET',
-        params:params,
+        params:{params},
         keepUnusedDataFor: 5,}),
 
      

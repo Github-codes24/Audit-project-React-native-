@@ -13,7 +13,27 @@ const QuestionSection = ({
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Simulate fetching questions (Replace with actual API call later)
+  const {
+    isLoading: isLoadingEligibilityQuestions,
+    isError: isErrorEligibilityQuestions,
+    data: eligibilityQuestions,
+  }= useGetEligibilityQuestionsQuery({
+    category: selectedCategory?._id
+  },{
+    skip: checkerType === 'compliance'
+  })
+
+  const {
+    isLoading: isLoadingComplianceQuestions,
+    isError: isErrorComplianceQuestions,
+    data: complianceQuestions,
+  }= useGetcompilanceQuestionsQuery({
+    category: selectedCategory?.name,
+   
+
+  },{
+    skip: checkerType === 'eligibility'
+  })
   useEffect(() => {
     const fetchQuestions = async () => {
       // Simulating an API response
