@@ -7,6 +7,7 @@ const QuestionSection = ({
   handleOptionSelect,
   handlePrevious,
   handleNext,
+  checkerType='compliance',
 }) => {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,7 +69,10 @@ const QuestionSection = ({
 
   return (
     <View>
+        {checkerType==='compliance' ?
       <Text style={styles.header}>Sponsor License Compliance Checker</Text>
+      :      <Text style={styles.header}>Sponsor License Eligibilty Checker</Text>
+        }
       <Text style={styles.selectedCategoryText}>
         Selected Category (Q&A): {selectedCategory ? selectedCategory?.name : "None"}
       </Text>

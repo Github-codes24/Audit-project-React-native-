@@ -11,7 +11,7 @@ export const apiEndPoints = {
   
 //complaince API endpoint
 getCompilanceQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
-getcompilanceQuestions:'api/compilanceQuestions/getQuestions',
+getcompilanceQuestions:'api/complianceQuestions/getQuestions',
 calculateCompilanceScore:'api/compilanceQuestions/calculateScore',
 
 //Eligibility API endpoint

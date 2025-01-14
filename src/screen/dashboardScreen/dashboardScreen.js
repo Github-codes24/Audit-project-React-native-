@@ -115,12 +115,14 @@ const closeModal = () => {
             title={'Sponsor License Compliance Checker'}
             description={'Check your score '}
             icon={require('../../asstets/images/Compliance.png')}
+            onPress={()=>navigation.navigate('compliance')}
             
             />
             <LicenseCard
              title={'Sponsor License Eligibility Checker '}
             description={'Check if you are eligible or not '}
             icon={require('../../asstets/images/Compliance.png')}
+            onPress={()=>navigation.navigate('Eligibity')}
             />
             <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:10}}>
            <Text style={{fontWeight:'600',fontSize:theme.fontSizes.size_20,color:theme.lightColor.blackColor}}>{'Latest Blog'}</Text>
