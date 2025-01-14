@@ -31,12 +31,7 @@ const ComplianceScreen = () => {
   const [step, setStep] = useState('category');
  
  
-  const [categories, setCategories] = useState([
-    { id: 1, name: "General", isSelected: false },
-    { id: 2, name: "Food", isSelected: false },
-    { id: 3, name: "Health", isSelected: false },
-    { id: 4, name: "Sports", isSelected: false },
-  ]);
+  const [selectedCategory, setSelectedCategory] = useState();
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -49,13 +44,9 @@ const ComplianceScreen = () => {
     setStep('question');
   };
 
-  const handleSelect = (id) => {
-    setCategories((prev) =>
-      prev.map((category) => ({
-        ...category,
-        isSelected: category.id === id,
-      }))
-    );
+  const handleSelect = (selectedCategory) => {
+    setSelectedCategory(selectedCategory)
+  
   };
 
   const getQuestionsToDisplay = () => {
@@ -74,8 +65,7 @@ const ComplianceScreen = () => {
     }
   };
 
-  // Find the selected category
-  const selectedCategory = categories.find((category) => category.isSelected);
+
 
   return (
     <View style={styles.main}>
@@ -99,9 +89,9 @@ const ComplianceScreen = () => {
      
       {step==='category' && (
         <CategorySelector
-          categoryList={categories}
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
+          checkerType="compliance"
         />
       )
       }
@@ -110,7 +100,7 @@ const ComplianceScreen = () => {
         <> 
           <Text style={styles.header}>Sponsor License Compliance Checker</Text>
           <Text style={styles.selectedCategoryText}>
-            Selected Category (Q&A): {selectedCategory ? selectedCategory.name : "None"}
+            Selected Category (Q&A): {selectedCategory ? selectedCategory?.name : "None"}
           </Text>
          
           {getQuestionsToDisplay().map((questionData, index) => (

@@ -35,9 +35,9 @@ const CategorySelector = ({
   const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
 
   // Handle category selection
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategoryId(categoryId);
-    handleSelect && handleSelect(categoryId); // Call the handleSelect callback if provided
+  const handleCategorySelect = (selectedCategory:any) => {
+    setSelectedCategoryId(selectedCategory?._id);
+    handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
   };
 
   // Loading state
@@ -71,7 +71,7 @@ const CategorySelector = ({
           <TouchableOpacity
             key={category?._id}
             style={styles.category}
-            onPress={() => handleCategorySelect(category?._id)}
+            onPress={() => handleCategorySelect(category)}
           >
             <Text style={styles.categoryText}>{category.name}</Text>
             <View
