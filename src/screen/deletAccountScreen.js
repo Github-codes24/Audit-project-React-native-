@@ -18,7 +18,7 @@ const response=useSelector(getLoginResponse)
    const dispatch=useDispatch()
 
  const handleDelete = () => {
-  const userId = response?.id;
+  const userId = response?.data?.id;
 
   if (userId) {
     Alert.alert(

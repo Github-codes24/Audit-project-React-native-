@@ -19,7 +19,7 @@ const dispatch=useDispatch()
 const response=useSelector(getLoginResponse)
 //   console.log('response',response)
 
- const userId=response?.id
+ const userId=response?.data?.id
 // console.log('userId',userId)
  const { 
     data: getuserdata, 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
-
+import { useGetcompilanceQuestionsQuery } from "../../redux/apiSlice/complianceApiSlice";
+import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 const QuestionSection = ({
   selectedCategory,
   handleOptionSelect,
