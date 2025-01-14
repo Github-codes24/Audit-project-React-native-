@@ -28,7 +28,7 @@ const questions = [
 const ComplianceScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
- 
+  const [step, setStep] = useState('category');
  
  
   const [categories, setCategories] = useState([
@@ -46,7 +46,7 @@ const ComplianceScreen = () => {
 };
 
   const handleTakeTest = () => {
-    setIsTestStarted(true);
+    setStep('question');
   };
 
   const handleSelect = (id) => {
@@ -97,13 +97,16 @@ const ComplianceScreen = () => {
         </View>
       </View>
      
-      {!isTestStarted ? (
+      {step==='category' && (
         <CategorySelector
           categoryList={categories}
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
         />
-      ) : (
+      )
+      }
+   
+   {step==='question' &&
         <> 
           <Text style={styles.header}>Sponsor License Compliance Checker</Text>
           <Text style={styles.selectedCategoryText}>
@@ -136,7 +139,9 @@ const ComplianceScreen = () => {
             </TouchableOpacity>
           </View>
         </>
-      )}
+
+}
+      
     </View>
   );
 };
