@@ -8,5 +8,14 @@ export const apiEndPoints = {
   OtpForRegisteration:'api/user/verifyOtpForRegistration',
   deleteAccount:'api/user/deleteUser',
   getUser:'api/user/getUserById',
+  
+//complaince API endpoint
+  getQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
+getcompilanceQuestionsQuestions:'api/compilanceQuestions/getQuestions',
+calculateScore:'api/compilanceQuestions/calculateScore',
+
+//Eligibility API endpoint
+getEligibilityCategory:'api/eligibilityCategory/getAllEligibilityCategoryNames',
+getEligibilityQuestions:'api/eligibilityQuestions/getQuestions',
 
 };
