@@ -21,6 +21,7 @@ import Termsofuse from "./common/termsofuse";
 import Privacy from "./common/privacy";
 import AboutUs from "./common/aboutUs";
 import Notification from "./common/notification";
+import RemianderIcon from "./common/reminderIcon";
 export {
 ArrowBack,
 EyeOpen,
@@ -44,5 +45,6 @@ supportIcon,
 Termsofuse,
 Privacy,
 AboutUs,
-Notification
+Notification,
+RemianderIcon
 };

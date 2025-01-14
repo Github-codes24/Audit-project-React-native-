@@ -7,12 +7,38 @@ import { resetAuth } from '../../redux/stateSlice/authStateSlice';
 import { useDispatch } from 'react-redux';
 import ConfirmationDialog from '../../utils/confirmationDialog';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
+import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
+import { useSelector } from 'react-redux';
+import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
 
 
 const ProfileScreen = ({navigation}) => {
  const [isDialogVisible, setIsDialogVisible] = useState(false);
+const dispatch=useDispatch()
+ 
+const response=useSelector(getLoginResponse)
+//   console.log('response',response)
 
- const dispatch=useDispatch()
+ const userId=response?.data?.id
+// console.log('userId',userId)
+ const { 
+    data: getuserdata, 
+    error: getUserdataApiError, 
+    isLoading: getUserdataApiIsLoading 
+  } = useGetuserApiQuery(userId); 
+
+  console.log('getuserdata:', getuserdata); 
+//   console.log('isLoading:', getUserdataApiIsLoading); 
+//   console.log('error:', getUserdataApiError); 
+ 
+ 
+const { firstName, lastName, email, phoneNumber, createdAt, updatedAt } =
+    getuserdata?.getUser||{}
+
+
+
+
+  
  const handleLogOut = () => {
     dispatch(resetAuth()); 
     setIsDialogVisible(false); 
@@ -20,7 +46,7 @@ const ProfileScreen = ({navigation}) => {
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.Edit/> },
     { label: 'Help & Support', icon: <Svg.supportIcon/> },
-    { label: 'Terms of use', icon: <Svg.Termsofuse /> },
+    { label: 'Terms and conditions ', icon: <Svg.Termsofuse /> },
     { label: 'Privacy policy', icon: <Svg.Privacy/> },
     { label: 'About us', icon: <Svg.AboutUs/> },
     { label: 'Notification settings', icon: <Svg.Notification/> },
@@ -45,9 +71,9 @@ const supportItems = [
           style={styles.profileImage}
         />
         <View style={{marginLeft:10}}>
-        <Text style={styles.profileName}>John Weak</Text>
-        <Text style={styles.profileInfo}>+44 (0) XXXX XXX XXX</Text>
-        <Text style={styles.profileInfo}>workforreings@gmail.com</Text>
+        <Text style={styles.profileName}>{firstName} {lastName}</Text>
+        <Text style={styles.profileInfo}>{phoneNumber}</Text>
+        <Text style={styles.profileInfo}>{email}</Text>
         <TouchableOpacity>
           <Text style={styles.personalDetails}>Personal details →</Text>
         </TouchableOpacity>

@@ -25,7 +25,7 @@ const questions = [
   },
 ];
 
-const ComplianceScreen = () => {
+const EligibilityScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
@@ -91,7 +91,7 @@ const ComplianceScreen = () => {
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
-          checkerType="compliance"
+          checkerType="eligibility"
         />
       )
       }
@@ -102,6 +102,7 @@ const ComplianceScreen = () => {
         handleOptionSelect={handleOptionSelect}
         handlePrevious={handlePrevious}
         handleNext={handleNext}
+        checkerType="eligibility"
       />
 
 }
@@ -180,4 +181,4 @@ marginHorizontal:20
   },
 });
 
-export default ComplianceScreen;
+export default EligibilityScreen;

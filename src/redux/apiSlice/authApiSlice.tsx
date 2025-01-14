@@ -41,10 +41,6 @@ export const AuthApiSlice = baseApi.injectEndpoints({
 
         
       }),
-
-     
-
-
     }),
 
     verifyOtpForRegistration: builder.mutation({
@@ -56,38 +52,22 @@ export const AuthApiSlice = baseApi.injectEndpoints({
 
         
       }),
-
-     
-
-
     }),
-
-
-
  resetPasswordApi: builder.mutation({
       query: ({email,newPassword,confirmPassword}) => ({
         url: apiEndPoints?.resetPasswordApi,
         method: 'POST',
        body:{email,newPassword,confirmPassword}
-        // keepUnusedDataFor: 5,
-
-       
+        // keepUnusedDataFor: 5,   
       }),
-
-     
-
-
     }),
   
 
     deleteAccountApi: builder.mutation({
       query:(id) => ({
-        url: apiEndPoints?.deleteAccount,
-        method: 'POST',
-       body:{id}
-      
-
-        
+        url: `${apiEndPoints?.deleteAccount}/${id}`,
+        method: 'DELETE',
+    
       }),
 
      
