@@ -10,9 +10,9 @@ export const apiEndPoints = {
   getUser:'api/user/getUserById',
   
 //complaince API endpoint
-  getQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
-getcompilanceQuestionsQuestions:'api/compilanceQuestions/getQuestions',
-calculateScore:'api/compilanceQuestions/calculateScore',
+getCompilanceQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
+getcompilanceQuestions:'api/compilanceQuestions/getQuestions',
+calculateCompilanceScore:'api/compilanceQuestions/calculateScore',
 
 //Eligibility API endpoint
 getEligibilityCategory:'api/eligibilityCategory/getAllEligibilityCategoryNames',
