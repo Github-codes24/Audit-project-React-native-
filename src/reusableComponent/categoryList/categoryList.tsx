@@ -61,7 +61,7 @@ const CategorySelector = ({
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Eligibility Checker'}
+        {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
       </Text>
       
       <Text style={styles.subHeader}>Select Category</Text>
