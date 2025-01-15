@@ -5,13 +5,12 @@ import { useGetcompilanceQuestionsQuery } from "../../redux/apiSlice/complianceA
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 const QuestionSection = ({
   selectedCategory,
-  handleOptionSelect,
   handlePrevious,
   handleNext,
   checkerType='compliance',
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [selectedAnswers, setSelectedAnswers] = useState({});
   const {
     isLoading: isLoadingEligibilityQuestions,
     isError: isErrorEligibilityQuestions,
@@ -21,6 +20,8 @@ const QuestionSection = ({
   },{
     skip: checkerType === 'compliance'
   })
+
+  console.log('selectedAnswers@@',selectedAnswers)
 
   const {
     isLoading: isLoadingComplianceQuestions,
@@ -36,10 +37,9 @@ const QuestionSection = ({
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
-    return questions.slice(currentIndex, currentIndex + 3);
+    return questions?.slice(currentIndex, currentIndex + 3);
   };
 
-console.log('questions##',getQuestionsToDisplay())
 
   const handlePreviousLocal = () => {
     if (currentIndex - 3 >= 0) {
@@ -48,12 +48,27 @@ console.log('questions##',getQuestionsToDisplay())
     }
   };
 
+  const handleOptionSelect = (selectedOption, questionId) => {
+    console.log(
+      "Selected Option:",
+      selectedOption,
+      "Question ID:",
+      questionId
+    )
+    setSelectedAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [questionId]: selectedOption,
+    }));
+  };
+
   const handleNextLocal = () => {
     if (currentIndex + 3 < questions.length) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
       handleNext?.();
     }
   };
+
+
 
   return (
     <View>
@@ -65,12 +80,13 @@ console.log('questions##',getQuestionsToDisplay())
         Selected Category (Q&A): {selectedCategory ? selectedCategory?.name : "None"}
       </Text>
 
-      {getQuestionsToDisplay().map((questionData) => (
+      {getQuestionsToDisplay()?.map((questionData) => (
         <QuestionCard
           key={questionData?.id}
           question={questionData?.questions?.questionText}
           options={questionData?.questions?.answerOptions}
-          onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData.id)}
+          selectedOption={selectedAnswers[questionData?._id]}
+          onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
           currentIndex={questionData?.id}
           totalQuestions={questions.length}
         />
