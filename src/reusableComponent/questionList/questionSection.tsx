@@ -10,7 +10,6 @@ const QuestionSection = ({
   handleNext,
   checkerType='compliance',
 }) => {
-  const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const {
@@ -34,45 +33,13 @@ const QuestionSection = ({
   },{
     skip: checkerType === 'eligibility'
   })
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      // Simulating an API response
-      const fetchedQuestions = [
-        {
-          id: 1,
-          question: "What is the compliance audit?",
-          options: ["Yes", "No"],
-        },
-        {
-          id: 2,
-          question: "Is the process automated?",
-          options: ["Yes", "No"],
-        },
-        {
-          id: 3,
-          question: "Does it meet compliance standards?",
-          options: ["Yes", "No"],
-        },
-        {
-          id: 4,
-          question: "Are policies regularly reviewed?",
-          options: ["Yes", "No"],
-        },
-        {
-          id: 5,
-          question: "Is the training program updated?",
-          options: ["Yes", "No"],
-        },
-      ];
-      setQuestions(fetchedQuestions);
-    };
-
-    fetchQuestions();
-  }, []);
-
+ 
+const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
     return questions.slice(currentIndex, currentIndex + 3);
   };
+
+console.log('questions##',getQuestionsToDisplay())
 
   const handlePreviousLocal = () => {
     if (currentIndex - 3 >= 0) {
@@ -101,8 +68,8 @@ const QuestionSection = ({
       {getQuestionsToDisplay().map((questionData) => (
         <QuestionCard
           key={questionData?.id}
-          question={questionData?.question}
-          options={questionData.options}
+          question={questionData?.questions?.questionText}
+          options={questionData?.questions?.answerOptions}
           onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData.id)}
           currentIndex={questionData?.id}
           totalQuestions={questions.length}
