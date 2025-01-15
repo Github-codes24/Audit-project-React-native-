@@ -35,7 +35,7 @@ const EligibilityScreen = () => {
 
 
   const handlePrevious = (stepFlag) => {
-   if(step){
+   if(stepFlag){
     setStep('category');
    }
   };
