@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
-import { useGetcompilanceQuestionsQuery } from "../../redux/apiSlice/complianceApiSlice";
+import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
+
 const QuestionSection = ({
   selectedCategory,
   handlePrevious,
@@ -34,6 +35,15 @@ const QuestionSection = ({
   },{
     skip: checkerType === 'eligibility'
   })
+
+  const [
+    calculateCompilanceScore,
+    {
+      isLoading: isLoadingCalculateCompilanceScore,
+      isError: isErrorCalculateCompilanceScore, 
+      isSuccess: isSuccessCalculateCompilanceScore
+    }
+  ]= useCalculateCompilanceScoreMutation()
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
@@ -72,9 +82,28 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     }
   };
 
+  const createPayload = (selectedCategory, selectedAnswers) => {
+    const questionsAndAnswers = Object.entries(selectedAnswers).map(
+      ([questionId, answer]) => ({
+        questionId,
+        answer,
+      })
+    );
+      return {
+      category: selectedCategory?.name,
+      questionsAndAnswers,
+    };
+  };
+
   const handleSubmit = () => {
-    // Logic for submitting the answers
-    console.log("Submitted Answers:", selectedAnswers);
+    const payload = createPayload(selectedCategory, selectedAnswers);
+    console.log("Payload:@", payload);
+    if(checkerType === 'compliance'){
+      calculateCompilanceScore(payload)
+    }
+    if(checkerType === 'eligibility'){
+      null
+    }
   };
 
 

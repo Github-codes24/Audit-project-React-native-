@@ -35,8 +35,7 @@ const ComplianceScreen = () => {
 
 
   const handlePrevious = (stepFlag) => {
-   
-if(stepFlag){
+   if(stepFlag){
   setStep('category');
 }
     

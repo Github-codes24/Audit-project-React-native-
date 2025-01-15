@@ -28,7 +28,7 @@ export const complianceApiSlice = baseApi.injectEndpoints({
         query:(body) => ({
           url: apiEndPoints?.calculateCompilanceScore,
           method: 'POST',
-          body:body,
+          body:{body},
           keepUnusedDataFor: 5,}),
   
        
