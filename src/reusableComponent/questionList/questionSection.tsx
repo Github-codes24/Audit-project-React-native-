@@ -118,15 +118,16 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         Selected Category (Q&A): {selectedCategory ? selectedCategory?.name : "None"}
       </Text>
 
-      {getQuestionsToDisplay()?.map((questionData) => (
+      {getQuestionsToDisplay()?.map((questionData,index) => (
         <QuestionCard
           key={questionData?.id}
           question={questionData?.questions?.questionText}
           options={questionData?.questions?.answerOptions}
           selectedOption={selectedAnswers[questionData?._id]}
           onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
-          currentIndex={questionData?.id}
-          totalQuestions={questions?.length}
+          questionNumber={currentIndex + index + 1} // Add this line
+          totalQuestions={questions?.length} // Add this line
+          
         />
       ))}
 

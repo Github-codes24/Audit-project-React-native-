@@ -8,9 +8,12 @@ const QuestionCard = ({
   options = ["Yes", "No"], // Default options
   selectedOption, // Controlled prop for the selected option
   onSelect, // Callback when an option is selected
+  questionNumber,
+  totalQuestions,
 }) => {
   return (
     <View style={styles.card}>
+      <Text style={styles.question}>{`Question: ${questionNumber}/${totalQuestions}`}</Text>
       <Text style={styles.question}>{question}</Text>
       <View style={styles.optionsContainer}>
         {options.map((option) => (
