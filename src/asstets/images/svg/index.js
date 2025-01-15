@@ -21,6 +21,10 @@ import Termsofuse from "./common/termsofuse";
 import Privacy from "./common/privacy";
 import AboutUs from "./common/aboutUs";
 import Notification from "./common/notification";
+import GalleryIcon from "./common/GalleryIcon";
+import CameraIcon from "./common/CameraIcon";
+import EditImage from "./common/EditImage";
+
 export {
 ArrowBack,
 EyeOpen,
@@ -44,5 +48,8 @@ supportIcon,
 Termsofuse,
 Privacy,
 AboutUs,
-Notification
+Notification,
+GalleryIcon,
+CameraIcon,
+EditImage,
 };

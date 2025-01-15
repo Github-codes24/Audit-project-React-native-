@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity,Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
@@ -9,56 +9,64 @@ import ConfirmationDialog from '../../utils/confirmationDialog';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 
 
-const ProfileScreen = ({navigation}) => {
- const [isDialogVisible, setIsDialogVisible] = useState(false);
+const ProfileScreen = ({ navigation }) => {
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
 
- const dispatch=useDispatch()
- const handleLogOut = () => {
-    dispatch(resetAuth()); 
-    setIsDialogVisible(false); 
+  const dispatch = useDispatch()
+  const handleLogOut = () => {
+    dispatch(resetAuth());
+    setIsDialogVisible(false);
   };
-const supportItems = [
-    { label: 'Edit profile', icon: <Svg.Edit/> },
-    { label: 'Help & Support', icon: <Svg.supportIcon/> },
-    { label: 'Terms of use', icon: <Svg.Termsofuse /> },
-    { label: 'Privacy policy', icon: <Svg.Privacy/> },
-    { label: 'About us', icon: <Svg.AboutUs/> },
-    { label: 'Notification settings', icon: <Svg.Notification/> },
+  const supportItems = [
+    { label: 'Edit profile', icon: <Svg.Edit />, route: MainRoutes.EDITPROFILE_SCREEN},
+    { label: 'Contact us', icon: <Svg.supportIcon /> },
+    { label: 'Terms and conditions', icon: <Svg.Termsofuse /> },
+    { label: 'Privacy policy', icon: <Svg.Privacy /> },
+    { label: 'About us', icon: <Svg.AboutUs /> },
+    { label: 'Notification', icon: <Svg.Notification /> },
   ];
 
   return (
     <View style={styles.container}>
-        {/* <CustomHeader
+      {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}
         /> */}
       {/* Header */}
       <TouchableOpacity style={styles.backButton}
-      onPress={()=>navigation.goBack()}
+        onPress={() => navigation.goBack()}
       >
-        <Svg.ArrowBack/>
+        <Svg.ArrowBack />
       </TouchableOpacity>
 
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <Image
-          source={require('../../asstets/images/manImage.png')} // Replace with the actual image URL
+          source={require('../../asstets/images/manImage1.png')} // Replace with the actual image URL
           style={styles.profileImage}
         />
-        <View style={{marginLeft:10}}>
-        <Text style={styles.profileName}>John Weak</Text>
-        <Text style={styles.profileInfo}>+44 (0) XXXX XXX XXX</Text>
-        <Text style={styles.profileInfo}>workforreings@gmail.com</Text>
-        <TouchableOpacity>
+        <View style={{ marginLeft: 10 }}>
+          <Text style={styles.profileName}>John Weak</Text>
+          <Text style={styles.profileInfo}>+44 (0) XXXX XXX XXX</Text>
+          <Text style={styles.profileInfo}>workforreings@gmail.com</Text>
+          {/* <TouchableOpacity>
           <Text style={styles.personalDetails}>Personal details →</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
       </View>
 
       {/* Support Board */}
       <View style={styles.supportBoard}>
-        <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
-      {supportItems.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.supportItem}>
+        <Text style={{ fontSize: theme.fontSizes.size_16, marginBottom: 10, fontWeight: '500' }}>{'Support board'}</Text>
+        {supportItems.map((item, index) => (
+          <TouchableOpacity key={index} style={styles.supportItem}
+            onPress={() => {
+              if (item.route) {
+                navigation.navigate(item.route); // Navigate to the specified route
+              } else {
+                Alert.alert(item.label, 'This feature is under development');
+              }
+            }}
+          >
             <Text style={styles.supportIcon}>{item.icon}</Text>
             <Text style={styles.supportText}>{item.label}</Text>
           </TouchableOpacity>
@@ -68,25 +76,25 @@ const supportItems = [
       {/* Actions */}
       <View style={styles.actions}>
         <TouchableOpacity style={styles.logoutButton}
-         onPress={() => setIsDialogVisible(true)}
+          onPress={() => setIsDialogVisible(true)}
         >
           <Text style={styles.actionText}>Log out</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteAccountButton}
-        onPress={()=>navigation.navigate(MainRoutes.DELETE_SCREEN)}
+          onPress={() => navigation.navigate(MainRoutes.DELETE_SCREEN)}
         >
           <Text style={styles.actionText}>Delete account</Text>
         </TouchableOpacity>
 
         <ConfirmationDialog
-        visible={isDialogVisible}
-        title="Confirm Logout"
-        message="Are you sure you want to log out?"
-        onCancel={() => setIsDialogVisible(false)} // Close dialog
-        onConfirm={handleLogOut} // Perform logout
-        cancelText="Cancel"
-        confirmText="Yes"
-      />
+          visible={isDialogVisible}
+          title="Confirm Logout"
+          message="Are you sure you want to log out?"
+          onCancel={() => setIsDialogVisible(false)} // Close dialog
+          onConfirm={handleLogOut} // Perform logout
+          cancelText="Cancel"
+          confirmText="Yes"
+        />
       </View>
     </View>
   );
@@ -105,31 +113,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   profileSection: {
-    flexDirection:'row',
-    // alignItems: 'center',
-    marginBottom:theme.verticalSpacing.space_30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.verticalSpacing.space_30,
   },
   profileImage: {
-    borderWidth:1,
-    width:theme.horizontalSpacing.space_100,
-    height:theme.horizontalSpacing.space_100,
-    borderRadius:20,
-    marginBottom:theme.verticalSpacing.space_10,
+    borderWidth: 1,
+    width: theme.horizontalSpacing.space_100,
+    height: theme.horizontalSpacing.space_110,
+    borderRadius: 10,
+    marginBottom: theme.verticalSpacing.space_10,
+    marginTop: theme.verticalSpacing.space_10,
   },
   profileName: {
-    fontSize:theme.fontSizes.size_20,
+    fontSize: theme.fontSizes.size_20,
     fontWeight: 'bold',
   },
   profileInfo: {
-    color:theme.lightColor.blackColor,
+    color: theme.lightColor.blackColor,
   },
   personalDetails: {
     marginTop: 10,
-    color:theme.lightColor.blackColor,
+    color: theme.lightColor.blackColor,
     fontWeight: '600',
   },
   supportBoard: {
-    marginBottom:theme.verticalSpacing.space_30,
+    marginBottom: theme.verticalSpacing.space_30,
   },
   supportItem: {
     flexDirection: 'row',
@@ -141,10 +150,10 @@ const styles = StyleSheet.create({
   },
   supportIcon: {
     marginRight: 15,
-    fontSize:theme.fontSizes.size_18,
+    fontSize: theme.fontSizes.size_18,
   },
   supportText: {
-    fontSize:theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: '500',
   },
   actions: {

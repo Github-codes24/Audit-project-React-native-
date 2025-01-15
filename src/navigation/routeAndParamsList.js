@@ -17,7 +17,9 @@ export const MainRoutes = {
   ONBOARDING_SCREEN:'OnboardingScreen',
   CHANGE_PASSWORD_SUCCESSFULLY_SCREEN:"PasswordChnageSuccessFullyScreen",
   PROFILE_SCREEN:'ProfileScreen',
-  DELETE_SCREEN:"DeleteScreen"
+  DELETE_SCREEN:"DeleteScreen",
+  EDITPROFILE_SCREEN:"EditProfile",
+  EDITIMAGE_SCREEN:"EditImage",
 };
 
 export const RootStackParamList = {
@@ -36,7 +38,8 @@ export const RootStackParamList = {
    [MainRoutes.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN]: {}|undefined,
    [MainRoutes.PROFILE_SCREEN]: {}|undefined,
     [MainRoutes.DELETE_SCREEN]: {}|undefined,
-
+    [MainRoutes.EDITPROFILE_SCREEN]:{}|undefined,
+   [MainRoutes.EDITIMAGE_SCREEN]:{}|undefined,
 };
 
 export const MainStack = createStackNavigator();
