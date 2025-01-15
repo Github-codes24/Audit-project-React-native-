@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
@@ -7,15 +7,23 @@ import CategorySelector from "../../reusableComponent/categoryList/categoryList"
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
 import { ScrollView } from "react-native-gesture-handler";
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
-
-
+import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
+import Loader from "../../reusableComponent/loader/loader";
 const ComplianceScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
- 
- 
-  const [selectedCategory, setSelectedCategory] = useState();
+ const [selectedCategory, setSelectedCategory] = useState();
+
+
+ const [
+  calculateCompilanceScore,
+  {
+    isLoading: isLoadingCalculateCompilanceScore,
+    isError: isErrorCalculateCompilanceScore, 
+    isSuccess: isSuccessCalculateCompilanceScore
+  }
+]= useCalculateCompilanceScoreMutation()
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -45,6 +53,10 @@ const ComplianceScreen = () => {
     
   };
 
+  const onSubmit = (payload) => {
+    calculateCompilanceScore(payload)
+  }
+
 
 
   return (
@@ -66,6 +78,11 @@ const ComplianceScreen = () => {
           <Svg.BellIcon />
         </View>
       </View>
+
+          {/* Loader */}
+          {isLoadingCalculateCompilanceScore && (
+       <Loader isLoading={isLoadingCalculateCompilanceScore} />
+      )}
      
       {step==='category' && (
         <CategorySelector
@@ -82,6 +99,7 @@ const ComplianceScreen = () => {
         handleOptionSelect={handleOptionSelect}
         handlePrevious={handlePrevious}
         handleNext={handleNext}
+        onSubmit={onSubmit}
       />
 
 }

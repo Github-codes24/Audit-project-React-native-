@@ -3,12 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
 import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
+import Loader from "../loader/loader";
 
 const QuestionSection = ({
   selectedCategory,
   handlePrevious,
   handleNext,
   checkerType='compliance',
+  onSubmit
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -97,19 +99,15 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
   const handleSubmit = () => {
     const payload = createPayload(selectedCategory, selectedAnswers);
-    console.log("Payload:@", payload);
-    if(checkerType === 'compliance'){
-      calculateCompilanceScore(payload)
-    }
-    if(checkerType === 'eligibility'){
-      null
-    }
+    onSubmit?.(payload);
   };
 
 
 
   return (
     <View>
+        <Loader
+        isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
         {checkerType==='compliance' ?
       <Text style={styles.header}>Sponsor License Compliance Checker</Text>
       :      <Text style={styles.header}>Sponsor License Eligibilty Checker</Text>
@@ -145,6 +143,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         </TouchableOpacity>
       )}
       </View>
+
     </View>
   );
 };

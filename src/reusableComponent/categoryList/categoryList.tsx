@@ -5,6 +5,7 @@ import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
 import { useGetCompilanceQuestionsCategoryQuery } from '../../redux/apiSlice/complianceApiSlice';
 import { useGetEligibilityCategoryQuery } from '../../redux/apiSlice/eligibilityApiSlice';
+import Loader from '../loader/loader';
 
 const CategorySelector = ({ 
   handleSelect, 
@@ -31,7 +32,6 @@ const CategorySelector = ({
 
   // Determine the current category data based on checkerType
   const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
-  const isLoading = checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
   const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
 
   // Handle category selection
@@ -41,11 +41,9 @@ const CategorySelector = ({
   };
 
   // Loading state
-  if (isLoading) {
+  if (isLoadingCompliance||isErrorEligibility) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color={theme.lightColor.primaryColor} />
-      </View>
+      <Loader isLoading={isLoadingCompliance||isErrorEligibility} />
     );
   }
 
