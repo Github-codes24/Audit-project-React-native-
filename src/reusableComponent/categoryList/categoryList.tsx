@@ -10,7 +10,7 @@ import Loader from '../loader/loader';
 const CategorySelector = ({ 
   handleSelect, 
   onTakeTest,
-  checkerType = 'eligibility', // Determines the type of category to load
+  checkerType = 'compliance', // Determines the type of category to load
 }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
@@ -19,7 +19,7 @@ const CategorySelector = ({
     data: complianceCategoryData,
     isLoading: isLoadingCompliance,
     isError: isErrorCompliance,
-  } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType === 'eligibility' });
+  } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
 
   console.log('complianceCategoryData',complianceCategoryData)
@@ -28,7 +28,10 @@ const CategorySelector = ({
     data: eligibilityCategoryData,
     isLoading: isLoadingEligibility,
     isError: isErrorEligibility,
-  } = useGetEligibilityCategoryQuery({}, { skip: checkerType === 'compliance' });
+    error: errorEligibility
+  } = useGetEligibilityCategoryQuery({},{skip: checkerType !== 'eligibility'});
+
+  console.log('eligibilityCategoryData',eligibilityCategoryData,errorEligibility)
 
   // Determine the current category data based on checkerType
   const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;

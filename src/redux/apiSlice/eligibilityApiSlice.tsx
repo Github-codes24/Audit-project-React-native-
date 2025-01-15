@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseApi} from './baseApiSlice';
 import {apiEndPoints} from '../../constants/apiConstants';
 
-export const complianceApiSlice = baseApi.injectEndpoints({
+export const eligibilityApiSlice = baseApi.injectEndpoints({
   endpoints: builder => ({
     getEligibilityCategory: builder.query({
       query: () => ({
@@ -33,4 +33,4 @@ export const complianceApiSlice = baseApi.injectEndpoints({
 export const {
 useGetEligibilityQuestionsQuery,
 useGetEligibilityCategoryQuery,
-} = complianceApiSlice;
+} = eligibilityApiSlice;

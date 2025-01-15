@@ -9,6 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
+import ComplianceResult from "../../reusableComponent/result/complianceResult";
 const ComplianceScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
@@ -54,7 +55,9 @@ const ComplianceScreen = () => {
   };
 
   const onSubmit = (payload) => {
+    
     calculateCompilanceScore(payload)
+    setStep('result');
   }
 
 
@@ -102,6 +105,15 @@ const ComplianceScreen = () => {
         onSubmit={onSubmit}
       />
 
+}
+
+{
+  step === 'result' && (  
+    <ComplianceResult
+    scorePercentage={60}
+    onPressRetakeExam={()=>setStep('category')} 
+    />
+  )
 }
       
     </View>

@@ -7,7 +7,7 @@ import CategorySelector from "../../reusableComponent/categoryList/categoryList"
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
 import { ScrollView } from "react-native-gesture-handler";
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
-
+import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 
 const EligibilityScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,6 +43,10 @@ const EligibilityScreen = () => {
   const handleNext = () => {
    
   };
+
+  const onSubmit = (payload) => {
+    setStep('result');
+  }
 
 
 
@@ -82,8 +86,17 @@ const EligibilityScreen = () => {
         handlePrevious={handlePrevious}
         handleNext={handleNext}
         checkerType="eligibility"
+        onSubmit={onSubmit}
       />
 
+}
+
+{
+  step==='result' && <EligibityResult
+  onPressRetakeExam={()=>{
+    setStep('category')
+  }}
+  />
 }
       
     </View>
