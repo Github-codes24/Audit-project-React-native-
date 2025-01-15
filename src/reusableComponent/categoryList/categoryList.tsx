@@ -46,7 +46,7 @@ const CategorySelector = ({
   // Loading state
   if (isLoadingCompliance||isErrorEligibility) {
     return (
-      <Loader isLoading={isLoadingCompliance||isErrorEligibility} />
+      <Loader isLoading={isLoadingCompliance||isLoadingEligibility} />
     );
   }
 
