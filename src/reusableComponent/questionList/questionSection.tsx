@@ -44,8 +44,12 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
   const handlePreviousLocal = () => {
     if (currentIndex - 3 >= 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
-      handlePrevious?.();
+      handlePrevious?.(false);
     }
+    else{
+      handlePrevious?.(true);
+    }
+   
   };
 
   const handleOptionSelect = (selectedOption, questionId) => {
@@ -62,10 +66,15 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
   };
 
   const handleNextLocal = () => {
-    if (currentIndex + 3 < questions.length) {
+    if (currentIndex + 3 < questions?.length) {
       setCurrentIndex((prevIndex) => prevIndex + 3);
       handleNext?.();
     }
+  };
+
+  const handleSubmit = () => {
+    // Logic for submitting the answers
+    console.log("Submitted Answers:", selectedAnswers);
   };
 
 
@@ -88,7 +97,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
           selectedOption={selectedAnswers[questionData?._id]}
           onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
           currentIndex={questionData?.id}
-          totalQuestions={questions.length}
+          totalQuestions={questions?.length}
         />
       ))}
 
@@ -96,9 +105,15 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
           <Text style={{ color: "white" }}>Previous</Text>
         </TouchableOpacity>
+        {currentIndex + 3 >= questions?.length ? (
+        <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
+          <Text style={{ color: "white" }}>Submit</Text>
+        </TouchableOpacity>
+      ) : (
         <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
           <Text style={{ color: "white" }}>Next</Text>
         </TouchableOpacity>
+      )}
       </View>
     </View>
   );

@@ -7,23 +7,7 @@ import CategorySelector from "../../reusableComponent/categoryList/categoryList"
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
 import { ScrollView } from "react-native-gesture-handler";
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
-const questions = [
-  {
-    id: 1,
-    question: "What is the compliance audit?",
-    options: ["Yes", "No"],
-  },
-  {
-    id: 2,
-    question: "Is the process automated?",
-    options: ["Yes", "No"],
-  },
-  {
-    id: 3,
-    question: "Does it meet compliance standards?",
-    options: ["Yes", "No"],
-  },
-];
+
 
 const ComplianceScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,20 +33,17 @@ const ComplianceScreen = () => {
   
   };
 
-  const getQuestionsToDisplay = () => {
-    return questions.slice(currentIndex, currentIndex + 3);
-  };
 
-  const handlePrevious = () => {
-    if (currentIndex - 3 >= 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 3);
-    }
+  const handlePrevious = (stepFlag) => {
+   
+if(stepFlag){
+  setStep('category');
+}
+    
   };
 
   const handleNext = () => {
-    if (currentIndex + 3 < questions.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 3);
-    }
+    
   };
 
 
