@@ -113,7 +113,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
       :      <Text style={styles.header}>Sponsor License Eligibilty Checker</Text>
         }
       <Text style={styles.selectedCategoryText}>
-        Selected Category (Q&A): {selectedCategory ? selectedCategory?.name : "None"}
+        Q&A:
       </Text>
 
       {getQuestionsToDisplay()?.map((questionData,index) => (
