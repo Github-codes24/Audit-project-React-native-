@@ -19,6 +19,8 @@ export const MainRoutes = {
   PROFILE_SCREEN:'ProfileScreen',
   DELETE_SCREEN:"DeleteScreen",
   NOTIFICATION_SCREEN:"NotificationScreen",
+  TERMANDCONDITION_SCREEN:"TermsAndConditionScreen",
+  PRIVACYPOLICY_SCREEN:"PrivacyPolicyScreen",
 };
 
 export const RootStackParamList = {
@@ -38,6 +40,8 @@ export const RootStackParamList = {
    [MainRoutes.PROFILE_SCREEN]: {}|undefined,
     [MainRoutes.DELETE_SCREEN]: {}|undefined,
     [MainRoutes.NOTIFICATION_SCREEN]: {}|undefined,
+    [MainRoutes.TERMANDCONDITION_SCREEN]: {}|undefined,
+    [MainRoutes.PRIVACYPOLICY_SCREEN]: {}|undefined,
 
 };
 

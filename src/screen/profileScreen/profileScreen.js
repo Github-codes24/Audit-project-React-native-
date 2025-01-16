@@ -19,9 +19,9 @@ const ProfileScreen = ({navigation}) => {
   };
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.Edit/> },
-    { label: 'Help & Support', icon: <Svg.supportIcon/> },
-    { label: 'Terms of use', icon: <Svg.Termsofuse /> },
-    { label: 'Privacy policy', icon: <Svg.Privacy/> },
+    { label: 'Help & Support', icon: <Svg.supportIcon/>},
+    { label: 'Terms of use', icon: <Svg.Termsofuse />, link:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
+    { label: 'Privacy policy', icon: <Svg.Privacy/> ,link:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
     { label: 'About us', icon: <Svg.AboutUs/> },
     { label: 'Notification settings', icon: <Svg.Notification/> },
   ];
@@ -58,7 +58,7 @@ const supportItems = [
       <View style={styles.supportBoard}>
         <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
       {supportItems.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.supportItem}>
+          <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation.navigate(item.link)} >
             <Text style={styles.supportIcon}>{item.icon}</Text>
             <Text style={styles.supportText}>{item.label}</Text>
           </TouchableOpacity>

@@ -9,6 +9,8 @@ import ProfileScreen from '../../screen/profileScreen/profileScreen';
 import DeleteScreen from '../../screen/deletAccountScreen';
 import { Notification } from '../../asstets/images/svg';
 import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
+import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
+import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
 
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
@@ -26,6 +28,14 @@ const MainStackNavigation = () => {
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
         component={ProfileScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.PRIVACYPOLICY_SCREEN}
+        component={PrivacyPolicyScreen} 
       />
        <Stack.Screen
         name={MainRoutes.DELETE_SCREEN}
