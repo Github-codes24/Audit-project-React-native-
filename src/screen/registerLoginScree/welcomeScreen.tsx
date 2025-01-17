@@ -32,7 +32,7 @@ const RegisterButton=()=>{
         <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
         <View style={{width:theme.horizontalSpacing.space_230}}>
         {/* <Text style={{textAlign:"center",fontWeight:'600',color:"#592951",fontSize:theme.fontSizes.size_20,margin:20}}>{'Discover Your Dream Job Here'}</Text> */}
-        <Text style={{textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_14,marginTop:theme.verticalSpacing.space_20,width:theme.horizontalSpacing.space_260}}>{'Securely manage your compliance andsponsor license requirements in one place'}</Text>
+        <Text style={{paddingHorizontal:10,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_20,width:theme.horizontalSpacing.space_328,alignSelf:'center'}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
         
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
         <TouchableOpacity style={style.button}

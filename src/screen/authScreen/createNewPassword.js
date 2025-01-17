@@ -13,7 +13,11 @@ const CreateNewPassword=({navigation,route})=>{
 
 const [newPassword,setNewPassword]=useState('')
 const [confirmPassword,setConfirmPassword]=useState('')
+const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
+const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prevState => !prevState);
+  };
 const {email}=route.params||{}
 console.log("email11111",email)
 
@@ -51,9 +55,16 @@ resetPasswordApi({email,newPassword,confirmPassword})
         <Text>New Password</Text>
         <CustomTextInput
         value={newPassword}
+        secureTextEntry={!isPasswordVisible}
         onChangeText={(text)=>setNewPassword(text)}
         placeholder={'New password'}
-         rightIcon={<Svg.EyeOpen/>}
+          rightIcon={
+                   <View style={style.eyeIcon}>
+                     <Text onPress={togglePasswordVisibility}>
+                       {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
+                     </Text>
+                   </View>
+                 }
         />
        <Text style={{marginLeft:8}}>{'must have 8 char.'}</Text>
         <Text style={{marginTop:20}}>Confirm Password</Text>
@@ -61,7 +72,7 @@ resetPasswordApi({email,newPassword,confirmPassword})
          value={confirmPassword}
         onChangeText={(text)=>setConfirmPassword(text)}
          placeholder={'Confirm password'}
-         rightIcon={<Svg.EyeOpen/>}
+         rightIcon={<Svg.CloseEye/>}
         />
         <View style={{width:'100%',height:"100%",marginTop:theme.verticalSpacing.space_165}}>
         <CustomButton
@@ -81,9 +92,10 @@ const style=StyleSheet.create({
     },
 Textstyle:{
 width:theme.horizontalSpacing.space_358,
-textAlign:"center",
-marginTop:theme.verticalSpacing.space_100,
-alignSelf:'center',
+// textAlign:"center",
+paddingHorizontal:theme.horizontalSpacing.space_20,
+lineHeight:20,
+// alignSelf:'center',
 color:'#475569'
     },
     

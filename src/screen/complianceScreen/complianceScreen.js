@@ -91,6 +91,7 @@ useEffect(() => {
       }
    
    {step==='question' &&
+   <ScrollView>
    <QuestionSection
         selectedCategory={selectedCategory}
         handleOptionSelect={handleOptionSelect}
@@ -98,7 +99,7 @@ useEffect(() => {
         handleNext={handleNext}
         onSubmit={onSubmit}
       />
-
+</ScrollView>
 }
 
 {

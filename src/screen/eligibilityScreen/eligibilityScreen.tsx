@@ -56,11 +56,13 @@ const EligibilityScreen = () => {
       <Header/>
      
       {step==='category' && (
+        
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
         />
+        
       )
       }
    

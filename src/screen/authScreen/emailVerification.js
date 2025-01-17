@@ -13,7 +13,7 @@ import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
 
 const EmailVerificationScreen = ({ navigation,route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
    
 const dispatch=useDispatch()
@@ -102,7 +102,7 @@ useEffect(()=>{
       />
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
-        Code has been sent to <Text style={styles.email}>{email}</Text>. Enter the code to verify your account
+        Code sent to <Text style={styles.email}>{email}</Text>.Please enter the code below
       </Text>
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
@@ -118,8 +118,15 @@ useEffect(()=>{
           />
         ))}
       </View>
-       <View style={styles.resendContainer}>
-        <Text style={styles.resendText}>Didn’t Receive Code?</Text>
+       
+      <View style={{marginTop:theme.verticalSpacing.space_156}}>
+       <CustomButton
+       onPress={handleVerifyAccount}
+       title={'Verify Account'}
+       />
+       </View>
+<View style={styles.resendContainer}>
+        <Text style={styles.resendText}>Didn’t receive Code?</Text>
         <TouchableOpacity
          onPress={handleResendCode}
           disabled={isResendDisabled}
@@ -127,13 +134,8 @@ useEffect(()=>{
           <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' },]}> Resend Code</Text>
         </TouchableOpacity>
       </View>
-       <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
-      <View style={{marginTop:theme.verticalSpacing.space_230}}>
-       <CustomButton
-       onPress={handleVerifyAccount}
-       title={'Verify Account'}
-       />
-       </View>
+      
+        <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
       {/* Resend Code Section */}
       
 
@@ -168,24 +170,28 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   description: {
-    textAlign: 'center',
-    fontSize: theme.fontSizes.size_14,
+    width:theme.horizontalSpacing.space_370,
+    fontSize: theme.fontSizes.size_18,
     color: '#3D3D3D',
     marginVertical: 20,
     marginHorizontal:20,
-    marginTop:theme.verticalSpacing.space_80
+    fontWeight:'400',
+    marginTop:theme.verticalSpacing.space_80,
+    lineHeight:20
   },
   email: {
     fontWeight: 'bold',
-    color:theme.lightColor.orangeColor,
+    color:theme.lightColor.borderColor,
   },
   otpContainer: {
     alignItems:"center",
-    justifyContent:"center",
+    // justifyContent:"center",
     flexDirection: 'row',
-    marginTop:theme.verticalSpacing.space_80,
-    // justifyContent: 'space-between',
+    marginTop:theme.verticalSpacing.space_100,
+    
     // marginTop: 20,
+    paddingHorizontal:theme.horizontalSpacing.space_20,
+    // backgroundColor:'red'
   },
   otpInput: {
     margin:5,
@@ -193,13 +199,14 @@ const styles = StyleSheet.create({
     height:theme.verticalSpacing.space_60,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#DDD',
+    borderColor:theme.lightColor.borderColor,
     textAlign: 'center',
     fontSize: theme.fontSizes.size_18,
+    backgroundColor:"white"
    
   },
   submitButton: {
-    marginTop: 30,
+    // marginTop: 30,
     backgroundColor: '#6A1B9A',
     borderRadius: 8,
     paddingVertical: 15,
@@ -211,22 +218,31 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
   },
   resendContainer: {
+    // backgroundColor:"red",
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop:theme.verticalSpacing.space_46,
+    paddingHorizontal:theme.horizontalSpacing.space_30,
+    // justifyContent: 'center',
+    marginTop:theme.verticalSpacing.space_20,
   },
   resendText: {
     color: '#3D3D3D',
-    fontSize: 14,
+    fontSize:theme.fontSizes.size_16,
+    fontWeight:'600'
+    
   },
   resendLink: {
     color: '#6A1B9A',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontSize:theme.fontSizes.size_16,
+    
   },
   timerText: {
-    textAlign: 'center',
-    marginTop: 10,
+    paddingHorizontal:theme.horizontalSpacing.space_30,
+    // textAlign: 'center',
+    marginTop:5,
     color: '#3D3D3D',
+    fontSize:theme.fontSizes.size_16,
+    fontWeight:'600'
   },
 });
 

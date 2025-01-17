@@ -92,10 +92,10 @@ return(
            /> */}
            </View>
 
-            <View style={{marginTop:theme.verticalSpacing.space_80,paddingHorizontal:30}}>
+            <View style={{marginTop:theme.verticalSpacing.space_20}}>
           <CustomCheckbox
          isChecked={isPrivacyChecked}
-        onPress={() => setPrivacyChecked(!isPrivacyChecked)}
+         onPress={() => setPrivacyChecked(!isPrivacyChecked)}
           text={'I have read and understood the'}
           linkText={'Privacy Policy*'}
           />
