@@ -8,7 +8,15 @@ import {
 import React from 'react';
 import * as Svg from '../../asstets/images/svg';
 import {theme} from '../../utils';
+import { useGetProfileTermAndConditionApiQuery } from '../../redux/apiSlice/profileApiSlice';
 const TermsAndConditionScreen = ({navigation}) => {
+
+  const {
+    data: profileTermAndConditionData,
+    error: profileTermAndConditionError,  
+    isLoading: profileTermAndConditionIsLoading
+    
+  }= useGetProfileTermAndConditionApiQuery({})
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -18,31 +26,12 @@ const TermsAndConditionScreen = ({navigation}) => {
         <Svg.ArrowBack />
       </TouchableOpacity>
 
-      <Text style={styles.HeadText}>Terms & Condition</Text>
+      <Text style={styles.HeadText}>{profileTermAndConditionData?.data?.title}</Text>
       <ScrollView>
         <Text style={styles.termsAndConditionText}>
-          Welcome to [Your Business/Service Name]! These terms and conditions
-          outline the rules and regulations for using our services. By accessing
-          or using our website, application, or services, you agree to comply
-          with these terms. You must use our services in compliance with all
-          applicable laws and regulations. Unauthorized use, including attempts
-          to disrupt or exploit the platform, is strictly prohibited. Content
-          provided by the company, including designs, text, and graphics, is
-          proprietary and protected. Users retain ownership of any content they
-          submit but grant us permission to use it as necessary to deliver
-          services. Details of pricing, subscription, and payment terms are
-          provided separately. Refund policies, if applicable, are clearly
-          defined in the [Refund Policy section]. Your data privacy and security
-          are of utmost importance to us. See our Privacy Policy for more
-          details. We are not liable for any indirect, incidental, or
-          consequential damages arising from your use of our services. We
-          reserve the right to suspend or terminate your access if you violate
-          these terms. Terms and conditions may be updated periodically.
-          Continued use after updates implies acceptance of the revised terms.
-          By continuing to use our platform, you acknowledge that you have read,
-          understood, and agree to these terms and conditions. For any questions
-          or clarifications, please contact us at [Support Email/Contact
-          Information]. 4o
+         {
+          profileTermAndConditionData?.data?.sections
+         }
         </Text>
       </ScrollView>
     </View>
