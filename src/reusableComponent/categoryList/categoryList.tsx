@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import CustomButton from '../button/button';
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
@@ -13,54 +13,65 @@ const CategorySelector = ({
   checkerType = 'compliance', // Determines the type of category to load
 }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Fetch compliance categories if checkerType is 'compliance'
   const {
     data: complianceCategoryData,
     isLoading: isLoadingCompliance,
     isError: isErrorCompliance,
+    refetch: refetchCompliance
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
-
-  console.log('complianceCategoryData',complianceCategoryData)
   // Fetch eligibility categories if checkerType is 'eligibility'
   const {
     data: eligibilityCategoryData,
     isLoading: isLoadingEligibility,
     isError: isErrorEligibility,
-    error: errorEligibility
-  } = useGetEligibilityCategoryQuery({},{skip: checkerType !== 'eligibility'});
-
-  console.log('eligibilityCategoryData',eligibilityCategoryData,errorEligibility)
+    refetch: refetchEligibility
+  } = useGetEligibilityCategoryQuery({}, { skip: checkerType !== 'eligibility' });
 
   // Determine the current category data based on checkerType
   const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
   const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
+  const isLoading = checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
+  const refetchData = checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
 
   // Handle category selection
-  const handleCategorySelect = (selectedCategory:any) => {
+  const handleCategorySelect = (selectedCategory) => {
     setSelectedCategoryId(selectedCategory?._id);
     handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
   };
 
+  // Refresh function for pull-to-refresh
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchData(); // Trigger the appropriate refetch function
+    setRefreshing(false);
+  };
+
   // Loading state
-  if (isLoadingCompliance||isErrorEligibility) {
-    return (
-      <Loader isLoading={isLoadingCompliance||isLoadingEligibility} />
-    );
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
   }
 
   // Error state
   if (isError) {
     return (
-      <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
         <Text style={styles.errorText}>Failed to load categories. Please try again later.</Text>
-      </View>
+      </ScrollView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    >
       <Text style={styles.header}>
         {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
       </Text>
@@ -88,7 +99,7 @@ const CategorySelector = ({
       ) : (
         <Text>No categories available</Text>
       )}
-      
+
       <View style={{ marginTop: theme.verticalSpacing.space_100 }}>
         <CustomButton
           title="Take test"
@@ -96,15 +107,15 @@ const CategorySelector = ({
           disabled={!selectedCategoryId} // Disable button if no category is selected
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     paddingHorizontal: 15,
     backgroundColor: '#F2F3F5',
+    flexGrow: 1, 
   },
   header: {
     fontSize: 18,
@@ -147,6 +158,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_14,
     color: 'red',
     textAlign: 'center',
+    marginBottom: 10,
   },
 });
 
