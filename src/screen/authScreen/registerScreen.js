@@ -1,6 +1,6 @@
 import React,{useRef, useState,useEffect} from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { theme } from "../../utils";4
+import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../asstets/images/svg'
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -21,8 +21,8 @@ import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
       const [firstName,setFirstName]=useState('')
       const [lastName,setLastName]=useState('')
       const [confirmPassword,setConfirmPassword]=useState('')
-   
- 
+
+    
  
 const handleRegister = () => {
  

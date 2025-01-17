@@ -22,6 +22,10 @@ import Privacy from "./common/privacy";
 import AboutUs from "./common/aboutUs";
 import Notification from "./common/notification";
 import RemianderIcon from "./common/reminderIcon";
+import GalleryIcon from "./common/GalleryIcon";
+import CameraIcon from "./common/CameraIcon";
+import EditImage from "./common/EditImage";
+
 export {
 ArrowBack,
 EyeOpen,
@@ -46,5 +50,8 @@ Termsofuse,
 Privacy,
 AboutUs,
 Notification,
-RemianderIcon
+RemianderIcon,
+GalleryIcon,
+CameraIcon,
+EditImage,
 };
