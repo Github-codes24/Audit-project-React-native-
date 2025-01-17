@@ -45,8 +45,8 @@ const { firstName, lastName, email, phoneNumber, createdAt, updatedAt } =
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.Edit/>,route:MainRoutes.EDITPROFILE_SCREEN },
     { label: 'Help & Support', icon: <Svg.supportIcon/> },
-    { label: 'Terms and conditions ', icon: <Svg.Termsofuse /> },
-    { label: 'Privacy policy', icon: <Svg.Privacy/> },
+      { label: 'Terms of use', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
+    { label: 'Privacy policy', icon: <Svg.Privacy/> ,route:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
     { label: 'About us', icon: <Svg.AboutUs/> },
     { label: 'Notification settings', icon: <Svg.Notification/> },
   ];
@@ -81,17 +81,9 @@ const supportItems = [
 
       {/* Support Board */}
       <View style={styles.supportBoard}>
-        <Text style={{ fontSize: theme.fontSizes.size_16, marginBottom: 10, fontWeight: '500' }}>{'Support board'}</Text>
-        {supportItems.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.supportItem}
-            onPress={() => {
-              if (item.route) {
-                navigation.navigate(item.route); // Navigate to the specified route
-              } else {
-                Alert.alert(item.label, 'This feature is under development');
-              }
-            }}
-          >
+        <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
+      {supportItems.map((item, index) => (
+          <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation.navigate(item?.route)} >
             <Text style={styles.supportIcon}>{item.icon}</Text>
             <Text style={styles.supportText}>{item.label}</Text>
           </TouchableOpacity>

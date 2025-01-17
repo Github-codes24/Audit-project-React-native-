@@ -9,6 +9,10 @@ import ProfileScreen from '../../screen/profileScreen/profileScreen';
 import DeleteScreen from '../../screen/deletAccountScreen';
 import EditProfile from '../../screen/profileScreen/EditProfileScreen';
 import EditImage from '../../screen/profileScreen/EditImageScreen';
+import { Notification } from '../../asstets/images/svg';
+import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
+import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
+import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
 
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
@@ -34,12 +38,22 @@ const MainStackNavigation = () => {
       <Stack.Screen
       name={MainRoutes.EDITIMAGE_SCREEN}
       component={EditImage}
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.PRIVACYPOLICY_SCREEN}
+        component={PrivacyPolicyScreen} 
       />
        <Stack.Screen
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
       />
       
+       <Stack.Screen
+        name={MainRoutes.NOTIFICATION_SCREEN}
+        component={NotificationScreen} 
+      />
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    
 

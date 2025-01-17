@@ -21,6 +21,9 @@ export const MainRoutes = {
   REMAINDERLIST_SCREEN:"RemainderListScreen",
   EDITPROFILE_SCREEN:"EditProfile",
   EDITIMAGE_SCREEN:"EditImage",
+  NOTIFICATION_SCREEN:"NotificationScreen",
+  TERMANDCONDITION_SCREEN:"TermsAndConditionScreen",
+  PRIVACYPOLICY_SCREEN:"PrivacyPolicyScreen",
 };
 
 export const RootStackParamList = {
@@ -40,6 +43,9 @@ export const RootStackParamList = {
    [MainRoutes.PROFILE_SCREEN]: {}|undefined,
     [MainRoutes.DELETE_SCREEN]: {}|undefined,
    [MainRoutes.REMAINDERLIST_SCREEN]: {}|undefined,  
+    [MainRoutes.NOTIFICATION_SCREEN]: {}|undefined,
+    [MainRoutes.TERMANDCONDITION_SCREEN]: {}|undefined,
+    [MainRoutes.PRIVACYPOLICY_SCREEN]: {}|undefined,
 
     [MainRoutes.EDITPROFILE_SCREEN]:{}|undefined,
    [MainRoutes.EDITIMAGE_SCREEN]:{}|undefined,
