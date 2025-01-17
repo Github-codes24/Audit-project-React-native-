@@ -12,7 +12,11 @@ import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';
+import { useSelector,useDispatch } from 'react-redux';
+import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
 
+
+  
 const blogs = [
   {
     id: '1',
@@ -74,13 +78,69 @@ const blogs = [
     image:require('../../asstets/images/manImage.png'),
     content: 'Nature is the ultimate storyteller...',
   },
+  {
+    id: '10',
+    blog:'cricket',
+    uplaodTime:'2 sec ago',
+    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
+    author: 'Geo',
+    date: 'Wed, 30 Dec 2024',
+    image:require('../../asstets/images/manImage.png'),
+    content: 'Nature is the ultimate storyteller...',
+  },
+  {
+    id: '10',
+    blog:'cricket',
+    uplaodTime:'2 sec ago',
+    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
+    author: 'Geo',
+    date: 'Wed, 30 Dec 2024',
+    image:require('../../asstets/images/manImage.png'),
+    content: 'Nature is the ultimate storyteller...',
+  },
+  {
+    id: '10',
+    blog:'cricket',
+    uplaodTime:'2 sec ago',
+    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
+    author: 'Geo',
+    date: 'Wed, 30 Dec 2024',
+    image:require('../../asstets/images/manImage.png'),
+    content: 'Nature is the ultimate storyteller...',
+  },
+  {
+    id: '10',
+    blog:'cricket',
+    uplaodTime:'2 sec ago',
+    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
+    author: 'Geo',
+    date: 'Wed, 30 Dec 2024',
+    image:require('../../asstets/images/manImage.png'),
+    content: 'Nature is the ultimate storyteller...',
+  },
    
    
   // Add more items here...
 ];
+
 const ResourceScreen=({navigation})=>{
 
 const [selectedBlog, setSelectedBlog] = useState(null);
+ const [selectedCategory, setSelectedCategory] = useState('recent_blog');
+
+ console.log(selectedCategory)
+
+const handleCategorySelect = (category) => {
+    setSelectedCategory(category?.value);
+  };
+
+const category = [
+  { id: 1, name: "Recent Blog", value: "recent_blog" },
+  { id: 2, name: "Local News", value: "local_news" },
+  { id: 3, name: "Sports", value: "sports" },
+  { id: 4, name: "LifeStyles", value: "lifestyles" },
+];
+
 
   const renderBlogItem = ({ item }) => (
     <TouchableOpacity
@@ -139,29 +199,68 @@ const [selectedBlog, setSelectedBlog] = useState(null);
 
     return(
        <View style={[styles.container,{}]}>
-
       <Header/>
+      <Text style={styles.header}>Blogs</Text>
+    <View style={{ flexDirection: "row", justifyContent: 'space-between', width: "100%",borderBottomWidth:1 }}>
+      {category.map((category, index) => (
+        <TouchableOpacity  onPress={() => handleCategorySelect(category)}
+        style={{
+              // padding:5,
+              borderBottomWidth:1,
+              borderBottomWidth: selectedCategory === category.value ? 3 : 0,  // Apply bottom border if selected
+              borderBottomColor: selectedCategory === category.value ? theme.lightColor.brownColor : 'transparent', // Set the color of the border
+            }}
+        
+        >
+        <Text key={index} style={{ fontSize:theme.fontSizes.size_16, padding:10,fontWeight:'500',color:selectedCategory === category ? 'gray' : 'black' }}>
+          {category?.name}
+        </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+          
 
-      {selectedBlog ? (
-        renderBlogDetails()
-      ) : (
-        <>
-          <Text style={styles.header}>Blogs</Text>
-          <FlatList
+{selectedCategory==="recent_blog" && (
+  
+ <FlatList
+    contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_80 }}
             data={blogs}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item.id}
           />
-        </>
-      )}
+ )}
+
+{selectedCategory==="local_news"&& (
+ <FlatList
+            data={blogs}
+            renderItem={renderBlogItem}
+            keyExtractor={(item) => item.id}
+          />
+
+)}
+   {selectedCategory==="sports" && (
+    <FlatList
+            data={blogs}
+            renderItem={renderBlogItem}
+            keyExtractor={(item) => item.id}
+          />
+
+)}      
+
+    {selectedCategory=== "lifestyles" && (
+         <FlatList
+            data={blogs}
+            renderItem={renderBlogItem}
+            keyExtractor={(item) => item.id}
+          />
+
+)}      
     </View>
     )
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // marginBottom:100,
-    // padding: 16,
+   flex:1,
     backgroundColor: '#F5F5F5',
   },
   headerView:{
@@ -177,7 +276,7 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
     // marginBottom: 16,
-    margin:20
+    padding:10
   },
   blogItem: {
     flex:1,

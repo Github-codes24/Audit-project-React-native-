@@ -75,11 +75,11 @@ return(
         />
       <Text style={style.Textstyle}>No worries! Enter your email address below and we will send you a code to reset password.</Text>
       <View style={style.inputView}>
-        <Text>E-mail</Text>
+        <Text>Email</Text>
         <CustomTextInput
         value={email}
         onChangeText={(text)=>setEmail(text)}
-        leftIcon={<Svg.MessageIcon/>}
+        // leftIcon={<Svg.MessageIcon/>}
         placeholder={'Enter your email address'}
         />
          <TouchableOpacity style={style.forgetView}
@@ -88,10 +88,10 @@ return(
                
          <Text style={{ textAlign: 'right', padding: 10,color:theme.lightColor.blackColor,fontWeight:'600' }}>{'Back to login'}</Text>
             </TouchableOpacity>
-        <View style={{width:'100%',height:"100%",marginTop:theme.verticalSpacing.space_269}}>
+        <View style={{width:'100%',height:"100%",marginTop:theme.verticalSpacing.space_156}}>
         <CustomButton
          onPress={handleNext}
-        title={'Send Reset Instruction'}
+        title={' Reset password'}
         />
         </View>
     </View>
@@ -111,9 +111,10 @@ const style=StyleSheet.create({
     },
 Textstyle:{
 width:theme.horizontalSpacing.space_358,
-textAlign:"center",
-marginTop:theme.verticalSpacing.space_70,
-alignSelf:'center',
+marginTop:theme.verticalSpacing.space_10,
+paddingHorizontal:theme.horizontalSpacing.space_20,
+fontSize:theme.fontSizes.size_16,
+lineHeight:20
 // backgroundColor:theme.lightColor.whiteColor,
 
     },

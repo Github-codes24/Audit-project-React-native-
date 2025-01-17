@@ -41,7 +41,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             onPress={onPress}
             style={[styles.tabBarItem, { borderTopColor: borderColor }]}>
             {options.tabBarIcon && options.tabBarIcon({ color: iconColor, size: 24 })}
-            <Text style={{ color: textColor, fontSize: 12 }}>{label}</Text>
+            <Text style={{ color: textColor, fontSize:theme.fontSizes.size_12 }}>{label}</Text>
           </TouchableOpacity>
         );
       })}
@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   tabBarItem: {
-    width: theme.horizontalSpacing.space_64,
+    // backgroundColor:"red",
+    paddingHorizontal:10,
+    // width: theme.horizontalSpacing.space_64,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',

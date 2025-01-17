@@ -3,14 +3,14 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import Svg, { Path, Rect } from 'react-native-svg';
 
-const CheckBoxActive = ({ size = 24, color = "black" }) => {
+const CheckBoxActive = ({ size = 16, color = "black" }) => {
 
 
     return (
 
        <Svg
-      width="20"
-      height="20"
+      width="16"
+      height="16"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">

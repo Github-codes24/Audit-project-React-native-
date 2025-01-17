@@ -6,7 +6,7 @@ import { MainRoutes } from './routeAndParamsList';
 import MainStackNavigation from './stackNavigation/mainStacknavigation';
 import { useSelector } from 'react-redux';
 import AuthStack from './stackNavigation/authStackNavigator';
-
+import SplashScreen from '../screen/splashScreen/splashScreen';
 
 const RootNavigator = () => {
   const [splashVisible, setSplashVisible] = useState(true);
@@ -18,7 +18,7 @@ const RootNavigator = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSplashVisible(false);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -31,7 +31,7 @@ const RootNavigator = () => {
     }
   };
 
-//   return splashVisible ? <SplashScreen /> : getRouteName();
+  return splashVisible ? <SplashScreen /> : getRouteName();
   return  getRouteName();
 };
 

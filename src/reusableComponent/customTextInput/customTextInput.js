@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.grayColor,
     paddingHorizontal: theme.horizontalSpacing.space_12,
     height: theme.verticalSpacing.space_50,
+    borderColor:theme.lightColor.borderColor
   },
   input: {
     flex: 1,
@@ -93,9 +94,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
   iconContainer: {
+   marginTop:5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: theme.horizontalSpacing.space_8,
+    // marginHorizontal: theme.horizontalSpacing.space_8,
   },
 });
 

@@ -31,7 +31,7 @@ const EditImage = ({ navigation }) => {
                 {/* Profile Image */}
                 <View style={styles.profileImageContainer}>
                     <Image
-                        source={require('../../asstets/images/manImage1.png')}
+                        source={require('../../asstets/images/manImage.png')}
                         style={styles.profileImage}
                     />
                 </View>

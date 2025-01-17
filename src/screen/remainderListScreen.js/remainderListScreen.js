@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
   header: {
     fontSize:theme.fontSizes.size_20,
     fontWeight: "600",
-    marginVertical: 16,
-    marginLeft: 16,
+    marginVertical: 10,
+    marginLeft:theme.horizontalSpacing.space_20,
     color:theme.lightColor.blackColor
   },
   listContent: {
     paddingHorizontal: 16,
-    paddingBottom: 80, 
+    // paddingBottom: 80, 
   },
   
     reminderCard: {
@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     backgroundColor: "#FFFFFF",
     borderRadius: 12,
-     padding:15,
-     marginVertical:10,
+     padding:theme.horizontalSpacing.space_14,
+     marginVertical:5
     //  backgroundColor:"red"
   },
    headerView: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
    headerContent: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginTop:theme.verticalSpacing.space_20,
     alignItems: "center",
   },
   userInfo: {
@@ -145,10 +145,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize:theme.fontSizes.size_14,
     fontWeight: "bold",
     color: "#000",
-    width:150,
+    // width:150,
     marginTop:theme.verticalSpacing.space_10
   },
   description: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     width:theme.horizontalSpacing.space_170
   },
   arrow: {
-    fontSize: 24,
+    fontSize:theme.fontSizes.size_24,
     color: "#5D3FD3",
 
   },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addButtonText: {
-    fontSize: 16,
+    fontSize:theme.fontSizes.size_16,
     fontWeight: "bold",
     color: "#FFFFFF",
   },

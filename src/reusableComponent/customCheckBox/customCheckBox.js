@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import * as Svg from '../../asstets/images/svg'
+import { theme } from '../../utils';
 
 const CustomCheckbox = ({ isChecked, onPress, text, link, linkText }) => {
 
@@ -59,15 +60,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     flex: 1,
+    
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    // marginBottom: 15,
+    margin:theme.verticalSpacing.space_10,
+    
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width:16,
+    height: 16,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 3,
@@ -76,8 +80,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkedCheckbox: {
-    backgroundColor: '#6200EE', // Your primary theme color
-    borderColor: '#6200EE',
+    backgroundColor: 'white', // Your primary theme color
+    borderColor: theme.lightColor.borderColor,
   },
   checkboxTick: {
     width: 10,
@@ -86,12 +90,12 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   checkboxText: {
-    fontSize: 14,
+    fontSize:theme.fontSizes.size_16,
     color: '#333',
     flexShrink: 1,
   },
   linkText: {
-    color: '#5EAAFA', 
+    color: theme.lightColor.borderColor, 
     textDecorationLine: 'underline',
   },
 });

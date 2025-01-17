@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor:theme.lightColor.brownColor, 
     paddingVertical:theme.verticalSpacing.space_12,
-    paddingHorizontal: 20,
+    paddingHorizontal:10,
     borderRadius:theme.horizontalSpacing.space_10, 
     alignItems: 'center',
     justifyContent: 'center',
-    width:theme.horizontalSpacing.space_358,
+    width:theme.horizontalSpacing.space_370,
     height:theme.verticalSpacing.space_50,
     alignSelf:'center',
     
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF', 
-    fontSize:theme.fontSizes.size_14,
+    fontSize:theme.fontSizes.size_16,
     fontWeight: '500',
   },
 });

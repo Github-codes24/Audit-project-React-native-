@@ -6,7 +6,8 @@ const theme = {
    blackColor:'#272727',
    whiteColor:'#FFFF',
    redColor:'#DC4B5C',
-  orangeColor:'#FFB2B2'
+  orangeColor:'#FFB2B2',
+  borderColor:'#BABABA'
   },
 
  
@@ -168,6 +169,7 @@ const theme = {
     space_173: wp(173),
     space_236:wp(236),
     space_170: wp(170),
+    space_329: wp(329),
   },
   boderRadius: {
     small_4: 4,

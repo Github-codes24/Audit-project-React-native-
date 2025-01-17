@@ -4,6 +4,8 @@ import QuestionCard from "../categoryList/questionComponent";
 import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 import Loader from "../loader/loader";
+import { ScrollView } from "react-native-gesture-handler";
+import { theme } from "../../utils";
 
 const QuestionSection = ({
   selectedCategory,
@@ -103,6 +105,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
 
   return (
+    <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
     <View>
         <Loader
         isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
@@ -141,8 +144,8 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         </TouchableOpacity>
       )}
       </View>
-
     </View>
+    </ScrollView>
   );
 };
 

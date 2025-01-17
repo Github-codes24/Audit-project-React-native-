@@ -74,9 +74,13 @@ return(
        onBackPress={()=>navigation.goBack()}
        />
        <View style={style.nameView}>
-       <View style={{flexDirection:"row",width:'70%',justifyContent:'space-between'}}>
+       <View style={{flexDirection:"row",width:'%',}}>
+        <View style={{width:theme.horizontalSpacing.space_187}}>
         <Text style={{}}>First Name</Text>
-        <Text>Last Name</Text> 
+        </View>
+       <View style={{width:theme.horizontalSpacing.space_187,marginLeft:theme.horizontalSpacing.space_10}}>
+        <Text style={{}}>Last Name</Text>
+        </View> 
       </View>
       <View style={{flexDirection:'row',width:'100%'}}>
         <TextInput
@@ -95,11 +99,11 @@ return(
 
       </View>
        {/* <CustomTextInput/> */}
-        <Text style={style.TextStyle}>E-mail</Text>
+        <Text style={style.TextStyle}>{'Enter your email address'}</Text>
           <CustomTextInput
           value={email}
            onChangeText={(text)=>setEmail(text)}
-          leftIcon={<Svg.MessageIcon/>}
+          // leftIcon={<Svg.MessageIcon/>}
           placeholder={'Enter your email address'}
           />
           <Text style={style.TextStyle}>Password</Text>
@@ -107,14 +111,14 @@ return(
            value={password}
            onChangeText={(text)=>setPassword(text)}
            placeholder={'Password'}
-           rightIcon={<Svg.EyeOpen/>}
+           rightIcon={<Svg.CloseEye/>}
            />
             <Text style={style.TextStyle}> Confirm Password</Text>
             <CustomTextInput
             value={confirmPassword}
             onChangeText={(text)=>setConfirmPassword(text)}
             placeholder={'Confirm password'}
-            rightIcon={<Svg.EyeOpen/>}
+           rightIcon={<Svg.CloseEye/>}
             />
        </View>
        <View style={{marginTop:theme.verticalSpacing.space_165}}>
@@ -129,7 +133,7 @@ return(
 }
 const style=StyleSheet.create({
     nameView:{
-        marginTop:theme.verticalSpacing.space_80
+        marginTop:theme.verticalSpacing.space_80,
         
     },
     nameTextInput:{
@@ -137,7 +141,7 @@ const style=StyleSheet.create({
         height:theme.verticalSpacing.space_50,
         borderWidth:1,
         borderRadius:8,
-        borderColor:theme.lightColor.grayColor,
+        borderColor:theme.lightColor.borderColor,
         // marginTop:10,
         paddingHorizontal:10,
         backgroundColor:theme.lightColor.whiteColor

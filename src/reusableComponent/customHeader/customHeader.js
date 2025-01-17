@@ -41,8 +41,8 @@ const CustomHeader = ({
 
 const styles = StyleSheet.create({
   container: {
-   
-    height: theme.verticalSpacing.space_100,
+  //  backgroundColor:'red',
+    height: theme.verticalSpacing.space_156,
   },
   backButton: {
     padding: 8,
@@ -54,15 +54,17 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     width: '100%',
-    height: theme.verticalSpacing.space_60,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // height: theme.verticalSpacing.space_60,
+    paddingHorizontal:theme.horizontalSpacing.space_20
+    // alignItems: 'center',
+    // justifyContent: 'center',
     // backgroundColor:"red"
   },
   title: {
     fontSize: theme.fontSizes.size_30,
     fontWeight: 'bold',
-    color:theme.lightColor.brownColor
+    color:theme.lightColor.blackColor,
+    marginTop:theme.verticalSpacing.space_40
   },
   subtitle: {
     fontSize: 14,

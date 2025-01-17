@@ -11,7 +11,7 @@ import { useForgotPasswordApiMutation } from '../../redux/apiSlice/authApiSlice'
   
 const OtpScreen = ({ navigation,route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
    console.log('otp',otp)
   const {email}=route.params||{}
@@ -49,7 +49,7 @@ const handleForgotPasswordVerifyAccount=()=>{
     alertError(forgotPasswordVerifyOtpApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
     }
 },[isForgotPasswordVerifyOtpApiSuccess,forgotPasswordVerifyOtpApiData,forgotPasswordVerifyOtpApiError])
-  // Timer logic
+
   // useEffect(() => {
   //   let interval;
   //   if (timer > 0) {
@@ -86,7 +86,7 @@ const handleForgotPasswordVerifyAccount=()=>{
 
 
   return (
-    <BackgroundLayout>
+
     <View style={styles.container}>
      
       <CustomHeader
@@ -96,7 +96,7 @@ const handleForgotPasswordVerifyAccount=()=>{
       />
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
-        Code has been sent to <Text style={styles.email}>{email}</Text>. Please enter the code below.
+        Code sent to <Text style={styles.email}>{email}</Text>.Please enter the code below.
       </Text>
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
@@ -113,7 +113,7 @@ const handleForgotPasswordVerifyAccount=()=>{
         ))}
       </View>
 
-      <View style={{marginTop:theme.verticalSpacing.space_80}}>
+      <View style={{marginTop:theme.verticalSpacing.space_114}}>
        <CustomButton
        onPress={handleForgotPasswordVerifyAccount}
        title={'Create New Password'}
@@ -133,7 +133,7 @@ const handleForgotPasswordVerifyAccount=()=>{
       {/* Timer */}
       <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
     </View>
-    </BackgroundLayout>
+    
   );
 };
 
@@ -161,22 +161,23 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   description: {
-    marginTop:50,
+    marginTop:theme.verticalSpacing.space_10,
     paddingHorizontal:20,
-    textAlign: 'center',
+   width:theme.horizontalSpacing.space_370,
     fontSize: theme.fontSizes.size_14,
     color: '#3D3D3D',
     marginVertical: 20,
   },
   email: {
     fontWeight: 'bold',
-    color:theme.lightColor.orangeColor,
+    color:theme.lightColor.borderColor,
   },
   otpContainer: {
     alignItems:"center",
-    justifyContent:"center",
+    // justifyContent:"center",
     flexDirection: 'row',
-    marginTop:theme.verticalSpacing.space_80,
+    paddingHorizontal:theme.horizontalSpacing.space_20,
+    marginTop:theme.verticalSpacing.space_100,
     // justifyContent: 'space-between',
     // marginTop: 20,
   },
@@ -205,7 +206,8 @@ const styles = StyleSheet.create({
   },
   resendContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    paddingHorizontal:theme.horizontalSpacing.space_20,
+    // justifyContent: 'center',
     marginTop: 20,
   },
   resendText: {
@@ -216,9 +218,9 @@ const styles = StyleSheet.create({
     color: '#6A1B9A',
     fontWeight: 'bold',
   },
-  timerText: {
-    textAlign: 'center',
-    marginTop: 10,
+  timerText: {paddingHorizontal:theme.horizontalSpacing.space_20,
+    // textAlign: 'center',
+    
     color: '#3D3D3D',
   },
 });

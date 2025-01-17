@@ -66,7 +66,7 @@ const supportItems = [
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <Image
-          source={require('../../asstets/images/manImage1.png')} // Replace with the actual image URL
+          source={require('../../asstets/images/manImage.png')} // Replace with the actual image URL
           style={styles.profileImage}
         />
         <View style={{marginLeft:10}}>

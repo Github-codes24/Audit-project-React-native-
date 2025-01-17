@@ -67,13 +67,13 @@ return(
         leftIcon={<Svg.ArrowBack/>}
         title={'Login Here'}
         />
-        <Text style={{textAlign:"center",marginTop:theme.verticalSpacing.space_56,width:180,alignSelf:"center",fontWeight:'400',color:theme.lightColor.brownColor}}>{'Welcome back you have been missed!'}</Text>
+        <Text style={{marginTop:theme.verticalSpacing.space_10,fontWeight:'400',color:theme.lightColor.blackColor,paddingHorizontal:theme.horizontalSpacing.space_20}}>{'Welcome back you have been missed!'}</Text>
        <View style={style.LoginInputView}>
          <Text>Email</Text>
         <CustomTextInput
          value={email}
         onChangeText={(text) => setEmail(text)}
-        leftIcon={<Svg.MessageIcon/>}
+        // leftIcon={<Svg.MessageIcon/>}
         placeholder={'Enter your email address'}
         />
         <Text style={{marginTop:10}}>Password</Text>
@@ -84,13 +84,14 @@ return(
         placeholder={'Enter your password'}
         rightIcon={
           // Use an SVG eye icon to toggle password visibility
-          <View style={style.eyeIcon}>
+          <View>
             <Text onPress={togglePasswordVisibility}>
               {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
             </Text>
           </View>
         }
         />
+    <View style={{alignItems:"center"}}>
        <TouchableOpacity style={style.forgetView}
        onPress={()=>navigation.navigate(MainRoutes.FORGOT_PASSWORD_SCREEN)}
        >
@@ -101,7 +102,7 @@ return(
         />
      <Text style={{color:theme.lightColor.blackColor,fontWeight:'600',textAlign:"right",marginLeft:theme.horizontalSpacing.space_100 }}>{String.forgetPassword}</Text>
     </TouchableOpacity>
-    
+    </View>
     
    
     </View>
@@ -111,12 +112,12 @@ return(
     title={'Log in'}
     />
     </View>
-    <View style={{flexDirection:"row",alignItems:'center',width:'100%',justifyContent:'center',height:theme.verticalSpacing.space_165}}>
+    <View style={{flexDirection:"row",width:'100%',paddingHorizontal:theme.horizontalSpacing.space_20,marginTop:theme.verticalSpacing.space_10}}>
       <Text>{"Don't have an account?"}</Text>
       <TouchableOpacity style={{}}
     onPress={()=>navigation.navigate(MainRoutes.REGISTER_SCREEN)}
     >
-     <Text style={{fontSize:theme.fontSizes.size_14,fontWeight:'600',color:theme.lightColor.brownColor,marginLeft:5}}>{'Register'}</Text>
+     <Text style={{fontSize:theme.fontSizes.size_14,fontWeight:'600',color:theme.lightColor.borderColor,marginLeft:5}}>{'Register now'}</Text>
     </TouchableOpacity>
   
    </View>
@@ -140,8 +141,9 @@ const style=StyleSheet.create({
     alignItems: 'center',
   },
     forgetView:{
+      alignItems:"center",
         width: '100%', 
-        marginTop:10,
+        // marginTop:theme.verticalSpacing.space_16,
         flexDirection:'row',
         // justifyContent:'space-around',
         // alignItems:"center"
