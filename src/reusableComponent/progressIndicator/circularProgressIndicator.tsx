@@ -40,7 +40,7 @@ const CircularProgress = ({ percentage }) => {
       </Svg>
       {/* Percentage Text */}
       <View style={styles.percentageContainer}>
-        <Text style={styles.percentageText}>{percentage}%</Text>
+      {percentage &&  <Text style={styles.percentageText}>{percentage}%</Text>}
       </View>
     </View>
   );
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   percentageContainer: {
     position: 'absolute',
     top: '42%',
-    left: '42%',
+    left: '38%',
     justifyContent: 'center',
     alignItems: 'center',
   },

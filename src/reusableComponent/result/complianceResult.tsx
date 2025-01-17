@@ -23,14 +23,15 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
           fontSize:theme.fontSizes.size_18,
           color:theme.lightColor.blackColor,
           marginTop:theme.verticalSpacing.space_8,
+          textAlign: 'center',
           
         }}
         >
             {
-                `You Scored ${scorePercentage}% in Sponsor lince Compliance`
+                `You Scored ${scorePercentage}% in Sponsor lincense Compliance`
             }
         </Text>
-      <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>
+      {/* <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text> */}
       <TouchableOpacity style={styles.contactButton}>
         <Text style={styles.contactText}>Contact us</Text>
       </TouchableOpacity>

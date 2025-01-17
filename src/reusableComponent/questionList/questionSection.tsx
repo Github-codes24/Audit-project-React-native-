@@ -19,7 +19,7 @@ const QuestionSection = ({
     isError: isErrorEligibilityQuestions,
     data: eligibilityQuestions,
   }= useGetEligibilityQuestionsQuery({
-    category: selectedCategory?._id
+    category: selectedCategory?.name,
   },{
     skip: checkerType === 'compliance'
   })
@@ -32,9 +32,7 @@ const QuestionSection = ({
     data: complianceQuestions,
   }= useGetcompilanceQuestionsQuery({
     category: selectedCategory?.name,
-   
-
-  },{
+   },{
     skip: checkerType === 'eligibility'
   })
 

@@ -16,7 +16,7 @@ export const complianceApiSlice = baseApi.injectEndpoints({
       query:(params) => ({
         url: apiEndPoints?.getcompilanceQuestions,
         method: 'GET',
-        params:{params},
+        params:params,
         keepUnusedDataFor: 5,}),
 
      
@@ -28,7 +28,7 @@ export const complianceApiSlice = baseApi.injectEndpoints({
         query:(body) => ({
           url: apiEndPoints?.calculateCompilanceScore,
           method: 'POST',
-          body:{body},
+          body:body,
           keepUnusedDataFor: 5,}),
   
        

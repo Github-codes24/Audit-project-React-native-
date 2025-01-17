@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
+import Header from "../../reusableComponent/header/header";
 const ReminderListScreen = () => {
   const reminders = [
     {
@@ -51,23 +52,7 @@ const ReminderListScreen = () => {
 
   return (
     <View style={styles.container}>
-         <View style={styles.headerView}>
-                <View style={styles.headerContent}>
-                  <View style={styles.userInfo}>
-                    <View style={styles.imageWrapper}>
-                      <Image
-                        style={styles.userImage}
-                        source={require("../../asstets/images/manImage.png")}
-                      />
-                    </View>
-                    <View style={styles.userText}>
-                      <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-                      <Text style={styles.userName}>NAYAN Moudekar</Text>
-                    </View>
-                  </View>
-                  <Svg.BellIcon />
-                </View>
-              </View>
+         <Header/>
       <Text style={styles.header}>Reminder</Text>
 
       <FlatList

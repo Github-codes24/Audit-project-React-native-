@@ -12,10 +12,18 @@ export const apiEndPoints = {
 //complaince API endpoint
 getCompilanceQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
 getcompilanceQuestions:'api/complianceQuestions/getQuestions',
-calculateCompilanceScore:'api/compilanceQuestions/calculateScore',
+calculateCompilanceScore:'api/complianceQuestions/calculateScore',
 
 //Eligibility API endpoint
 getEligibilityCategory:'api/eligibilityCategory/getAllEligibilityCategoryNames',
 getEligibilityQuestions:'api/eligibilityQuestions/getQuestions',
+
+//profile api endpoint
+getPrivacyPolicy:'api/privacyPolicy/getPrivacyPolicy',
+getTermAndDondition:'api/termsAndConditions/getTermsAndConditions',
+
+//blogs api endpoint
+getAllBlogs:'api/blogRoutes/getAllBlogs',
+getBlogById:'api/blogRoutes/getBlogById',
 
 };

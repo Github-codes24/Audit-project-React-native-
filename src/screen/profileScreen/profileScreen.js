@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity,Alert } from 'react-native';
-import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
 import { resetAuth } from '../../redux/stateSlice/authStateSlice';

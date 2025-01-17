@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
@@ -10,6 +10,7 @@ import QuestionSection from "../../reusableComponent/questionList/questionSectio
 import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
 import ComplianceResult from "../../reusableComponent/result/complianceResult";
+import Header from "../../reusableComponent/header/header";
 const ComplianceScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
@@ -22,9 +23,18 @@ const ComplianceScreen = () => {
   {
     isLoading: isLoadingCalculateCompilanceScore,
     isError: isErrorCalculateCompilanceScore, 
-    isSuccess: isSuccessCalculateCompilanceScore
+    isSuccess: isSuccessCalculateCompilanceScore,
+    data: calculateCompilanceScoreData,
   }
 ]= useCalculateCompilanceScoreMutation()
+
+
+useEffect(() => {
+  if (isSuccessCalculateCompilanceScore) {
+    setStep('result');
+  }
+}, [isSuccessCalculateCompilanceScore]);
+
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -57,30 +67,14 @@ const ComplianceScreen = () => {
   const onSubmit = (payload) => {
     
     calculateCompilanceScore(payload)
-    setStep('result');
+   
   }
 
 
 
   return (
     <View style={styles.main}>
-      <View style={styles.headerView}>
-        <View style={styles.headerContent}>
-          <View style={styles.userInfo}>
-            <View style={styles.imageWrapper}>
-              <Image
-                style={styles.userImage}
-                source={require("../../asstets/images/manImage.png")}
-              />
-            </View>
-            <View style={styles.userText}>
-              <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-              <Text style={styles.userName}>NAYAN Moudekar</Text>
-            </View>
-          </View>
-          <Svg.BellIcon />
-        </View>
-      </View>
+   <Header/>
 
           {/* Loader */}
           {isLoadingCalculateCompilanceScore && (
@@ -110,7 +104,9 @@ const ComplianceScreen = () => {
 {
   step === 'result' && (  
     <ComplianceResult
-    scorePercentage={60}
+    scorePercentage={ calculateCompilanceScoreData?.scorePercentage % 1 === 0
+      ? calculateCompilanceScoreData?.scorePercentage // Integer, no decimals
+      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }// Fractional, 2 decimals}
     onPressRetakeExam={()=>setStep('category')} 
     />
   )

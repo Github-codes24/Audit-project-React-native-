@@ -8,6 +8,7 @@ import QuestionCard from "../../reusableComponent/categoryList/questionComponent
 import { ScrollView } from "react-native-gesture-handler";
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
+import Header from "../../reusableComponent/header/header";
 
 const EligibilityScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -52,23 +53,7 @@ const EligibilityScreen = () => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.headerView}>
-        <View style={styles.headerContent}>
-          <View style={styles.userInfo}>
-            <View style={styles.imageWrapper}>
-              <Image
-                style={styles.userImage}
-                source={require("../../asstets/images/manImage.png")}
-              />
-            </View>
-            <View style={styles.userText}>
-              <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-              <Text style={styles.userName}>NAYAN Moudekar</Text>
-            </View>
-          </View>
-          <Svg.BellIcon />
-        </View>
-      </View>
+      <Header/>
      
       {step==='category' && (
         <CategorySelector

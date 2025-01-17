@@ -1,16 +1,14 @@
 import React,{useState} from "react";
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
 import LicenseCard from "../../utils/licenceCard";
-import ImageCard from "../../utils/imageCard";
 import HorizontalCardList from "../../utils/imageCardList";
 import { imageCarddata } from "../../utils/imageCardData";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import Swiper from "react-native-swiper";
-
+import Header from "../../reusableComponent/header/header";
 const DashBoardScreen=({navigation})=>{
 
 
@@ -45,8 +43,7 @@ const closeModal = () => {
         <ScrollView style={{flex:1 }}>
         <View style={style.main}>
             <StatusBar backgroundColor={'#592951'}/>
-            <View style={style.headerView}>
-         <CustomModal
+            <CustomModal
         visible={isModalVisible}
         onClose={closeModal}
         title="Privacy & Cookie Settings"
@@ -77,39 +74,9 @@ const closeModal = () => {
           },
         ]}
       />
-           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:20,alignItems:'center'}}>
-            <View style={{flexDirection:"row"}}>
-                <TouchableOpacity style={{flexDirection:'row'}}
-                onPress={()=>navigation.navigate(MainRoutes.PROFILE_SCREEN)}
-                >
-           <View style={{width:60,height:60,borderWidth:1,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
-            <Image
-            style={{width:60,height:60}}
-            source={require('../../asstets/images/manImage.png')}
-            />
-           </View>
-           <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
-            <Text style={{color:theme.lightColor.whiteColor}}>Hello, Welcome 🎉</Text>
-            <Text style={{color:theme.lightColor.whiteColor,fontSize:theme.fontSizes.size_24}}>{'NAYAN Moudekar'}</Text>
-            
-           </View>
-           </TouchableOpacity>
-           </View>
-           <Svg.BellIcon/>
-
-           
-
-           </View>
-            {/* <View style={style.searchView}>
-               <Svg.SearchIcon/>
-                <TextInput
-                style={{marginLeft:30,alignSelf:'center',color:'white'}}
-                placeholder="Search here ..."
-                placeholderTextColor={'white'}
-                />
-            </View> */}
-
-            </View>
+          <Header
+          userName={'John Doe'}
+          />
             <Text style={style.sponsorText}>{'Sponsor License Checker'}</Text>
             <LicenseCard
             title={'Sponsor License Compliance Checker'}
@@ -126,7 +93,9 @@ const closeModal = () => {
             />
             <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:10}}>
            <Text style={{fontWeight:'600',fontSize:theme.fontSizes.size_20,color:theme.lightColor.blackColor}}>{'Latest Blog'}</Text>
-           <TouchableOpacity>
+           <TouchableOpacity
+           onPress={()=>navigation.navigate('Resource')}
+           >
             <Text style={{fontSize:theme.fontSizes.size_14}}>{'See all'}</Text>
             </TouchableOpacity>
             </View>

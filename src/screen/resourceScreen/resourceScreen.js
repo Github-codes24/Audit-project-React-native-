@@ -11,6 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
+import Header from '../../reusableComponent/header/header';
 
 const blogs = [
   {
@@ -139,40 +140,7 @@ const [selectedBlog, setSelectedBlog] = useState(null);
     return(
        <View style={[styles.container,{}]}>
 
-        <View style={styles.headerView}>
-      <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:20,alignItems:'center'}}>
-           <View style={{flexDirection:"row"}}>
-       <TouchableOpacity style={{flexDirection:'row'}}
-       onPress={()=>navigation.navigate(MainRoutes.PROFILE_SCREEN)}
-       >
-           <View style={{width:60,height:60,borderWidth:1,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
-             <Image
-               style={{width:60,height:60}}
-               source={require('../../asstets/images/manImage.png')}
-              />
-            </View>
-                 <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
-                  <Text style={{color:theme.lightColor.whiteColor}}>Hello, Welcome 🎉</Text>
-                  <Text style={{color:theme.lightColor.whiteColor,fontSize:theme.fontSizes.size_24}}>{'NAYAN Moudekar'}</Text>
-                  
-                 </View>
-                 </TouchableOpacity>
-                 </View>
-                 <Svg.BellIcon/>
-      
-                 
-      
-                 </View>
-                  {/* <View style={style.searchView}>
-                     <Svg.SearchIcon/>
-                      <TextInput
-                      style={{marginLeft:30,alignSelf:'center',color:'white'}}
-                      placeholder="Search here ..."
-                      placeholderTextColor={'white'}
-                      />
-                  </View> */}
-      
-                  </View>
+      <Header/>
 
       {selectedBlog ? (
         renderBlogDetails()
