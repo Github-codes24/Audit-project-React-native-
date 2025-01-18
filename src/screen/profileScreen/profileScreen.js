@@ -47,7 +47,7 @@ const supportItems = [
     { label: 'Help & Support', icon: <Svg.supportIcon/> },
       { label: 'Terms of use', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
     { label: 'Privacy policy', icon: <Svg.Privacy/> ,route:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
-    { label: 'About us', icon: <Svg.AboutUs/> },
+    { label: 'About us', icon: <Svg.AboutUs/>,route:MainRoutes.ABOUTUS_SCREEN },
     { label: 'Notification settings', icon: <Svg.Notification/> },
   ];
 

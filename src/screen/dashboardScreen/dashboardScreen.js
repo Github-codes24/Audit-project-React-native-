@@ -11,7 +11,6 @@ import Swiper from "react-native-swiper";
 import Header from "../../reusableComponent/header/header";
 const DashBoardScreen=({navigation})=>{
 
-
  const slides = [
     {
       image: require('../../asstets/images/nature2.png'), // Replace with your custom image
@@ -29,15 +28,10 @@ const DashBoardScreen=({navigation})=>{
     },
   ];
 
-
-
-
 const [isModalVisible, setModalVisible] = useState(true);
-
 const closeModal = () => {
     setModalVisible(false);
   };
-
     return(
         // <BackgroundLayout>
         <ScrollView style={{flex:1 }}>
@@ -69,7 +63,7 @@ const closeModal = () => {
             label: "Customize cookie",
             type: "secondary",
             onPress: () => {
-              console.log("Customizing cookies");
+            console.log("Customizing cookies");
             },
           },
         ]}
@@ -83,7 +77,6 @@ const closeModal = () => {
             description={'Check your score '}
             icon={require('../../asstets/images/Compliance.png')}
             onPress={()=>navigation.navigate('compliance')}
-            
             />
             <LicenseCard
              title={'Sponsor License Eligibility Checker '}
@@ -104,8 +97,6 @@ const closeModal = () => {
            />
 
            <Text style={{marginLeft:10,fontSize:theme.fontSizes.size_20,color:theme.lightColor.blackColor,fontWeight:'500'}}>{'About us'}</Text>
-        
-        
         <View style={{paddingBottom:100}}>
          <Text style={{padding:10,lineHeight:24}}>{"Cricket, often referred to as the gentleman’s game, is more than just a sport—it’s a passion that unites millions across the globe. A cricket blog serves as a sanctuary for fans who live and breathe the game, offering a blend of updates, analysis, and storytelling. From thrilling match reviews to heartwarming tales of perseverance, a well-crafted blog can capture the essence of cricket and connect fans worldwide.Imagine diving into an in-depth review of last night's nail-biting match, where every ball, boundary, and wicket is meticulously analyzed. Or exploring profiles of players who’ve risen against all odds to shine on the world stage. A cricket blog isn’t just about statistics; it’s about celebrating the spirit of the game, the drama on the pitch, and the stories that unfold behind the scenes.For die-hard enthusiasts, a blog can become a hub of knowledge, featuring historical recounts of iconic matches or a look at the evolution of cricketing techniques. Meanwhile, newer fans can find beginner-friendly guides explaining the nuances of the game, from the rules of an LBW decision to the art of spin bowling.Beyond the game itself, cricket blogs delve into the culture surrounding cricket. They highlight the camaraderie between fans, the passion of rivalries, and the moments that transcend sport to become part of history. Whether it’s a discussion on a controversial umpiring decision or a celebration of a new record, cricket blogs are where opinions spark lively debates and shared enthusiasm creates bonds.With engaging visuals, trivia-packed articles, and passionate storytelling, cricket blogs cater to everyone, from the casual watcher to the statistician at heart. They remind us why we love the game—the unpredictability, the excitement, and the sense of belonging to a global community of cricket lovers.A cricket blog isn’t just content; it’s an experience—a journey through the highs and lows, the triumphs and heartbreaks of a sport that continues to capture hearts across generations"}</Text>
            <View style={{height:theme.verticalSpacing.space_230}}>

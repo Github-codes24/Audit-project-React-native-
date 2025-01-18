@@ -26,4 +26,7 @@ getTermAndDondition:'api/termsAndConditions/getTermsAndConditions',
 getAllBlogs:'api/blogRoutes/getAllBlogs',
 getBlogById:'api/blogRoutes/getBlogById',
 
+
+aboutUSGetApi:'api/aboutUs/getAboutUs'
+
 };

@@ -13,6 +13,7 @@ import { Notification } from '../../asstets/images/svg';
 import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
 import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
 import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
+import AboutUsScree from '../../screen/aboutUsScreen/aboutUsScreen';
 
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
@@ -53,6 +54,10 @@ const MainStackNavigation = () => {
        <Stack.Screen
         name={MainRoutes.NOTIFICATION_SCREEN}
         component={NotificationScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.ABOUTUS_SCREEN}
+        component={AboutUsScree} 
       />
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    

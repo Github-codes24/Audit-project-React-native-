@@ -31,7 +31,13 @@ export const profileApiSlice = baseApi.injectEndpoints({
 
     }),
 
-
+    getAboutUsApi: builder.query({
+      query: () => ({
+        url: apiEndPoints?.aboutUSGetApi,
+        method: 'GET',
+        keepUnusedDataFor: 5,
+      }),
+    }),
 
 
   }),
@@ -41,6 +47,7 @@ export const profileApiSlice = baseApi.injectEndpoints({
 export const {
  useGetProfileTermAndConditionApiQuery,
  useGetPrivacyPolicyQuery,
- useGetuserApiQuery
+ useGetuserApiQuery,
+ useGetAboutUsApiQuery
  
 } = profileApiSlice;

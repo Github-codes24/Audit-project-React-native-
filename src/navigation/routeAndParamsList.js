@@ -24,6 +24,7 @@ export const MainRoutes = {
   NOTIFICATION_SCREEN:"NotificationScreen",
   TERMANDCONDITION_SCREEN:"TermsAndConditionScreen",
   PRIVACYPOLICY_SCREEN:"PrivacyPolicyScreen",
+  ABOUTUS_SCREEN:'AboutUsScreen'
 };
 
 export const RootStackParamList = {
@@ -49,6 +50,7 @@ export const RootStackParamList = {
 
     [MainRoutes.EDITPROFILE_SCREEN]:{}|undefined,
    [MainRoutes.EDITIMAGE_SCREEN]:{}|undefined,
+   [MainRoutes.ABOUTUS_SCREEN]:{}|undefined,
 };
 
 export const MainStack = createStackNavigator();

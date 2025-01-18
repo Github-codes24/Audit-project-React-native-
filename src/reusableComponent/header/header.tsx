@@ -31,7 +31,11 @@ const Header = () => {
             </View>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+        onPress={()=>navigation.navigate(MainRoutes.NOTIFICATION_SCREEN)}
+        >
         <Svg.BellIcon />
+        </TouchableOpacity>
       </View>
     </View>
   );
