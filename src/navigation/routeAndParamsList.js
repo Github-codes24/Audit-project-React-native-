@@ -24,6 +24,7 @@ export const MainRoutes = {
   NOTIFICATION_SCREEN:"NotificationScreen",
   TERMANDCONDITION_SCREEN:"TermsAndConditionScreen",
   PRIVACYPOLICY_SCREEN:"PrivacyPolicyScreen",
+  CONTACTUS_SCREEN:'ContactUsScreen',
 };
 
 export const RootStackParamList = {

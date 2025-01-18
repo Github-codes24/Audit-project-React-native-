@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
+import Header from '../../reusableComponent/header/header';
 // Sample Notification Data
 const notifications = [
   { id: '1', type: 'follow' , message: 'sent you a follow request', timestamp: 'Yesterday at 11:42 PM', read: false },
@@ -39,25 +40,7 @@ const NotificationScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
         {/* header  */}
-         <View style={styles.headerView}>
-                <View style={styles.headerContent}>
-                  <View style={styles.userInfo}>
-                    <View style={styles.imageWrapper}>
-                      <Image
-                        style={styles.userImage}
-                        source={require("../../asstets/images/manImage.png")}
-                      />
-                    </View>
-                    <View style={styles.userText}>
-                      <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-                      <Text style={styles.userName}>NAYAN Moudekar</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity onPress={() => navigation.goBack() }>
-                  <Svg.BellIcon />
-                  </TouchableOpacity>
-                </View>
-              </View>
+        <Header/>
       {/* Custom Tabs */}
       <View style={styles.tabContainer}>
         {['All', 'Unread', 'Read'].map((tab) => (

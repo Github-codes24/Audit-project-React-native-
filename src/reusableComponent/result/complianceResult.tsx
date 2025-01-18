@@ -5,7 +5,9 @@ import * as Svg from '../../asstets/images/svg'
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CircularProgress from "../progressIndicator/circularProgressIndicator";
+import { useNavigation } from "@react-navigation/native";
 const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
+  const navigation= useNavigation();
    return (
     <View style={styles.container}>
       
@@ -32,7 +34,11 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
             }
         </Text>
       {/* <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text> */}
-      <TouchableOpacity style={styles.contactButton}>
+      <TouchableOpacity style={styles.contactButton}
+      onPress={()=>{
+        navigation.navigate(MainRoutes.CONTACTUS_SCREEN)
+      }}
+      >
         <Text style={styles.contactText}>Contact us</Text>
       </TouchableOpacity>
       <CustomButton
