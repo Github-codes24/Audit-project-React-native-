@@ -1,3 +1,5 @@
+import { AboutUs } from "../../asstets/images/svg";
+
 export const apiEndPoints = {
   //auth API endpoint
   registerApi: 'api/user/register',
@@ -28,5 +30,8 @@ getBlogById:'api/blogRoutes/getBlogById',
 
 //customer support api slice
 contactUs:'api/contactUs/createContactUs',
+aboutUs:'api/aboutUs/getAboutUs',
+
+
 
 };
