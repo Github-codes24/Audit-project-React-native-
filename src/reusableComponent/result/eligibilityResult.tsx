@@ -4,8 +4,10 @@ import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { ScrollView } from "react-native-gesture-handler";
 const EligibityResult=({onPressRetakeExam,isEligible})=>{
    return (
+
     <View style={styles.container}>
       <View style={{alignItems:"center",justifyContent:"center"}}>  
         <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text>
@@ -30,6 +32,7 @@ const EligibityResult=({onPressRetakeExam,isEligible})=>{
       />
        </View>
     </View>
+    
   );
 }
 const styles = StyleSheet.create({
@@ -38,9 +41,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   image: {
+    // backgroundColor:"red",
     width:222,
-    height: 220,
-    marginTop:theme.verticalSpacing.space_80
+    height: 267,
+    marginTop:theme.verticalSpacing.space_56
   },
    headerView:{
         height:105,
@@ -55,29 +59,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
+    marginTop:theme.verticalSpacing.space_20,
+    // marginBottom: 10,
   },
   subtitle: {
     fontSize:theme.fontSizes.size_16,
     color:theme.lightColor.blackColor,
     textAlign: 'center',
-    marginTop:20
+    marginTop:theme.verticalSpacing.space_20
   },
   contactButton: {
     borderWidth:.3,
     paddingVertical: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal:theme.horizontalSpacing.space_30,
     borderRadius: 5,
     margin:theme.verticalSpacing.space_30,
     marginTop:theme.verticalSpacing.space_46
   },
   contactText: {
+    backgroundColor:theme.lightColor.whiteColor,
     color: theme.lightColor.brownColor,
     fontWeight: 'bold',
   },
   retakeButton: {
     backgroundColor: '#673AB7',
-    paddingVertical: 10,
+    paddingVertical:theme.verticalSpacing.space_10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },

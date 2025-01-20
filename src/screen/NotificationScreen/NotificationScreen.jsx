@@ -2,36 +2,64 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
+import Header from '../../reusableComponent/header/header';
+import { useDispatch,useSelector } from 'react-redux';
+import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
+import { useGet10userApiNotificationQuery, useGetAlluserApiNotificationQuery } from '../../redux/apiSlice/notificationApiSlice';
+
 // Sample Notification Data
-const notifications = [
-  { id: '1', type: 'follow' , message: 'sent you a follow request', timestamp: 'Yesterday at 11:42 PM', read: false },
-  { id: '2', type: 'comments', message: 'left 5 comments on Issa compliance report', timestamp: 'Yesterday at 11:30 PM', read: true },
-  { id: '3', type: 'comments', message: 'left 2 comments on Issa compliance report', timestamp: 'Yesterday at 10:40 PM', read: false },
-  { id: '4', type: 'comments', message: 'left 8 comments on Issa compliance report', timestamp: 'Yesterday at 10:30 PM', read: false },
-  { id: '5', type: 'comments', message: 'left 4 comments on Issa compliance report', timestamp: 'Yesterday at 10:25 PM', read: true },
-];
+
 
 const NotificationScreen = ({navigation}) => {
-  const [selectedTab, setSelectedTab] = useState('All'); // Default tab is "All"
+  const [selectedTab, setSelectedTab] = useState('All'); 
 
   // Filtered data based on selected tab
-  const getFilteredNotifications = () => {
-    if (selectedTab === 'Unread') {
-      return notifications.filter((item) => !item.read);
-    }
-    if (selectedTab === 'Read') {
-      return notifications.filter((item) => item.read);
-    }
-    return notifications; // For "All" tab
-  };
 
-  // Notification Item Component
+const response=useSelector(getLoginResponse)
+ const userId=response?.data?.id
+console.log('userId5554546',userId)
+
+
+  const { 
+      data: getAllUserNotificationApidata, 
+      error: getAllUserNotificationApiError, 
+      isLoading:getAllUserNotificationApiIsLoading 
+    } = useGetAlluserApiNotificationQuery(userId); 
+
+
+
+const { 
+      data: get10userApiNotificationApidata, 
+      error: get10userApiNotificationApiError, 
+      isLoading:get10userApiNotificationApiIsLoading 
+    } = useGet10userApiNotificationQuery(userId); 
+
+
+// console.log('get10userApiNotificationApiError', get10userApiNotificationApiError);
+// console.log('getAllUserNotificationApidata:', get10userApiNotificationApidata);
+//    console.log('get10userApiNotificationApiIsLoading',get10userApiNotificationApiIsLoading)
+
+ const getFilteredNotifications = () => {
+    
+  if (!getAllUserNotificationApidata?.notifications) {
+    return []; 
+  }
+ 
+  if (selectedTab === 'Unread') {
+    return getAllUserNotificationApidata?.notifications.filter((item) => !item.isRead);
+  }
+  if (selectedTab === 'Read') {
+    return get10userApiNotificationApidata.notifications.filter((item) => item.isRead);
+  }
+  return getAllUserNotificationApidata?.notifications; 
+};
+
   const NotificationItem = ({ item }) => (
     <TouchableOpacity onPress={undefined} style={styles.notificationItem}>
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
       <View >
-      <Text style={styles.NotificationMsg}>{item.message}</Text>
-      <Text style={styles.timestamp}>{item.timestamp}</Text>
+      <Text style={styles.NotificationMsg}>{item.title}</Text>
+      <Text style={styles.timestamp}>{item.createdAt}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -39,25 +67,7 @@ const NotificationScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
         {/* header  */}
-         <View style={styles.headerView}>
-                <View style={styles.headerContent}>
-                  <View style={styles.userInfo}>
-                    <View style={styles.imageWrapper}>
-                      <Image
-                        style={styles.userImage}
-                        source={require("../../asstets/images/manImage.png")}
-                      />
-                    </View>
-                    <View style={styles.userText}>
-                      <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-                      <Text style={styles.userName}>NAYAN Moudekar</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity onPress={() => navigation.goBack() }>
-                  <Svg.BellIcon />
-                  </TouchableOpacity>
-                </View>
-              </View>
+        <Header/>
       {/* Custom Tabs */}
       <View style={styles.tabContainer}>
         {['All', 'Unread', 'Read'].map((tab) => (

@@ -108,6 +108,7 @@ return(
           />
           <Text style={style.TextStyle}>Password</Text>
            <CustomTextInput
+            textColor={'#BABABA'}
            value={password}
            onChangeText={(text)=>setPassword(text)}
            placeholder={'Password'}
@@ -115,6 +116,7 @@ return(
            />
             <Text style={style.TextStyle}> Confirm Password</Text>
             <CustomTextInput
+             textColor={'#BABABA'}
             value={confirmPassword}
             onChangeText={(text)=>setConfirmPassword(text)}
             placeholder={'Confirm password'}

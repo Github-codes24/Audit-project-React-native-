@@ -115,6 +115,7 @@ const handleForgotPasswordVerifyAccount=()=>{
 
       <View style={{marginTop:theme.verticalSpacing.space_114}}>
        <CustomButton
+        textColor={'#BABABA'}
        onPress={handleForgotPasswordVerifyAccount}
        title={'Create New Password'}
        />

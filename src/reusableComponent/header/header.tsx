@@ -9,7 +9,7 @@ import { MainRoutes } from "../../navigation/routeAndParamsList";
 const Header = () => {
   const navigation = useNavigation();
   const userData = useSelector(getLoginResponse);
-
+  console.log('userData444444',userData)
 
   return (
     <View style={styles.headerView}>

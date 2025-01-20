@@ -23,12 +23,7 @@ export const profileApiSlice = baseApi.injectEndpoints({
       query:(id) => ({
         url: `${apiEndPoints?.getUser}/${id}`,
         method: 'Get',
-    
       }),
-
-     
-
-
     }),
 
     getAboutUsApi: builder.query({

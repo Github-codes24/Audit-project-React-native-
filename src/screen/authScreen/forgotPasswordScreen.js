@@ -77,6 +77,7 @@ return(
       <View style={style.inputView}>
         <Text>Email</Text>
         <CustomTextInput
+         
         value={email}
         onChangeText={(text)=>setEmail(text)}
         // leftIcon={<Svg.MessageIcon/>}

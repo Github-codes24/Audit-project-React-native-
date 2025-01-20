@@ -55,6 +55,7 @@ resetPasswordApi({email,newPassword,confirmPassword})
         <Text>New Password</Text>
         <CustomTextInput
         value={newPassword}
+         textColor={'#BABABA'}
         secureTextEntry={!isPasswordVisible}
         onChangeText={(text)=>setNewPassword(text)}
         placeholder={'New password'}
@@ -69,6 +70,7 @@ resetPasswordApi({email,newPassword,confirmPassword})
        <Text style={{marginLeft:8}}>{'must have 8 char.'}</Text>
         <Text style={{marginTop:20}}>Confirm Password</Text>
         <CustomTextInput
+         textColor={'#BABABA'}
          value={confirmPassword}
         onChangeText={(text)=>setConfirmPassword(text)}
          placeholder={'Confirm password'}

@@ -6,7 +6,7 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
 import {baseUrl} from '../../constants/apiConstants';
-
+import { alertError } from '../../utils/Toast';
 
 import Toast from 'react-native-toast-message';
 import {Alert} from 'react-native';
@@ -46,14 +46,13 @@ const baseQueryWithReauth: BaseQueryFn<
     }
   }
 
-  // if (result?.error) {
-  //   Toast.show({
-  //     type: 'error',
-  //     text1: 'Error',
-  //     // text2: formatErrorMessage(result?.error),
-  //     position: 'top',
-  //   });
-  // }
+  if (result?.error) {
+    alertError(
+      'Error',
+      result?.error?.data?.error||  result?.error?.data?.message||'Something went wrong' ,
+      
+    );
+  }
 
   return result;
 };

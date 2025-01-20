@@ -19,6 +19,7 @@ const CustomTextInput = ({
   multiline = false,
   editable = true,
   onRightIconPress,
+  textColor
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
 
@@ -43,7 +44,7 @@ const CustomTextInput = ({
         multiline={multiline}
         keyboardType={keyboardType}
         secureTextEntry={isPasswordVisible} // Conditionally show/hide password
-        style={[styles.input, inputStyle]}
+        style={[styles.input, inputStyle, { color:textColor }]}
         placeholderTextColor={'#BABABA'}
         ref={ref}
       />

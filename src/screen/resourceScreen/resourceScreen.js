@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as Svg from '../../asstets/images/svg'
@@ -14,247 +15,167 @@ import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';
 import { useSelector,useDispatch } from 'react-redux';
 import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
+import Loader from '../../reusableComponent/loader/loader';
 
-
-  
-const blogs = [
-  {
-    id: '1',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-  {
-    id: '2',
-    blog:'nature',
-     uplaodTime:'4 min ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'William',
-    date: 'Sat, 27 Dec 2024',
-    image: require('../../asstets/images/manImage.png'),
-    content: "Nature is the ultimate storyteller, weaving tales of resilience, beauty, and interconnectedness over billions of years. From the tiniest dewdrop on a morning leaf to the towering majesty of ancient redwoods, every facet of the natural world holds a lesson waiting to be uncovered.The Symphony of Seasons Each season carries its own rhythm and charm. Sping bursts forth with life, as flowers bloom and rivers swell with snowmelt. Summer brings golden sunsets, the hum of cicadas, and long days for exploration. Autumn paints the world in fiery hues, a fleeting spectacle of change. Winter, with its quiet stillness, invites reflection and renewal. These cycles remind us of the impermanence of life and the beauty of transformation.The Hidden World Beneath Our FeetBeneath the soil lies an intricate web of life. Mycorrhizal fungi form vast underground networks, connecting trees and plants in what scientists call the Wood Wide Web. These networks share nutrients, communicate warnings about pests, and create a symbiotic relationship that sustains entire ecosystems. It's a reminder that even the smallest, unseen connections can have a profound impact on the world.Lessons from WildlifeAnimals embody resilience and adaptability. Monarch butterflies travel thousands of miles during migration, an epic journey across generations. Wolves, once hunted to near extinction, have shown us the importance of apex predators in maintaining ecological balance. Meanwhile, the simple determination of an ant carrying a leaf ten times its size speaks volumes about persistence and teamwork. The Healing Power of Nature",
-  },
-  {
-    id: '3',
-    uplaodTime:'1 min ago',
-    blog:'nature',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Benjamin',
-    date: 'Mon, 09 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Exploring the beauty of nature...',
-  },
-   {
-    id: '133',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-   {
-    id: '14',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-   {
-    id: '10',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-  {
-    id: '10',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-  {
-    id: '10',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-  {
-    id: '10',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-  {
-    id: '10',
-    blog:'cricket',
-    uplaodTime:'2 sec ago',
-    title: "Whispers of the Wild: Exploring Nature's Timeless Wonders",
-    author: 'Geo',
-    date: 'Wed, 30 Dec 2024',
-    image:require('../../asstets/images/manImage.png'),
-    content: 'Nature is the ultimate storyteller...',
-  },
-   
-   
-  // Add more items here...
-];
 
 const ResourceScreen=({navigation})=>{
-
 const [selectedBlog, setSelectedBlog] = useState(null);
- const [selectedCategory, setSelectedCategory] = useState('recent_blog');
+ const [selectedCategory, setSelectedCategory] = useState(uniqueCategories?.[0] || null 
+  );
 
- console.log(selectedCategory)
+const [refreshing, setRefreshing] = useState(false);
 
-const handleCategorySelect = (category) => {
-    setSelectedCategory(category?.value);
+//  console.log(selectedCategory)
+
+// useEffect(() => {
+//     if (uniqueCategories && uniqueCategories.length > 0) {
+//       setSelectedCategory(uniqueCategories[0]); 
+//     }
+//   }, [uniqueCategories]);
+
+const {
+  data: categoryApiData,
+  isLoading: isCategoryDataLoading,
+  error: isCategoryDataError,
+  refetch: refetchCategoryData,
+} = useGetAllBlogsQuery({ category: 'your-category', page: 1, limit: 10 });
+
+console.log('categoryApiData',categoryApiData)
+
+const uniqueCategories = categoryApiData?.data
+  .map((item) => item?.category) 
+  .filter((category, index, self) => self.indexOf(category) === index); 
+
+console.log('uniqueCategories',uniqueCategories);
+
+
+const onRefresh = async () => {
+    setRefreshing(true); 
+    refetchCategoryData();
+    setRefreshing(false); 
   };
 
-const category = [
-  { id: 1, name: "Recent Blog", value: "recent_blog" },
-  { id: 2, name: "Local News", value: "local_news" },
-  { id: 3, name: "Sports", value: "sports" },
-  { id: 4, name: "LifeStyles", value: "lifestyles" },
-];
-
+const handleCategorySelect = (item) => {
+  console.log('item',item)
+    setSelectedCategory(item);
+  };
 
   const renderBlogItem = ({ item }) => (
+    <ScrollView
+    style={{flex:1}}
+      refreshControl={
+       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+       }
+    >
     <TouchableOpacity
       style={styles.blogItem}
-      onPress={() => setSelectedBlog(item)}
+      onPress={() => {
+        console.log('idrrrrr',item?._id)
+      navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?._id });
+    }}
     >
-      <Image source={item?.image} style={styles.blogImage} />
+      <Image source={{uri:item?.image}} style={styles.blogImage} />
       <View style={styles.blogInfo}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',width:'90%'}}>
-        <Text style={styles.blogTitle}>{item.blog}</Text>
+        <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10}}>
+        <Text style={styles.blogTitle}>{item?.title}</Text>
         <Text style={{color:'gray'}}>{item?.uplaodTime}</Text>
         </View>
-        <View style={{flexDirection:"row",justifyContent:"space-between",width:'85%',marginTop:10}}>
+        <View style={{flexDirection:"row",justifyContent:"space-between",width:'85%',marginLeft:theme.horizontalSpacing.space_10}}>
             <View>
-        <Text style={styles.blogAuthor}>-{item.author}</Text>
-        <Text style={styles.blogDate}>{item.date}</Text>
+        <Text style={styles.blogAuthor}>-{item?.content}</Text>
+        <Text style={styles.blogDiscription}>{item?.shortDescription}</Text>
         </View>
+        <View style={{flexDirection:'row',alignItems:'center',}}>
+          <Text style={{color:theme.lightColor.borderColor,marginHorizontal:10}}>{'Read more'}</Text>
         <Svg.Arrow/>
+        </View>
         </View>
       </View>
     </TouchableOpacity>
+    </ScrollView>
   );
-
- const renderBlogDetails = () => (
-    <View style={styles.detailsContainer}>
-      <Image
-        source={ selectedBlog.image }
-        style={styles.detailsImage}
-      />
-      <ScrollView style={{flex:1,marginBottom:100}}>
-      <Text style={styles.detailsTitle}>{selectedBlog.title}</Text>
-      <View style={{flexDirection:'row'}}>
-
-        <View style={{width:40,height:40,borderWidth:.3,borderRadius:20,marginLeft:10,alignItems:"center",justifyContent:'center'}}>
-       <Image
-       style={{width:40,height:40}}
-       source={require('../../asstets/images/manImage.png')}
-       />
-        </View>
-        <View style={{marginLeft:15}}>
-      <Text style={styles.detailsAuthor}>- {selectedBlog.author}</Text>
-      <Text style={styles.detailsDate}>{selectedBlog.date}</Text>
-      </View>
-        </View>
-      <Text style={styles.detailsContent}>{selectedBlog.content}</Text>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => setSelectedBlog(null)}
-      >
-        <Text style={styles.backButtonText}>Back to Blogs</Text>
-      </TouchableOpacity>
-      </ScrollView>
-    </View>
-  );
-
 
     return(
        <View style={[styles.container,{}]}>
       <Header/>
+       <Loader isLoading={isCategoryDataLoading} />
       <Text style={styles.header}>Blogs</Text>
-    <View style={{ flexDirection: "row", justifyContent: 'space-between', width: "100%",borderBottomWidth:1 }}>
-      {category.map((category, index) => (
-        <TouchableOpacity  onPress={() => handleCategorySelect(category)}
+    <View style={{ flexDirection: "row", width: "100%",borderBottomWidth:1 }}>
+      
+      <FlatList
+    data={uniqueCategories}
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    keyExtractor={(item, index) => `category-${index}`}
+    renderItem={({ item }) => (
+      <TouchableOpacity
+        onPress={() => handleCategorySelect(item)}
         style={{
-              // padding:5,
-              borderBottomWidth:1,
-              borderBottomWidth: selectedCategory === category.value ? 3 : 0,  // Apply bottom border if selected
-              borderBottomColor: selectedCategory === category.value ? theme.lightColor.brownColor : 'transparent', // Set the color of the border
-            }}
-        
+          marginHorizontal: theme.horizontalSpacing.space_10,
+          paddingVertical: theme.verticalSpacing.space_10,
+          borderBottomWidth: selectedCategory === item ? 2 : 0,
+          borderBottomColor: selectedCategory === item ? theme.lightColor.brownColor : 'transparent',
+        }}
+      >
+        <Text
+          style={{
+            marginHorizontal:theme.horizontalSpacing.space_20,
+            fontSize: theme.fontSizes.size_14,
+            fontWeight: '500',
+            color: selectedCategory === item ? 'gray' : 'black',
+          }}
         >
-        <Text key={index} style={{ fontSize:theme.fontSizes.size_16, padding:10,fontWeight:'500',color:selectedCategory === category ? 'gray' : 'black' }}>
-          {category?.name}
+          {item}
         </Text>
-        </TouchableOpacity>
-      ))}
+      </TouchableOpacity>
+    )}
+  />
     </View>
           
 
-{selectedCategory==="recent_blog" && (
+{/* {selectedCategory===uniqueCategories && ( */}
   
  <FlatList
     contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_80 }}
-            data={blogs}
+            data={categoryApiData?.data}
             renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item?.id}
+             refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
           />
- )}
+ {/* )}  */}
 
-{selectedCategory==="local_news"&& (
+
+
+{/* {selectedCategory==="local_news"&& (
  <FlatList
             data={blogs}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item.id}
           />
 
-)}
-   {selectedCategory==="sports" && (
+)} */}
+
+
+
+   {/* {selectedCategory==="sports" && (
     <FlatList
             data={blogs}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item.id}
           />
 
-)}      
+)}       */}
 
-    {selectedCategory=== "lifestyles" && (
+    {/* {selectedCategory=== "lifestyles" && (
          <FlatList
             data={blogs}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item.id}
           />
 
-)}      
+)}       */}
     </View>
     )
 }
@@ -288,33 +209,34 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
-    marginHorizontal:10,
+    // elevation: 2,
+    marginHorizontal:theme.horizontalSpacing.space_10,
     alignItems:"center",
     // justifyContent:"center",
-    padding:10,
+    padding:theme.horizontalSpacing.space_10,
+    marginTop:theme.verticalSpacing.space_10
     // marginBottom:100
   },
   blogImage: {
-    width:50,
-    height:50,
+    width:theme.horizontalSpacing.space_50,
+    height:theme.verticalSpacing.space_50,
     borderRadius: 8,
-    marginRight: 12,
+    marginRight:theme.horizontalSpacing.space_12,
   },
   blogInfo: {
     justifyContent: 'center',
   },
   blogTitle: {
-    fontSize: 16,
+    fontSize:theme.fontSizes.size_16,
     fontWeight: 'bold',
   },
   blogAuthor: {
-    fontSize: 14,
-    color: '#888',
+    fontSize:theme.fontSizes.size_14,
+    color:theme.lightColor.blackColor,
   },
-  blogDate: {
-    fontSize: 12,
-    color: '#AAA',
+  blogDiscription: {
+    fontSize:theme.fontSizes.size_14,
+    color:theme.lightColor.blackColor,
   },
   detailsContainer: {
     flex: 1,

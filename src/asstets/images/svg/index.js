@@ -25,6 +25,10 @@ import RemianderIcon from "./common/reminderIcon";
 import GalleryIcon from "./common/GalleryIcon";
 import CameraIcon from "./common/CameraIcon";
 import EditImage from "./common/EditImage";
+import DateIcon from "./common/dateIcon";
+import PlusIcon from "./common/plusIcon";
+import DropDownIcon from "./common/dropDown";
+
 
 export {
 ArrowBack,
@@ -54,4 +58,8 @@ RemianderIcon,
 GalleryIcon,
 CameraIcon,
 EditImage,
+DateIcon,
+PlusIcon,
+DropDownIcon,
+
 };

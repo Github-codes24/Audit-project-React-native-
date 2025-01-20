@@ -13,7 +13,7 @@ import { alertError, alertSuccess } from "../../utils/Toast";
 import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector,useDispatch } from "react-redux";
-
+import Loader from "../../reusableComponent/loader/loader";
 const LoginScreen=({navigation})=>{
     
     const dispatch=useDispatch()
@@ -31,6 +31,7 @@ const loginResponse=useSelector(getLoginResponse)
  const [loginApi,{
     isLoading: isLoginApiLoading,
       isSuccess: isLoginApiSuccess,
+      isError: isLoginApiError,
       error: loginApiError,
       data:loginApiData,
 }]=useLoginApiMutation()
@@ -50,7 +51,7 @@ useEffect(()=>{
     if(isLoginApiSuccess){
     dispatch(setLoginResponse(loginApiData))
     alertSuccess('Success','Login Successful')
-    }else if(loginApiError){
+    }else if(isLoginApiError){
     console.log('loginApiError',loginApiError.data?.message)
     alertError(loginApiError?.data?.message||'Invalid credentials, please try again.')
     }
@@ -61,6 +62,7 @@ useEffect(()=>{
 return(
     // <BackgroundLayout>
     <View style={{backgroundColor:'#F2F3F5'}}>
+      <Loader isLoading={isLoginApiLoading} message={'Please wait...'} />
         <StatusBar backgroundColor={'#F2F3F5'}/>
         <CustomHeader
         onBackPress={()=>navigation.goBack()}
@@ -78,6 +80,7 @@ return(
         />
         <Text style={{marginTop:10}}>Password</Text>
          <CustomTextInput
+         textColor={'#BABABA'}
           value={password}
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={!isPasswordVisible}
@@ -100,7 +103,7 @@ return(
         onPress={()=>setIsRemberChecked(!isRememberChecked)}
         text={'Remember me'}
         />
-     <Text style={{color:theme.lightColor.blackColor,fontWeight:'600',textAlign:"right",marginLeft:theme.horizontalSpacing.space_100 }}>{String.forgetPassword}</Text>
+     <Text style={{color:theme.lightColor.blackColor,fontWeight:'600',textAlign:"right",marginLeft:theme.horizontalSpacing.space_80 }}>{String.forgetPassword}</Text>
     </TouchableOpacity>
     </View>
     
@@ -113,8 +116,10 @@ return(
     />
     </View>
     <View style={{flexDirection:"row",width:'100%',paddingHorizontal:theme.horizontalSpacing.space_20,marginTop:theme.verticalSpacing.space_10}}>
-      <Text>{"Don't have an account?"}</Text>
-      <TouchableOpacity style={{}}
+      <Text
+      style={{fontSize:theme.fontSizes.size_14,fontWeight:'600'}}
+      >{"Don't have an account?"}</Text>
+      <TouchableOpacity 
     onPress={()=>navigation.navigate(MainRoutes.REGISTER_SCREEN)}
     >
      <Text style={{fontSize:theme.fontSizes.size_14,fontWeight:'600',color:theme.lightColor.borderColor,marginLeft:5}}>{'Register now'}</Text>

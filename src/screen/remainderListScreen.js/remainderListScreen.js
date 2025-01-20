@@ -10,11 +10,12 @@ import {
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
 import Header from "../../reusableComponent/header/header";
-const ReminderListScreen = () => {
+import { MainRoutes } from "../../navigation/routeAndParamsList";
+const ReminderListScreen = ({navigation}) => {
   const reminders = [
     {
       id: "1",
-      date: "10-Jan-2025",
+      date: "8-Jan-2025",
       title: "Happy Birthday!!!",
       description: "It's Michael's birthday! Give him a call",
     },
@@ -26,7 +27,7 @@ const ReminderListScreen = () => {
     },
     {
       id: "3",
-      date: "08-Jan-2025",
+      date: "10-Jan-2025",
       title: "Meeting",
       description: "Meeting with client for new topics",
     },
@@ -63,8 +64,11 @@ const ReminderListScreen = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>+ Add reminder</Text>
+      <TouchableOpacity style={styles.addButton}
+      onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN)}
+      >
+        <Svg.PlusIcon/>
+        <Text style={styles.addButtonText}> Add reminder</Text>
       </TouchableOpacity>
     </View>
   );
@@ -171,11 +175,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
     alignItems: "center",
+    flexDirection:"row",
+    justifyContent:'center'
   },
   addButtonText: {
+    // textAlign:'center',
     fontSize:theme.fontSizes.size_16,
-    fontWeight: "bold",
+    fontWeight: "500",
     color: "#FFFFFF",
+    marginLeft:5
   },
 });
 

@@ -8,28 +8,16 @@ export const blogApiSlice = baseApi.injectEndpoints({
       query:({ category, page, limit }) => ({
         url: apiEndPoints?.getAllBlogs,
         method: 'GET',
-       params: {
-        category,
-        page,
-        limit
-      },
         keepUnusedDataFor: 5,
       }),
     }),
 
     getblogsById: builder.query({
-      query:(params) => ({
-        url: apiEndPoints?.getBlogById,
+      query:({id}) => ({
+        url: `${apiEndPoints?.getBlogById}/${id}`,
         method: 'GET',
-        params:params,
         keepUnusedDataFor: 5,}),
-
-     
-
-
     }),
-
-
   }),
   overrideExisting: true,
 });

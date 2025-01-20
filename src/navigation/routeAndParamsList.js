@@ -24,7 +24,10 @@ export const MainRoutes = {
   NOTIFICATION_SCREEN:"NotificationScreen",
   TERMANDCONDITION_SCREEN:"TermsAndConditionScreen",
   PRIVACYPOLICY_SCREEN:"PrivacyPolicyScreen",
-  ABOUTUS_SCREEN:'AboutUsScreen'
+  ABOUTUS_SCREEN:'AboutUsScreen',
+  CONTACTUS_SCREEN:'ContactUsScreen',
+  BLOG_DETAILS_SCREEN:"BlogDetailsScreen",
+   SET_REMAINDER_SCREEN:"SetRemainderScreen",
 };
 
 export const RootStackParamList = {
@@ -47,10 +50,11 @@ export const RootStackParamList = {
     [MainRoutes.NOTIFICATION_SCREEN]: {}|undefined,
     [MainRoutes.TERMANDCONDITION_SCREEN]: {}|undefined,
     [MainRoutes.PRIVACYPOLICY_SCREEN]: {}|undefined,
-
     [MainRoutes.EDITPROFILE_SCREEN]:{}|undefined,
    [MainRoutes.EDITIMAGE_SCREEN]:{}|undefined,
    [MainRoutes.ABOUTUS_SCREEN]:{}|undefined,
+   [MainRoutes.BLOG_DETAILS_SCREEN]:{}|undefined,
+  [MainRoutes.SET_REMAINDER_SCREEN]:{}|undefined,
 };
 
 export const MainStack = createStackNavigator();

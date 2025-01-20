@@ -15,6 +15,9 @@ import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsA
 import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
 import AboutUsScree from '../../screen/aboutUsScreen/aboutUsScreen';
 
+import ContactScreen from '../../screen/contactScreen/contactScreen';
+import BlogDetailsScreen from '../../screen/blogDetailsScreen/blogDetailsScreen';
+import SetRemainderScreen from '../../screen/setRemainderScreen/setRemainderScreen';
 const Stack = createStackNavigator();
 const MainStackNavigation = () => {
   return (
@@ -57,8 +60,21 @@ const MainStackNavigation = () => {
       />
       <Stack.Screen
         name={MainRoutes.ABOUTUS_SCREEN}
-        component={AboutUsScree} 
+        component={AboutUsScree} />
+        <Stack.Screen
+        name={MainRoutes.CONTACTUS_SCREEN}
+        component={ContactScreen} 
       />
+
+ <Stack.Screen
+        name={MainRoutes.BLOG_DETAILS_SCREEN}
+        component={BlogDetailsScreen} 
+      />
+    <Stack.Screen
+      name={MainRoutes.SET_REMAINDER_SCREEN}
+       component={SetRemainderScreen} 
+      />
+
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    
 
