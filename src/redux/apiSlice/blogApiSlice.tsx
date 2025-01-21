@@ -5,9 +5,12 @@ import {apiEndPoints} from '../../constants/apiConstants';
 export const blogApiSlice = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAllBlogs: builder.query({
-      query:({ category, page, limit }) => ({
+      query:({ category, }) => ({
         url: apiEndPoints?.getAllBlogs,
         method: 'GET',
+        params:{
+       category
+        },
         keepUnusedDataFor: 5,
       }),
     }),

@@ -3,15 +3,28 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { theme } from "../../utils";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { useDispatch } from "react-redux";
+import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
+import { useSelector } from "react-redux";
 
-const AccountVerifiedScreen = ({ navigation }) => {
+const AccountVerifiedScreen = ({ navigation,route }) => {
+   const { verifyOtpApiData } = route.params || {}; 
+  const dispatch = useDispatch();
+  
+
+// const response=useSelector(getLoginResponse)
+// console.log('response1234445',response)
+  
+
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate(MainRoutes.DASHBOARD_SCREEN); 
-    }, 3000); 
-
-    return () => clearTimeout(timer);
-  }, [navigation]);
+  const timer = setTimeout(() => {
+    dispatch(setLoginResponse(verifyOtpApiData));
+    navigation.navigate('Home');
+  }, 3000); 
+  return () => clearTimeout(timer);
+}, [dispatch, verifyOtpApiData, navigation]);
 
   return (
     <BackgroundLayout>

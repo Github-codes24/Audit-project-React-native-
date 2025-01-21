@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
+import { theme } from '../../utils';
 
 const CircularProgress = ({ percentage }) => {
   const radius = 100; // Radius of the circle
@@ -39,8 +40,10 @@ const CircularProgress = ({ percentage }) => {
         </G>
       </Svg>
       {/* Percentage Text */}
+     
       <View style={styles.percentageContainer}>
       {percentage &&  <Text style={styles.percentageText}>{percentage}%</Text>}
+      
       </View>
     </View>
   );
@@ -48,21 +51,27 @@ const CircularProgress = ({ percentage }) => {
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor:'red',
     justifyContent: 'center',
     alignItems: 'center',
     width:'100%',
   },
   percentageContainer: {
+    height:160,
+    width:160,
+    backgroundColor:'#F8F6FD',
+    elevation:4,
+    borderRadius:80,
     position: 'absolute',
-    top: '42%',
-    left: '38%',
+    // top: '42%',
+    // left: '38%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   percentageText: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#6A1B9A',
+    fontSize:theme.fontSizes.size_40,
+    fontWeight: '700',
+    color: theme.lightColor.brownColor,
   },
 });
 

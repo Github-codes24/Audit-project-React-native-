@@ -12,6 +12,7 @@ export const apiEndPoints = {
   getUser:'api/user/getUserById',
   
 //complaince API endpoint
+
 getCompilanceQuestionsCategory:'api/complianceCategory/getAllComplianceCategoryNames',
 getcompilanceQuestions:'api/complianceQuestions/getQuestions',
 calculateCompilanceScore:'api/complianceQuestions/calculateScore',
@@ -24,6 +25,7 @@ getEligibilityQuestions:'api/eligibilityQuestions/getQuestions',
 getPrivacyPolicy:'api/privacyPolicy/getPrivacyPolicy',
 getTermAndDondition:'api/termsAndConditions/getTermsAndConditions',
 aboutUSGetApi:'api/aboutUs/getAboutUs',
+updateUserApi:'api/user/updateUser',
 
 
 //blogs api endpoint
@@ -42,6 +44,8 @@ get10UserNotificationsApi:'api/user/get10UserNotifications',
 getAllNotificationsApi:'api/user/getAllUserNotifications',
 getUserReadNotificationApi:'api/user/markNotificationAsReadOfUser',
 get10UserReadNotificationApi:'api/user/get10ReadUserNotifications',
+get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
+
 
 //Remainder Api
 

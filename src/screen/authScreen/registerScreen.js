@@ -108,6 +108,7 @@ return(
           />
           <Text style={style.TextStyle}>Password</Text>
            <CustomTextInput
+           secureTextEntry={true}
             textColor={'#BABABA'}
            value={password}
            onChangeText={(text)=>setPassword(text)}
@@ -116,11 +117,12 @@ return(
            />
             <Text style={style.TextStyle}> Confirm Password</Text>
             <CustomTextInput
+             secureTextEntry={true}
              textColor={'#BABABA'}
             value={confirmPassword}
             onChangeText={(text)=>setConfirmPassword(text)}
             placeholder={'Confirm password'}
-           rightIcon={<Svg.CloseEye/>}
+           
             />
        </View>
        <View style={{marginTop:theme.verticalSpacing.space_165}}>

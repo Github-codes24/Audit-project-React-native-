@@ -42,8 +42,8 @@ const MainStackNavigation = () => {
       <Stack.Screen
       name={MainRoutes.EDITIMAGE_SCREEN}
       component={EditImage}
-        name={MainRoutes.TERMANDCONDITION_SCREEN}
-        component={TermsAndConditionScreen} 
+        // name={MainRoutes.TERMANDCONDITION_SCREEN}
+        // component={TermsAndConditionScreen} 
       />
       <Stack.Screen
         name={MainRoutes.PRIVACYPOLICY_SCREEN}
@@ -79,9 +79,7 @@ const MainStackNavigation = () => {
    
 
       </Stack.Navigator>
-     
-   
-    
+      
   );
 };
 

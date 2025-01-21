@@ -20,25 +20,34 @@ import Loader from '../../reusableComponent/loader/loader';
 
 const ResourceScreen=({navigation})=>{
 const [selectedBlog, setSelectedBlog] = useState(null);
- const [selectedCategory, setSelectedCategory] = useState(uniqueCategories?.[0] || null 
-  );
+ const [selectedCategory, setSelectedCategory] = useState('');
 
 const [refreshing, setRefreshing] = useState(false);
 
 //  console.log(selectedCategory)
 
-// useEffect(() => {
-//     if (uniqueCategories && uniqueCategories.length > 0) {
-//       setSelectedCategory(uniqueCategories[0]); 
-//     }
-//   }, [uniqueCategories]);
+useEffect(() => {
+    if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
+      setSelectedCategory(categoryApiData?.data?.[0]?.category); 
+    }
+  }, [isCategoryApiDataSuccess]);
+
 
 const {
   data: categoryApiData,
   isLoading: isCategoryDataLoading,
+  isSuccess:isCategoryApiDataSuccess,
   error: isCategoryDataError,
   refetch: refetchCategoryData,
-} = useGetAllBlogsQuery({ category: 'your-category', page: 1, limit: 10 });
+} = useGetAllBlogsQuery({});
+
+const {
+  data: selectedCategoryApidata,
+  isLoading: isSelectedCategoryApiLoading,
+  error: SelectedCategoryApiError,
+  refetch: selectedCategoryApiData,
+} = useGetAllBlogsQuery({category:selectedCategory});
+
 
 console.log('categoryApiData',categoryApiData)
 
@@ -46,8 +55,7 @@ const uniqueCategories = categoryApiData?.data
   .map((item) => item?.category) 
   .filter((category, index, self) => self.indexOf(category) === index); 
 
-console.log('uniqueCategories',uniqueCategories);
-
+// console.log('uniqueCategories',uniqueCategories);
 
 const onRefresh = async () => {
     setRefreshing(true); 
@@ -132,21 +140,17 @@ const handleCategorySelect = (item) => {
   />
     </View>
           
-
 {/* {selectedCategory===uniqueCategories && ( */}
-  
  <FlatList
     contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_80 }}
-            data={categoryApiData?.data}
+            data={selectedCategoryApidata?.data}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item?.id}
              refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
           />
- {/* )}  */}
-
-
+  {/* )}   */}
 
 {/* {selectedCategory==="local_news"&& (
  <FlatList

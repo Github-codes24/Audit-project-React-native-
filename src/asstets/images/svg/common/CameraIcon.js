@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import Svg, { Path, Rect } from 'react-native-svg';
 
-const CameraIcon = ({ size = 24, color = "black" }) => {
+const CameraIcon = ({ size = 23, color = "black" }) => {
 
 
     return (

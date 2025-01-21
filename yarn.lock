@@ -3198,6 +3198,7 @@ __metadata:
     "@types/react-test-renderer": "npm:^18.0.0"
     "@types/redux-logger": "npm:^3"
     babel-jest: "npm:^29.6.3"
+    dayjs: "npm:^1.11.13"
     eslint: "npm:^8.19.0"
     formik: "npm:^2.4.6"
     jest: "npm:^29.6.3"
@@ -3208,6 +3209,7 @@ __metadata:
     react-native-alert-notification: "npm:^0.4.2"
     react-native-element-dropdown: "npm:^2.12.4"
     react-native-gesture-handler: "npm:^2.21.2"
+    react-native-image-picker: "npm:^7.2.3"
     react-native-linear-gradient: "npm:^2.8.3"
     react-native-modal-datetime-picker: "npm:^18.0.0"
     react-native-safe-area-context: "npm:^5.0.0"
@@ -4384,7 +4386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.15":
+"dayjs@npm:^1.11.13, dayjs@npm:^1.8.15":
   version: 1.11.13
   resolution: "dayjs@npm:1.11.13"
   checksum: 10c0/a3caf6ac8363c7dade9d1ee797848ddcf25c1ace68d9fe8678ecf8ba0675825430de5d793672ec87b24a69bf04a1544b176547b2539982275d5542a7955f35b7
@@ -8621,6 +8623,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/2a696261c1724f1fc10ebee6d5c187e6a8386754b87277eb7d81b2ef8a0d19245b0a41e80c86d0444a48d858fb08affb1fa7deecde8e3e965a6b356d353961b8
+  languageName: node
+  linkType: hard
+
+"react-native-image-picker@npm:^7.2.3":
+  version: 7.2.3
+  resolution: "react-native-image-picker@npm:7.2.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/0da1133e1ea2474577ebb91ba8af2f567d131489781ba2a73af0198f100c1ba5390cc9479e492abd7dd217c8bedc6f41794e961c7125aced9068ced07f2d96f5
   languageName: node
   linkType: hard
 

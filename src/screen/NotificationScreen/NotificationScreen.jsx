@@ -5,28 +5,26 @@ import { theme } from '../../utils';
 import Header from '../../reusableComponent/header/header';
 import { useDispatch,useSelector } from 'react-redux';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
-import { useGet10userApiNotificationQuery, useGetAlluserApiNotificationQuery } from '../../redux/apiSlice/notificationApiSlice';
+import { useGet10userApiNotificationQuery, useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, useGetUserReadNotificationApiQuery,  } from '../../redux/apiSlice/notificationApiSlice';
 
 // Sample Notification Data
 
 
 const NotificationScreen = ({navigation}) => {
   const [selectedTab, setSelectedTab] = useState('All'); 
+  const [selectedNotificationId, setSelectedNotificationId] = useState(null);
 
-  // Filtered data based on selected tab
+  console.log('selectedNotificationId',selectedNotificationId)
 
 const response=useSelector(getLoginResponse)
  const userId=response?.data?.id
 console.log('userId5554546',userId)
-
 
   const { 
       data: getAllUserNotificationApidata, 
       error: getAllUserNotificationApiError, 
       isLoading:getAllUserNotificationApiIsLoading 
     } = useGetAlluserApiNotificationQuery(userId); 
-
-
 
 const { 
       data: get10userApiNotificationApidata, 
@@ -35,9 +33,27 @@ const {
     } = useGet10userApiNotificationQuery(userId); 
 
 
+
+
+const { 
+      data: get10userUnReadApiNotificationApidata, 
+      error: get10userUnReadApiNotificationApiError, 
+      isLoading:get10userUnReadApiNotificationApiIsLoading ,
+    } = useGet10UserUnReadApiSliceQuery(userId); 
+
+
+ const { 
+      data: get10useReadApiNotificationApidata, 
+      error: get10useReadApiNotificationApiError, 
+      isLoading:get10useReadApiNotificationApiIsLoading ,
+    } = useGetUserReadNotificationApiQuery(selectedNotificationId); 
+
+
+ console.log('get10useReadApiNotificationApidata', get10useReadApiNotificationApidata);
+    
 // console.log('get10userApiNotificationApiError', get10userApiNotificationApiError);
-// console.log('getAllUserNotificationApidata:', get10userApiNotificationApidata);
-//    console.log('get10userApiNotificationApiIsLoading',get10userApiNotificationApiIsLoading)
+// console.log('getAllUserNotificationApidata:', getAllUserNotificationApidata);
+// console.log('get10userApiNotificationApiIsLoading',get10userApiNotificationApiIsLoading)
 
  const getFilteredNotifications = () => {
     
@@ -46,16 +62,18 @@ const {
   }
  
   if (selectedTab === 'Unread') {
-    return getAllUserNotificationApidata?.notifications.filter((item) => !item.isRead);
-  }
-  if (selectedTab === 'Read') {
-    return get10userApiNotificationApidata.notifications.filter((item) => item.isRead);
+    return get10userUnReadApiNotificationApidata?.notifications}
+  
+    if (selectedTab === 'Read') {
+    return get10useReadApiNotificationApidata?.notifications
   }
   return getAllUserNotificationApidata?.notifications; 
 };
 
   const NotificationItem = ({ item }) => (
-    <TouchableOpacity onPress={undefined} style={styles.notificationItem}>
+    <TouchableOpacity onPress={undefined} style={styles.notificationItem}
+     onPress={() => setSelectedNotificationId(item?._id)} 
+    >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
       <View >
       <Text style={styles.NotificationMsg}>{item.title}</Text>
@@ -69,6 +87,9 @@ const {
         {/* header  */}
         <Header/>
       {/* Custom Tabs */}
+      <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',
+         letterSpacing:1,color:theme.lightColor.blackColor,
+        margin:theme.horizontalSpacing.space_10}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
         {['All', 'Unread', 'Read'].map((tab) => (
           <TouchableOpacity
@@ -142,10 +163,13 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#f5f5f5',
-    paddingVertical: 10,
+    // backgroundColor: '#f5f5f5',
+    // paddingVertical: 10,
+    borderBottomWidth:1,
+    borderColor:"gray"
   },
   tabButton: {
+    // backgroundColor:"red",
     paddingVertical: theme.verticalSpacing.space_8,
     paddingHorizontal: theme.horizontalSpacing.space_14,
     // borderRadius: 20,
@@ -153,8 +177,8 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     // Color: 'purple',
-    borderBottomWidth: 3,  // Paper-like underline
-    borderBottomColor: 'purple', // Purple color
+    borderBottomWidth:2, 
+    borderBottomColor: 'purple', 
     paddingBottom: 2,
     
   },

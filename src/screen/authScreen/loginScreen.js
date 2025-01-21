@@ -20,11 +20,6 @@ const LoginScreen=({navigation})=>{
     const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 const [isRememberChecked,setIsRemberChecked]=useState(false)
-   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-
-const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevState => !prevState);
-  };
 
 const loginResponse=useSelector(getLoginResponse)
   
@@ -83,26 +78,27 @@ return(
          textColor={'#BABABA'}
           value={password}
         onChangeText={(text) => setPassword(text)}
-        secureTextEntry={!isPasswordVisible}
+        secureTextEntry={true}
         placeholder={'Enter your password'}
-        rightIcon={
-          // Use an SVG eye icon to toggle password visibility
-          <View>
-            <Text onPress={togglePasswordVisibility}>
-              {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
-            </Text>
-          </View>
-        }
+        // rightIcon={
+        //   // Use an SVG eye icon to toggle password visibility
+        //   <View>
+        //     <Text onPress={togglePasswordVisibility}>
+        //       {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
+        //     </Text>
+        //   </View>
+        // }
         />
-    <View style={{alignItems:"center"}}>
-       <TouchableOpacity style={style.forgetView}
-       onPress={()=>navigation.navigate(MainRoutes.FORGOT_PASSWORD_SCREEN)}
-       >
+    <View style={{alignItems:"center",flexDirection:'row'}}>
+       
         <CustomCheckbox
         isChecked={isRememberChecked}
         onPress={()=>setIsRemberChecked(!isRememberChecked)}
         text={'Remember me'}
         />
+        <TouchableOpacity style={style.forgetView}
+       onPress={()=>navigation.navigate(MainRoutes.FORGOT_PASSWORD_SCREEN)}
+       >
      <Text style={{color:theme.lightColor.blackColor,fontWeight:'600',textAlign:"right",marginLeft:theme.horizontalSpacing.space_80 }}>{String.forgetPassword}</Text>
     </TouchableOpacity>
     </View>

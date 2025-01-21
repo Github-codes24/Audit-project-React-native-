@@ -27,7 +27,7 @@ export const MainRoutes = {
   ABOUTUS_SCREEN:'AboutUsScreen',
   CONTACTUS_SCREEN:'ContactUsScreen',
   BLOG_DETAILS_SCREEN:"BlogDetailsScreen",
-   SET_REMAINDER_SCREEN:"SetRemainderScreen",
+  SET_REMAINDER_SCREEN:"SetRemainderScreen",
 };
 
 export const RootStackParamList = {

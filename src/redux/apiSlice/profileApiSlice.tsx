@@ -35,6 +35,21 @@ export const profileApiSlice = baseApi.injectEndpoints({
     }),
 
 
+ updateUserProfileApiSlice: builder.mutation({
+  query: ({ id, formData }) => ({
+    url: `${apiEndPoints?.updateUserApi}/${id}`,
+    method: 'PUT', 
+    body: formData, 
+     headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+ keepUnusedDataFor: 5, 
+  }),
+
+}),
+
+
+
   }),
   overrideExisting: true,
 });
@@ -43,6 +58,7 @@ export const {
  useGetProfileTermAndConditionApiQuery,
  useGetPrivacyPolicyQuery,
  useGetuserApiQuery,
- useGetAboutUsApiQuery
+ useGetAboutUsApiQuery,
+ useUpdateUserProfileApiSliceMutation,
  
 } = profileApiSlice;

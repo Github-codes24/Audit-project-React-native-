@@ -5,25 +5,34 @@ import * as Svg from '../../asstets/images/svg'
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { ScrollView } from "react-native-gesture-handler";
-const EligibityResult=({onPressRetakeExam,isEligible})=>{
-   return (
+import { useNavigation } from "@react-navigation/native";
 
+const EligibityResult=({onPressRetakeExam,isEligible,})=>{
+  const navigation = useNavigation();
+   return (
+  <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_100}}>
     <View style={styles.container}>
-      <View style={{alignItems:"center",justifyContent:"center"}}>  
+      <View style={{alignItems:"center",justifyContent:"center",}}>  
         <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text>
+     <View style={{}}>
       <Image
+
         source={
           isEligible
             ? require('../../asstets/images/elegable.png') // Replace with the eligible image path
             : require('../../asstets/images/non-Elegable.png') // Replace with the not eligible image path
         }
         style={styles.image}
+          resizeMode="contain"
       />
+      </View>
       <Text style={styles.title}>
         {isEligible ? 'Congratulations 🎉\nYou are eligible!' : 'Sorry,\nYou are not eligible!'}
       </Text>
       <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>
-      <TouchableOpacity style={styles.contactButton}>
+      <TouchableOpacity style={styles.contactButton}
+      onPress={()=>navigation.navigate(MainRoutes.CONTACTUS_SCREEN)}
+      >
         <Text style={styles.contactText}>Contact us</Text>
       </TouchableOpacity>
       <CustomButton
@@ -32,19 +41,20 @@ const EligibityResult=({onPressRetakeExam,isEligible})=>{
       />
        </View>
     </View>
-    
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
+    borderRightColor:'red'
   },
   image: {
     // backgroundColor:"red",
-    width:222,
-    height: 267,
-    marginTop:theme.verticalSpacing.space_56
+    width:theme.horizontalSpacing.space_222,
+    height:theme.verticalSpacing.space_290,
+    marginTop:theme.verticalSpacing.space_50
   },
    headerView:{
         height:105,
@@ -69,10 +79,11 @@ const styles = StyleSheet.create({
     marginTop:theme.verticalSpacing.space_20
   },
   contactButton: {
+    backgroundColor:theme.lightColor.whiteColor,
     borderWidth:.3,
     paddingVertical: 10,
     paddingHorizontal:theme.horizontalSpacing.space_30,
-    borderRadius: 5,
+    borderRadius:10,
     margin:theme.verticalSpacing.space_30,
     marginTop:theme.verticalSpacing.space_46
   },

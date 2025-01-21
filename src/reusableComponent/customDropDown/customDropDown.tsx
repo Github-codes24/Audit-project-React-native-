@@ -10,7 +10,7 @@ import { theme } from '../../utils';
 // Dropdown component
 const CustomDropDown = ({
   data,
-  placeholder = 'Select an option',
+  placeholder = 'Select',
   value,
   onSelect,
   containerWidth = '100%',
@@ -36,7 +36,7 @@ const CustomDropDown = ({
         { width: rightIconContainerWidth },
       ]}
     >
-      <View style={{backgroundColor:'red',margin}}>
+      <View style={{marginRight:theme.horizontalSpacing.space_10,justifyContent:'center',paddingRight:theme.horizontalSpacing.space_10}}>
       <Svg.DropDownIcon color={dropdownIconColor || theme.lightColor.blackColor} />
    </View>
     </View>
@@ -102,8 +102,9 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: theme.fontSizes.size_14,
-    fontFamily: theme.fontFamily.notoSans.regular_400,
-    color: theme.lightColor.grayColor,
+    marginLeft:10,
+    // fontFamily: theme.fontFamily.notoSans.regular_400,
+    color: 'gray',
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
   selectedTextStyle: {
@@ -117,7 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemTextStyle: {
-    fontFamily: theme.fontFamily.notoSans.regular_400,
+    fontWeight:'400',
+    // borderBottomWidth:1,
     color: theme.lightColor.blackColor,
     fontSize: theme.fontSizes.size_14,
   },

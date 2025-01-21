@@ -1,50 +1,80 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
+  RefreshControl
 } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
 import Header from "../../reusableComponent/header/header";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
+import { useSelector } from "react-redux";
+import { useGetAllReminderApiQuery } from "../../redux/apiSlice/reminderApiSlice";
+import moment from "moment";
+import Loader from "../../reusableComponent/loader/loader";
+import { ScrollView } from "react-native-gesture-handler";
+
 const ReminderListScreen = ({navigation}) => {
-  const reminders = [
-    {
-      id: "1",
-      date: "8-Jan-2025",
-      title: "Happy Birthday!!!",
-      description: "It's Michael's birthday! Give him a call",
-    },
-    {
-      id: "2",
-      date: "09-Jan-2025",
-      title: "Visa will be expiring soon",
-      description: "Michael's visa will be expiring soon",
-    },
-    {
-      id: "3",
-      date: "10-Jan-2025",
-      title: "Meeting",
-      description: "Meeting with client for new topics",
-    },
-  ];
+   const [refreshing, setRefreshing] = useState(false);
+
+const response=useSelector(getLoginResponse)
+  console.log('2222222',response)
+
+ const userId=response?.data?.id
+
+const {
+  data: getAllReminderApiData,
+  isLoading: isgetAllReminderApiDataiLoading,
+  isSuccess:isgetAllReminderApiDataSuccess,
+  error: getAllReminderApiDataError,
+  refetch: refetchAllReminderApiData,
+} = useGetAllReminderApiQuery(userId);
+
+
+const onRefresh = async () => {
+    setRefreshing(true); 
+    refetchAllReminderApiData();
+    setRefreshing(false); 
+  };
+
+
+
+
+ useEffect(() => {
+    refetchAllReminderApiData()
+  }, [getAllReminderApiData]);
+
+  if (isgetAllReminderApiDataiLoading) {
+    return <Loader/>
+  }
+
+  if (getAllReminderApiDataError) {
+    return <Text style={{width:'100%',height:'100%',alignSelf:"center",textAlign:'center'}}>Loading....</Text>;
+  }
+
+
+
+console.log('getAllReminderApiData',getAllReminderApiData)
 
   const renderReminderItem = ({ item }) => (
     <View style={styles.reminderCard}>
-        <View style={{flexDirection:"row",justifyContent:'space-between'}}>
-      <Text style={styles.date}>{item.date}</Text>
-        <Svg.Arrow/>
+        <View style={{flexDirection:"row",justifyContent:'space-between',alignItems:"center"}}>
+    <Text style={{fontSize: theme.fontSizes.size_20, fontWeight: '600'}}> 
+    {moment(item?.date).format("DD-MMM-YYYY")} 
+   </Text>        
+    <Svg.Arrow/>
         
        </View>
       
       <View style={styles.reminderContent}>
-        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:"center",marginTop:theme.verticalSpacing.space_10}}>
+        <Text style={styles.title}>{item?.reminderFor}</Text>
+        <Text style={styles.description}>{item?.description}</Text>
         </View>
       </View>
      
@@ -52,25 +82,34 @@ const ReminderListScreen = ({navigation}) => {
   );
 
   return (
+    
     <View style={styles.container}>
          <Header/>
+         
       <Text style={styles.header}>Reminder</Text>
-
+      {getAllReminderApiData?.data?.length > 0 ? (
       <FlatList
-        data={reminders}
+      style={{marginBottom:theme.verticalSpacing.space_156}}
+        data={getAllReminderApiData?.data}
         keyExtractor={(item) => item.id}
         renderItem={renderReminderItem}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+       refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       />
-
+       ) : (
+        <Text style={{textAlign:"center",alignSelf:'center'}}>No reminders found.</Text>
+      )}
       <TouchableOpacity style={styles.addButton}
       onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN)}
       >
         <Svg.PlusIcon/>
-        <Text style={styles.addButtonText}> Add reminder</Text>
+        <Text style={styles.addButtonText}>Add reminder</Text>
       </TouchableOpacity>
     </View>
+   
   );
 };
 
@@ -153,12 +192,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
     // width:150,
-    marginTop:theme.verticalSpacing.space_10
+    // marginTop:theme.verticalSpacing.space_10
   },
   description: {
     fontSize:theme.fontSizes.size_14,
     color:theme.lightColor.blackColor,
-    // marginTop: 4,
+    fontWeight:"600",
     width:theme.horizontalSpacing.space_170
   },
   arrow: {

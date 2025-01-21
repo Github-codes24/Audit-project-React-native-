@@ -48,9 +48,8 @@ const supportItems = [
       { label: 'Terms of use', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
     { label: 'Privacy policy', icon: <Svg.Privacy/> ,route:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
     { label: 'About us', icon: <Svg.AboutUs/>,route:MainRoutes.ABOUTUS_SCREEN },
-    { label: 'Notification settings', icon: <Svg.Notification/> },
+    { label: 'Notification settings', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
   ];
-
   return (
     <View style={styles.container}>
       {/* <CustomHeader
@@ -73,9 +72,9 @@ const supportItems = [
         <Text style={styles.profileName}>{firstName} {lastName}</Text>
         <Text style={styles.profileInfo}>{phoneNumber}</Text>
         <Text style={styles.profileInfo}>{email}</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={styles.personalDetails}>Personal details →</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
       </View>
 
@@ -144,10 +143,13 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: theme.fontSizes.size_20,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   profileInfo: {
     color: theme.lightColor.blackColor,
+    fontSize:theme.fontSizes.size_14,
+    letterSpacing:.6,
+    marginTop:5
   },
   personalDetails: {
     marginTop: 10,

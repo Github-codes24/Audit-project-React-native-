@@ -18,9 +18,17 @@ export const profileApiSlice = baseApi.injectEndpoints({
       }),
     }),
 
- get: builder.query({
+ getUserReadNotificationApi: builder.query({
       query:(notificationId) => ({
         url: `${apiEndPoints?.getUserReadNotificationApi}/${notificationId}`,
+        method: 'PUT',
+      }),
+    }),
+
+
+get10UserUnReadApiSlice: builder.query({
+      query:(userId) => ({
+        url: `${apiEndPoints?.get10userUnreadNotificationApi}/${userId}`,
         method: 'GET',
       }),
     }),
@@ -34,5 +42,7 @@ export const profileApiSlice = baseApi.injectEndpoints({
 export const {
  useGet10userApiNotificationQuery,
  useGetAlluserApiNotificationQuery,
+ useGet10UserUnReadApiSliceQuery,
+ useGetUserReadNotificationApiQuery,
  
 } = profileApiSlice;

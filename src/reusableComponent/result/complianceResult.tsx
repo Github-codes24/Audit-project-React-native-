@@ -6,6 +6,8 @@ import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CircularProgress from "../progressIndicator/circularProgressIndicator";
 import { useNavigation } from "@react-navigation/native";
+
+
 const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
   const navigation= useNavigation();
    return (
@@ -22,10 +24,12 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
         <CircularProgress percentage={scorePercentage} />
         <Text
         style={{
-          fontSize:theme.fontSizes.size_18,
+          fontSize:theme.fontSizes.size_20,
           color:theme.lightColor.blackColor,
           marginTop:theme.verticalSpacing.space_8,
           textAlign: 'center',
+          fontWeight:'700',
+          width:theme.horizontalSpacing.space_327,
           
         }}
         >
@@ -33,7 +37,7 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
                 `You Scored ${scorePercentage}% in Sponsor lincense Compliance`
             }
         </Text>
-      {/* <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text> */}
+      <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>
       <TouchableOpacity style={styles.contactButton}
       onPress={()=>{
         navigation.navigate(MainRoutes.CONTACTUS_SCREEN)
@@ -53,6 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
+    // borderRightColor:'red'
   },
   image: {
     width:222,
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
       
     },
   title: {
-    fontSize: 20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
@@ -78,19 +83,21 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_16,
     color:theme.lightColor.blackColor,
     textAlign: 'center',
-    marginTop:20
+    marginTop:theme.verticalSpacing.space_20,
   },
   contactButton: {
+    backgroundColor:theme.lightColor.whiteColor,
     borderWidth:.3,
     paddingVertical: 10,
     paddingHorizontal: 30,
-    borderRadius: 5,
+    borderRadius:10,
     margin:theme.verticalSpacing.space_30,
     marginTop:theme.verticalSpacing.space_46
   },
   contactText: {
     color: theme.lightColor.brownColor,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontSize:theme.fontSizes.size_16
   },
   retakeButton: {
     backgroundColor: '#673AB7',

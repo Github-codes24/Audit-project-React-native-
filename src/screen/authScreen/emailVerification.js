@@ -58,18 +58,23 @@ const [verifyOtp,{
   // }, []);
 
   
-useEffect(()=>{
-    if(isVerifyOtpApiSuccess){
-    dispatch(setLoginResponse(verifyOtpApiData))
-     navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN)
-    alertSuccess('Success','Email verification Successful')
-    }else if(verifyOtpApiError){
-    console.log('loginApiError',verifyOtpApiError.data?.message)
-    alertError(verifyOtpApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
-    }
-},[isVerifyOtpApiSuccess,verifyOtpApiData,verifyOtpApiError])
+useEffect(() => {
+  if (isVerifyOtpApiSuccess) {
+    
+    navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN, {
+      verifyOtpApiData, 
+    });
+    alertSuccess('Success', 'Email verification successful');
+  } else if (verifyOtpApiError) {
+    // console.log('verifyOtpApiError', verifyOtpApiError.data?.message);
+    alertError(
+      verifyOtpApiError?.data?.message || 'Otp doesn’t match. Please enter a valid OTP.'
+    );
+  }
+}, [isVerifyOtpApiSuccess, verifyOtpApiData, verifyOtpApiError, navigation]);
+  
 
-  const handleResendCode = () => {
+const handleResendCode = () => {
      alertSuccess('send')
     if (!isResendDisabled) {
       setTimer(60); 

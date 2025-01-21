@@ -70,8 +70,6 @@ useEffect(() => {
    
   }
 
-
-
   return (
     <View style={styles.main}>
    <Header/>

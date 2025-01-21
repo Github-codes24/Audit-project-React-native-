@@ -13,7 +13,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setLoginResponse: (state, action: PayloadAction<object>) => {
-      state.loginResponse = action?.payload;
+     state.loginResponse = action?.payload;
     },
     
     resetAuth: state => {

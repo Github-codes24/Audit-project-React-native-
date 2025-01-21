@@ -1,66 +1,155 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal } from "react-native";
 import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../asstets/images/svg';
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { MainRoutes } from '../../navigation/routeAndParamsList';
+import { alertError, alertSuccess } from "../../utils/Toast";
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
+import { useSelector } from "react-redux";
+import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 
-const EditProfile = ({ navigation }) => {
-    const inputRef = useRef(null);
 
+EditProfile = ({ navigation }) => {
+const [imageUri, setImageUri] = useState(null);
+
+   const inputRef = useRef(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [companyName, setCompanyName] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const handleSave = () => {
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
+
+const response=useSelector(getLoginResponse)
+  console.log('2222222',response)
+  const userId=response?.data?.id
+
+  const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
+
+ const pickImageFromGallery = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1, 
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.errorMessage) {
+          console.error('ImagePicker Error:', response.errorMessage);
+        } else if (response.assets && response.assets.length > 0) {
+          setImageUri(response.assets[0].uri); 
+           setIsModalVisible(false); 
         }
+      }
+    );
+  };
 
-        alert("Profile updated successfully!");
+  
+  const captureImageFromCamera = () => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 1,
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled camera');
+        } else if (response.errorMessage) {
+          console.error('Camera Error:', response.errorMessage);
+        } else if (response.assets && response.assets.length > 0) {
+          setImageUri(response.assets[0].uri);
+             setIsModalVisible(false); 
+        }
+      }
+    );
+  };
+
+
+const handleSubmit = () => {
+  const formData = new FormData();
+
+  // Append regular data
+  formData.append('firstName', firstName);
+  formData.append('lastName', lastName);
+  formData.append('password', password);
+  formData.append('confirmPassword', confirmPassword);
+  formData.append('phoneNumber', phoneNumber);
+  formData.append('Company', companyName);
+
+  // Check if imageUri exists and append the image
+  if (imageUri) {
+    const file = {
+      uri: imageUri,            
+      type: 'image/jpeg',       
+      name: 'profile_image.jpg', 
     };
 
+    console.log('File Object:', file); 
+    formData.append('image', file);  
+  }
+  console.log('Form Data:', formData);
+  updateUserProfile({
+    id: userId,
+    formData: formData, // Send FormData instead of a plain object
+  })
+    .unwrap() // Unwrap the mutation to handle success/failure
+    .then((response) => {
+      console.log('Profile updated successfully:', response);
+      navigation.navigate(MainRoutes.PROFILE_SCREEN); // Navigate to profile screen on success
+    })
+    .catch((error) => {
+      console.error('Error updating profile:', error);
+      alertError('Failed to update profile'); // Display error if mutation fails
+    });
+};
+
+
+
+
+
+
+
+
+
+    
     const supportItems = [
         { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
     ];
 
     return (
         <BackgroundLayout>
-            <View style={{ marginRight: 230}}>
+            <View style={{ marginRight: 230 }}>
                 <CustomHeader
                     titleColor="black"
                     title={'Edit Profile'}
                     leftIcon={<Svg.ArrowBack />}
                     onBackPress={() => navigation.goBack()}
-
                 />
             </View>
             <View style={styles.profileSection}>
                 {/* Profile Image */}
                 <View style={styles.profileImageContainer}>
-                    <Image
-                        source={require('../../asstets/images/manImage.png')}
-                        style={styles.profileImage}
-                    />
+                   <Image
+                     source={
+                   imageUri ? { uri: imageUri } 
+                  : require('../../asstets/images/manImage.png') 
+                   }
+                 style={styles.profileImage}
+                 />
                 </View>
 
                 {/* Edit Image Text and Icon */}
                 <View>
                     {supportItems.map((item, index) => (
                         <TouchableOpacity key={index}
-                            onPress={() => {
-                                if (item.route) {
-                                    navigation.navigate(item.route); // Navigate to the specified route
-                                } else {
-                                    Alert.alert(item.label, 'This feature is under development');
-                                }
-                            }}
+                            onPress={() => setIsModalVisible(true)} 
                         >
                             <View style={styles.iconTextContainer}>
                                 <Text style={styles.supportIcon}>{item.icon}</Text>
@@ -133,28 +222,68 @@ const EditProfile = ({ navigation }) => {
 
                 {/* Save Button */}
                 <View style={styles.actions}>
-                    <TouchableOpacity style={styles.SavechangesButton} onPress={handleSave}>
+                    <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
                         <Text style={styles.actionText}>Save changes</Text>
                     </TouchableOpacity>
                 </View>
-
-
             </View>
+
+            {/* Modal */}
+            <Modal
+                transparent={true}
+                visible={isModalVisible}
+                onRequestClose={() => setIsModalVisible(false)}
+            >
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                    }}
+                >
+                    <View
+                        style={{
+                            backgroundColor: "white",
+                            padding: 20,
+                            borderRadius: 10,
+                            alignItems: "center",
+                            width: "80%",
+                        }}
+                    >
+                        <TouchableOpacity onPress={pickImageFromGallery}>
+                            <View style={{flexDirection:'row',alignItems:"center"}}>
+                           <Svg.GalleryIcon />
+                            <Text style={{ fontSize: 16, marginVertical: 10,marginLeft:10 }}>Upload from Gallery</Text>
+                       </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={captureImageFromCamera}>
+                           <View style={{flexDirection:'row',alignItems:"center",}}>
+                           <Svg.CameraIcon/>
+                            <Text style={{ fontSize: 16, marginVertical: 10,marginLeft:10 }}>Upload from Camera</Text>
+                           </View>
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                            <Text style={{ fontSize: 16, marginVertical: 10, color: "red" }}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </BackgroundLayout>
     );
 };
 
 const styles = StyleSheet.create({
-
     profileSection: {
         padding: 10,
     },
 
-
     profileImageContainer: {
         marginTop: theme.verticalSpacing.space_10,
     },
-
 
     profileImage: {
         width: theme.horizontalSpacing.space_100,
@@ -172,29 +301,24 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
 
-
     supportText: {
         fontSize: theme.fontSizes.size_16,
         fontWeight: 'bold',
         color: '#000',
     },
 
-
     nameView: {
         marginTop: theme.verticalSpacing.space_10,
     },
-
 
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
 
-
     halfWidth: {
         width: '48%',
     },
-
 
     nameTextInput: {
         height: theme.horizontalSpacing.space_50,
@@ -206,13 +330,11 @@ const styles = StyleSheet.create({
         marginBottom: theme.verticalSpacing.space_10,
     },
 
-
     TextStyle: {
         marginTop: theme.verticalSpacing.space_10,
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
     },
-
 
     actions: {
         marginTop: theme.verticalSpacing.space_34,
@@ -236,7 +358,6 @@ const styles = StyleSheet.create({
         color: theme.lightColor.whiteColor,
         textAlign: 'center',
     },
-
 });
 
 export default EditProfile;

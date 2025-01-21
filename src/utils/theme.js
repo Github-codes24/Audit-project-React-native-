@@ -105,7 +105,8 @@ const theme = {
    space_165:hp(165),
    space_320: hp(320),
   space_114: hp(114),
-  space_269:hp(269)
+  space_269:hp(269),
+  space_290:hp(290),
   },
   horizontalSpacing: {
     space_2: wp(2),
@@ -170,6 +171,9 @@ const theme = {
     space_236:wp(236),
     space_170: wp(170),
     space_329: wp(329),
+     space_222: wp(222),
+      space_327: wp(327),
+
   },
   boderRadius: {
     small_4: 4,
