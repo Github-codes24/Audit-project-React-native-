@@ -12,15 +12,17 @@ import { useSelector,useDispatch } from 'react-redux';
 import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
 
 const EmailVerificationScreen = ({ navigation,route }) => {
+  
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
    
 const dispatch=useDispatch()
-  console.log('otp44',otp)
- const {email}=route?.params||{}
- console.log('emaill333',email)
+  
 
+console.log('otp44',otp)
+ const {email}=route?.params||{}
+//  console.log('emaill333',email)
 
 function convertOtpToString(otpArray) {
   if (!Array.isArray(otpArray)) {
@@ -36,7 +38,7 @@ const [verifyOtp,{
       data:verifyOtpApiData,
  }]=useVerifyOtpForRegistrationMutation()
  
- console.log('verifyOtpApiData',verifyOtpApiData,isVerifyOtpApiSuccess)
+//  console.log('verifyOtpApiData',verifyOtpApiData,isVerifyOtpApiSuccess)
  
  const handleVerifyAccount=()=>{
  let otpString=convertOtpToString(otp)
@@ -74,12 +76,20 @@ useEffect(() => {
 }, [isVerifyOtpApiSuccess, verifyOtpApiData, verifyOtpApiError, navigation]);
   
 
+
+const [ResendOtpRegistrationPasswordApi, {
+    isLoading: ResendOtpRegistrationPasswordApisLoading,
+  }] = useResendOtpForgotPasswordApiMutation();
+
+
+
 const handleResendCode = () => {
      alertSuccess('send')
     if (!isResendDisabled) {
       setTimer(60); 
-      setIsResendDisabled(true);  
-      console.log('Code resent!');
+      setIsResendDisabled(true); 
+   ResendOtpRegistrationPasswordApi(email)
+    console.log('Code resent!');
     }
   };
 

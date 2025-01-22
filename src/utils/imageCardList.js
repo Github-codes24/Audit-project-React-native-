@@ -16,14 +16,14 @@ const HorizontalCardList = ({ data }) => {
         renderItem={({ item }) => (
           <ImageCard
             image={{ uri: item?.image }}
-            profileImage={item?.profileImage}
+            profileImage={{uri:item?.authorImage}}
             title={item?.title || ''}
             date={item?.createdAt}
-            name={item?.name}
+            name={item?.authorName}
             field={item?.category}
             onPress={() =>
               navigation.navigate('BlogDetailsScreen', { id: item?._id})
-            } // Navigate with the `id` parameter
+            } 
           />
         )}
       />

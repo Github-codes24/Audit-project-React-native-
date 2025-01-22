@@ -64,10 +64,8 @@ useEffect(() => {
     
   };
 
-  const onSubmit = (payload) => {
-    
+  const onSubmit = (payload) => { 
     calculateCompilanceScore(payload)
-   
   }
 
   return (
@@ -104,8 +102,8 @@ useEffect(() => {
   step === 'result' && (  
     <ComplianceResult
     scorePercentage={ calculateCompilanceScoreData?.scorePercentage % 1 === 0
-      ? calculateCompilanceScoreData?.scorePercentage // Integer, no decimals
-      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }// Fractional, 2 decimals}
+      ? calculateCompilanceScoreData?.scorePercentage 
+      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }
     onPressRetakeExam={()=>setStep('category')} 
     />
   )

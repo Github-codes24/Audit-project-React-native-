@@ -151,7 +151,7 @@ const handleSubmit = () => {
                     ))}
                 </View>
 
-                {/* First Name and Last Name Inputs Side by Side */}
+               
                 <View style={styles.nameView}>
                     <View style={styles.rowContainer}>
                         {/* First Name Input */}
@@ -270,11 +270,11 @@ const handleSubmit = () => {
 
 const styles = StyleSheet.create({
     profileSection: {
-        padding: 10,
+        paddingHorizontal: 10,
     },
 
     profileImageContainer: {
-        marginTop: theme.verticalSpacing.space_10,
+        // marginTop: theme.verticalSpacing.space_10,
     },
 
     profileImage: {
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
 
     supportText: {
         fontSize: theme.fontSizes.size_16,
-        fontWeight: 'bold',
+        fontWeight: '600',
         color: '#000',
     },
 
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     },
 
     actionText: {
-        fontFamily: 'Inter',
+        // fontFamily: 'Inter',
         fontWeight: '500',
         fontSize: theme.fontSizes.size_16,
         lineHeight: 20,

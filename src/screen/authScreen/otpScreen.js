@@ -7,7 +7,7 @@ import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertSuccess, alertError } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-import { useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
+import { useResendOtpForgotPasswordApiMutation, useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
 
 const OtpScreen = ({ navigation, route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -25,6 +25,13 @@ const OtpScreen = ({ navigation, route }) => {
   }] = useVerifyOtpForgotPasswordMutation();
 
 
+const [ResendOtpForgotPasswordApi, {
+    isLoading: ResendOtpForgotPasswordApiMLoading,
+  }] = useResendOtpForgotPasswordApiMutation();
+
+
+
+
 console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
 
 
@@ -40,13 +47,10 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
       alertError('Please enter the complete OTP');
       return;
     }
-
     let otpString = convertOtpToString(otp);
     console.log('otpString', otpString);
-
     setIsSubmitting(true);  
-
-    forgotPasswordVerifyOtp({ email, otp: otpString });
+    forgotPasswordVerifyOtp({email,otp: otpString });
   };
 
  useEffect(() => {
@@ -75,11 +79,10 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
   // }, [timer]);
 
   const handleResendCode = () => {
-    if (!isResendDisabled) {
-      setTimer(60);
       setIsResendDisabled(true);
-      alertSuccess('Code resent!');
-    }
+    ResendOtpForgotPasswordApi(email)
+     alertSuccess('Code resent!');
+    
   };
 
   const handleChange = (text, index) => {
@@ -134,7 +137,7 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
         <Text style={styles.resendText}>Didn’t Receive Code?</Text>
         <TouchableOpacity
           onPress={handleResendCode}
-          disabled={isResendDisabled}
+          // disabled={isResendDisabled}
         >
           <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}> Resend Code</Text>
         </TouchableOpacity>

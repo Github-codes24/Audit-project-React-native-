@@ -27,7 +27,8 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
       animationType="slide"
       transparent={true}
       visible={visible}
-      onRequestClose={onClose}
+      // Disable backdrop touch to prevent closing the modal
+      onRequestClose={() => {}}
     >
       <View style={styles.overlay}>
         <View style={[styles.bottomSheetContainer, { maxHeight: modalHeight }]}>
@@ -35,11 +36,8 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
           <Text style={styles.title}>{title}</Text>
 
           {/* Description */}
-
-          {description.length > 150 ? ( 
-            <ScrollView style={styles.descriptionContainer}
-            showsVerticalScrollIndicator={false}
-            >
+          {description.length > 150 ? (
+            <ScrollView style={styles.descriptionContainer} showsVerticalScrollIndicator={false}>
               <Text style={styles.description}>{description}</Text>
             </ScrollView>
           ) : (
@@ -49,7 +47,6 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
           )}
 
           {/* Buttons */}
-
           <View style={styles.buttonContainer}>
             {buttons.map((button, index) => (
               <TouchableOpacity
@@ -60,14 +57,17 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
                     ? styles.primaryButton
                     : styles.secondaryButton,
                 ]}
-                onPress={button.onPress}
+                onPress={() => {
+                  button.onPress(); // Close modal only on button press
+                  if (onClose) onClose(); // Optional: Call onClose on button press
+                }}
               >
                 <Text
                   style={[
                     styles.buttonText,
                     button.type === "primary"
-                    ? styles.primaryButtonText
-                  : styles.secondaryButtonText,
+                      ? styles.primaryButtonText
+                      : styles.secondaryButtonText,
                   ]}
                 >
                   {button.label}
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: theme.lightColor.brownColor,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    padding:20,
+    padding: 20,
     width: "100%",
-   paddingBottom:theme.verticalSpacing.space_40
+    paddingBottom: theme.verticalSpacing.space_40,
   },
   title: {
-    alignSelf:'center',
+    alignSelf: "center",
     textAlign: "center",
     fontSize: theme.fontSizes.size_24,
     fontWeight: "bold",
@@ -109,14 +109,12 @@ const styles = StyleSheet.create({
   },
   descriptionWrapper: {
     marginBottom: 20,
-    
   },
   description: {
     fontSize: theme.fontSizes.size_16,
     color: "#E8E8E8",
     lineHeight: 24,
-    textAlign:'center',
-    
+    textAlign: "center",
   },
   buttonContainer: {
     flexDirection: "column",
@@ -142,7 +140,6 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: "#FFFFFF",
-    
   },
 });
 

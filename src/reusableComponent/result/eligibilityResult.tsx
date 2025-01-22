@@ -19,8 +19,8 @@ const EligibityResult=({onPressRetakeExam,isEligible,})=>{
 
         source={
           isEligible
-            ? require('../../asstets/images/elegable.png') // Replace with the eligible image path
-            : require('../../asstets/images/non-Elegable.png') // Replace with the not eligible image path
+            ? require('../../asstets/images/elegable.png') 
+            : require('../../asstets/images/non-Elegable.png') 
         }
         style={styles.image}
           resizeMode="contain"

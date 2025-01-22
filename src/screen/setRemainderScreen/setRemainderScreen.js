@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState,useEffect } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View,ScrollView } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const SetRemainderScreen = ({navigation}) => {
 
@@ -46,7 +46,7 @@ const SetRemainderScreen = ({navigation}) => {
       employeeName,
       employeeEmail,
       date: moment(date).format("YYYY-MM-DD"),
-      reminderFor: 'Visa expiry date',
+      reminderFor: reminderFor,
       description,
     };
 
@@ -55,12 +55,20 @@ const SetRemainderScreen = ({navigation}) => {
       .then((response) => {
         console.log("Reminder set successfully:", response);
         alertSuccess("Reminder set successfully!");
-        navigation.navigate('Remainder');
       })
       .catch((err) => {
         alertError(err?.data?.message || "Error setting reminder.");
       });
   };
+
+  useEffect(() => {
+    if (isSetRemainderApiMutationSuccess) {
+      alertSuccess("Reminder set successfully!");
+      navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
+        screen: 'Remainder', 
+      });
+    }
+  }, [isSetRemainderApiMutationSuccess]);
 
   const onChange = (event, selectedDate) => {
     setShow(false);
@@ -72,14 +80,12 @@ const SetRemainderScreen = ({navigation}) => {
   const showDatePicker = () => {
     setShow(true);
   };
-
   return (
     <ScrollView style={{flex:1}}>
-    <View style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
-      <Header />
-      <View style={{ padding: 10 }}>
+       <Header />
+    <View style={{ flex: 1, backgroundColor: "#F5F5F5",alignItems:"center",paddingHorizontal:10 }}>
+      <View style={{marginVertical:theme.horizontalSpacing.space_10,}}>
         <Text style={style.remainderText}>{"Reminder"}</Text>
-
         <Text style={style.textStyle}>{"Reminder name"}</Text>
         <TextInput
           value={reminderName}
@@ -134,11 +140,10 @@ const SetRemainderScreen = ({navigation}) => {
         <CustomDropDown
           data={data}
           value={reminderFor}
-          onSelect={(item) => setReminderFor(item?.value)} // Update state on selection
+          onSelect={(item) => setReminderFor(item)} 
           placeholder="Select an Option"
           isShowLabel={true}
         />
-
         <Text style={style.textStyle}>{"Description (optional)"}</Text>
         <TextInput
           value={description}
@@ -149,11 +154,10 @@ const SetRemainderScreen = ({navigation}) => {
           style={[style.textInput, { height: theme.verticalSpacing.space_114, textAlignVertical: "top" }]}
         />
       </View>
-
       <CustomButton
         title={"Set reminder"}
-        onPress={handleSetReminder} // Wire the button to the handler
-        isLoading={isSetRemainderApiMutationLoading} // Optional: Show a loading indicator
+        onPress={handleSetReminder} 
+        isLoading={isSetRemainderApiMutationLoading} 
       />
     </View>
     </ScrollView>
@@ -172,7 +176,7 @@ const style = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
   },
   textInput: {
-    width: 374,
+    width:theme.horizontalSpacing.space_374,
     height: theme.verticalSpacing.space_50,
     backgroundColor: theme.lightColor.whiteColor,
     borderRadius: 10,

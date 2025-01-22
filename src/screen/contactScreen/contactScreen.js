@@ -7,74 +7,56 @@ import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../reusableComponent/header/header";
 import { useContactUsApiMutation } from "../../redux/apiSlice/customerSupportApiSlice";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Loader from "../../reusableComponent/loader/loader";
 import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import { useSelector } from "react-redux";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
+import Loader from "../../reusableComponent/loader/loader";
+import { alertError } from "../../utils/Toast";
+import { MainRoutes } from "../../navigation/routeAndParamsList";
+import * as Svg from '../../asstets/images/svg'
 
 const ContactScreen = () => {
-
-
   const [isModalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState('');
+  const [emailEnquiry, setEmailEnquiry] = useState('');
+  const [message, setMessage] = useState('');
+  
   const navigation = useNavigation();
   const [contactUsApi, { isLoading }] = useContactUsApiMutation();
 
-const response=useSelector(getLoginResponse)
-  // console.log('2222222',response)
- const userId=response?.data?.id
-console.log('userId',userId)
- const { 
+  const response = useSelector(getLoginResponse);
+  const userId = response?.data?.id;
+
+  const { 
     data: getuserdata, 
     error: getUserdataApiError, 
     isLoading: getUserdataApiIsLoading 
-  } = useGetuserApiQuery(userId); 
-  const {  email, phoneNumber, } =
-    getuserdata?.getUser||{}
-  
+  } = useGetuserApiQuery(userId);
+
+  const { email, phoneNumber } = getuserdata?.getUser || {};
 
   const closeModal = () => {
     setModalVisible(false);
   };
 
-  // Validation schema
-  const validationSchema = Yup.object().shape({
-    Name: Yup.string().trim().required("Name is required"),
-    email: Yup.string()
-      .email("Enter a valid email address")
-      .required("Email is required"),
-    message: Yup.string()
-      .trim()
-      .min(10, "Message must be at least 10 characters")
-      .required("Message is required"),
-  });
+ const handleFormSubmit = () => {
+  contactUsApi({ name, email: emailEnquiry, message })
+    .then((response) => {
+      if (response?.data) {
+        setModalVisible(true);
+        setName('');
+        setEmailEnquiry('');
+        setMessage('');
+      } else {
+        console.log("No data received from API");
+        alert("Something went wrong. Please try again.");
+      }
+    })
+    .catch((error) => {
+      alertError("Failed to submit the form. Please try again.");
+    });
+};
 
-  // Form submission handler
-  const handleFormSubmit =  (values, { resetForm }) => {
-    console.log("Form submitted:", values);
-    contactUsApi(values)
-  };
-
-  // Initialize Formik
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      Name: "",
-      message: "",
-      email: ""
-    },
-    validationSchema,
-    onSubmit: handleFormSubmit,
-  });
-
-  useEffect(() => {
-    if (isModalVisible) {
-      const timer = setTimeout(() => {
-        closeModal();
-      }, 3000); 
-      return () => clearTimeout(timer); 
-    }
-  }, [isModalVisible]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#F2F3F5" }}>
@@ -83,14 +65,16 @@ console.log('userId',userId)
         visible={isModalVisible}
         onClose={closeModal}
         title="Thank You!"
-        description={"We will get back to you shortly"}
+        description="We will get back to you shortly"
         buttons={[
           {
             label: "Go to home page",
             type: "primary",
             onPress: () => {
               closeModal();
-              navigation.navigate("Home");
+              navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
+                     screen: 'Home', 
+                   });
             },
           },
         ]}
@@ -109,36 +93,32 @@ console.log('userId',userId)
         >
           {"Contact us"}
         </Text>
-
-        <Text style={style.textStyle}>Email</Text>
-        <Text>{email}</Text>
-
-        <Text style={[style.textStyle, { marginTop: 10 }]}>Phone No.</Text>
-        <Text>{phoneNumber}</Text>
+        <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10}}>
+         <Svg.MessageIcon/>
+        <Text style={[style.textStyle,{marginLeft:5}]}>Email</Text>
+        </View>
+        <Text style={{letterSpacing:1,color:'black',fontSize:theme.fontSizes.size_16}}>{email}</Text>
+        
+         <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10}}>
+        <Svg.PhoneIcon/>
+        <Text style={[style.textStyle, {marginTop:10,marginLeft:5 }]}>Phone No.</Text>
+        </View>
+        
+        <Text style={{letterSpacing:1,color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5}}>{phoneNumber}</Text>
 
         <Text style={style.textBox}>Name</Text>
         <CustomTextInput
           placeholder={"Enter your name"}
-          value={values.Name}
-          onChangeText={handleChange("Name")}
-          onBlur={handleBlur("Name")}
-          error={touched.Name && errors.Name}
+          value={name}
+          onChangeText={(text) => setName(text)}
         />
-        {touched.Name && errors.Name && (
-          <Text style={style.errorText}>{errors.Name}</Text>
-        )}
 
         <Text style={style.textBox}>Email</Text>
         <CustomTextInput
           placeholder={"Enter your email address"}
-          value={values.email}
-          onChangeText={handleChange("email")}
-          onBlur={handleBlur("email")}
-          error={touched.email && errors.email}
+          value={emailEnquiry}
+          onChangeText={(text) => setEmailEnquiry(text)}
         />
-        {touched.email && errors.email && (
-          <Text style={style.errorText}>{errors.email}</Text>
-        )}
 
         <Text style={style.textBox}>Message</Text>
         <TextInput
@@ -151,17 +131,13 @@ console.log('userId',userId)
           }}
           placeholder="Enter your query...."
           multiline
-          value={values.message}
-          onChangeText={handleChange("message")}
-          onBlur={handleBlur("message")}
+          value={message}
+          onChangeText={(text) => setMessage(text)}
         />
-        {touched.message && errors.message && (
-          <Text style={style.errorText}>{errors.message}</Text>
-        )}
 
         <View style={{ marginTop: theme.verticalSpacing.space_10 }}>
           <CustomButton
-            onPress={handleSubmit}
+            onPress={handleFormSubmit}
             title={isLoading ? "Submitting..." : "Submit"}
             disabled={isLoading}
           />
@@ -175,7 +151,7 @@ const style = StyleSheet.create({
   textStyle: {
     fontSize: theme.fontSizes.size_18,
     fontWeight: "600",
-    marginTop: 5,
+    // marginTop: 5,
   },
   textBox: {
     marginTop: theme.horizontalSpacing.space_14,

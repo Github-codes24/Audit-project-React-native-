@@ -12,6 +12,18 @@ export const AuthApiSlice = baseApi.injectEndpoints({
         keepUnusedDataFor: 5,
       }),
     }),
+
+    resendOtpForRegistrationPasswordApi: builder.mutation({
+      query: email => ({
+        url: apiEndPoints?.resendCodeForRegistration,
+        method: 'POST',
+        body:email,
+        keepUnusedDataFor: 5,
+      }),
+    }),
+
+
+
     loginApi: builder.mutation({
       query:({email,password}) => ({
         url: apiEndPoints?.loginApi,
@@ -25,6 +37,15 @@ export const AuthApiSlice = baseApi.injectEndpoints({
     forgotPasswordApi: builder.mutation({
       query: email => ({
         url: apiEndPoints?.forgotPasswordApi,
+        method: 'POST',
+        body:email,
+        keepUnusedDataFor: 5,
+      }),
+    }),
+
+ resendOtpForgotPasswordApi: builder.mutation({
+      query: email => ({
+        url: apiEndPoints?.resendCodeforForgotPassword,
         method: 'POST',
         body:email,
         keepUnusedDataFor: 5,
@@ -53,6 +74,11 @@ export const AuthApiSlice = baseApi.injectEndpoints({
         
       }),
     }),
+
+
+
+
+
  resetPasswordApi: builder.mutation({
       query: ({email,newPassword,confirmPassword}) => ({
         url: apiEndPoints?.resetPasswordApi,
@@ -86,6 +112,8 @@ export const {
  useVerifyOtpForgotPasswordMutation,
  useResetPasswordApiMutation,
  useVerifyOtpForRegistrationMutation,
- useDeleteAccountApiMutation
+ useDeleteAccountApiMutation,
+ useResendOtpForRegistrationPasswordApiMutation,
+ useResendOtpForgotPasswordApiMutation,
  
 } = AuthApiSlice;

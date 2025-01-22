@@ -35,16 +35,21 @@ const RegisterButton=()=>{
         <Text style={{paddingHorizontal:10,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_20,width:theme.horizontalSpacing.space_328,alignSelf:'center'}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
         
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
+        
+        
+         <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,marginRight:10}]}
+        onPress={RegisterButton}
+        >
+          <Text style={{color:theme.lightColor.brownColor}}>{'Get Started Free'}</Text>
+        </TouchableOpacity>
+        
+        
         <TouchableOpacity style={style.button}
         onPress={LoginNavigation}
         >
           <Text style={{textAlign:"center",color:theme.lightColor.whiteColor}}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,marginLeft:10}]}
-        onPress={RegisterButton}
-        >
-          <Text style={{color:theme.lightColor.brownColor}}>{'Get Started Free'}</Text>
-        </TouchableOpacity>
+       
         </View>
        </View>
       </View>
@@ -81,6 +86,7 @@ const style = StyleSheet.create({
    justifyContent:'center',
     borderRadius:10,
     alignSelf:"center",
+    marginLeft:10,
     marginTop:theme.verticalSpacing.space_40
   }
 });

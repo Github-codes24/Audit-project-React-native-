@@ -4,16 +4,13 @@ import { Dropdown } from 'react-native-element-dropdown';
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
 
-// Theme for colors and spacing
-
-
-// Dropdown component
 const CustomDropDown = ({
   data,
   placeholder = 'Select',
   value,
   onSelect,
   containerWidth = '100%',
+  
   containerStyle,
   maxHeight = theme.verticalSpacing.space_100 * 2,
   listItemTextStyle,
@@ -36,16 +33,21 @@ const CustomDropDown = ({
         { width: rightIconContainerWidth },
       ]}
     >
-      <View style={{marginRight:theme.horizontalSpacing.space_10,justifyContent:'center',paddingRight:theme.horizontalSpacing.space_10}}>
-      <Svg.DropDownIcon color={dropdownIconColor || theme.lightColor.blackColor} />
-   </View>
+      <View
+        style={{
+          marginRight: theme.horizontalSpacing.space_10,
+          justifyContent: 'center',
+          paddingRight: theme.horizontalSpacing.space_10,
+        }}
+      >
+        <Svg.DropDownIcon color={dropdownIconColor || theme.lightColor.blackColor} />
+      </View>
     </View>
-
   );
 
   return (
     <TouchableOpacity onPress={() => setIsFocus(true)}>
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         {value && isShowLabel && (
           <View style={styles.labelContainer}>
             <Text style={styles.labelText}>{placeholder}</Text>
@@ -56,10 +58,10 @@ const CustomDropDown = ({
           style={[
             styles.dropdown,
             {
-              width: containerWidth,
-              height:theme.verticalSpacing.space_50,
+              width: containerWidth, 
+              height: theme.verticalSpacing.space_50,
+             
             },
-            containerStyle,
           ]}
           placeholderStyle={[styles.placeholderStyle, placeholderTextStyle]}
           selectedTextStyle={[styles.selectedTextStyle, selectedTextStyle]}
@@ -91,19 +93,22 @@ export default CustomDropDown;
 // Styles
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
     height: theme.verticalSpacing.space_50,
-     width:374,
-     borderRadius:10
+    width: theme.horizontalSpacing.space_374, // Default container width
+    borderRadius: 10,
+    borderWidth: 1, // Border for all sides
+    borderColor: '#ccc', // Gray border color
+    marginTop: 5,
   },
   dropdown: {
-    borderBottomWidth: 1,
-    borderBottomColor: theme.lightColor.grayColor,
+    // You can add additional styling for the dropdown container here
   },
   placeholderStyle: {
+    
+   
     fontSize: theme.fontSizes.size_14,
-    marginLeft:10,
-    // fontFamily: theme.fontFamily.notoSans.regular_400,
+    marginLeft: 10,
     color: 'gray',
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
@@ -112,24 +117,25 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
     fontFamily: theme.fontFamily.notoSans.regular_400,
     paddingHorizontal: theme.horizontalSpacing.space_8,
+    
   },
   rightIconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   itemTextStyle: {
-    fontWeight:'400',
-    // borderBottomWidth:1,
+    fontWeight: '400',
     color: theme.lightColor.blackColor,
     fontSize: theme.fontSizes.size_14,
   },
   labelContainer: {
     justifyContent: 'center',
     backgroundColor: theme.lightColor.whiteColor,
+    
   },
   labelText: {
     fontSize: theme.fontSizes.size_12,
-    fontFamily: theme.fontFamily.notoSans.regular_400,
+    
     color: theme.lightColor.grayColor,
     position: 'absolute',
     top: -theme.horizontalSpacing.space_6,

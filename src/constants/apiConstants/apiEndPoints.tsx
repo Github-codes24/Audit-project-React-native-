@@ -10,6 +10,8 @@ export const apiEndPoints = {
   OtpForRegisteration:'api/user/verifyOtpForRegistration',
   deleteAccount:'api/user/deleteUser',
   getUser:'api/user/getUserById',
+  resendCodeForRegistration:'api/user/resendCodeForRegistration',
+  resendCodeforForgotPassword:'api/user/resendCode',
   
 //complaince API endpoint
 
@@ -20,6 +22,8 @@ calculateCompilanceScore:'api/complianceQuestions/calculateScore',
 //Eligibility API endpoint
 getEligibilityCategory:'api/eligibilityCategory/getAllEligibilityCategoryNames',
 getEligibilityQuestions:'api/eligibilityQuestions/getQuestions',
+getEligibilityScore:'api/eligibilityQuestions/calculateEligibility',
+
 
 //profile api endpoint
 getPrivacyPolicy:'api/privacyPolicy/getPrivacyPolicy',

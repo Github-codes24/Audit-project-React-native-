@@ -28,7 +28,8 @@ import EditImage from "./common/EditImage";
 import DateIcon from "./common/dateIcon";
 import PlusIcon from "./common/plusIcon";
 import DropDownIcon from "./common/dropDown";
-
+import ShareIcon from "./common/shareIcon";
+import PhoneIcon from "./common/phoneIcon";
 
 export {
 ArrowBack,
@@ -61,5 +62,6 @@ EditImage,
 DateIcon,
 PlusIcon,
 DropDownIcon,
-
+ShareIcon,
+PhoneIcon,
 };

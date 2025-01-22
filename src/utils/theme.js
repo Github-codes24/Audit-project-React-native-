@@ -172,7 +172,8 @@ const theme = {
     space_170: wp(170),
     space_329: wp(329),
      space_222: wp(222),
-      space_327: wp(327),
+    space_327: wp(327),
+     space_374: wp(374),
 
   },
   boderRadius: {

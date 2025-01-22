@@ -53,7 +53,7 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false, // Ensure this is placed here
+        headerShown: false, 
       }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >

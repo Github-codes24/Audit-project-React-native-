@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import theme from './theme';
+
 const ImageCard = ({ 
   image, 
   profileImage, 
@@ -13,24 +14,21 @@ const ImageCard = ({
 }) => {
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-       
       <Image source={image} style={styles.cardImage} resizeMode="cover" />
       
       <View style={styles.overlay}>
-         <View style={{padding:5}}>
-         <Text style={styles.field}>{field}</Text>
-       </View>
-
-         <View style={{flexDirection:"row",alignItems:"center"}}>
-        <Image source={profileImage} style={styles.profileImage} />
-        <View style={styles.textContainer}>
-          <View>
-          
+        <View style={{}}>
+          <View style={{ backgroundColor: '#FCEADE', borderRadius:5, paddingHorizontal:theme.horizontalSpacing.space_10,alignSelf: 'flex-start',alignItems:"center",justifyContent:"center" }}>
+            <Text style={styles.field}>{field}</Text>
           </View>
-                <Text style={styles.title}>{title}</Text>
-          <Text style={styles.meta}>
-            {name} · {moment(date).format("DD-MMM-YYYY")} 
-          </Text>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Image source={profileImage} style={styles.profileImage} />
+          <View style={styles.textContainer}>
+            <Text style={styles.meta}>{name}</Text>
+            <Text style={styles.meta}>{moment(date).format("DD-MMM-YYYY")} </Text>
           </View>
         </View>
       </View>
@@ -40,7 +38,6 @@ const ImageCard = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
-   
     width: 200,
     height: 250,
     borderRadius: 12,
@@ -49,19 +46,14 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   cardImage: {
-    
     width: '100%',
     height: '100%',
   },
   overlay: {
-    // backgroundColor:"red",
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    // backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    // flexDirection: 'row',
-    // alignItems: 'center',
     padding: 12,
   },
   profileImage: {
@@ -72,15 +64,12 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     marginRight: 12,
   },
-  textContainer: {
-    // backgroundColor:"red",
-   
-  },
+  textContainer: {},
   field: {
-    color:theme.lightColor.brownColor, 
-    fontSize:theme.fontSizes.size_18,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    color: theme.lightColor.brownColor, 
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: '400',
+    
   },
   title: {
     color: '#fff',

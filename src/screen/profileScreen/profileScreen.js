@@ -47,7 +47,7 @@ const supportItems = [
       ),
   },
     { label: 'Contact us', icon: <Svg.supportIcon/>, route:MainRoutes.CONTACTUS_SCREEN  },
-      { label: 'Terms of use', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
+      { label: 'Terms and condition', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
     { label: 'Privacy policy', icon: <Svg.Privacy/> ,route:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
     { label: 'About us', icon: <Svg.AboutUs/>,route:MainRoutes.ABOUTUS_SCREEN },
     { label: 'Notification settings', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
@@ -115,7 +115,7 @@ const supportItems = [
           title="Confirm Logout"
           message="Are you sure you want to log out?"
           onCancel={() => setIsDialogVisible(false)} // Close dialog
-          onConfirm={handleLogOut} // Perform logout
+          onConfirm={handleLogOut} 
           cancelText="Cancel"
           confirmText="Yes"
         />
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: theme.verticalSpacing.space_30,
   },
   profileImage: {
-    borderWidth: 1,
+   
     width: theme.horizontalSpacing.space_100,
     height: theme.horizontalSpacing.space_100,
     borderRadius: 10,
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop:theme.verticalSpacing.space_40
   },
   logoutButton: {
     backgroundColor: theme.lightColor.brownColor,
