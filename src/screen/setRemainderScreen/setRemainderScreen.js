@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState,useEffect } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View,ScrollView } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const SetRemainderScreen = ({navigation}) => {
 
@@ -46,7 +46,7 @@ const SetRemainderScreen = ({navigation}) => {
       employeeName,
       employeeEmail,
       date: moment(date).format("YYYY-MM-DD"),
-      reminderFor: 'Visa expiry date',
+      reminderFor: reminderFor,
       description,
     };
 
@@ -55,13 +55,17 @@ const SetRemainderScreen = ({navigation}) => {
       .then((response) => {
         console.log("Reminder set successfully:", response);
         alertSuccess("Reminder set successfully!");
-        navigation.navigate('Remainder');
       })
-      .catch((err) => {
-        // console.error("Error setting reminder:", err);
-        alertError(err?.data?.message || "Error setting reminder.");
-      });
   };
+
+  useEffect(() => {
+    if (isSetRemainderApiMutationSuccess) {
+      alertSuccess("Reminder set successfully!");
+      navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
+        screen: 'Remainder', 
+      });
+    }
+  }, [isSetRemainderApiMutationSuccess]);
 
   const onChange = (event, selectedDate) => {
     setShow(false);
@@ -135,7 +139,7 @@ const SetRemainderScreen = ({navigation}) => {
         <CustomDropDown
           data={data}
           value={reminderFor}
-          onSelect={(item) => setReminderFor(item?.value)} // Update state on selection
+          onSelect={(item) => setReminderFor(item)} // Update state on selection
           placeholder="Select an Option"
           isShowLabel={true}
         />
