@@ -13,11 +13,12 @@ import { theme } from '../../utils';
 import { useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
 import ImageSwiper from '../../reusableComponent/ImageSlider/imageSwiper';
 import Header from '../../reusableComponent/header/header';
+import { useNavigation } from '@react-navigation/native';
 
 const BlogDetailsScreen = ({route}) => {
-    
+    const navigation = useNavigation();
 const { id } = route.params;
-console.log('id2222',id)
+console.log('id53554367',id)
 
  const { 
     data: getBlogDetailsdata, 
@@ -68,7 +69,7 @@ console.log('id2222',id)
         <Text style={styles.detailsContent}>{item?.description || ''}</Text>
         <TouchableOpacity
           style={styles.backButton}
-        //   onPress={() => setSelectedBlog(null)}
+         onPress={() => navigation.goBack()}
         >
           <Text style={styles.backButtonText}>Back to Blogs</Text>
         </TouchableOpacity>

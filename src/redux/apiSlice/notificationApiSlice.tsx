@@ -33,7 +33,12 @@ get10UserUnReadApiSlice: builder.query({
       }),
     }),
 
-
+get10UserReadApiSlice: builder.query({
+      query:(userId) => ({
+        url: `${apiEndPoints?.get10UserReadNotificationApi}/${userId}`,
+        method: 'GET',
+      }),
+    }),
     
   }),
   overrideExisting: true,
@@ -44,5 +49,6 @@ export const {
  useGetAlluserApiNotificationQuery,
  useGet10UserUnReadApiSliceQuery,
  useGetUserReadNotificationApiQuery,
+ useGet10UserReadApiSliceQuery
  
 } = profileApiSlice;

@@ -10,11 +10,29 @@ import { useContactUsApiMutation } from "../../redux/apiSlice/customerSupportApi
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loader from "../../reusableComponent/loader/loader";
+import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
+import { useSelector } from "react-redux";
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 
 const ContactScreen = () => {
+
+
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const [contactUsApi, { isLoading }] = useContactUsApiMutation();
+
+const response=useSelector(getLoginResponse)
+  // console.log('2222222',response)
+ const userId=response?.data?.id
+console.log('userId',userId)
+ const { 
+    data: getuserdata, 
+    error: getUserdataApiError, 
+    isLoading: getUserdataApiIsLoading 
+  } = useGetuserApiQuery(userId); 
+  const {  email, phoneNumber, } =
+    getuserdata?.getUser||{}
+  
 
   const closeModal = () => {
     setModalVisible(false);
@@ -42,20 +60,19 @@ const ContactScreen = () => {
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } = useFormik({
     initialValues: {
       Name: "",
-      email: "",
       message: "",
+      email: ""
     },
     validationSchema,
     onSubmit: handleFormSubmit,
   });
 
-  // Automatically close modal after a delay (optional)
   useEffect(() => {
     if (isModalVisible) {
       const timer = setTimeout(() => {
         closeModal();
-      }, 3000); // Close modal after 3 seconds
-      return () => clearTimeout(timer); // Cleanup timer
+      }, 3000); 
+      return () => clearTimeout(timer); 
     }
   }, [isModalVisible]);
 
@@ -94,10 +111,10 @@ const ContactScreen = () => {
         </Text>
 
         <Text style={style.textStyle}>Email</Text>
-        <Text>{"Email222@gmail.com"}</Text>
+        <Text>{email}</Text>
 
         <Text style={[style.textStyle, { marginTop: 10 }]}>Phone No.</Text>
-        <Text>{"9155071883"}</Text>
+        <Text>{phoneNumber}</Text>
 
         <Text style={style.textBox}>Name</Text>
         <CustomTextInput
@@ -130,6 +147,7 @@ const ContactScreen = () => {
             backgroundColor: "white",
             borderRadius: 10,
             padding: 10,
+            textAlignVertical: "top",
           }}
           placeholder="Enter your query...."
           multiline

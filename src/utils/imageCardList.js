@@ -1,8 +1,11 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ImageCard from './imageCard';
 
 const HorizontalCardList = ({ data }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -12,13 +15,15 @@ const HorizontalCardList = ({ data }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <ImageCard
-            image={item.image}
-            profileImage={item.profileImage}
-            title={item.title}
-            date={item.date}
-            name={item.name}
-            field={item.field}
-            onPress={item.onPress}
+            image={{ uri: item?.image }}
+            profileImage={item?.profileImage}
+            title={item?.title || ''}
+            date={item?.createdAt}
+            name={item?.name}
+            field={item?.category}
+            onPress={() =>
+              navigation.navigate('BlogDetailsScreen', { id: item?._id})
+            } // Navigate with the `id` parameter
           />
         )}
       />

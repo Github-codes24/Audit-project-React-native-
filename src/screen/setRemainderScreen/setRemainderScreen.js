@@ -58,7 +58,6 @@ const SetRemainderScreen = ({navigation}) => {
         navigation.navigate('Remainder');
       })
       .catch((err) => {
-        // console.error("Error setting reminder:", err);
         alertError(err?.data?.message || "Error setting reminder.");
       });
   };

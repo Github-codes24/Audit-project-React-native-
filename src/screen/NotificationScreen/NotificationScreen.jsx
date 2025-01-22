@@ -49,7 +49,16 @@ const {
     } = useGetUserReadNotificationApiQuery(selectedNotificationId); 
 
 
- console.log('get10useReadApiNotificationApidata', get10useReadApiNotificationApidata);
+const { 
+      data: get10userReadApiNotificationApidata, 
+      error: get10userReadApiNotificationApiError, 
+      isLoading:get10userReadApiNotificationApiIsLoading ,
+    } = useGetUserReadNotificationApiQuery(userId); 
+
+
+
+
+ console.log('get10userReadApiNotificationApidata', get10userReadApiNotificationApidata);
     
 // console.log('get10userApiNotificationApiError', get10userApiNotificationApiError);
 // console.log('getAllUserNotificationApidata:', getAllUserNotificationApidata);
@@ -65,7 +74,7 @@ const {
     return get10userUnReadApiNotificationApidata?.notifications}
   
     if (selectedTab === 'Read') {
-    return get10useReadApiNotificationApidata?.notifications
+    return get10userReadApiNotificationApidata?.notifications
   }
   return getAllUserNotificationApidata?.notifications; 
 };

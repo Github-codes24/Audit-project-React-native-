@@ -6,28 +6,47 @@ import { useNavigation } from '@react-navigation/native'; // Import useNavigatio
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector, UseSelector } from "react-redux";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
 const Header = () => {
   const navigation = useNavigation();
   const userData = useSelector(getLoginResponse);
-  console.log('userData444444',userData)
+  const userId=userData?.data?.id
+
+const { 
+    data: getuserdata, 
+    error: getUserdataApiError, 
+    isLoading: getUserdataApiIsLoading 
+  } = useGetuserApiQuery(userId); 
+
+  const { firstName, lastName, image } =
+    getuserdata?.getUser||{}
+
+// console.log('getuserdata777777',getuserdata)
 
   return (
     <View style={styles.headerView}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, alignItems: 'center' }}>
-        <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
+        <View style={{ flexDirection: "row",alignItems:"center",height:theme.verticalSpacing.space_70 }}>
           <TouchableOpacity 
-            style={{ flexDirection: 'row' }} 
+            style={{ flexDirection: 'row',alignItems:"center" }} 
             onPress={() => navigation.navigate(MainRoutes.PROFILE_SCREEN)} // Use navigation to navigate
           >
             <View style={styles.profileImageContainer}>
+              
               <Image
                 style={styles.profileImage}
-                source={require('../../asstets/images/manImage.png')}
-              />
+                     source={
+                   image?.length > 0
+                     ? { uri:image } 
+                     : require('../../asstets/images/manImage.png') 
+                    }
+                
+                     />
+
             </View>
-            <View style={{ marginLeft: theme.horizontalSpacing.space_10 }}>
+            <View style={{ marginLeft: theme.horizontalSpacing.space_10, }}>
               <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
-              <Text style={styles.userName}>{userData?.data?.name}</Text>
+              <Text style={styles.userName}>{firstName} {lastName}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -47,6 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#592951",
     paddingHorizontal: 30,
     justifyContent: 'center',
+    
   },
   profileImageContainer: {
     width: 60,
@@ -55,17 +75,24 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
+   
   },
   profileImage: {
     width: 60,
     height: 60,
+    borderRadius:30
   },
   welcomeText: {
     color: theme.lightColor.whiteColor,
+    fontSize:theme.fontSizes.size_14,
+    fontWeight:'500',
+    letterSpacing:1
   },
   userName: {
     color: theme.lightColor.whiteColor,
     fontSize: theme.fontSizes.size_24,
+    fontWeight:'700',
+    // marginTop:theme.verticalSpacing.space_10
   },
 });
 

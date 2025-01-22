@@ -19,6 +19,7 @@ import Header from "../../reusableComponent/header/header";
 import ImageSwiper from "../../reusableComponent/ImageSlider/imageSwiper";
 import { useAboutUsQuery } from "../../redux/apiSlice/customerSupportApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { useGetAllBlogsQuery } from "../../redux/apiSlice/blogApiSlice";
 
 const DashBoardScreen = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(true);
@@ -39,6 +40,20 @@ const DashBoardScreen = ({ navigation }) => {
     refetchAboutUs();
     setRefreshing(false); // Hide the refresh indicator
   };
+
+
+const {
+  data: blogApiData,
+  isLoading: isblogApiDataLoading,
+  isSuccess:isblogApiDataSuccess,
+  error: isblogApiDataError,
+  refetch: refetchCategoryData,
+} = useGetAllBlogsQuery({});
+
+
+console.log('blogApiData',blogApiData)
+
+
 
   return (
     <ScrollView
@@ -123,7 +138,7 @@ const DashBoardScreen = ({ navigation }) => {
             <Text style={{ fontSize: theme.fontSizes.size_14 }}>{"See all"}</Text>
           </TouchableOpacity>
         </View>
-        <HorizontalCardList data={imageCarddata} />
+        <HorizontalCardList data={blogApiData?.data||{}} />
 
         <Text
           style={{

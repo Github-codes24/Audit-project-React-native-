@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView } from "react-native";
 import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../asstets/images/svg';
@@ -13,8 +13,9 @@ import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 
 
-EditProfile = ({ navigation }) => {
-const [imageUri, setImageUri] = useState(null);
+EditProfile = ({ navigation,route }) => {
+
+    const [imageUri, setImageUri] = useState(null);
 
    const inputRef = useRef(null);
     const [firstName, setFirstName] = useState('');
@@ -31,6 +32,8 @@ const response=useSelector(getLoginResponse)
   const userId=response?.data?.id
 
   const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
+
+  console.log('updateUserProfile',updateUserProfile)
 
  const pickImageFromGallery = () => {
     launchImageLibrary(
@@ -74,10 +77,8 @@ const response=useSelector(getLoginResponse)
 
 const handleSubmit = () => {
   const formData = new FormData();
-
-  // Append regular data
-  formData.append('firstName', firstName);
-  formData.append('lastName', lastName);
+  formData.append('firstname', firstName);
+  formData.append('lastname', lastName);
   formData.append('password', password);
   formData.append('confirmPassword', confirmPassword);
   formData.append('phoneNumber', phoneNumber);
@@ -97,7 +98,7 @@ const handleSubmit = () => {
   console.log('Form Data:', formData);
   updateUserProfile({
     id: userId,
-    formData: formData, // Send FormData instead of a plain object
+    formData: formData, 
   })
     .unwrap() // Unwrap the mutation to handle success/failure
     .then((response) => {
@@ -110,22 +111,13 @@ const handleSubmit = () => {
     });
 };
 
-
-
-
-
-
-
-
-
-    
     const supportItems = [
         { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
     ];
 
     return (
-        <BackgroundLayout>
-            <View style={{ marginRight: 230 }}>
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_30}}>
+            <View style={{ }}>
                 <CustomHeader
                     titleColor="black"
                     title={'Edit Profile'}
@@ -272,7 +264,7 @@ const handleSubmit = () => {
                     </View>
                 </View>
             </Modal>
-        </BackgroundLayout>
+        </ScrollView>
     );
 };
 

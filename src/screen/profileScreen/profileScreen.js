@@ -16,10 +16,10 @@ const ProfileScreen = ({navigation}) => {
 const dispatch=useDispatch()
  
 const response=useSelector(getLoginResponse)
-  console.log('2222222',response)
+  // console.log('2222222',response)
 
  const userId=response?.data?.id
-// console.log('userId',userId)
+console.log('userId',userId)
  const { 
     data: getuserdata, 
     error: getUserdataApiError, 
@@ -31,19 +31,21 @@ const response=useSelector(getLoginResponse)
 //   console.log('error:', getUserdataApiError); 
  
  
-const { firstName, lastName, email, phoneNumber, createdAt, updatedAt } =
+const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
     getuserdata?.getUser||{}
 
 
-
-
-  
  const handleLogOut = () => {
     dispatch(resetAuth()); 
     setIsDialogVisible(false); 
   };
+
 const supportItems = [
-    { label: 'Edit profile', icon: <Svg.Edit/>,route:MainRoutes.EDITPROFILE_SCREEN },
+    { label: 'Edit profile', icon: <Svg.Edit/>,route: MainRoutes.EDITPROFILE_SCREEN,
+    onPress: () =>
+      navigation.navigate(MainRoutes.EDITPROFILE_SCREEN,
+      ),
+  },
     { label: 'Contact us', icon: <Svg.supportIcon/>, route:MainRoutes.CONTACTUS_SCREEN  },
       { label: 'Terms of use', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
     { label: 'Privacy policy', icon: <Svg.Privacy/> ,route:`${MainRoutes.PRIVACYPOLICY_SCREEN}` },
@@ -64,10 +66,16 @@ const supportItems = [
 
       {/* Profile Section */}
       <View style={styles.profileSection}>
+
         <Image
-          source={require('../../asstets/images/manImage.png')} // Replace with the actual image URL
-          style={styles.profileImage}
-        />
+      source={
+    image?.length > 0
+      ? { uri:image } 
+      : require('../../asstets/images/manImage.png') 
+     }
+  style={styles.profileImage}
+      />
+
         <View style={{marginLeft:10}}>
         <Text style={styles.profileName}>{firstName} {lastName}</Text>
         <Text style={styles.profileInfo}>{phoneNumber}</Text>
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
   profileImage: {
     borderWidth: 1,
     width: theme.horizontalSpacing.space_100,
-    height: theme.horizontalSpacing.space_110,
+    height: theme.horizontalSpacing.space_100,
     borderRadius: 10,
     marginBottom: theme.verticalSpacing.space_10,
     marginTop: theme.verticalSpacing.space_10,
