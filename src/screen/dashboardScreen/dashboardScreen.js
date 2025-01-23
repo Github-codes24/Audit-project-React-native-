@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -20,11 +20,15 @@ import ImageSwiper from "../../reusableComponent/ImageSlider/imageSwiper";
 import { useAboutUsQuery } from "../../redux/apiSlice/customerSupportApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useGetAllBlogsQuery } from "../../redux/apiSlice/blogApiSlice";
-
+import { useDispatch,useSelector } from "react-redux";
+import { acceptCookies,rejectCookies,customizeCookies } from "../../redux/stateSlice/cookiesStateSlice";
+import { getCookiesStatus } from "../../redux/stateSelector";
 const DashBoardScreen = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(true);
+const cookiesStatus= useSelector(getCookiesStatus);
+console.log('cookiesStatus',cookiesStatus)
   const [refreshing, setRefreshing] = useState(false); // State to handle refresh status
-
+const dispatch = useDispatch();
   const {
     data: aboutUsData,
     isLoading: isAboutUsLoading,
@@ -40,6 +44,12 @@ const DashBoardScreen = ({ navigation }) => {
     refetchAboutUs();
     setRefreshing(false); // Hide the refresh indicator
   };
+
+  useEffect(() => {
+    if(cookiesStatus=='accepted'||cookiesStatus=='customized'||cookiesStatus=='rejected'){
+      setModalVisible(false);
+    }
+  }, [cookiesStatus]);
 
 
 const {
@@ -77,7 +87,8 @@ console.log('blogApiData',blogApiData)
               type: "primary",
               onPress: () => {
                 console.log("Accepted all");
-                closeModal();
+                dispatch(acceptCookies());
+               
               },
             },
             {
@@ -85,13 +96,15 @@ console.log('blogApiData',blogApiData)
               type: "secondary",
               onPress: () => {
                 console.log("Rejected all");
-                closeModal();
+                dispatch(rejectCookies());
+                
               },
             },
             {
               label: "Customize cookie",
               type: "secondary",
               onPress: () => {
+                dispatch(customizeCookies());
                 console.log("Customizing cookies");
               },
             },
