@@ -5,9 +5,10 @@ import { theme } from '../../utils';
 import Header from '../../reusableComponent/header/header';
 import { useDispatch,useSelector } from 'react-redux';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
-import { useGet10userApiNotificationQuery, useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, useGetUserReadNotificationApiQuery,  } from '../../redux/apiSlice/notificationApiSlice';
+import {  useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, useGet10UserReadApiSliceQuery,useMarkNotificationAsReadMutation  } from '../../redux/apiSlice/notificationApiSlice';
+import Loader from '../../reusableComponent/loader/loader';
 
-// Sample Notification Data
+
 
 
 const NotificationScreen = ({navigation}) => {
@@ -27,42 +28,21 @@ console.log('userId5554546',userId)
     } = useGetAlluserApiNotificationQuery(userId); 
 
 const { 
-      data: get10userApiNotificationApidata, 
-      error: get10userApiNotificationApiError, 
-      isLoading:get10userApiNotificationApiIsLoading 
-    } = useGet10userApiNotificationQuery(userId); 
-
-
-
-
-const { 
       data: get10userUnReadApiNotificationApidata, 
       error: get10userUnReadApiNotificationApiError, 
       isLoading:get10userUnReadApiNotificationApiIsLoading ,
     } = useGet10UserUnReadApiSliceQuery(userId); 
 
-
- const { 
-      data: get10useReadApiNotificationApidata, 
-      error: get10useReadApiNotificationApiError, 
-      isLoading:get10useReadApiNotificationApiIsLoading ,
-    } = useGetUserReadNotificationApiQuery(selectedNotificationId); 
-
-
 const { 
       data: get10userReadApiNotificationApidata, 
       error: get10userReadApiNotificationApiError, 
       isLoading:get10userReadApiNotificationApiIsLoading ,
-    } = useGetUserReadNotificationApiQuery(userId); 
+    } = useGet10UserReadApiSliceQuery(userId); 
 
-
-
-
- console.log('get10userReadApiNotificationApidata', get10userReadApiNotificationApidata);
-    
-// console.log('get10userApiNotificationApiError', get10userApiNotificationApiError);
-// console.log('getAllUserNotificationApidata:', getAllUserNotificationApidata);
-// console.log('get10userApiNotificationApiIsLoading',get10userApiNotificationApiIsLoading)
+const [markNotificationAsRead,{
+  isLoading: markNotificationAsReadApiIsLoading,
+  isSuccess: markNotificationAsReadApiSuccess
+}] = useMarkNotificationAsReadMutation();
 
  const getFilteredNotifications = () => {
     
@@ -80,8 +60,13 @@ const {
 };
 
   const NotificationItem = ({ item }) => (
-    <TouchableOpacity onPress={undefined} style={styles.notificationItem}
-     onPress={() => setSelectedNotificationId(item?._id)} 
+    <TouchableOpacity  style={styles.notificationItem}
+     onPress={() => {
+      setSelectedNotificationId(item?._id)
+      if (selectedTab === 'Unread') {
+      markNotificationAsRead(item?._id)
+      }
+     }} 
     >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
       <View >
@@ -93,6 +78,7 @@ const {
 
   return (
     <View style={styles.container}>
+      <Loader isLoading={getAllUserNotificationApiIsLoading || get10userUnReadApiNotificationApiIsLoading || get10userReadApiNotificationApiIsLoading || markNotificationAsReadApiIsLoading} />
         {/* header  */}
         <Header/>
       {/* Custom Tabs */}

@@ -60,6 +60,7 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Notifications', 'UnreadNotifications', 'ReadNotifications'],
   endpoints: () => ({}),
   refetchOnFocus: true,
   refetchOnReconnect: true,

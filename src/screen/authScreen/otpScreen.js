@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
-import * as Svg from '../../asstets/images/svg'
-import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
+import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertSuccess, alertError } from '../../utils/Toast';
@@ -13,10 +12,11 @@ const OtpScreen = ({ navigation, route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);  // Track submit state to prevent multiple submissions
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submit state to prevent multiple submissions
+  const intervalRef = useRef(null);
 
   const { email } = route.params || {};
-  
+
   const [forgotPasswordVerifyOtp, {
     isLoading: ForgotPasswordverifyOtpApiLoading,
     isSuccess: isForgotPasswordVerifyOtpApiSuccess,
@@ -24,65 +24,55 @@ const OtpScreen = ({ navigation, route }) => {
     data: forgotPasswordVerifyOtpApiData,
   }] = useVerifyOtpForgotPasswordMutation();
 
-
-const [ResendOtpForgotPasswordApi, {
+  const [ResendOtpForgotPasswordApi, {
     isLoading: ResendOtpForgotPasswordApiMLoading,
   }] = useResendOtpForgotPasswordApiMutation();
 
+  console.log('forgotPasswordVerifyOtpApiData', forgotPasswordVerifyOtpApiData);
 
-
-
-console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
-
-
-  function convertOtpToString(otpArray) {
-    if (!Array.isArray(otpArray)) {
-      throw new Error("Input must be an array");
-    }
-    return otpArray.join("");
-  }
+  const convertOtpToString = (otpArray) => otpArray.join("");
 
   const handleForgotPasswordVerifyAccount = () => {
     if (otp.includes('')) {
       alertError('Please enter the complete OTP');
       return;
     }
-    let otpString = convertOtpToString(otp);
-    console.log('otpString', otpString);
-    setIsSubmitting(true);  
-    forgotPasswordVerifyOtp({email,otp: otpString });
+    const otpString = convertOtpToString(otp);
+    setIsSubmitting(true);
+    forgotPasswordVerifyOtp({ email, otp: otpString });
   };
 
- useEffect(() => {
-  if (isForgotPasswordVerifyOtpApiSuccess && forgotPasswordVerifyOtpApiData?.success) {
-    alertSuccess('Success', 'OTP verification successful');
-    navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
-  } else if (forgotPasswordVerifyOtpApiError || !forgotPasswordVerifyOtpApiData?.success) {
-    // alertError(forgotPasswordVerifyOtpApiError?.data.message)
-  }
-  setIsSubmitting(false); 
-}, [
-  isForgotPasswordVerifyOtpApiSuccess,
-  forgotPasswordVerifyOtpApiData,
-  forgotPasswordVerifyOtpApiError,
-]);
-  // useEffect(() => {
-  //   let interval;
-  //   if (timer > 0) {
-  //     interval = setInterval(() => {
-  //       setTimer(prevTimer => prevTimer - 1);
-  //     }, 1000);
-  //   } else {
-  //     setIsResendDisabled(false);
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [timer]);
+  useEffect(() => {
+    if (isForgotPasswordVerifyOtpApiSuccess && forgotPasswordVerifyOtpApiData?.success) {
+      alertSuccess('Success', 'OTP verification successful');
+      navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
+    } else if (forgotPasswordVerifyOtpApiError || !forgotPasswordVerifyOtpApiData?.success) {
+      // alertError(forgotPasswordVerifyOtpApiError?.data.message);
+    }
+    setIsSubmitting(false);
+  }, [
+    isForgotPasswordVerifyOtpApiSuccess,
+    forgotPasswordVerifyOtpApiData,
+    forgotPasswordVerifyOtpApiError,
+  ]);
+
+  useEffect(() => {
+    if (timer > 0) {
+      intervalRef.current = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else {
+      setIsResendDisabled(false);
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [timer]);
 
   const handleResendCode = () => {
-      setIsResendDisabled(true);
-    ResendOtpForgotPasswordApi(email)
-     alertSuccess('Code resent!');
-    
+    setIsResendDisabled(true);
+    setTimer(30); // Restart the timer
+    ResendOtpForgotPasswordApi({email});
+    alertSuccess('Code resent!');
   };
 
   const handleChange = (text, index) => {
@@ -107,7 +97,7 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
       <Text style={styles.description}>
         Code sent to <Text style={styles.email}>{email}</Text>. Please enter the code below.
       </Text>
-      
+
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
         {otp.map((digit, index) => (
@@ -128,7 +118,7 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
           textColor={'#BABABA'}
           onPress={handleForgotPasswordVerifyAccount}
           title={'Create New Password'}
-          disabled={isSubmitting || otp.includes('')}  // Disable button if submitting or OTP is incomplete
+          disabled={isSubmitting || otp.includes('')} // Disable button if submitting or OTP is incomplete
         />
       </View>
 
@@ -137,14 +127,18 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
         <Text style={styles.resendText}>Didn’t Receive Code?</Text>
         <TouchableOpacity
           onPress={handleResendCode}
-          // disabled={isResendDisabled}
+          disabled={isResendDisabled}
         >
-          <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}> Resend Code</Text>
+          <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}>
+            Resend Code
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Timer */}
-      <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
+      {isResendDisabled && (
+        <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
+      )}
     </View>
   );
 };
@@ -157,10 +151,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: theme.verticalSpacing.space_20,
     left: theme.horizontalSpacing.space_20,
-  },
-  backArrow: {
-    fontSize: theme.fontSizes.size_24,
-    color: '#000',
   },
   description: {
     marginTop: theme.verticalSpacing.space_10,
@@ -190,18 +180,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: theme.fontSizes.size_18,
     backgroundColor: theme.lightColor.whiteColor,
-  },
-  submitButton: {
-    marginTop: 30,
-    backgroundColor: '#6A1B9A',
-    borderRadius: 8,
-    paddingVertical: 15,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: theme.fontSizes.size_16,
   },
   resendContainer: {
     flexDirection: 'row',

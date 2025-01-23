@@ -12,6 +12,7 @@ import { useForgotPasswordApiMutation } from "../../redux/apiSlice/authApiSlice"
 import { alertError } from "../../utils/Toast";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
+import Loader from "../../reusableComponent/loader/loader";
 
 
 const ForgotPasswordScreen=()=>{
@@ -51,7 +52,7 @@ const closeModal = () => {
 return(
     <BackgroundLayout>
     <View style={{}}>
-        
+        <Loader isLoading={isForgotPasswordApiLoading}/>
         <CustomModal
         visible={isModalVisible}
         onClose={closeModal}
