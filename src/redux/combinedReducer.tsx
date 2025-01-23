@@ -2,7 +2,8 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { baseApi } from "./apiSlice/baseApiSlice";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer } from 'redux-persist';
-import  authSlice  from "./stateSlice/authStateSlice";
+import  authReducer  from "./stateSlice/authStateSlice";
+import cookiesReducer from "./stateSlice/cookiesStateSlice";
 // Define persist configurations
 const authPersistConfig = {
   key: 'auth',
@@ -18,5 +19,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
   // Uncomment and replace `authSlice` with your actual slice if you need to persist it:
-  authSlice: persistReducer(authPersistConfig, authSlice), 
+
+  authSlice: persistReducer(authPersistConfig, authReducer),
+  cookiesStateSlice:persistReducer(authPersistConfig, cookiesReducer),
 });

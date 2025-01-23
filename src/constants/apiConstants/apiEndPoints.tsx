@@ -46,7 +46,7 @@ aboutUs:'api/aboutUs/getAboutUs',
 
 get10UserNotificationsApi:'api/user/get10UserNotifications',
 getAllNotificationsApi:'api/user/getAllUserNotifications',
-getUserReadNotificationApi:'api/user/markNotificationAsReadOfUser',
+markNotificationAsRead:'api/user/markNotificationAsReadOfUser',
 get10UserReadNotificationApi:'api/user/get10ReadUserNotifications',
 get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
 
@@ -56,5 +56,6 @@ get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
 createRemainderApi:'api/reminder/createReminder',
 getAllRemainderApi:'api/reminder/getAllReminder',
 getReaminderForOptionApi:'api/reminder/getReminderForOptions',
+
 
 };

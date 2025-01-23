@@ -10,6 +10,7 @@ import {
   import * as Svg from '../../asstets/images/svg';
   import {theme} from '../../utils';
   import { useGetPrivacyPolicyQuery } from '../../redux/apiSlice/profileApiSlice';
+import Loader from '../../reusableComponent/loader/loader';
   const PrivacyPolicyScreen = ({navigation}) => {
 
 
@@ -25,6 +26,7 @@ import {
     return (
       <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
+        <Loader isLoading={privacyPolicyIsLoading} />
         {/* Header */}
         <TouchableOpacity
           style={styles.backButton}

@@ -10,6 +10,7 @@ import React from 'react';
 import * as Svg from '../../asstets/images/svg';
 import {theme} from '../../utils';
 import { useGetProfileTermAndConditionApiQuery } from '../../redux/apiSlice/profileApiSlice';
+import Loader from '../../reusableComponent/loader/loader';
 const TermsAndConditionScreen = ({navigation}) => {
 
   const {
@@ -21,6 +22,7 @@ const TermsAndConditionScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
+      <Loader isLoading={profileTermAndConditionIsLoading} />
       {/* Header */}
       <TouchableOpacity
         style={styles.backButton}

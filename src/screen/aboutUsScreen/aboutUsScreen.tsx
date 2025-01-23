@@ -4,6 +4,7 @@ import { useSelector, UseSelector } from "react-redux";
 import { useGetAboutUsApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import Swiper from "react-native-swiper";
 import { theme } from "../../utils";
+import Loader from "../../reusableComponent/loader/loader";
 
 const slides = [
     {
@@ -35,6 +36,7 @@ console.log('getAboutdata',getAboutdata)
 return(
   <SafeAreaView style={{flex:1}}>
     <View style={{flex:1}}>
+      <Loader isLoading={getGetAboutApiIsLoading} />
         <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About us'}</Text>
          <View style={{height:theme.verticalSpacing.space_230,marginHorizontal:10}}>
                 <Swiper   
