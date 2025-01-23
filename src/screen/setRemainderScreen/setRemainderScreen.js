@@ -125,15 +125,16 @@ const SetRemainderScreen = ({navigation}) => {
           <TouchableOpacity onPress={showDatePicker}>
             <Svg.DateIcon />
           </TouchableOpacity>
-
+      
           {show && (
             <DateTimePicker
               value={date}
               mode="date"
-              display={Platform.OS === "ios" ? "inline" : "default"}
+              display={Platform.OS === "ios" ? "default" : "default"}
               onChange={onChange}
             />
           )}
+
         </View>
 
         <Text style={style.textStyle}>{"Reminder for"}</Text>

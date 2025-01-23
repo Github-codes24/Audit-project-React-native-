@@ -1,4 +1,5 @@
 import {
+  SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
@@ -22,6 +23,7 @@ import {
    
 
     return (
+      <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
         {/* Header */}
         <TouchableOpacity
@@ -37,6 +39,7 @@ import {
           </Text>
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   };
   
@@ -57,7 +60,7 @@ import {
     HeadText: {
       fontSize: theme.fontSizes.size_30,
       fontWeight: '600',
-      marginTop: theme.verticalSpacing.space_80,
+      marginTop: theme.verticalSpacing.space_50,
       marginBottom: theme.verticalSpacing.space_20,
     },
     privactpolicyText: {

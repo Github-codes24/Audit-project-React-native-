@@ -8,14 +8,14 @@ import CustomButton from "../../reusableComponent/button/button";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { useResetPasswordApiMutation } from "../../redux/apiSlice/authApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
-import { alertSuccess } from "../../utils/Toast";
+import { alertError, alertSuccess } from "../../utils/Toast";
 const CreateNewPassword=({navigation,route})=>{
 
 const [newPassword,setNewPassword]=useState('')
 const [confirmPassword,setConfirmPassword]=useState('')
 
 const {email}=route.params||{}
-console.log("email11111",email)
+// console.log("email11111",email)
 
 const [resetPasswordApi,{
    isLoading: resetPasswordApiLoading,
@@ -34,7 +34,7 @@ resetPasswordApi({email,newPassword,confirmPassword})
        alertSuccess('Success','Password change successfully')
     }else if(resetPasswordApiError){
     console.log('loginApiError',resetPasswordApiError.data?.message)
-    alertError(resetPasswordApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
+    // alertError(resetPasswordApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
     }
  },[isResetPasswordApiSuccess,resetPasswordApiError,resetPasswordpApiData])
 

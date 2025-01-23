@@ -1,4 +1,5 @@
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ const TermsAndConditionScreen = ({navigation}) => {
     
   }= useGetProfileTermAndConditionApiQuery({})
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       {/* Header */}
       <TouchableOpacity
@@ -35,6 +37,7 @@ const TermsAndConditionScreen = ({navigation}) => {
         </Text>
       </ScrollView>
     </View>
+    </SafeAreaView>
   );
 };
 

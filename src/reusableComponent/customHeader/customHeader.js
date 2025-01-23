@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Replace with a different library if not using Expo
 import { theme } from '../../utils';
 
@@ -12,6 +12,7 @@ const CustomHeader = ({
   leftIconColor = theme.lightColor.backButtonColor, // Default color for the left icon button
 }) => {
   return (
+    <SafeAreaView>
     <View style={styles.container}>
       {/* <StatusBar backgroundColor={''} /> */}
       <View
@@ -36,6 +37,7 @@ const CustomHeader = ({
         {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 

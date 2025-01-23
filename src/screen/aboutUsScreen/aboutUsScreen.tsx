@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useSelector, UseSelector } from "react-redux";
 import { useGetAboutUsApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import Swiper from "react-native-swiper";
@@ -33,6 +33,7 @@ const {
 console.log('getAboutdata',getAboutdata)
 
 return(
+  <SafeAreaView style={{flex:1}}>
     <View style={{flex:1}}>
         <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About us'}</Text>
          <View style={{height:theme.verticalSpacing.space_230,marginHorizontal:10}}>
@@ -44,8 +45,8 @@ return(
                 // dotStyle={style.dot} // Dot styling
                 paginationStyle={style.pagination} 
               >
-                {getAboutdata?.aboutUs[0]?.image?.length > 0 ? (
-  getAboutdata.aboutUs[0].image.map((slide, index) => (
+         {getAboutdata?.aboutUs[0]?.image?.length > 0 ? (
+      getAboutdata.aboutUs[0].image.map((slide, index) => (
     <View style={style.slide} key={index}>
       <Image style={style.image} source={{ uri: slide }} />
     </View>
@@ -57,6 +58,7 @@ return(
               </View>
         <Text style={{margin:theme.horizontalSpacing.space_10}}>{getAboutdata?.aboutUs[0].content}</Text>
     </View>
+    </SafeAreaView>
 )
 }
 const style=StyleSheet.create({

@@ -5,7 +5,7 @@ import * as Svg from '../../asstets/images/svg'
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
 import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
-import { alertSuccess, alertError } from '../../utils/Toast';
+import { alertSuccess,alertError} from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { useResendOtpForgotPasswordApiMutation, useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
 
@@ -48,7 +48,7 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
       return;
     }
     let otpString = convertOtpToString(otp);
-    console.log('otpString', otpString);
+    // console.log('otpString', otpString);
     setIsSubmitting(true);  
     forgotPasswordVerifyOtp({email,otp: otpString });
   };
@@ -128,7 +128,7 @@ console.log('forgotPasswordVerifyOtpApiData',forgotPasswordVerifyOtpApiData)
           textColor={'#BABABA'}
           onPress={handleForgotPasswordVerifyAccount}
           title={'Create New Password'}
-          disabled={isSubmitting || otp.includes('')}  // Disable button if submitting or OTP is incomplete
+          disabled={isSubmitting || otp.includes('')}  
         />
       </View>
 

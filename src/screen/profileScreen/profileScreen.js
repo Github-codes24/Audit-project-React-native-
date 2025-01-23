@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity,Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView } from 'react-native';
 import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
 import { resetAuth } from '../../redux/stateSlice/authStateSlice';
@@ -53,6 +53,7 @@ const supportItems = [
     { label: 'Notification settings', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
   ];
   return (
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}
@@ -121,6 +122,7 @@ const supportItems = [
         />
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
