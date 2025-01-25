@@ -30,8 +30,12 @@ import PlusIcon from "./common/plusIcon";
 import DropDownIcon from "./common/dropDown";
 import ShareIcon from "./common/shareIcon";
 import PhoneIcon from "./common/phoneIcon";
+import CheckList from "./common/checkList";
+import ArrowRight from "./common/arrowRight";
+import ArrowLeftDown from "./common/leftArrow";
 
 export {
+    CheckList,
 ArrowBack,
 EyeOpen,
 Edit,
@@ -64,4 +68,6 @@ PlusIcon,
 DropDownIcon,
 ShareIcon,
 PhoneIcon,
+ArrowRight,
+ArrowLeftDown
 };

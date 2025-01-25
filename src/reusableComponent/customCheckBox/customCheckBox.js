@@ -19,7 +19,7 @@ const CustomCheckbox = ({ isChecked, onPress, text, link, linkText }) => {
         {text}{' '}
         <Text
           style={styles.linkText}
-          onPress={() => Linking.openURL(link)}
+          onPress={() => Linking.openURL('https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link')}
         >
           {linkText}
         </Text>

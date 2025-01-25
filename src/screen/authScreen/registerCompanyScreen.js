@@ -98,6 +98,7 @@ return(
          onPress={() => setPrivacyChecked(!isPrivacyChecked)}
           text={'I have read and understood the'}
           linkText={'Privacy Policy*'}
+          link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
           />
 
            <CustomCheckbox
@@ -105,6 +106,7 @@ return(
         onPress={() => setTermsChecked(!isTermsChecked)}
           text={'I agree to the '}
           linkText={'Terms and Conditions*'}
+           link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
           />
 
           </View>

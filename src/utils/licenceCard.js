@@ -10,7 +10,9 @@ const Card = ({ title, description, icon, onPress }) => {
         <Text style={styles.description}>{description}</Text>
         <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.buttonText}>Get Started </Text>
+          <View style={{marginLeft:5}}>
           <Svg.RightArrow/>
+          </View>
         </TouchableOpacity>
       </View>
       <Image source={icon} style={styles.icon} resizeMode="contain" />
@@ -46,25 +48,23 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#666',
+    color:'gray',
     marginBottom: 12,
   },
   button: {
-    // backgroundColor: '#007BFF', 
-    // paddingVertical: 8,
-    // paddingHorizontal: 12,
-    borderRadius: 8,
-    // alignSelf: 'flex-start',
-  justifyContent:'center',
+    // backgroundColor:'pink',
+    borderRadius: 8,  
+  // justifyContent:'center',
 width:130,
 flexDirection:'row',
 alignItems:'center',
-height:40
+height:theme.verticalSpacing.space_40
 
   },
   buttonText: {
-    fontSize: 14,
-    fontWeight: '600',
+    // backgroundColor:"red",
+    fontSize:theme.fontSizes.size_16,
+    fontWeight: '700',
     color:theme.lightColor.blackColor,
     
   },

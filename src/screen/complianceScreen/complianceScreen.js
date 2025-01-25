@@ -61,7 +61,7 @@ useEffect(() => {
   };
 
   const handleNext = () => {
-    
+    // setStep('result')
   };
 
   const onSubmit = (payload) => { 

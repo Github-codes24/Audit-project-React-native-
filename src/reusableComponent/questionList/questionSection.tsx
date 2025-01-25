@@ -33,10 +33,15 @@ const QuestionSection = ({
     isError: isErrorComplianceQuestions,
     data: complianceQuestions,
   }= useGetcompilanceQuestionsQuery({
-    category: selectedCategory?.name,
+    category: selectedCategory?.data?.name,
    },{
     skip: checkerType === 'eligibility'
   })
+
+
+console.log('complianceQuestions',complianceQuestions)
+
+
 
   const [
     calculateCompilanceScore,
@@ -60,8 +65,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     }
     else{
       handlePrevious?.(true);
-    }
-   
+    } 
   };
 
   const handleOptionSelect = (selectedOption, questionId) => {
@@ -101,8 +105,6 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     const payload = createPayload(selectedCategory, selectedAnswers);
     onSubmit?.(payload);
   };
-
-
 
   return (
     <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 110,
     height: 50,
-    backgroundColor: "#592951", // Example brown color
+    backgroundColor: "#592951", 
     borderRadius: 10,
     marginHorizontal: 20,
   },

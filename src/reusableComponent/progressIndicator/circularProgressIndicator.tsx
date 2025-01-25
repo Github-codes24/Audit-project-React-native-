@@ -51,6 +51,7 @@ const CircularProgress = ({ percentage }) => {
 
 const styles = StyleSheet.create({
   container: {
+    // marginTop:40,
     // backgroundColor:'red',
     justifyContent: 'center',
     alignItems: 'center',
@@ -60,13 +61,17 @@ const styles = StyleSheet.create({
     height:160,
     width:160,
     backgroundColor:'#F8F6FD',
-    elevation:4,
+    elevation:5,
     borderRadius:80,
     position: 'absolute',
     // top: '42%',
     // left: '38%',
     justifyContent: 'center',
     alignItems: 'center',
+     shadowColor: '#000', 
+  shadowOffset: { width: 0, height: 2 }, 
+  shadowOpacity: 0.2, 
+  shadowRadius: 4, 
   },
   percentageText: {
     fontSize:theme.fontSizes.size_40,

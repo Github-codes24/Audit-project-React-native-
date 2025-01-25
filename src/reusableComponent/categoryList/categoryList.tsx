@@ -23,6 +23,10 @@ const CategorySelector = ({
     refetch: refetchCompliance
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
+
+console.log('complianceCategoryData',complianceCategoryData)
+
+
   // Fetch eligibility categories if checkerType is 'eligibility'
   const {
     data: eligibilityCategoryData,
@@ -43,10 +47,10 @@ const CategorySelector = ({
     handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
   };
 
-  // Refresh function for pull-to-refresh
+ 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetchData(); // Trigger the appropriate refetch function
+    await refetchData(); 
     setRefreshing(false);
   };
 

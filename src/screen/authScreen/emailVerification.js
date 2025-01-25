@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg'
@@ -7,7 +7,7 @@ import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertError, alertSuccess, ToastComponent } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-import { useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
+import { useResendOtpForRegistrationPasswordApiMutation, useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
 import { useSelector,useDispatch } from 'react-redux';
 import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
 
@@ -16,7 +16,8 @@ const EmailVerificationScreen = ({ navigation,route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-   
+   const [isSubmitting, setIsSubmitting] = useState(false); // Track submit state to prevent multiple submissions
+     const intervalRef = useRef(null);
 const dispatch=useDispatch()
   
 
@@ -24,12 +25,7 @@ console.log('otp44',otp)
  const {email}=route?.params||{}
 //  console.log('emaill333',email)
 
-function convertOtpToString(otpArray) {
-  if (!Array.isArray(otpArray)) {
-    throw new Error("Input must be an array");
-  }
-  return otpArray.join("");
-}
+const convertOtpToString = (otpArray) => otpArray.join("");
 
 const [verifyOtp,{
    isLoading: verifyOtpApiLoading,
@@ -47,17 +43,17 @@ const [verifyOtp,{
  }
  
  
-  // useEffect(() => {
-  //   let interval;
-  //   if (timer > 0) {
-  //     interval = setInterval(() => {
-  //       setTimer((prevTimer) => prevTimer - 1);
-  //     }, 1000);
-  //   } else {
-  //     setIsResendDisabled(false); 
-  //   }
-  //   return () => clearInterval(interval); 
-  // }, []);
+ useEffect(() => {
+     if (timer > 0) {
+       intervalRef.current = setInterval(() => {
+         setTimer((prevTimer) => prevTimer - 1);
+       }, 1000);
+     } else {
+       setIsResendDisabled(false);
+       clearInterval(intervalRef.current);
+     }
+     return () => clearInterval(intervalRef.current);
+   }, [timer]);
 
   
 useEffect(() => {
@@ -79,16 +75,16 @@ useEffect(() => {
 
 const [ResendOtpRegistrationPasswordApi, {
     isLoading: ResendOtpRegistrationPasswordApisLoading,
-  }] = useResendOtpForgotPasswordApiMutation();
+  }] = useResendOtpForRegistrationPasswordApiMutation();
 
 
 
 const handleResendCode = () => {
      alertSuccess('send')
     if (!isResendDisabled) {
-      setTimer(60); 
+      setTimer(30); 
       setIsResendDisabled(true); 
-   ResendOtpRegistrationPasswordApi(email)
+   ResendOtpRegistrationPasswordApi({email})
     console.log('Code resent!');
     }
   };
@@ -140,7 +136,7 @@ const handleResendCode = () => {
        title={'Verify Account'}
        />
        </View>
-<View style={styles.resendContainer}>
+ <View style={styles.resendContainer}>
         <Text style={styles.resendText}>Didn’t receive Code?</Text>
         <TouchableOpacity
          onPress={handleResendCode}

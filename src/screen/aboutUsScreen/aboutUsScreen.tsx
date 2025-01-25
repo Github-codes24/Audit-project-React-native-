@@ -5,6 +5,8 @@ import { useGetAboutUsApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import Swiper from "react-native-swiper";
 import { theme } from "../../utils";
 import Loader from "../../reusableComponent/loader/loader";
+import Header from "../../reusableComponent/header/header";
+import { ScrollView } from "react-native-gesture-handler";
 
 const slides = [
     {
@@ -35,16 +37,19 @@ console.log('getAboutdata',getAboutdata)
 
 return(
   <SafeAreaView style={{flex:1}}>
+    <ScrollView>
     <View style={{flex:1}}>
-      <Loader isLoading={getGetAboutApiIsLoading} />
+      <Header/>
+      <Loader isLoading={getGetAboutApiIsLoading}/>
         <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About us'}</Text>
          <View style={{height:theme.verticalSpacing.space_230,marginHorizontal:10}}>
+               
                 <Swiper   
                 style={style.wrapper}
                 autoplay={true}
-                autoplayTimeout={5}
+                 autoplayTimeout={5}
                 activeDotStyle={style.activeDot} 
-                // dotStyle={style.dot} // Dot styling
+                // dotStyle={style.dot} 
                 paginationStyle={style.pagination} 
               >
          {getAboutdata?.aboutUs[0]?.image?.length > 0 ? (
@@ -57,9 +62,13 @@ return(
   <Text>No images available</Text>
 )}
               </Swiper>
+              
+              
+              
               </View>
         <Text style={{margin:theme.horizontalSpacing.space_10}}>{getAboutdata?.aboutUs[0].content}</Text>
     </View>
+    </ScrollView>
     </SafeAreaView>
 )
 }
@@ -130,11 +139,11 @@ borderColor:theme.lightColor.whiteColor
 
  pagination: {
     position: 'absolute',
-    bottom: 10, // Adjust to position the dots inside the image area
+    bottom: 10, 
     left: 0,
     right: 0,
     alignItems: 'center',
-    zIndex: 1, // Ensure the dots are above the image
+    zIndex: 1, 
   },
 
 

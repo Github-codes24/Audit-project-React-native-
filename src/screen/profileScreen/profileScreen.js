@@ -26,9 +26,9 @@ console.log('userId',userId)
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
-  // console.log('getuserdata:', getuserdata); 
-//   console.log('isLoading:', getUserdataApiIsLoading); 
-//   console.log('error:', getUserdataApiError); 
+  console.log('getuserdata:', getuserdata); 
+  console.log('isLoading:', getUserdataApiIsLoading); 
+  console.log('error:', getUserdataApiError); 
  
  
 const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =

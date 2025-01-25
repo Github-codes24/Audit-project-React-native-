@@ -11,7 +11,7 @@ const EligibityResultScreen=({navigation,isEligible})=>{
     <View style={styles.container}>
         <Header/>
       <View style={{alignItems:"center",justifyContent:"center",}}>  
-        <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text>
+        {/* <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text> */}
       <Image
         source={
           isEligible

@@ -78,24 +78,26 @@ const handleCategorySelect = (item) => {
     <TouchableOpacity
       style={styles.blogItem}
       onPress={() => {
-        console.log('idrrrrr',item?._id)
+        // console.log('idrrrrr',item?._id)
       navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?._id });
     }}
     >
       <Image source={{uri:item?.image}} style={styles.blogImage} />
       <View style={styles.blogInfo}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
         <Text style={styles.blogTitle}>{item?.title}</Text>
-        <Text style={{color:'gray'}}>{item?.uplaodTime}</Text>
+        <Text style={{color:'gray',fontSize:theme.fontSizes.size_12}}>{item?.readTime} read</Text>
         </View>
-        <View style={{flexDirection:"row",justifyContent:"space-between",width:'85%',marginLeft:theme.horizontalSpacing.space_10}}>
+        <View style={{flexDirection:"row",justifyContent:"space-between",width:'95%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
             <View>
         <Text style={styles.blogAuthor}>-{item?.content}</Text>
         <Text style={styles.blogDiscription}>{item?.shortDescription}</Text>
         </View>
-        <View style={{flexDirection:'row',alignItems:'center',}}>
-          <Text style={{color:theme.lightColor.borderColor,marginHorizontal:10}}>{'Read more'}</Text>
+        <View style={{flexDirection:'row',alignItems:'center',width:theme.horizontalSpacing.space_100}}>
+          <Text style={{color:theme.lightColor.borderColor,fontSize:theme.fontSizes.size_12}}>{'Read more'}</Text>
+       <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
         <Svg.Arrow/>
+        </View>
         </View>
         </View>
       </View>
@@ -229,6 +231,7 @@ const styles = StyleSheet.create({
   },
   blogInfo: {
     justifyContent: 'center',
+   
   },
   blogTitle: {
     fontSize:theme.fontSizes.size_16,

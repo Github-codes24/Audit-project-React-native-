@@ -85,7 +85,7 @@ const EligibilityScreen = () => {
 
 {
   step==='result' && <EligibityResult
-  isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='not eligible'}
+  isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='eligible'}
   onPressRetakeExam={()=>{ 
     setStep('category')
   }}

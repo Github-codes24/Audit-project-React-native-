@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {useCustomStyles} from '../../utils';
+import {theme, useCustomStyles} from '../../utils';
 const SplashScreen = () => {
   
   return (
@@ -18,6 +18,7 @@ const styles =
         height:'100%',
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor:theme.lightColor.whiteColor
     },
     backgroundImage: {
      width:280,

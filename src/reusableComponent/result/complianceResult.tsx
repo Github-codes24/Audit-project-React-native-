@@ -21,7 +21,9 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
           marginTop:theme.verticalSpacing.space_8
         }}
         >Result</Text>
+        <View style={{marginTop:40}}>
         <CircularProgress percentage={scorePercentage} />
+        </View>
         <Text
         style={{
           fontSize:theme.fontSizes.size_20,
@@ -29,7 +31,7 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
           marginTop:theme.verticalSpacing.space_8,
           textAlign: 'center',
           fontWeight:'700',
-          width:theme.horizontalSpacing.space_327,
+          width:theme.horizontalSpacing.space_285,
           
         }}
         >
@@ -56,6 +58,7 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  
     backgroundColor: '#F5F5F5',
     // borderRightColor:'red'
   },

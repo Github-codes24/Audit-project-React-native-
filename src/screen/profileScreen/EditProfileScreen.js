@@ -13,10 +13,8 @@ import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 
 
-EditProfile = ({ navigation,route }) => {
-
+EditProfile = ({ navigation,route }) => {  
     const [imageUri, setImageUri] = useState(null);
-
    const inputRef = useRef(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -28,7 +26,7 @@ EditProfile = ({ navigation,route }) => {
 
 
 const response=useSelector(getLoginResponse)
-  console.log('2222222',response)
+//   console.log('2222222',response)
   const userId=response?.data?.id
 
   const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
@@ -54,6 +52,16 @@ const response=useSelector(getLoginResponse)
     );
   };
 
+
+//  const handleChange = (text) => {
+//     // Remove non-digit characters and allow only up to 10 digits
+//     const formattedText = text.replace(/\D/g, ''); // Remove non-numeric characters
+//     if (formattedText.length <= 10) {
+//       setPhoneNumber(formattedText); // Set if less than or equal to 10 digits
+//     }
+//   };
+
+
   
   const captureImageFromCamera = () => {
     launchCamera(
@@ -74,17 +82,15 @@ const response=useSelector(getLoginResponse)
     );
   };
 
-
 const handleSubmit = () => {
   const formData = new FormData();
-  formData.append('firstname', firstName);
-  formData.append('lastname', lastName);
+
+  formData.append('firstName', firstName);
+  formData.append('lastName', lastName);
   formData.append('password', password);
   formData.append('confirmPassword', confirmPassword);
   formData.append('phoneNumber', phoneNumber);
   formData.append('Company', companyName);
-
-  // Check if imageUri exists and append the image
   if (imageUri) {
     const file = {
       uri: imageUri,            
@@ -100,10 +106,10 @@ const handleSubmit = () => {
     id: userId,
     formData: formData, 
   })
-    .unwrap() // Unwrap the mutation to handle success/failure
+    .unwrap() 
     .then((response) => {
       console.log('Profile updated successfully:', response);
-      navigation.navigate(MainRoutes.PROFILE_SCREEN); // Navigate to profile screen on success
+      navigation.navigate(MainRoutes.PROFILE_SCREEN); 
     })
     .catch((error) => {
       console.error('Error updating profile:', error);
@@ -200,7 +206,8 @@ const handleSubmit = () => {
                     <Text style={styles.TextStyle}>Phone Number</Text>
                     <CustomTextInput
                         value={phoneNumber}
-                        onChangeText={(text) => setPhoneNumber(text)}
+                       onChangeText={(text)=>setPhoneNumber(text)}
+                          maxLength={10}
                         placeholder={'+44 (0) XXXX XXX XXX'}
                     />
                     {/* Company Name Input */}
@@ -334,12 +341,13 @@ const styles = StyleSheet.create({
     },
 
     SavechangesButton: {
-        width: 374,
+        width:theme.horizontalSpacing.space_374,
         height: theme.horizontalSpacing.space_50,
         borderRadius: 10,
         backgroundColor: 'rgba(89, 41, 81, 1)',
         alignItems: 'center',
         justifyContent: 'center',
+        marginHorizontal:theme.horizontalSpacing.space_10,
     },
 
     actionText: {

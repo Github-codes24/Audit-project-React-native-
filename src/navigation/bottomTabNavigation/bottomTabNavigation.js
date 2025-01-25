@@ -65,7 +65,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="compliance"
+        name="Compliance"
         component={complianceScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.ComplianceIcon color={color} size={size} />,

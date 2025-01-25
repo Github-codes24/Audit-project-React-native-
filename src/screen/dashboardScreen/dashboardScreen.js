@@ -24,10 +24,13 @@ import { useDispatch,useSelector } from "react-redux";
 import { acceptCookies,rejectCookies,customizeCookies } from "../../redux/stateSlice/cookiesStateSlice";
 import { getCookiesStatus } from "../../redux/stateSelector";
 const DashBoardScreen = ({ navigation }) => {
+ 
+ 
+ 
   const [isModalVisible, setModalVisible] = useState(true);
 const cookiesStatus= useSelector(getCookiesStatus);
-console.log('cookiesStatus',cookiesStatus)
-  const [refreshing, setRefreshing] = useState(false); // State to handle refresh status
+// console.log('cookiesStatus',cookiesStatus)
+  const [refreshing, setRefreshing] = useState(false); 
 const dispatch = useDispatch();
   const {
     data: aboutUsData,
@@ -78,6 +81,7 @@ console.log('blogApiData',blogApiData)
           visible={isModalVisible}
           onClose={closeModal}
           title="Privacy & Cookie Settings"
+          // onPress={() => navigation.navigate("compliance")}
           description={
             "We use cookies and similar technologies to provide our Service, to give you the best experience, to improve and advertise the Service, to ensure it is safe and secure for users, and to measure the effectiveness of advertising campaigns. If you select 'Accept All', you agree to us and the partners we work with storing cookies and similar technologies on your device for advertising purposes.You can also 'Reject All' non-essential cookies or choose which types of cookies you'd like to accept or disable by clicking 'Customise Cookies' below or at any time in your privacy settings. We do not collect cookies for tracking purposes on iOS App. For more details, see our Cookies and Similar Technologies Policy."
           }
@@ -116,18 +120,18 @@ console.log('blogApiData',blogApiData)
           title={"Sponsor License Compliance Checker"}
           description={"Check your score "}
           icon={require("../../asstets/images/Compliance.png")}
-          onPress={() => navigation.navigate("compliance")}
+          onPress={() => navigation.navigate("Compliance")}
         />
         <LicenseCard
           title={"Sponsor License Eligibility Checker "}
           description={"Check if you are eligible or not "}
-          icon={require("../../asstets/images/Compliance.png")}
+          icon={require("../../asstets/images/Checklist.png")}
           onPress={() => navigation.navigate("Eligibity")}
         />
          <LicenseCard
           title={"Reminder"}
           description={"Check or mark some important dates"}
-          icon={require("../../asstets/images/Compliance.png")}
+          icon={require("../../asstets/images/Calendr.png")}
           onPress={() => navigation.navigate('Remainder')}
         />
         <View
@@ -165,12 +169,14 @@ console.log('blogApiData',blogApiData)
         </Text>
 
         <View style={{ paddingBottom: 100 }}>
-          <Text style={{ padding: 10, lineHeight: 24 }}>
-            {aboutUsData?.aboutUs?.[0]?.content}
-          </Text>
-          <View style={{ height: theme.verticalSpacing.space_230,marginHorizontal:theme.horizontalSpacing.space_10 }}>
+
+          
+          <View style={{ height: theme.verticalSpacing.space_230,marginHorizontal:theme.horizontalSpacing.space_10,marginTop:theme.verticalSpacing.space_10 }}>
+           <TouchableOpacity onPress={()=>navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}>
            <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
+           </TouchableOpacity>
           </View>
+      
         </View>
       </View>
     </ScrollView>

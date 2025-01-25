@@ -5,6 +5,7 @@ import * as Svg from '../../asstets/images/svg'; // Ensure these are valid SVG c
 
 const CustomTextInput = ({
   value,
+  maxLength,
   onChangeText,
   placeholder,
   keyboardType = 'default',
@@ -38,6 +39,7 @@ const CustomTextInput = ({
 
       {/* Text Input */}
       <TextInput
+      maxLength={maxLength}
         value={value}
         editable={editable}
         onChangeText={onChangeText}
