@@ -107,6 +107,7 @@ const handleCategorySelect = (item) => {
 
     return(
        <View style={[styles.container,{}]}>
+        <Loader isLoading={isCategoryDataLoading||isSelectedCategoryApiLoading} />
       <Header/>
        <Loader isLoading={isCategoryDataLoading} />
       <Text style={styles.header}>Blogs</Text>
