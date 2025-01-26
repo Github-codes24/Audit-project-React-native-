@@ -42,9 +42,9 @@ const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
 
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.Edit/>,route: MainRoutes.EDITPROFILE_SCREEN,
-    onPress: () =>
-      navigation.navigate(MainRoutes.EDITPROFILE_SCREEN,
-      ),
+      params:{
+        profileData:getuserdata?.getUser||{}
+      },
   },
     { label: 'Contact us', icon: <Svg.supportIcon/>, route:MainRoutes.CONTACTUS_SCREEN  },
       { label: 'Terms and condition', icon: <Svg.Termsofuse />, route:`${MainRoutes.TERMANDCONDITION_SCREEN}`  },
@@ -91,7 +91,7 @@ const supportItems = [
       <View style={styles.supportBoard}>
         <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
       {supportItems.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation?.navigate?.(item?.route)} >
+          <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation?.navigate?.(item?.route,item?.params)} >
             <Text style={styles.supportIcon}>{item.icon}</Text>
             <Text style={styles.supportText}>{item.label}</Text>
           </TouchableOpacity>

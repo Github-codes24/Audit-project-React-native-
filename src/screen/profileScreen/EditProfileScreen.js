@@ -14,19 +14,23 @@ import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profi
 
 
 EditProfile = ({ navigation,route }) => {  
-    const [imageUri, setImageUri] = useState(null);
+    const {profileData={}}= route?.params||{}
+    const [imageUri, setImageUri] = useState(profileData?.image||'');
+    
+    console.log('profileData@@',profileData,route?.params)
+    console.log('Phone Number:', profileData?.phoneNumber); 
    const inputRef = useRef(null);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState(profileData?.firstName||'');
+    const [lastName, setLastName] = useState(profileData?.lastName||'');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}`||'');
     const [companyName, setCompanyName] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
 
 
 const response=useSelector(getLoginResponse)
-//   console.log('2222222',response)
+//   console.log('2222222',response)  
   const userId=response?.data?.id
 
   const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
