@@ -23,6 +23,7 @@ import { useGetAllBlogsQuery } from "../../redux/apiSlice/blogApiSlice";
 import { useDispatch,useSelector } from "react-redux";
 import { acceptCookies,rejectCookies,customizeCookies } from "../../redux/stateSlice/cookiesStateSlice";
 import { getCookiesStatus } from "../../redux/stateSelector";
+import { AboutUsContent } from "../../reusableComponent/aboutUsContent/aboutUsContent";
 const DashBoardScreen = ({ navigation }) => {
  
  
@@ -31,6 +32,10 @@ const DashBoardScreen = ({ navigation }) => {
 const cookiesStatus= useSelector(getCookiesStatus);
 // console.log('cookiesStatus',cookiesStatus)
   const [refreshing, setRefreshing] = useState(false); 
+ const [showFullText, setShowFullText] = useState(false);
+
+
+
 const dispatch = useDispatch();
   const {
     data: aboutUsData,
@@ -43,9 +48,9 @@ const dispatch = useDispatch();
   };
 
   const onRefresh = async () => {
-    setRefreshing(true); // Show the refresh indicator
+    setRefreshing(true); 
     refetchAboutUs();
-    setRefreshing(false); // Hide the refresh indicator
+    setRefreshing(false); 
   };
 
   useEffect(() => {
@@ -70,7 +75,7 @@ console.log('blogApiData',blogApiData)
 
   return (
     <ScrollView
-      style={{ flex: 1 }}
+      style={{ flex: 1,marginBottom:30 }}
       refreshControl={
        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -152,7 +157,7 @@ console.log('blogApiData',blogApiData)
             {"Latest Blog"}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Resource")}>
-            <Text style={{ fontSize: theme.fontSizes.size_14 }}>{"See all"}</Text>
+            <Text style={{ fontSize: theme.fontSizes.size_14,fontWeight:'400',fontFamily:'inter' }}>{"See all"}</Text>
           </TouchableOpacity>
         </View>
         <HorizontalCardList data={blogApiData?.data||{}} />
@@ -167,15 +172,26 @@ console.log('blogApiData',blogApiData)
         >
           {"About us"}
         </Text>
+<AboutUsContent content={aboutUsData?.aboutUs?.[0]?.content} />
 
         <View style={{ paddingBottom: 100 }}>
 
           
-          <View style={{ height: theme.verticalSpacing.space_230,marginHorizontal:theme.horizontalSpacing.space_10,marginTop:theme.verticalSpacing.space_10 }}>
-           <TouchableOpacity onPress={()=>navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}>
-           <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
-           </TouchableOpacity>
-          </View>
+          <View
+  style={{
+    height: theme.verticalSpacing.space_230,
+    marginHorizontal: theme.horizontalSpacing.space_10,
+    marginTop: theme.verticalSpacing.space_10,
+    borderRadius:theme.horizontalSpacing.space_10, 
+    overflow: 'hidden', 
+    }}
+>
+  <TouchableOpacity
+    onPress={() => navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}
+  >
+    <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
+  </TouchableOpacity>
+</View>
       
         </View>
       </View>

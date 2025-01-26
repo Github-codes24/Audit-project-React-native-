@@ -73,8 +73,10 @@ const styles = StyleSheet.create({
   container: {
     height: 230,
     position: 'relative',
+    // borderRadius:10,
   },
   slide: {
+    
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     height: 230,
     width: '100%',
     resizeMode: 'cover',
+   
   },
   activeDot: {
     backgroundColor: '#000',

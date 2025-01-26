@@ -125,10 +125,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    marginTop:15
   },
   subHeader: {
-    fontSize: theme.fontSizes.size_16,
-    marginTop: theme.verticalSpacing.space_50,
+    fontSize: theme.fontSizes.size_20,
+    marginTop: theme.verticalSpacing.space_100,
+    fontWeight:'600'
   },
   category: {
     flexDirection: 'row',

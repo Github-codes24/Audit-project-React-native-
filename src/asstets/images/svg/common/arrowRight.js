@@ -5,7 +5,6 @@ import Svg, { Path, Rect } from 'react-native-svg';
 
 const ArrowRight = ({ size = 24, color = "white" }) => {
 
-
     return (
 
       <Svg width="10" height="18" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">

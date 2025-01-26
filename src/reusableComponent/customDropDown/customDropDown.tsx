@@ -10,7 +10,6 @@ const CustomDropDown = ({
   value,
   onSelect,
   containerWidth = '100%',
-  
   containerStyle,
   maxHeight = theme.verticalSpacing.space_100 * 2,
   listItemTextStyle,
@@ -48,9 +47,9 @@ const CustomDropDown = ({
   return (
     <TouchableOpacity onPress={() => setIsFocus(true)}>
       <View style={[styles.container, containerStyle]}>
-        {value && isShowLabel && (
+        {isFocus && !value && isShowLabel && (
           <View style={styles.labelContainer}>
-            <Text style={styles.labelText}>{placeholder}</Text>
+            {/* <Text style={styles.labelText}>{placeholder}</Text> */}
           </View>
         )}
 
@@ -58,9 +57,8 @@ const CustomDropDown = ({
           style={[
             styles.dropdown,
             {
-              width: containerWidth, 
+              width: containerWidth,
               height: theme.verticalSpacing.space_50,
-             
             },
           ]}
           placeholderStyle={[styles.placeholderStyle, placeholderTextStyle]}
@@ -70,7 +68,7 @@ const CustomDropDown = ({
           maxHeight={maxHeight}
           labelField={labelField}
           valueField={valueField}
-          placeholder={value ? '' : placeholder}
+          placeholder={!value ? placeholder : ''}
           value={value}
           search={search}
           onFocus={() => setIsFocus(true)}
@@ -90,23 +88,17 @@ const CustomDropDown = ({
 
 export default CustomDropDown;
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: theme.verticalSpacing.space_50,
-    width: theme.horizontalSpacing.space_374, // Default container width
+    width: theme.horizontalSpacing.space_374,
     borderRadius: 10,
-    borderWidth: 1, // Border for all sides
-    borderColor: '#ccc', // Gray border color
+    borderColor: '#ccc',
     marginTop: 5,
   },
-  dropdown: {
-    // You can add additional styling for the dropdown container here
-  },
+  dropdown: {},
   placeholderStyle: {
-    
-   
     fontSize: theme.fontSizes.size_14,
     marginLeft: 10,
     color: 'gray',
@@ -117,7 +109,6 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
     fontFamily: theme.fontFamily.notoSans.regular_400,
     paddingHorizontal: theme.horizontalSpacing.space_8,
-    
   },
   rightIconContainer: {
     justifyContent: 'center',
@@ -129,16 +120,14 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_14,
   },
   labelContainer: {
-    justifyContent: 'center',
+    position: 'absolute',
+    top: -theme.horizontalSpacing.space_8,
+    left: theme.horizontalSpacing.space_8,
     backgroundColor: theme.lightColor.whiteColor,
-    
+    paddingHorizontal: 4,
   },
   labelText: {
     fontSize: theme.fontSizes.size_12,
-    
     color: theme.lightColor.grayColor,
-    position: 'absolute',
-    top: -theme.horizontalSpacing.space_6,
-    left: theme.horizontalSpacing.space_8,
   },
 });

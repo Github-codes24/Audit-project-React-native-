@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg'
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
@@ -89,28 +89,35 @@ const handleResendCode = () => {
     }
   };
 
-  const handleChange = (text, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = text;
-    setOtp(newOtp);
-
-    if (text && index < 3) {
-      inputs[index + 1]?.focus();
-    }
-  };
+  
 
   const inputs = [];
 
 
+const handleChange = (text, index) => {
+    const newOtp = [...otp];
+    const isBackspace = text === ''; 
+    newOtp[index] = text;
+    setOtp(newOtp);
+    if (!isBackspace && text && index < otp.length - 1) {
+      inputs[index + 1]?.focus(); 
+    } else if (isBackspace && index > 0) {
+      inputs[index - 1]?.focus(); 
+    }
+  };
+
+
+
   return (
-    <BackgroundLayout>
+    <SafeAreaView>
     <View style={styles.container}>
-     
+     <View style={{paddingHorizontal:10}}>
       <CustomHeader
       onBackPress={()=>navigation.goBack()}
       leftIcon={<Svg.ArrowBack/>}
       title={'Email Verification'}
       />
+      </View>
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
         Code sent to <Text style={styles.email}>{email}</Text>.Please enter the code below
@@ -137,23 +144,23 @@ const handleResendCode = () => {
        />
        </View>
  <View style={styles.resendContainer}>
-        <Text style={styles.resendText}>Didn’t receive Code?</Text>
+        <Text style={styles.resendText}>Didn’t receive code?</Text>
         <TouchableOpacity
          onPress={handleResendCode}
           disabled={isResendDisabled}
         >
-          <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' },]}> Resend Code</Text>
+         <Text   style={[styles.resendLink,   { textDecorationLine: 'underline' }, isResendDisabled && { color: 'gray' },]}> Resend code</Text> 
         </TouchableOpacity>
       </View>
       
-        <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
+        <Text style={styles.timerText}>Resend code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
       {/* Resend Code Section */}
       
 
       {/* Timer */}
      
     </View>
-    </BackgroundLayout>
+    </SafeAreaView>
   );
 };
 
@@ -184,10 +191,10 @@ const styles = StyleSheet.create({
     width:theme.horizontalSpacing.space_370,
     fontSize: theme.fontSizes.size_18,
     color: '#3D3D3D',
-    marginVertical: 20,
+    
     marginHorizontal:20,
     fontWeight:'400',
-    marginTop:theme.verticalSpacing.space_80,
+    marginTop:theme.verticalSpacing.space_20,
     lineHeight:20
   },
   email: {

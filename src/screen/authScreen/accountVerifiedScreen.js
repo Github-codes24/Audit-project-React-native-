@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, Image, Modal, TouchableOpacity } from "react-native";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { theme } from "../../utils";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
@@ -8,56 +8,65 @@ import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 
-const AccountVerifiedScreen = ({ navigation,route }) => {
-   const { verifyOtpApiData } = route.params || {}; 
+const AccountVerifiedScreen = ({ navigation, route }) => {
+  const { verifyOtpApiData } = route.params || {};
   const dispatch = useDispatch();
-  
 
-// const response=useSelector(getLoginResponse)
-// console.log('response1234445',response)
-  
+  console.log('verifyOtpApiData43636',verifyOtpApiData)
+  const [isModalVisible, setModalVisible] = useState(true); 
 
+  const closeModal = () => {
+    setModalVisible(false);
+    navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
+      screen: "Home",
+    });
+  };
 
   useEffect(() => {
-  const timer = setTimeout(() => {
-    dispatch(setLoginResponse(verifyOtpApiData));
-    navigation.navigate('Home');
-  }, 3000); 
-  return () => clearTimeout(timer);
-}, [dispatch, verifyOtpApiData, navigation]);
+    const timer = setTimeout(() => {
+      dispatch(setLoginResponse(verifyOtpApiData));
+      // navigation.navigate('Home');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [dispatch, verifyOtpApiData, navigation]);
 
   return (
     <BackgroundLayout>
       <View style={style.Main}>
+        {/* Bottom Sheet Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={closeModal}
+        >
+          <View style={style.modalOverlay}>
+            <View style={style.modalContent}>
+              <Text style={style.modalTitle}>Redirecting....</Text>
+              <Text style={style.modalDescription}>
+               Redirecting to home screen in 5 sec...
+              </Text>
+             
+            </View>
+          </View>
+        </Modal>
+
         <Image
           style={style.imageStyle}
-          source={require("../../asstets/images/mobileImage.png")}
+          source={require("../../asstets/images/emailverification.png")}
         />
 
-        <Text style={style.textStyle}>{"Verification successful"}</Text>
-        <Text style={style.doneText}>
-          {"Your verification has been successfully done!"}
-        </Text>
       </View>
+
       <View
         style={{
-          backgroundColor: theme.lightColor.orangeColor,
           height: theme.verticalSpacing.space_260,
-          borderTopLeftRadius: 110,
-          borderTopRightRadius: 110,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
         }}
       >
-        <Text
-          style={{
-            textAlign: "center",
-            fontWeight: "600",
-            marginTop: 20,
-            fontSize: theme.fontSizes.size_24,
-            color: theme.lightColor.brownColor,
-          }}
-        >
-          {"Redirecting......."}
-        </Text>
+      
+
         <Text
           style={{
             textAlign: "center",
@@ -83,12 +92,12 @@ const style = StyleSheet.create({
     justifyContent: "center",
   },
   imageStyle: {
-    width: theme.horizontalSpacing.space_187,
-    height: theme.verticalSpacing.space_230,
+    width: 342,
+    height: 244,
   },
   textStyle: {
     fontSize: theme.fontSizes.size_30,
-    color: theme.lightColor.brownColor,
+    color: theme.lightColor.blackColor,
     fontWeight: "600",
     marginTop: 30,
   },
@@ -96,6 +105,52 @@ const style = StyleSheet.create({
     fontSize: theme.fontSizes.size_14,
     color: "#475569",
     marginTop: theme.verticalSpacing.space_30,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end", // Align the bottom sheet to the bottom
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent overlay
+  },
+  modalContent: {
+    width: "100%", // Full width
+    height:258, 
+    backgroundColor:theme.lightColor.brownColor,
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: "center",
+  
+  },
+  modalTitle: {
+    color:'white',
+    fontSize: theme.fontSizes.size_24,
+    fontWeight: "700",
+    lineHeight:29.5
+    
+  },
+  modalDescription: {
+    fontSize: theme.fontSizes.size_16,
+    color: "#475569",
+    marginVertical: 15,
+    textAlign: "center",
+    width:200,
+    height:40,
+    lineHeight:20,
+    fontWeight:'400',
+    color:'white',letterSpacing:.5,
+    marginTop:theme.verticalSpacing.space_50
+  },
+  modalButton: {
+    backgroundColor: theme.lightColor.brownColor,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: "600",
   },
 });
 

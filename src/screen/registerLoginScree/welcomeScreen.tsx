@@ -26,24 +26,29 @@ const RegisterButton=()=>{
       />
       <View style={{ height: '100%',alignItems:"center",justifyContent:'center' }}>
         <Image
-        style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_269,}}
+        style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_347,}}
         source={require('../../asstets/images/welcomeImage.png')}
         />
         <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
         <View style={{width:theme.horizontalSpacing.space_230}}>
         {/* <Text style={{textAlign:"center",fontWeight:'600',color:"#592951",fontSize:theme.fontSizes.size_20,margin:20}}>{'Discover Your Dream Job Here'}</Text> */}
-        <Text style={{paddingHorizontal:10,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_20,width:theme.horizontalSpacing.space_328,alignSelf:'center'}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
+        <Text style={{letterSpacing:1,lineHeight:20,paddingHorizontal:10,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_20,width:335,alignSelf:'center'}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
         
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
+        
+         <TouchableOpacity style={[style.button,{marginRight:10}]}
+        onPress={LoginNavigation}
+        >
+          <Text style={{textAlign:"center",color:theme.lightColor.whiteColor}}>Login</Text>
+        </TouchableOpacity>
+       
+        
          <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,marginHorizontal:10}]}
         onPress={RegisterButton}
         >
           <Text style={{color:theme.lightColor.brownColor}}>{'Get Started Free'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[style.button,{marginRight:10}]}
-        onPress={LoginNavigation}
-        >
-          <Text style={{textAlign:"center",color:theme.lightColor.whiteColor}}>Login</Text>
+        
+        
         </TouchableOpacity>
        
         </View>
@@ -76,7 +81,7 @@ const style = StyleSheet.create({
   },
   button:{
     width:theme.horizontalSpacing.space_170,
-    height:theme.verticalSpacing.space_46,
+    height:theme.verticalSpacing.space_50,
     backgroundColor:theme.lightColor.brownColor,
     alignItems:"center",
    justifyContent:'center',

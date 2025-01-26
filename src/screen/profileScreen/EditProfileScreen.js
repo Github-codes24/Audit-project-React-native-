@@ -123,7 +123,7 @@ const handleSubmit = () => {
 
     return (
         <ScrollView style={{marginBottom:theme.verticalSpacing.space_30}}>
-            <View style={{ }}>
+            <View style={{paddingHorizontal:5 }}>
                 <CustomHeader
                     titleColor="black"
                     title={'Edit Profile'}
@@ -162,7 +162,7 @@ const handleSubmit = () => {
                     <View style={styles.rowContainer}>
                         {/* First Name Input */}
                         <View style={styles.halfWidth}>
-                            <Text style={styles.TextStyle}>First Name</Text>
+                            <Text style={styles.TextStyle}>First name</Text>
                             <TextInput
                                 ref={inputRef}
                                 value={firstName}
@@ -173,7 +173,7 @@ const handleSubmit = () => {
                         </View>
                         {/* Last Name Input */}
                         <View style={styles.halfWidth}>
-                            <Text style={styles.TextStyle}>Last Name</Text>
+                            <Text style={styles.TextStyle}>Last name</Text>
                             <TextInput
                                 value={lastName}
                                 onChangeText={(text) => setLastName(text)}
@@ -192,18 +192,20 @@ const handleSubmit = () => {
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                        rightIcon={<Svg.CloseEye />}
+                       secureTextEntry={true}
+                       
+                        // rightIcon={<Svg.CloseEye />}
                     />
                     {/* Confirm Password Input */}
-                    <Text style={styles.TextStyle}>Confirm Password</Text>
+                    <Text style={styles.TextStyle}>Confirm password</Text>
                     <CustomTextInput
                         value={confirmPassword}
                         onChangeText={(text) => setConfirmPassword(text)}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                        rightIcon={<Svg.CloseEye />}
+                      secureTextEntry={true}
                     />
                     {/* Phone Number Input */}
-                    <Text style={styles.TextStyle}>Phone Number</Text>
+                    <Text style={styles.TextStyle}>Phone number</Text>
                     <CustomTextInput
                         value={phoneNumber}
                        onChangeText={(text)=>setPhoneNumber(text)}
@@ -211,7 +213,7 @@ const handleSubmit = () => {
                         placeholder={'+44 (0) XXXX XXX XXX'}
                     />
                     {/* Company Name Input */}
-                    <Text style={styles.TextStyle}>Company Name</Text>
+                    <Text style={styles.TextStyle}>Company name</Text>
                     <CustomTextInput
                         value={companyName}
                         onChangeText={(text) => setCompanyName(text)}
@@ -277,7 +279,7 @@ const handleSubmit = () => {
 
 const styles = StyleSheet.create({
     profileSection: {
-        paddingHorizontal: 10,
+        paddingHorizontal:15,
     },
 
     profileImageContainer: {
@@ -317,6 +319,7 @@ const styles = StyleSheet.create({
 
     halfWidth: {
         width: '48%',
+        // backgroundColor:'red'
     },
 
     nameTextInput: {
@@ -327,6 +330,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: theme.lightColor.whiteColor,
         marginBottom: theme.verticalSpacing.space_10,
+        letterSpacing:1
     },
 
     TextStyle: {

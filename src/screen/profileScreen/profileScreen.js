@@ -115,7 +115,7 @@ const supportItems = [
           visible={isDialogVisible}
           title="Confirm Logout"
           message="Are you sure you want to log out?"
-          onCancel={() => setIsDialogVisible(false)} // Close dialog
+          onCancel={() => setIsDialogVisible(false)} 
           onConfirm={handleLogOut} 
           cancelText="Cancel"
           confirmText="Yes"

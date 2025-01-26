@@ -47,7 +47,7 @@ const CustomTextInput = ({
         numberOfLines={numberOfLines}
         multiline={multiline}
         keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry && isPasswordVisible} // Conditionally show/hide password
+        secureTextEntry={secureTextEntry && isPasswordVisible} 
         style={[styles.input, inputStyle, { color: textColor }]}
         placeholderTextColor={'#BABABA'}
         ref={ref}
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: theme.fontSizes.size_16,
     color: theme.lightColor.lightGrayColor,
-    paddingHorizontal: theme.horizontalSpacing.space_8,
+    // paddingHorizontal: theme.horizontalSpacing.space_8,
     letterSpacing:1
   },
   iconContainer: {

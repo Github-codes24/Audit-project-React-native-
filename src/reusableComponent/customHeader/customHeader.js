@@ -17,8 +17,9 @@ const CustomHeader = ({
       {/* <StatusBar backgroundColor={''} /> */}
       <View
         style={{
-          paddingHorizontal: 10,
-          height: theme.verticalSpacing.space_60,
+          // paddingHorizontal: 10,
+          // backgroundColor:"red",
+          height: theme.verticalSpacing.space_80,
           width: theme.horizontalSpacing.space_70,
           top: 20,
           width: '100%',
@@ -47,8 +48,8 @@ const styles = StyleSheet.create({
     height: theme.verticalSpacing.space_156,
   },
   backButton: {
-    padding: 8,
-    marginLeft: 10,
+    paddingVertical:10,
+   
     borderRadius: 50,
     width: theme.horizontalSpacing.space_32,
     alignItems: 'center',
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   textContainer: {
     width: '100%',
     // height: theme.verticalSpacing.space_60,
-    paddingHorizontal:theme.horizontalSpacing.space_20
+    paddingHorizontal:theme.horizontalSpacing.space_10
     // alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor:"red"

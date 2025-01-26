@@ -142,7 +142,7 @@ const SetRemainderScreen = ({navigation}) => {
           data={data}
           value={reminderFor}
           onSelect={(item) => setReminderFor(item)} 
-          placeholder="Select an Option"
+          // placeholder="Select an option"
           isShowLabel={true}
         />
         <Text style={style.textStyle}>{"Description (optional)"}</Text>

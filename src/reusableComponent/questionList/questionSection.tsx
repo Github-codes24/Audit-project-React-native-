@@ -155,12 +155,13 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 18,
     fontWeight: "bold",
-    margin: 10,
+    marginTop:10,
+    marginLeft:10
   },
   selectedCategoryText: {
-    fontSize: 18,
+    fontSize:16,
     margin: 10,
-    fontWeight: "600",
+    fontWeight: "400",
   },
   navigationButtons: {
     flexDirection: "row",

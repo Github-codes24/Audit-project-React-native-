@@ -13,7 +13,7 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
             style={styles.image}
             source={require('../../asstets/images/passwordChange.png')}
           />
-          <Text style={styles.title}>Password Change Successfully</Text>
+          <Text style={styles.title}>Password Changed Successfully</Text>
           <Text style={styles.description}>
             Your password has been changed successfully. You can now use your new password to log in to your account.
           </Text>
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
   },
   description: {
-    textAlign: "center",
-    width: theme.horizontalSpacing.space_260,
+   
+    width:320,
     lineHeight: 20,
     fontSize: theme.fontSizes.size_16,
-    letterSpacing: 1,
+    fontWeight:'400',
     color: theme.lightColor.blackColor,
     marginVertical: theme.verticalSpacing.space_16,
   },

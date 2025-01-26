@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   headerView: {
     height: 105,
     backgroundColor: "#592951",
-    paddingHorizontal: 30,
+    paddingHorizontal:20,
     justifyContent: 'center',
   },
   profileImageContainer: {
