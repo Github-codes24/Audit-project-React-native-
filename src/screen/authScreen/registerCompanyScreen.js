@@ -72,14 +72,14 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           <CustomTextInput
             value={companyName}
             onChangeText={(text) => setCompanyName(text)}
-            placeholder={"Company Name"}
+            placeholder={"Company name"}
           />
-          <Text style={styles.label}>Phone Number</Text>
+          <Text style={styles.label}>Phone number</Text>
           <CustomTextInput
             value={phoneNumber}
             onChangeText={(text) => setPhoneNumber(text)}
             keyboardType="numeric"
-            placeholder={"Phone Number"}
+            placeholder={"Phone number"}
           />
         </View>
 
@@ -89,7 +89,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
             isChecked={isPrivacyChecked}
             onPress={() => setPrivacyChecked(!isPrivacyChecked)}
             text={"I have read and understood the"}
-            linkText={"Privacy Policy*"}
+            linkText={"Privacy Policy*"}
             link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
           />
           <CustomCheckbox
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     marginBottom: theme.verticalSpacing.space_30,
+   
     height: 50,
   },
   backIcon: {
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: "600",
     color: theme.lightColor.blackColor,
   },
@@ -141,11 +142,11 @@ const styles = StyleSheet.create({
     paddingHorizontal:5
   },
   label: {
-    marginTop: 20,
+    marginTop:theme.verticalSpacing.space_20,
   },
   checkboxContainer: {
     marginTop: theme.verticalSpacing.space_20,
-    paddingHorizontal:10
+    paddingHorizontal:8
   },
   footer: {
     marginTop: theme.verticalSpacing.space_50,

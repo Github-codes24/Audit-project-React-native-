@@ -14,11 +14,13 @@ import NotificationScreen from '../../screen/NotificationScreen/NotificationScre
 import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
 import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
 import AboutUsScree from '../../screen/aboutUsScreen/aboutUsScreen';
-
 import ContactScreen from '../../screen/contactScreen/contactScreen';
 import BlogDetailsScreen from '../../screen/blogDetailsScreen/blogDetailsScreen';
 import SetRemainderScreen from '../../screen/setRemainderScreen/setRemainderScreen';
+import DeleteSuccessFully from '../../screen/DeleteSuccessfully/deleteSuccessfully';
+import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessfully';
 const Stack = createStackNavigator();
+
 const MainStackNavigation = () => {
   return (
    
@@ -76,8 +78,14 @@ const MainStackNavigation = () => {
       />
 
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
-   
-
+   <Stack.Screen
+        name={MainRoutes.DELETE_SUCCESSFULLY}
+        component={DeleteSuccessFully} 
+      />
+<Stack.Screen
+        name={MainRoutes.UPDATE_SUCCESSFULLY}
+        component={UpdateSuccessFully} 
+      />
       </Stack.Navigator>
       
   );

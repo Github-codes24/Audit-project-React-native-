@@ -28,6 +28,8 @@ export const MainRoutes = {
   CONTACTUS_SCREEN:'ContactUsScreen',
   BLOG_DETAILS_SCREEN:"BlogDetailsScreen",
   SET_REMAINDER_SCREEN:"SetRemainderScreen",
+  DELETE_SUCCESSFULLY:'DeleteSuccessFully',
+  UPDATE_SUCCESSFULLY:'UpdateSuccessFully'
 };
 
 export const RootStackParamList = {
@@ -55,6 +57,9 @@ export const RootStackParamList = {
    [MainRoutes.ABOUTUS_SCREEN]:{}|undefined,
    [MainRoutes.BLOG_DETAILS_SCREEN]:{}|undefined,
   [MainRoutes.SET_REMAINDER_SCREEN]:{}|undefined,
+  [MainRoutes.DELETE_SUCCESSFULLY]:{}|undefined,
+   [MainRoutes.UPDATE_SUCCESSFULLY]:{}|undefined,
+
 };
 
 export const MainStack = createStackNavigator();

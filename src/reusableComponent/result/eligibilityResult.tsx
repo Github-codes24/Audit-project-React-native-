@@ -29,8 +29,8 @@ const EligibityResult = ({ onPressRetakeExam, isEligible }) => {
           {/* Eligibility Message */}
           <Text style={styles.title}>
             {isEligible
-              ? "Congratulations 🎉\nYou are eligible!"
-              : "Sorry,\nYou are not eligible!"}
+              ? "Congratulations 🎉\nyou are eligible!"
+              : "Sorry,\nyou are not eligible!"}
           </Text>
           <Text style={styles.subtitle}>Additional information goes here.</Text>
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   resultHeader: {
     color: "black",
-    fontSize: theme.fontSizes.size_18,
+    fontSize: theme.fontSizes.size_24,
     fontWeight: "600",
     marginTop: 10,
   },

@@ -90,7 +90,7 @@ const handleCategorySelect = (item) => {
         </View>
         <View style={{flexDirection:"row",justifyContent:"space-between",width:'95%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
             <View>
-        <Text style={styles.blogAuthor}>-{item?.content}</Text>
+        {/* <Text style={styles.blogAuthor}>-{item?.content}</Text> */}
         <Text style={styles.blogDiscription}>{item?.shortDescription}</Text>
         </View>
         <View style={{flexDirection:'row',alignItems:'center',width:theme.horizontalSpacing.space_100}}>
@@ -107,6 +107,7 @@ const handleCategorySelect = (item) => {
 
     return(
        <View style={[styles.container,{}]}>
+        <Loader isLoading={isCategoryDataLoading||isSelectedCategoryApiLoading} />
       <Header/>
        <Loader isLoading={isCategoryDataLoading} />
       <Text style={styles.header}>Blogs</Text>
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
     // marginBottom: 16,
-    padding:10
+    padding:20
   },
   blogItem: {
     flex:1,

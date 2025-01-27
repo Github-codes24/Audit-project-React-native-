@@ -75,7 +75,7 @@ const ForgotPasswordScreen = () => {
                  
                 </View>
                 <View style={{marginTop:theme.verticalSpacing.space_28,paddingHorizontal:5}}>
-                   <Text style={style.headerTitle}>Register Account</Text>
+                   <Text style={style.headerTitle}>{'Forgot Password'}</Text>
                </View>
         <Text style={style.Textstyle}>
           No worries! Enter your email address below and we will send you a code to reset password.
@@ -122,6 +122,7 @@ const style = StyleSheet.create({
     paddingHorizontal:theme.horizontalSpacing.space_14,
     color: theme.lightColor.blackColor,
     fontWeight: '600',
+    fontSize:theme.fontSizes.size_16
   },
    backIcon: {
     paddingHorizontal:5,
@@ -140,13 +141,16 @@ const style = StyleSheet.create({
     marginBottom: 20,
   },
   Textstyle: {
-    width:360,
+    width:350,
     marginTop: theme.verticalSpacing.space_10,
     paddingHorizontal: 8,
     fontSize: theme.fontSizes.size_16,
-    lineHeight: 20,
-    letterSpacing:1,
-    color:'black'
+    lineHeight:20,
+    letterSpacing:.8,
+    color:'black',
+    fontWeight:'400',
+    
+    
     
   },
   inputView: {

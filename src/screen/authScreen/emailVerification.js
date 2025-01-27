@@ -62,7 +62,7 @@ useEffect(() => {
     navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN, {
       verifyOtpApiData, 
     });
-    alertSuccess('Success', 'Email verification successful');
+    // alertSuccess('Success', 'Email verification successful');
   } else if (verifyOtpApiError) {
     // console.log('verifyOtpApiError', verifyOtpApiError.data?.message);
     alertError(
@@ -80,12 +80,12 @@ const [ResendOtpRegistrationPasswordApi, {
 
 
 const handleResendCode = () => {
-     alertSuccess('send')
+     alertSuccess('Otp resend !')
     if (!isResendDisabled) {
       setTimer(30); 
       setIsResendDisabled(true); 
    ResendOtpRegistrationPasswordApi({email})
-    console.log('Code resent!');
+    // console.log('Code resent!');
     }
   };
 
@@ -137,10 +137,10 @@ const handleChange = (text, index) => {
         ))}
       </View>
        
-      <View style={{marginTop:theme.verticalSpacing.space_156}}>
+      <View style={{marginTop:theme.verticalSpacing.space_114}}>
        <CustomButton
        onPress={handleVerifyAccount}
-       title={'Verify Account'}
+       title={'Verify account'}
        />
        </View>
  <View style={styles.resendContainer}>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginTop:theme.verticalSpacing.space_100,
     
     // marginTop: 20,
-    paddingHorizontal:theme.horizontalSpacing.space_20,
+    paddingHorizontal:15
     // backgroundColor:'red'
   },
   otpInput: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   resendContainer: {
     // backgroundColor:"red",
     flexDirection: 'row',
-    paddingHorizontal:theme.horizontalSpacing.space_30,
+    paddingHorizontal:theme.horizontalSpacing.space_20,
     // justifyContent: 'center',
     marginTop:theme.verticalSpacing.space_20,
   },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     
   },
   timerText: {
-    paddingHorizontal:theme.horizontalSpacing.space_30,
+    paddingHorizontal:theme.horizontalSpacing.space_20,
     // textAlign: 'center',
     marginTop:5,
     color: '#3D3D3D',

@@ -33,6 +33,7 @@ import PhoneIcon from "./common/phoneIcon";
 import CheckList from "./common/checkList";
 import ArrowRight from "./common/arrowRight";
 import ArrowLeftDown from "./common/leftArrow";
+import ProfileEdit from "./common/profileEdit";
 
 export {
     CheckList,
@@ -69,5 +70,6 @@ DropDownIcon,
 ShareIcon,
 PhoneIcon,
 ArrowRight,
-ArrowLeftDown
+ArrowLeftDown,
+ProfileEdit
 };

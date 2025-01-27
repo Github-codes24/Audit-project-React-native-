@@ -12,142 +12,128 @@ import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 
+const EditProfile = ({ navigation, route }) => {
+    const { profileData = {} } = route?.params || {};
+    const [imageUri, setImageUri] = useState(profileData?.image || '');
 
-EditProfile = ({ navigation,route }) => {  
-    const [imageUri, setImageUri] = useState(null);
-   const inputRef = useRef(null);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    console.log('profileData@@', profileData, route?.params);
+    console.log('Phone Number:', profileData?.phoneNumber);
+    const inputRef = useRef(null);
+    const [firstName, setFirstName] = useState(profileData?.firstName || '');
+    const [lastName, setLastName] = useState(profileData?.lastName || '');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}`|| '');
     const [companyName, setCompanyName] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    const response = useSelector(getLoginResponse);
+    const userId = response?.data?.id;
 
-const response=useSelector(getLoginResponse)
-//   console.log('2222222',response)
-  const userId=response?.data?.id
+    const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
 
-  const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
-
-  console.log('updateUserProfile',updateUserProfile)
-
- const pickImageFromGallery = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 1, 
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.errorMessage) {
-          console.error('ImagePicker Error:', response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-          setImageUri(response.assets[0].uri); 
-           setIsModalVisible(false); 
-        }
-      }
-    );
-  };
-
-
-//  const handleChange = (text) => {
-//     // Remove non-digit characters and allow only up to 10 digits
-//     const formattedText = text.replace(/\D/g, ''); // Remove non-numeric characters
-//     if (formattedText.length <= 10) {
-//       setPhoneNumber(formattedText); // Set if less than or equal to 10 digits
-//     }
-//   };
-
-
-  
-  const captureImageFromCamera = () => {
-    launchCamera(
-      {
-        mediaType: 'photo',
-        quality: 1,
-      },
-      (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled camera');
-        } else if (response.errorMessage) {
-          console.error('Camera Error:', response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-          setImageUri(response.assets[0].uri);
-             setIsModalVisible(false); 
-        }
-      }
-    );
-  };
-
-const handleSubmit = () => {
-  const formData = new FormData();
-
-  formData.append('firstName', firstName);
-  formData.append('lastName', lastName);
-  formData.append('password', password);
-  formData.append('confirmPassword', confirmPassword);
-  formData.append('phoneNumber', phoneNumber);
-  formData.append('Company', companyName);
-  if (imageUri) {
-    const file = {
-      uri: imageUri,            
-      type: 'image/jpeg',       
-      name: 'profile_image.jpg', 
+    const pickImageFromGallery = () => {
+        launchImageLibrary(
+            {
+                mediaType: 'photo',
+                quality: 1,
+            },
+            (response) => {
+                if (response.didCancel) {
+                    console.log('User cancelled image picker');
+                } else if (response.errorMessage) {
+                    console.error('ImagePicker Error:', response.errorMessage);
+                } else if (response.assets && response.assets.length > 0) {
+                    setImageUri(response.assets[0].uri);
+                    setIsModalVisible(false);
+                }
+            }
+        );
     };
 
-    console.log('File Object:', file); 
-    formData.append('image', file);  
-  }
-  console.log('Form Data:', formData);
-  updateUserProfile({
-    id: userId,
-    formData: formData, 
-  })
-    .unwrap() 
-    .then((response) => {
-      console.log('Profile updated successfully:', response);
-      navigation.navigate(MainRoutes.PROFILE_SCREEN); 
-    })
-    .catch((error) => {
-      console.error('Error updating profile:', error);
-      alertError('Failed to update profile'); // Display error if mutation fails
-    });
-};
+    const captureImageFromCamera = () => {
+        launchCamera(
+            {
+                mediaType: 'photo',
+                quality: 1,
+            },
+            (response) => {
+                if (response.didCancel) {
+                    console.log('User cancelled camera');
+                } else if (response.errorMessage) {
+                    console.error('Camera Error:', response.errorMessage);
+                } else if (response.assets && response.assets.length > 0) {
+                    setImageUri(response.assets[0].uri);
+                    setIsModalVisible(false);
+                }
+            }
+        );
+    };
+
+    const handleSubmit = () => {
+        const formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('password', password);
+        formData.append('confirmPassword', confirmPassword);
+        formData.append('phoneNumber', phoneNumber);
+        formData.append('Company', companyName);
+        if (imageUri) {
+            const file = {
+                uri: imageUri,
+                type: 'image/jpeg',
+                name: 'profile_image.jpg',
+            };
+
+            console.log('File Object:', file);
+            formData.append('image', file);
+        }
+        console.log('Form Data:', formData);
+        updateUserProfile({
+            id: userId,
+            formData: formData,
+        })
+            .unwrap()
+            .then((response) => {
+                console.log('Profile updated successfully:', response);
+                navigation.navigate(MainRoutes.UPDATE_SUCCESSFULLY);
+            })
+            .catch((error) => {
+                console.error('Error updating profile:', error);
+                alertError('Failed to update profile');
+            });
+    };
 
     const supportItems = [
-        { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
+    { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
     ];
 
     return (
-        <ScrollView style={{marginBottom:theme.verticalSpacing.space_30}}>
-            <View style={{paddingHorizontal:5 }}>
-                <CustomHeader
-                    titleColor="black"
-                    title={'Edit Profile'}
-                    leftIcon={<Svg.ArrowBack />}
-                    onBackPress={() => navigation.goBack()}
-                />
+        <ScrollView style={{ marginBottom: theme.verticalSpacing.space_30 }}>
+            <View style={{ paddingHorizontal: 7 }}>
+                <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
+                    onPress={() => navigation.goBack()}
+                >
+                    <Svg.ArrowBack />
+                </TouchableOpacity>
+                <View>
+                    <Text style={{ fontWeight: '700', fontSize: theme.fontSizes.size_20, marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}>{'Edit profile'}</Text>
+                </View>
             </View>
             <View style={styles.profileSection}>
-                {/* Profile Image */}
                 <View style={styles.profileImageContainer}>
-                   <Image
-                     source={
-                   imageUri ? { uri: imageUri } 
-                  : require('../../asstets/images/manImage.png') 
-                   }
-                 style={styles.profileImage}
-                 />
+                    <Image
+                        source={
+                            imageUri ? { uri: imageUri }
+                            : require('../../asstets/images/manImage.png')
+                        }
+                        style={styles.profileImage}
+                    />
                 </View>
-
-                {/* Edit Image Text and Icon */}
                 <View>
                     {supportItems.map((item, index) => (
                         <TouchableOpacity key={index}
-                            onPress={() => setIsModalVisible(true)} 
+                            onPress={() => setIsModalVisible(true)}
                         >
                             <View style={styles.iconTextContainer}>
                                 <Text style={styles.supportIcon}>{item.icon}</Text>
@@ -156,11 +142,8 @@ const handleSubmit = () => {
                         </TouchableOpacity>
                     ))}
                 </View>
-
-               
                 <View style={styles.nameView}>
                     <View style={styles.rowContainer}>
-                        {/* First Name Input */}
                         <View style={styles.halfWidth}>
                             <Text style={styles.TextStyle}>First name</Text>
                             <TextInput
@@ -171,7 +154,6 @@ const handleSubmit = () => {
                                 placeholder="John"
                             />
                         </View>
-                        {/* Last Name Input */}
                         <View style={styles.halfWidth}>
                             <Text style={styles.TextStyle}>Last name</Text>
                             <TextInput
@@ -183,36 +165,31 @@ const handleSubmit = () => {
                         </View>
                     </View>
                 </View>
-
-                {/* Other Inputs */}
                 <View>
-                    {/* Password Inputs */}
                     <Text style={styles.TextStyle}>Password</Text>
                     <CustomTextInput
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                       secureTextEntry={true}
-                       
-                        // rightIcon={<Svg.CloseEye />}
+                        secureTextEntry={true}
                     />
-                    {/* Confirm Password Input */}
                     <Text style={styles.TextStyle}>Confirm password</Text>
                     <CustomTextInput
                         value={confirmPassword}
                         onChangeText={(text) => setConfirmPassword(text)}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                      secureTextEntry={true}
+                        secureTextEntry={true}
                     />
-                    {/* Phone Number Input */}
                     <Text style={styles.TextStyle}>Phone number</Text>
                     <CustomTextInput
                         value={phoneNumber}
-                       onChangeText={(text)=>setPhoneNumber(text)}
-                          maxLength={10}
+                        onChangeText={(text) => {
+                        const formattedText = text.replace(/\D/g,'').slice(0,10);
+                        setPhoneNumber(formattedText);
+                        }}
+                        maxLength={10}
                         placeholder={'+44 (0) XXXX XXX XXX'}
                     />
-                    {/* Company Name Input */}
                     <Text style={styles.TextStyle}>Company name</Text>
                     <CustomTextInput
                         value={companyName}
@@ -220,16 +197,12 @@ const handleSubmit = () => {
                         placeholder={'Enter your company name'}
                     />
                 </View>
-
-                {/* Save Button */}
                 <View style={styles.actions}>
                     <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
                         <Text style={styles.actionText}>Save changes</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-
-            {/* Modal */}
             <Modal
                 transparent={true}
                 visible={isModalVisible}
@@ -253,19 +226,18 @@ const handleSubmit = () => {
                         }}
                     >
                         <TouchableOpacity onPress={pickImageFromGallery}>
-                            <View style={{flexDirection:'row',alignItems:"center"}}>
-                           <Svg.GalleryIcon />
-                            <Text style={{ fontSize: 16, marginVertical: 10,marginLeft:10 }}>Upload from Gallery</Text>
-                       </View>
+                            <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                                <Svg.GalleryIcon />
+                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from Gallery</Text>
+                            </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={captureImageFromCamera}>
-                           <View style={{flexDirection:'row',alignItems:"center",}}>
-                           <Svg.CameraIcon/>
-                            <Text style={{ fontSize: 16, marginVertical: 10,marginLeft:10 }}>Upload from Camera</Text>
-                           </View>
+                            <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                                <Svg.CameraIcon />
+                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from Camera</Text>
+                            </View>
                         </TouchableOpacity>
-
 
                         <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                             <Text style={{ fontSize: 16, marginVertical: 10, color: "red" }}>Cancel</Text>
@@ -279,13 +251,9 @@ const handleSubmit = () => {
 
 const styles = StyleSheet.create({
     profileSection: {
-        paddingHorizontal:15,
+        paddingHorizontal: 15,
     },
-
-    profileImageContainer: {
-        // marginTop: theme.verticalSpacing.space_10,
-    },
-
+    profileImageContainer: {},
     profileImage: {
         width: theme.horizontalSpacing.space_100,
         height: theme.horizontalSpacing.space_110,
@@ -293,35 +261,27 @@ const styles = StyleSheet.create({
         marginBottom: theme.verticalSpacing.space_10,
         marginTop: theme.verticalSpacing.space_10,
     },
-
     iconTextContainer: {
         flexDirection: 'row',
     },
-
     supportIcon: {
         marginRight: 8,
     },
-
     supportText: {
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
         color: '#000',
     },
-
     nameView: {
         marginTop: theme.verticalSpacing.space_10,
     },
-
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-
     halfWidth: {
         width: '48%',
-        // backgroundColor:'red'
     },
-
     nameTextInput: {
         height: theme.horizontalSpacing.space_50,
         borderWidth: 1,
@@ -330,32 +290,27 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: theme.lightColor.whiteColor,
         marginBottom: theme.verticalSpacing.space_10,
-        letterSpacing:1
+        letterSpacing: 1,
     },
-
     TextStyle: {
         marginTop: theme.verticalSpacing.space_10,
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
     },
-
     actions: {
         marginTop: theme.verticalSpacing.space_34,
         alignItems: 'center',
     },
-
     SavechangesButton: {
-        width:theme.horizontalSpacing.space_374,
+        width: theme.horizontalSpacing.space_374,
         height: theme.horizontalSpacing.space_50,
         borderRadius: 10,
         backgroundColor: 'rgba(89, 41, 81, 1)',
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal:theme.horizontalSpacing.space_10,
+        marginHorizontal: theme.horizontalSpacing.space_10,
     },
-
     actionText: {
-        // fontFamily: 'Inter',
         fontWeight: '500',
         fontSize: theme.fontSizes.size_16,
         lineHeight: 20,

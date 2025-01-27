@@ -12,7 +12,9 @@ const CustomCheckbox = ({ isChecked, onPress, text, link, linkText }) => {
         onPress={onPress}
       >
        {isChecked && (
+        
          <Svg.CheckBoxActive/>
+        
         )}
       </TouchableOpacity>
       <Text style={styles.checkboxText}>
@@ -22,38 +24,15 @@ const CustomCheckbox = ({ isChecked, onPress, text, link, linkText }) => {
           onPress={() => Linking.openURL('https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link')}
         >
           {linkText}
+         <Text style={{ color: 'black' }}>
+    </Text>
         </Text>
       </Text>
     </View>
   );
 };
 
-const TermsScreen = () => {
-  const [isPrivacyChecked, setPrivacyChecked] = useState(false);
-  const [isTermsChecked, setTermsChecked] = useState(false);
 
-  return (
-    <View style={styles.container}>
-      {/* Privacy Policy Checkbox */}
-      <CustomCheckbox
-        isChecked={isPrivacyChecked}
-        onPress={() => setPrivacyChecked(!isPrivacyChecked)}
-        text="I have read and understood the"
-        link="https://example.com/privacy-policy"
-        linkText="Privacy Policy"
-      />
-
-      {/* Terms and Conditions Checkbox */}
-      <CustomCheckbox
-        isChecked={isTermsChecked}
-        onPress={() => setTermsChecked(!isTermsChecked)}
-        text="I agree to the"
-        link="https://example.com/terms-and-conditions"
-        linkText="Terms and Conditions"
-      />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -64,9 +43,11 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     // marginBottom: 15,
     marginVertical:theme.verticalSpacing.space_10,
+   
+   
     
   },
   checkbox: {
@@ -93,11 +74,14 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_16,
     color: theme.lightColor.blackColor,
     flexShrink: 1,
-    fontWeight:'400'
+    fontWeight:'400',
+    
   },
   linkText: {
-    color: theme.lightColor.borderColor, 
+    color:'gray', 
+    borderBottomColor:'gray',
     textDecorationLine: 'underline',
+  
   },
 });
 

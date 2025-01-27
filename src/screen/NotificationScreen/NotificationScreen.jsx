@@ -50,10 +50,10 @@ const [markNotificationAsRead,{
     return []; 
   }
  
-  if (selectedTab === 'Unread') {
+  if (selectedTab ==='Unread') {
     return get10userUnReadApiNotificationApidata?.notifications}
   
-    if (selectedTab === 'Read') {
+    if (selectedTab ==='Read') {
     return get10userReadApiNotificationApidata?.notifications
   }
   return getAllUserNotificationApidata?.notifications; 
@@ -63,7 +63,7 @@ const [markNotificationAsRead,{
     <TouchableOpacity  style={styles.notificationItem}
      onPress={() => {
       setSelectedNotificationId(item?._id)
-      if (selectedTab === 'Unread') {
+      if (selectedTab ==='Unread') {
       markNotificationAsRead(item?._id)
       }
      }} 
@@ -82,9 +82,8 @@ const [markNotificationAsRead,{
         {/* header  */}
         <Header/>
       {/* Custom Tabs */}
-      <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',
-         letterSpacing:1,color:theme.lightColor.blackColor,
-        margin:theme.horizontalSpacing.space_10}}>{'Notifications'}</Text>
+      <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',color:theme.lightColor.blackColor,
+        margin:theme.horizontalSpacing.space_10,marginHorizontal:20}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
         {['All', 'Unread', 'Read'].map((tab) => (
           <TouchableOpacity

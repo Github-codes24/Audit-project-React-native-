@@ -8,11 +8,13 @@ import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useLoginApiMutation } from "../../redux/apiSlice/authApiSlice";
 import { alertError, alertSuccess } from "../../utils/Toast";
-import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
+
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../reusableComponent/loader/loader";
 import CustomCheckbox from "../../reusableComponent/customCheckBox/customCheckBox";
+import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
+
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -60,6 +62,7 @@ const LoginScreen = ({ navigation }) => {
           color: theme.lightColor.blackColor,
           paddingHorizontal: theme.horizontalSpacing.space_10,
           letterSpacing: 1,
+          marginTop:10
         }}
       >
         {"Welcome back, you have been missed!"}
@@ -99,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
         style={{
           flexDirection: "row",
           width: "100%",
-          paddingHorizontal: theme.horizontalSpacing.space_20,
+          paddingHorizontal:15,
           marginTop: theme.verticalSpacing.space_10,
         }}
       >

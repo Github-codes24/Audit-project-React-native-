@@ -83,7 +83,7 @@ const RegisterScreen = ({ navigation }) => {
               value={lastName}
               onChangeText={(text) => setLastName(text)}
               style={[styles.nameTextInput, { marginLeft: 10 }]}
-              placeholder="weak"
+              placeholder="Weak"
               placeholderTextColor="#BABABA"
             />
           </View>
@@ -103,7 +103,7 @@ const RegisterScreen = ({ navigation }) => {
             placeholder={"Password"}
             rightIcon={<Svg.CloseEye />}
           />
-          <Text style={styles.TextStyle}>Confirm Password</Text>
+          <Text style={styles.TextStyle}>Confirm password</Text>
           <CustomTextInput
             secureTextEntry={true}
             textColor={"#BABABA"}
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
     letterSpacing: 1,
+    fontSize:theme.fontSizes.size_16
   },
   TextStyle: {
     marginTop: 20,

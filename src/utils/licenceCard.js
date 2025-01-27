@@ -9,7 +9,7 @@ const Card = ({ title, description, icon, onPress }) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
         <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>Get Started </Text>
+          <Text style={styles.buttonText}>Get started </Text>
           <View style={{marginLeft:5}}>
           <Svg.RightArrow/>
           </View>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
+    width:231
   },
   description: {
     fontSize: 14,

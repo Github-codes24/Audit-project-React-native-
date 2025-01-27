@@ -126,23 +126,23 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
           options={questionData?.questions?.answerOptions}
           selectedOption={selectedAnswers[questionData?._id]}
           onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
-          questionNumber={currentIndex + index + 1} // Add this line
-          totalQuestions={questions?.length} // Add this line
+          questionNumber={currentIndex + index + 1} 
+          totalQuestions={questions?.length}
           
         />
       ))}
 
       <View style={styles.navigationButtons}>
         <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
-          <Text style={{ color: "white" }}>Previous</Text>
+          <Text style={{ color: "white",fontSize:15,fontWeight:'500'   }}>Previous</Text>
         </TouchableOpacity>
         {currentIndex + 3 >= questions?.length ? (
         <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
-          <Text style={{ color: "white" }}>Submit</Text>
+          <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Submit</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
-          <Text style={{ color: "white" }}>Next</Text>
+          <Text style={{ color: "white",fontSize:15,fontWeight:'500' }}>Next</Text>
         </TouchableOpacity>
       )}
       </View>
@@ -153,8 +153,8 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize:20,
+    fontWeight: "700",
     marginTop:10,
     marginLeft:10
   },

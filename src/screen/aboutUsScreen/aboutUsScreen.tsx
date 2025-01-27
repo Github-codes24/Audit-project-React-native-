@@ -41,7 +41,7 @@ return(
     <View style={{flex:1}}>
       <Header/>
       <Loader isLoading={getGetAboutApiIsLoading}/>
-        <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About us'}</Text>
+        <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About Us'}</Text>
          <View style={{height:theme.verticalSpacing.space_230,marginHorizontal:10}}>
                
                 <Swiper   

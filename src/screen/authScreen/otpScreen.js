@@ -56,25 +56,24 @@ const OtpScreen = ({ navigation, route }) => {
   }, [timer]);
 
   const handleResendCode = () => {
+    alertSuccess('Otp resend')
     if (!isResendDisabled) {
       setIsResendDisabled(true);
       setTimer(30);
       resendOtp({ email });
-      alertSuccess('Code resent!');
+      alertSuccess('Code resend!');
     }
   };
 
   const handleChange = (text, index) => {
     const newOtp = [...otp];
-    const isBackspace = text === ''; // Detect backspace
+    const isBackspace = text === ''; 
     newOtp[index] = text;
     setOtp(newOtp);
-
-    // Navigate focus based on input
     if (!isBackspace && text && index < otp.length - 1) {
-      inputs[index + 1]?.focus(); // Move to next input
+      inputs[index + 1]?.focus(); 
     } else if (isBackspace && index > 0) {
-      inputs[index - 1]?.focus(); // Move to previous input
+      inputs[index - 1]?.focus(); 
     }
   };
 
@@ -89,7 +88,7 @@ const OtpScreen = ({ navigation, route }) => {
           />
         </View>
         <Text style={styles.description}>
-          Code sent to <Text style={styles.email}>{email}</Text>. Please enter the code below.
+          Code send to <Text style={styles.email}>{email}</Text>. Please enter the code below.
         </Text>
 
         {/* OTP Input Fields */}
@@ -153,8 +152,8 @@ const styles = StyleSheet.create({
   otpContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: theme.horizontalSpacing.space_20,
-    marginTop: theme.verticalSpacing.space_100,
+    paddingHorizontal:15,
+    marginTop: theme.verticalSpacing.space_114,
   },
   otpInput: {
     margin: 5,
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
   },
   resendContainer: {
     flexDirection: 'row',
-    paddingHorizontal: theme.horizontalSpacing.space_20,
+    paddingHorizontal:20,
     marginTop: 20,
   },
   resendText: {

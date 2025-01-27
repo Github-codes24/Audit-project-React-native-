@@ -18,7 +18,8 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
         style={{
           fontSize:theme.fontSizes.size_24,
           color:theme.lightColor.blackColor,
-          marginTop:theme.verticalSpacing.space_8
+          marginTop:theme.verticalSpacing.space_8,
+          fontWeight:'600'
         }}
         >Result</Text>
         <View style={{marginTop:40}}>

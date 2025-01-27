@@ -100,7 +100,7 @@ const ContactScreen = () => {
          <Svg.MessageIcon/>
         <Text style={[style.textStyle,{marginLeft:5}]}>Email</Text>
         </View>
-        <Text style={{letterSpacing:1,color:'black',fontSize:theme.fontSizes.size_16}}>{email}</Text>
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500'}}>{email}</Text>
          <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10,}}>
       
         <Svg.PhoneIcon/>
@@ -108,18 +108,18 @@ const ContactScreen = () => {
         <Text style={[style.textStyle, {marginLeft:5 }]}>Phone No.</Text>
         </View>
         
-        <Text style={{letterSpacing:1,color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5}}>{phoneNumber}</Text>
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5,fontWeight:'500'}}>{phoneNumber}</Text>
 
         <Text style={style.textBox}>Name</Text>
         <CustomTextInput
-          placeholder={"Enter your name"}
+          placeholder={"John Weak"}
           value={name}
           onChangeText={(text) => setName(text)}
         />
 
         <Text style={style.textBox}>Email</Text>
         <CustomTextInput
-          placeholder={"Enter your email address"}
+          placeholder={"john@example.com"}
           value={emailEnquiry}
           onChangeText={(text) => setEmailEnquiry(text)}
         />
@@ -132,8 +132,10 @@ const ContactScreen = () => {
             borderRadius: 10,
             padding: 10,
             textAlignVertical: "top",
+            letterSpacing:1
           }}
-          placeholder="Enter your query...."
+          placeholder="Enter your query........."
+          placeholderTextColor={'#BABABA'}
           multiline
           value={message}
           onChangeText={(text) => setMessage(text)}
