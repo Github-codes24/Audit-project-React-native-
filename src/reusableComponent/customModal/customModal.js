@@ -12,7 +12,7 @@ import { theme } from "../../utils";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const CustomModal = ({ visible, onClose, title, description, buttons, size = "50%" }) => {
+const CustomModal = ({ visible, onClose, title,titleTextStyle={},descriptionTextStyle={}, description, buttons, size = "50%" }) => {
   const sizePercentage = {
     "25%": SCREEN_HEIGHT * 0.25,
     "50%": SCREEN_HEIGHT * 0.5,
@@ -33,12 +33,12 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
       <View style={styles.overlay}>
         <View style={[styles.bottomSheetContainer, { maxHeight: modalHeight }]}>
           {/* Title */}
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title,titleTextStyle]}>{title}</Text>
 
           {/* Description */}
           {description.length > 150 ? (
             <ScrollView style={styles.descriptionContainer} showsVerticalScrollIndicator={false}>
-              <Text style={styles.description}>{description}</Text>
+              <Text style={[styles.description,descriptionTextStyle]}>{description}</Text>
             </ScrollView>
           ) : (
             <View style={styles.descriptionWrapper}>
@@ -56,6 +56,7 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
                   button.type === "primary"
                     ? styles.primaryButton
                     : styles.secondaryButton,
+                    button.type === "text" ? { borderWidth: 0 } : {},
                 ]}
                 onPress={() => {
                   button.onPress(); // Close modal only on button press
@@ -65,9 +66,10 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
                 <Text
                   style={[
                     styles.buttonText,
+
                     button.type === "primary"
                       ? styles.primaryButtonText
-                      : styles.secondaryButtonText,
+                      : styles.secondaryButtonText
                   ]}
                 >
                   {button.label}
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.verticalSpacing.space_40,
   },
   title: {
-    alignSelf: "center",
+     alignSelf: "center",
     textAlign: "center",
     fontSize: theme.fontSizes.size_24,
     fontWeight: "bold",

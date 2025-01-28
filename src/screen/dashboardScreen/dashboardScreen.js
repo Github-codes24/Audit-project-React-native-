@@ -66,11 +66,19 @@ const DashBoardScreen = ({ navigation }) => {
         <StatusBar backgroundColor={"#592951"} />
         <CustomModal
           visible={isModalVisible}
+          size="75%"
           onClose={closeModal}
           title="Privacy & Cookie Settings"
+          titleTextStyle={{
+            textalign: "left",
+            alignSelf: "flex-start",
+          }}
           description={
             "We use cookies and similar technologies to provide our Service, to give you the best experience, to improve and advertise the Service, to ensure it is safe and secure for users, and to measure the effectiveness of advertising campaigns. If you select 'Accept All', you agree to us and the partners we work with storing cookies and similar technologies on your device for advertising purposes.You can also 'Reject All' non-essential cookies or choose which types of cookies you'd like to accept or disable by clicking 'Customise Cookies' below or at any time in your privacy settings. We do not collect cookies for tracking purposes on iOS App. For more details, see our Cookies and Similar Technologies Policy."
           }
+          descriptionTextStyle={{
+            textAlign: "left",
+          }}
           buttons={[
             {
               label: "Accept all",
@@ -88,7 +96,7 @@ const DashBoardScreen = ({ navigation }) => {
             },
             {
               label: "Customize cookies",
-              type: "secondary",
+              type: "text",
               onPress: () => {
                 dispatch(customizeCookies());
               },
