@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   textContainer: {
     width: '100%',
     // height: theme.verticalSpacing.space_60,
-    paddingHorizontal:theme.horizontalSpacing.space_10
+    
     // alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor:"red"

@@ -7,11 +7,24 @@ import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
+import { useGet10UserUnReadApiSliceQuery } from "../../redux/apiSlice/notificationApiSlice";
 
 const Header = () => {
   const navigation = useNavigation();
   const userData = useSelector(getLoginResponse);
   const userId = userData?.data?.id;
+
+
+const { 
+      data: get10userUnReadApiNotificationApidata, 
+      error: get10userUnReadApiNotificationApiError, 
+      isLoading:get10userUnReadApiNotificationApiIsLoading ,
+    } = useGet10UserUnReadApiSliceQuery(userId); 
+
+  console.log('get10userUnReadApiNotificationApidata36645',get10userUnReadApiNotificationApidata)
+
+
+
 
   const { 
     data: getuserdata, 
@@ -53,7 +66,22 @@ const Header = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate(MainRoutes.NOTIFICATION_SCREEN)}
           >
+            <View>
+             {get10userUnReadApiNotificationApidata?.notifications?.length >0 && (
+      <View
+        style={{
+          width:5,
+          height:5,
+          backgroundColor: "red",
+          borderRadius:2.5,
+          position: "absolute",
+          right:0,
+         
+        }}
+      />
+    )}
             <Svg.BellIcon />
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -63,9 +91,9 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   headerView: {
-    height: 105,
+    height:105,
     backgroundColor: "#592951",
-    paddingHorizontal:20,
+    paddingHorizontal:19,
     justifyContent: 'center',
   },
   profileImageContainer: {
@@ -85,7 +113,7 @@ const styles = StyleSheet.create({
     color: theme.lightColor.whiteColor,
     fontSize: theme.fontSizes.size_14,
     fontWeight: '500',
-    letterSpacing: 1,
+   
   },
   userName: {
     color: theme.lightColor.whiteColor,

@@ -41,7 +41,7 @@ return(
     <View style={{flex:1}}>
       <Header/>
       <Loader isLoading={getGetAboutApiIsLoading}/>
-        <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,margin:theme.verticalSpacing.space_16}}>{'About Us'}</Text>
+        <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,marginHorizontal:10,marginVertical:15}}>{'About Us'}</Text>
          <View style={{height:theme.verticalSpacing.space_230,marginHorizontal:10}}>
                
                 <Swiper   
@@ -55,7 +55,7 @@ return(
          {getAboutdata?.aboutUs[0]?.image?.length > 0 ? (
       getAboutdata.aboutUs[0].image.map((slide, index) => (
     <View style={style.slide} key={index}>
-      <Image style={style.image} source={{ uri: slide }} />
+      <Image style={[style.image,{}]} source={{ uri: slide }} />
     </View>
   ))
 ) : (
@@ -66,7 +66,7 @@ return(
               
               
               </View>
-        <Text style={{margin:theme.horizontalSpacing.space_10}}>{getAboutdata?.aboutUs[0].content}</Text>
+        <Text style={{margin:theme.horizontalSpacing.space_10,fontSize:theme.fontSizes.size_16,lineHeight:20,fontWeight:'400'}}>{getAboutdata?.aboutUs[0].content}</Text>
     </View>
     </ScrollView>
     </SafeAreaView>
@@ -74,7 +74,8 @@ return(
 }
 const style=StyleSheet.create({
     main:{
-        flex:1
+        flex:1,
+       
     },
     headerView:{
         height:105,
@@ -104,16 +105,16 @@ borderColor:theme.lightColor.whiteColor
     justifyContent: 'center',
     alignItems: 'center',
     // padding:10,
+  
   },
   text: {
-    fontSize: 16,
+    fontSize:theme.fontSizes.size_16,
     lineHeight: 24,
     textAlign: 'center',
     marginTop: 20,
   },
    image: {
-    
-    height:theme.verticalSpacing.space_320,
+    height:322,
     width:'100%',
     resizeMode: 'cover',
     borderRadius: 10,

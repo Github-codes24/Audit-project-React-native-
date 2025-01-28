@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   }, [isLoginApiSuccess, loginApiData, loginApiError]);
 
   return (
-    <View style={{ backgroundColor: "#F2F3F5", paddingHorizontal:10 }}>
+    <View style={{ backgroundColor: "#F2F3F5", paddingHorizontal:19}}>
       <Loader isLoading={isLoginApiLoading} message={"Please wait..."} />
       <StatusBar backgroundColor={"#F2F3F5"} />
       <CustomHeader
@@ -57,12 +57,13 @@ const LoginScreen = ({ navigation }) => {
       />
       <Text
         style={{
+          width:374,
           marginTop: 5,
           fontWeight: "400",
           color: theme.lightColor.blackColor,
-          paddingHorizontal: theme.horizontalSpacing.space_10,
-          letterSpacing: 1,
-          marginTop:10
+          
+          marginTop:10,
+          lineHeight:20
         }}
       >
         {"Welcome back, you have been missed!"}
@@ -80,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
-          placeholder={"Enter your password"}
+          placeholder={". . . . . . . ."}
         />
         <View style={style.rememberForgetContainer}>
           <CustomCheckbox
@@ -102,7 +103,7 @@ const LoginScreen = ({ navigation }) => {
         style={{
           flexDirection: "row",
           width: "100%",
-          paddingHorizontal:15,
+          
           marginTop: theme.verticalSpacing.space_10,
         }}
       >
@@ -128,9 +129,9 @@ const LoginScreen = ({ navigation }) => {
 
 const style = StyleSheet.create({
   LoginInputView: {
-    marginTop: theme.verticalSpacing.space_60,
+    marginTop: theme.verticalSpacing.space_80,
     justifyContent: "center",
-    paddingHorizontal: 10,
+   
   },
   rememberForgetContainer: {
     flexDirection: "row", // Align horizontally

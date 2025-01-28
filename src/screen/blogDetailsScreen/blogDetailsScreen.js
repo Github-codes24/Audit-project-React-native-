@@ -83,28 +83,29 @@ const BlogDetailsScreen = ({ route }) => {
           </View>
 
           <ScrollView style={{ flex: 1, marginBottom: 100 }}>
+            <View style={{paddingHorizontal:19}}>
             <Text style={styles.detailsTitle}>{title}</Text>
+            </View>
             
-            
-            <View style={[styles.authorContainer, { marginTop: theme.verticalSpacing.space_10,flexDirection:"row",justifyContent:'space-between',paddingRight:20 }]}>
+            <View style={[styles.authorContainer, { marginTop: theme.verticalSpacing.space_10,flexDirection:"row",justifyContent:'space-between', }]}>
               
-              <View style={{flexDirection:"row"}}>
+              <View style={{flexDirection:"row",}}>
               <Image style={styles.authorImage} source={{ uri: authorImage }} />
-              <View style={[styles.authorTextContainer, { marginLeft: 10 }]}>
+              <View style={[styles.authorTextContainer, {  }]}>
                 <Text style={styles.detailsAuthor}>{authorName || ''}</Text>
                 <Text style={{ color: 'gray' }}>
                   {moment(createdAt).format('DD MMMM, YYYY') || ''}
                 </Text>
                 </View>
               </View>
-                  <Text style={{textAlign:'right',color:'gray'}}>{readTime}, read</Text>
+                  <Text style={{textAlign:'right',color:'gray'}}>{readTime}</Text>
             </View>
          
            
            
             <Text style={styles.detailsContent}>{description || ''}</Text>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',marginHorizontal:theme.horizontalSpacing.space_10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',marginHorizontal:19 }}>
               <TouchableOpacity
                 style={[styles.backButton, { flexDirection: 'row' }]}
                 onPress={() => handleNavigation('previous')}
@@ -157,9 +158,9 @@ const styles = StyleSheet.create({
   },
   detailsTitle: {
     fontSize: theme.fontSizes.size_20,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 8,
-    paddingLeft: 10,
+    
     marginTop: theme.verticalSpacing.space_10,
   },
   detailsContent: {
@@ -167,11 +168,11 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     textAlign: 'justify',
     marginBottom: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal:19,
     lineHeight: 20,
     color: 'black',
-    fontWeight:'400',
-    letterSpacing:1
+    fontWeight:'400'
+ 
   },
   backButton: {
     backgroundColor: theme.lightColor.brownColor,
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     left: 10,
     backgroundColor: '#FFF9F0',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    // paddingVertical: 5,
     borderRadius: 8,
   },
   categoryText: {
@@ -199,12 +200,14 @@ const styles = StyleSheet.create({
   authorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // backgroundColor:"red",
+    marginHorizontal:19
   },
   authorImage: {
-    width: 40,
-    height: 40,
+    width:37,
+    height:37,
     borderRadius: 20,
-    marginLeft: 10,
+    
   },
   authorTextContainer: {
     marginLeft: 10,

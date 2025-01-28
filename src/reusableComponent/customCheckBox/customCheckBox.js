@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginBottom: 15,
     marginVertical:theme.verticalSpacing.space_10,
-   
+   alignItems:"center"
    
     
   },
   checkbox: {
-    width:16,
-    height: 16,
+    width:12,
+    height: 12,
     borderWidth: 1,
     borderColor:theme.lightColor.blackColor,
     borderRadius:2,

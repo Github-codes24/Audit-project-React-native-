@@ -132,7 +132,7 @@ const ContactScreen = () => {
             borderRadius: 10,
             padding: 10,
             textAlignVertical: "top",
-            letterSpacing:1
+            
           }}
           placeholder="Enter your query........."
           placeholderTextColor={'#BABABA'}

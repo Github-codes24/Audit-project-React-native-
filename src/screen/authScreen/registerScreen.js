@@ -57,7 +57,7 @@ const RegisterScreen = ({ navigation }) => {
             <Svg.ArrowBack />
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: theme.verticalSpacing.space_28, paddingHorizontal: 5 }}>
+        <View style={{ marginTop: theme.verticalSpacing.space_28, }}>
           <Text style={styles.headerTitle}>Register Account</Text>
         </View>
 
@@ -123,7 +123,7 @@ const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingHorizontal:19,
   },
   header: {
     flexDirection: "row",
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backIcon: {
-    paddingHorizontal: 5,
+  
     marginRight: 10,
   },
   headerTitle: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   nameView: {
     marginTop: theme.verticalSpacing.space_80,
-    paddingHorizontal: 5,
+    
   },
   row: {
     flexDirection: "row",
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.borderColor,
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
-    letterSpacing: 1,
+  
     fontSize:theme.fontSizes.size_16
   },
   TextStyle: {

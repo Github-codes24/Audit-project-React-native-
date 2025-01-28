@@ -5,9 +5,6 @@ import CustomButton from '../../reusableComponent/button/button';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { useNavigation } from '@react-navigation/native';
 
-
-
-
 const UpdateSuccessFully = ({navigation}) => {
 
     const [isModalVisible, setModalVisible] = useState(true);
@@ -40,22 +37,15 @@ const onSubmit=()=>{
        title={'Go to home page'}
        />
     </View>
-
-    
     </View>
-  );
-
-  
+  ); 
 };
-
- 
 
 const style = StyleSheet.create({
   Main: {
    height:'100%',
     alignItems: "center",
-    
-   
+     
   },
   imageStyle: {
     width: 342,
@@ -104,7 +94,7 @@ const style = StyleSheet.create({
     height:40,
     lineHeight:20,
     fontWeight:'400',
-    color:'white',letterSpacing:.5,
+    color:'white',
     marginTop:theme.verticalSpacing.space_50
   },
   modalButton: {

@@ -3,6 +3,7 @@ import { Text, View,Modal, StyleSheet, SafeAreaView, Image } from "react-native"
 import { useDispatch } from "react-redux";
 import { resetAuth } from "../../redux/stateSlice/authStateSlice";
 import { theme } from "../../utils";
+import { MainRoutes } from "../../navigation/routeAndParamsList";
 
 const DeleteSuccessFully=({navigation})=>{
   const dispatch = useDispatch();
@@ -12,9 +13,7 @@ const DeleteSuccessFully=({navigation})=>{
 
   const closeModal = () => {
     setModalVisible(false);
-    // navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-    //   screen: "Home",
-    // });
+   navigation.navigate(MainRoutes.WELCOME_SCREEN)
   };
 
   useEffect(() => {
@@ -24,6 +23,7 @@ const DeleteSuccessFully=({navigation})=>{
             clearInterval(interval); 
             setModalVisible(true); 
            dispatch(resetAuth());
+           navigation.navigate(MainRoutes.WELCOME_SCREEN)
           }
           return prev - 1; 
         });
@@ -46,7 +46,7 @@ const DeleteSuccessFully=({navigation})=>{
             <View style={style.modalContent}>
               <Text style={style.modalTitle}>Redirecting....</Text>
               <Text style={style.modalDescription}>
-                 Redirecting to home screen in {countdown} second{countdown > 1 ? "s" : ""}...
+                 Redirecting to Welcom screen in {countdown} second{countdown > 1 ? "s" : ""}...
                  </Text>
              
             </View>

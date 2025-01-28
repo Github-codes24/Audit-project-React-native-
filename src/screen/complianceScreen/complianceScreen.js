@@ -78,11 +78,13 @@ useEffect(() => {
       )}
      
       {step==='category' && (
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="compliance"
         />
+        </ScrollView>
       )
       }
    
@@ -125,7 +127,7 @@ width:theme.horizontalSpacing.space_110,
 height:theme.verticalSpacing.space_50, 
 backgroundColor:theme.lightColor.brownColor ,
 borderRadius:10,
-marginHorizontal:20
+marginHorizontal:19
   },
   header: {
     fontSize: 18,

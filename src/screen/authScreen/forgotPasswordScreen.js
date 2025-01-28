@@ -13,6 +13,7 @@ import { alertError } from "../../utils/Toast";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../../reusableComponent/loader/loader";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
@@ -49,7 +50,8 @@ const ForgotPasswordScreen = () => {
 
   return (
     <SafeAreaView style={{flex:1}}>
-      <View style={{ paddingHorizontal: 10 }}>
+      <ScrollView>
+      <View style={{ paddingHorizontal: 19 }}>
         <Loader isLoading={isForgotPasswordApiLoading} />
         <CustomModal
           visible={isModalVisible}
@@ -74,7 +76,7 @@ const ForgotPasswordScreen = () => {
                   </TouchableOpacity>
                  
                 </View>
-                <View style={{marginTop:theme.verticalSpacing.space_28,paddingHorizontal:5}}>
+                <View style={{marginTop:theme.verticalSpacing.space_28,}}>
                    <Text style={style.headerTitle}>{'Forgot Password'}</Text>
                </View>
         <Text style={style.Textstyle}>
@@ -89,7 +91,6 @@ const ForgotPasswordScreen = () => {
           />
         </View>
 
-        {/* Align the "Back to login" text on the same line */}
         <View style={style.forgetView}>
           <TouchableOpacity
             onPress={() => navigation.navigate(MainRoutes.LOGIN_SCREEN)}
@@ -99,6 +100,7 @@ const ForgotPasswordScreen = () => {
         </View>
 
         {/* Reset password button */}
+        
         <View style={style.buttonContainer}>
           <CustomButton
             onPress={handleNext}
@@ -106,6 +108,7 @@ const ForgotPasswordScreen = () => {
           />
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -115,17 +118,19 @@ const style = StyleSheet.create({
     width: '100%',
     flexDirection: 'row', 
     justifyContent: 'flex-end', 
-    marginTop:5,
+    marginTop:20,
+    height:19
+    
   },
   backToLoginText: {
     textAlign: 'right',
-    paddingHorizontal:theme.horizontalSpacing.space_14,
+   
     color: theme.lightColor.blackColor,
     fontWeight: '600',
     fontSize:theme.fontSizes.size_16
   },
    backIcon: {
-    paddingHorizontal:5,
+    
     marginRight: 10,
   },
   headerTitle: {
@@ -141,21 +146,18 @@ const style = StyleSheet.create({
     marginBottom: 20,
   },
   Textstyle: {
-    width:350,
     marginTop: theme.verticalSpacing.space_10,
-    paddingHorizontal: 8,
-    fontSize: theme.fontSizes.size_16,
-    lineHeight:20,
-    letterSpacing:.8,
+    
+    fontSize:theme.fontSizes.size_16,
+   
+    width:theme.horizontalSpacing.space_374,
     color:'black',
-    fontWeight:'400',
-    
-    
-    
+    fontWeight:'400', 
+    letterSpacing: theme.fontSizes.size_16 * 0.03,
   },
   inputView: {
     marginTop: theme.verticalSpacing.space_100,
-    padding: 10,
+    
   },
   buttonContainer: {
     width: '100%',

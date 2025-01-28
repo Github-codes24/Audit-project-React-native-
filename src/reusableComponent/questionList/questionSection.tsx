@@ -108,7 +108,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
   return (
     <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
-    <View>
+    <View style={{}}>
         <Loader
         isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
         {checkerType==='compliance' ?
@@ -160,14 +160,15 @@ const styles = StyleSheet.create({
   },
   selectedCategoryText: {
     fontSize:16,
-    margin: 10,
+    margin:10,
+    marginHorizontal:15,
     fontWeight: "400",
   },
   navigationButtons: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop:theme.verticalSpacing.space_50,
   },
   buttonStyle: {
     alignItems: "center",

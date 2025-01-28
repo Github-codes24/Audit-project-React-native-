@@ -62,24 +62,24 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           </TouchableOpacity>
           
         </View>
-       <View style={{marginTop:theme.verticalSpacing.space_28,paddingHorizontal:5}}>
-           <Text style={{fontSize:theme.fontSizes.size_30,fontWeight:'600',color: theme.lightColor.blackColor,}}>Register Account</Text>
+       <View style={{marginTop:theme.verticalSpacing.space_28,}}>
+          <Text style={{fontSize:theme.fontSizes.size_30,fontWeight:'600',color: theme.lightColor.blackColor,}}>Register Account</Text>
        </View>
        
         {/* Input Fields */}
         <View style={styles.inputContainer}>
-          <Text>Company name (not required)</Text>
+          <Text style={{fontWeight:'400',fontSize:theme.fontSizes.size_16}}>Company name (not required)</Text>
           <CustomTextInput
             value={companyName}
             onChangeText={(text) => setCompanyName(text)}
-            placeholder={"Company name"}
+            placeholder={"Enter your company name"}
           />
           <Text style={styles.label}>Phone number</Text>
           <CustomTextInput
             value={phoneNumber}
             onChangeText={(text) => setPhoneNumber(text)}
             keyboardType="numeric"
-            placeholder={"Phone number"}
+            placeholder={"+44 (0) XXXX XXX XXX"}
           />
         </View>
 
@@ -113,7 +113,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal:10,
+    paddingHorizontal:19,
   },
   headerTitle: {
     fontSize:theme.fontSizes.size_30,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   backIcon: {
-    padding:5,
+    
     marginRight: 10,
   },
   headerTitle: {
@@ -139,14 +139,15 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: theme.verticalSpacing.space_100,
-    paddingHorizontal:5
+    
   },
   label: {
     marginTop:theme.verticalSpacing.space_20,
+    fontWeight:'400',fontSize:theme.fontSizes.size_16
   },
   checkboxContainer: {
     marginTop: theme.verticalSpacing.space_20,
-    paddingHorizontal:8
+   
   },
   footer: {
     marginTop: theme.verticalSpacing.space_50,

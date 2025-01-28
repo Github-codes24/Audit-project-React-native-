@@ -33,7 +33,7 @@ const HorizontalCardList = ({ data }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 16,
+    paddingVertical:20,
   },
 });
 

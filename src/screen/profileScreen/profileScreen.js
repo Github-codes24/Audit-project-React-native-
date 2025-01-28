@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   profileInfo: {
     color: theme.lightColor.blackColor,
     fontSize:theme.fontSizes.size_14,
-    letterSpacing:.6,
+
     marginTop:5,
     fontWeight:'400'
   },

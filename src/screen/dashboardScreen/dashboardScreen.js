@@ -39,6 +39,12 @@ const DashBoardScreen = ({ navigation }) => {
     setModalVisible(false);
   };
 
+
+
+
+
+
+  
   const onRefresh = async () => {
     setRefreshing(true);
     refetchAboutUs();
@@ -59,7 +65,7 @@ const DashBoardScreen = ({ navigation }) => {
 
   return (
     <ScrollView
-      style={{ flex: 1, marginBottom: 30 }}
+      style={{ flex:1, marginBottom: 30 }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View style={style.main}>
@@ -87,7 +93,7 @@ const DashBoardScreen = ({ navigation }) => {
               },
             },
             {
-              label: "Customize cookies",
+              label: "Customise cookies",
               type: "secondary",
               onPress: () => {
                 dispatch(customizeCookies());
@@ -96,6 +102,7 @@ const DashBoardScreen = ({ navigation }) => {
           ]}
         />
         <Header userName={"John Doe"} />
+        <View style={{paddingHorizontal:19}}>
         <Text style={style.sponsorText}>{"Sponsor License Checker"}</Text>
         <LicenseCard
           title={"Sponsor License Compliance Checker"}
@@ -121,11 +128,11 @@ const DashBoardScreen = ({ navigation }) => {
             <Text style={style.seeAllText}>{"See all"}</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ }}>
           <HorizontalCardList data={blogApiData?.data || {}} />
         </View>
-        <Text style={style.aboutUsText}>{"About us"}</Text>
-        <View style={{ paddingHorizontal: 10 }}>
+        <Text style={style.aboutUsText}>{"About Us"}</Text>
+        <View style={{}}>
           <AboutUsContent content={aboutUsData?.aboutUs?.[0]?.content} />
         </View>
         <View style={{ paddingBottom: 100 }}>
@@ -135,6 +142,7 @@ const DashBoardScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -143,11 +151,12 @@ const DashBoardScreen = ({ navigation }) => {
 const style = StyleSheet.create({
   main: {
     flex: 1,
+    
   },
   sponsorText: {
     fontSize: theme.fontSizes.size_24,
     marginTop: theme.verticalSpacing.space_10,
-    paddingHorizontal: 20,
+   
     fontWeight: "600",
     color: theme.lightColor.blackColor,
   },
@@ -155,7 +164,7 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
+
   },
   latestBlogText: {
     fontWeight: "600",
@@ -168,14 +177,14 @@ const style = StyleSheet.create({
     fontFamily: "inter",
   },
   aboutUsText: {
-    paddingHorizontal: 20,
+   
     fontSize: theme.fontSizes.size_20,
     color: theme.lightColor.blackColor,
     fontWeight: "500",
   },
   imageSwiperContainer: {
     height: theme.verticalSpacing.space_230,
-    marginHorizontal: 20,
+   
     marginTop: theme.verticalSpacing.space_10,
     borderRadius: theme.horizontalSpacing.space_10,
     overflow: "hidden",

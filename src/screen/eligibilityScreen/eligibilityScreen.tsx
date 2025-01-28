@@ -63,15 +63,18 @@ const EligibilityScreen = () => {
       <Header/>
      
       {step==='category' && ( 
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
         />  
+        </ScrollView>
       )
       }
    
    {step==='question' &&
+   <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
    <QuestionSection
         selectedCategory={selectedCategory}
         handleOptionSelect={handleOptionSelect}
@@ -80,6 +83,7 @@ const EligibilityScreen = () => {
         checkerType="eligibility"
         onSubmit={onSubmit}
       />
+      </ScrollView>
 
 }
 

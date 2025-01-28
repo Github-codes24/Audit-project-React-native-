@@ -4,13 +4,13 @@ import Svg, { Circle, G } from 'react-native-svg';
 import { theme } from '../../utils';
 
 const CircularProgress = ({ percentage }) => {
-  const radius = 100; // Radius of the circle
-  const strokeWidth = 15; // Thickness of the progress bar
+  const radius = 100; 
+  const strokeWidth = 15; 
   const circumference = 2 * Math.PI * radius;
   const progress = (percentage / 100) * circumference;
 
   // Determine the color based on the percentage
-  const progressColor = percentage > 70 ? '#4CAF50' : '#D32F2F'; // Green if >70, Red otherwise
+  const progressColor = percentage > 99 ? '#4CAF50' : '#D32F2F'; 
 
   return (
     <View style={styles.container}>

@@ -7,8 +7,8 @@ import { useDispatch,useSelector } from 'react-redux';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import {  useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, useGet10UserReadApiSliceQuery,useMarkNotificationAsReadMutation  } from '../../redux/apiSlice/notificationApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
-
-
+import { MainRoutes } from '../../navigation/routeAndParamsList';
+import moment from 'moment';
 
 
 const NotificationScreen = ({navigation}) => {
@@ -25,7 +25,11 @@ console.log('userId5554546',userId)
       data: getAllUserNotificationApidata, 
       error: getAllUserNotificationApiError, 
       isLoading:getAllUserNotificationApiIsLoading 
-    } = useGetAlluserApiNotificationQuery(userId); 
+    } = useGetAlluserApiNotificationQuery(userId);
+    
+    
+console.log('getAllUserNotificationApidata',getAllUserNotificationApidata)
+
 
 const { 
       data: get10userUnReadApiNotificationApidata, 
@@ -59,6 +63,20 @@ const [markNotificationAsRead,{
   return getAllUserNotificationApidata?.notifications; 
 };
 
+
+const formatDate = (date) => {
+    const createdAt = moment(date);
+
+    if (createdAt.isSame(moment(), 'day')) {
+      return `Today at ${createdAt.format('hh:mm A')}`;
+    } else if (createdAt.isSame(moment().subtract(1, 'day'), 'day')) {
+      return `Yesterday at ${createdAt.format('hh:mm A')}`;
+    } else {
+      return createdAt.format('MMMM D, YYYY [at] hh:mm A');
+    }
+  };
+
+
   const NotificationItem = ({ item }) => (
     <TouchableOpacity  style={styles.notificationItem}
      onPress={() => {
@@ -66,12 +84,16 @@ const [markNotificationAsRead,{
       if (selectedTab ==='Unread') {
       markNotificationAsRead(item?._id)
       }
+         navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?.blogId });
      }} 
     >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
       <View >
       <Text style={styles.NotificationMsg}>{item.title}</Text>
-      <Text style={styles.timestamp}>{item.createdAt}</Text>
+           <Text style={styles.timestamp}>
+      {formatDate(item?.createdAt)}
+    </Text>
+
       </View>
     </TouchableOpacity>
   );

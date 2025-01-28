@@ -37,7 +37,7 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
         }}
         >
             {
-                `You Scored ${scorePercentage}% in Sponsor lincense Compliance`
+                `You scored ${scorePercentage}% in sponsor lincense compliance`
             }
         </Text>
       <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>

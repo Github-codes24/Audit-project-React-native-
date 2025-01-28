@@ -111,7 +111,7 @@ const handleChange = (text, index) => {
   return (
     <SafeAreaView>
     <View style={styles.container}>
-     <View style={{paddingHorizontal:10}}>
+     <View style={{}}>
       <CustomHeader
       onBackPress={()=>navigation.goBack()}
       leftIcon={<Svg.ArrowBack/>}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // backgroundColor: '#F9F5F2',
-    // paddingHorizontal: 20,
+    paddingHorizontal:19,
     // paddingTop: 50,
   },
   backButton: {
@@ -191,11 +191,11 @@ const styles = StyleSheet.create({
     width:theme.horizontalSpacing.space_370,
     fontSize: theme.fontSizes.size_18,
     color: '#3D3D3D',
-    
-    marginHorizontal:20,
+    height:60,
     fontWeight:'400',
     marginTop:theme.verticalSpacing.space_20,
-    lineHeight:20
+    lineHeight:20,
+    letterSpacing: theme.fontSizes.size_16 * 0.03, 
   },
   email: {
     fontWeight: 'bold',
@@ -208,13 +208,13 @@ const styles = StyleSheet.create({
     marginTop:theme.verticalSpacing.space_100,
     
     // marginTop: 20,
-    paddingHorizontal:15
+  
     // backgroundColor:'red'
   },
   otpInput: {
     margin:5,
-    width:theme.horizontalSpacing.space_60,
-    height:theme.verticalSpacing.space_60,
+    width:theme.horizontalSpacing.space_50,
+    height:theme.verticalSpacing.space_50,
     borderRadius: 8,
     borderWidth: 1,
     borderColor:theme.lightColor.borderColor,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     // marginTop: 30,
     backgroundColor: '#6A1B9A',
     borderRadius: 8,
-    paddingVertical: 15,
+    
     alignItems: 'center',
   },
   submitButtonText: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   resendContainer: {
     // backgroundColor:"red",
     flexDirection: 'row',
-    paddingHorizontal:theme.horizontalSpacing.space_20,
+  
     // justifyContent: 'center',
     marginTop:theme.verticalSpacing.space_20,
   },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     
   },
   timerText: {
-    paddingHorizontal:theme.horizontalSpacing.space_20,
+    
     // textAlign: 'center',
     marginTop:5,
     color: '#3D3D3D',

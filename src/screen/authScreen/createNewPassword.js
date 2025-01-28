@@ -53,7 +53,7 @@ const CreateNewPassword = ({ navigation, route }) => {
 
   return (
     <BackgroundLayout>
-      <View style={{ backgroundColor: "#F2F3F5", height: "100%" }}>
+      <View style={{ backgroundColor: "#F2F3F5", height: "100%",paddingHorizontal:19 }}>
         <CustomHeader
           onBackPress={() => navigation.goBack()}
           title={"Create New Password"}
@@ -70,7 +70,7 @@ const CreateNewPassword = ({ navigation, route }) => {
             onChangeText={(text) => setNewPassword(text)}
             placeholder={"New password"}
           />
-          <Text style={styles.hintText}>Must have at least 6 characters.</Text>
+          <Text style={styles.hintText}>must contain 6 char.</Text>
           <Text style={styles.label}>Confirm Password</Text>
           <CustomTextInput
             secureTextEntry={true}
@@ -95,14 +95,15 @@ const CreateNewPassword = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   description: {
     width: 290,
-    marginTop: 10,
-    paddingHorizontal: theme.horizontalSpacing.space_10,
+    marginTop:20,
+   fontSize:theme.fontSizes.size_16,
     lineHeight: 20,
-    color: "#475569",
+    color:'black',
+    fontWeight:'400'
   },
   inputView: {
     marginTop: theme.verticalSpacing.space_100,
-    padding: 10,
+   
   },
   hintText: {
     marginLeft: 8,
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginTop: 20,
-    marginBottom: 8,
+   
     fontSize: 14,
     color: "#333",
   },

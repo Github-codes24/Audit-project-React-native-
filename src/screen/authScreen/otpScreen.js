@@ -80,7 +80,7 @@ const OtpScreen = ({ navigation, route }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{ paddingLeft: theme.horizontalSpacing.space_10 }}>
+        <View style={{ }}>
           <CustomHeader
             onBackPress={() => navigation.goBack()}
             leftIcon={<Svg.ArrowBack />}
@@ -133,16 +133,19 @@ const OtpScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+
+    paddingLeft:19,
+    paddingRight:17
+  },
   description: {
-    marginTop: theme.verticalSpacing.space_16,
-    paddingHorizontal: 20,
+    marginTop: theme.verticalSpacing.space_20,
     width: theme.horizontalSpacing.space_370,
     fontSize: theme.fontSizes.size_16,
     color: '#3D3D3D',
     marginVertical: 20,
     fontWeight: '400',
-    letterSpacing: 0.5,
+   
     lineHeight: 20,
   },
   email: {
@@ -152,13 +155,13 @@ const styles = StyleSheet.create({
   otpContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal:15,
+   
     marginTop: theme.verticalSpacing.space_114,
   },
   otpInput: {
     margin: 5,
-    width: theme.horizontalSpacing.space_60,
-    height: theme.verticalSpacing.space_60,
+    width: theme.horizontalSpacing.space_50,
+    height: theme.verticalSpacing.space_50,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#DDD',
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
   },
   resendContainer: {
     flexDirection: 'row',
-    paddingHorizontal:20,
+    
     marginTop: 20,
   },
   resendText: {
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   timerText: {
-    paddingHorizontal: theme.horizontalSpacing.space_20,
+    
     color: '#3D3D3D',
   },
 });

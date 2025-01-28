@@ -86,7 +86,7 @@ const handleCategorySelect = (item) => {
       <View style={styles.blogInfo}>
         <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
         <Text style={styles.blogTitle}>{item?.title}</Text>
-        <Text style={{color:'gray',fontSize:theme.fontSizes.size_12}}>{item?.readTime} read</Text>
+        <Text style={{color:'gray',fontSize:theme.fontSizes.size_12}}>{item?.readTime}</Text>
         </View>
         <View style={{flexDirection:"row",justifyContent:"space-between",width:'95%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
             <View>

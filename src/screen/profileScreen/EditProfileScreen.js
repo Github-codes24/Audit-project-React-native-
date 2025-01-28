@@ -34,9 +34,9 @@ const EditProfile = ({ navigation, route }) => {
 
     const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
 
-    // Phone number validation regex (valid for 10-digit US numbers, adjust as needed)
+
     const validatePhoneNumber = (phone) => {
-        const phoneRegEx = /^[0-9]{10}$/; // 10 digits only
+        const phoneRegEx = /^[0-9]{10}$/; 
         return phoneRegEx.test(phone);
     };
 
@@ -201,7 +201,7 @@ const EditProfile = ({ navigation, route }) => {
                         onChangeText={(text) => {
                             const formattedText = text.replace(/\D/g, '').slice(0, 10);
                             setPhoneNumber(formattedText);
-                            setPhoneError(''); // Reset error message on change
+                            setPhoneError(''); 
                         }}
                         maxLength={10}
                         placeholder={'+44 (0) XXXX XXX XXX'}

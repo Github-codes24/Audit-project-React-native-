@@ -19,7 +19,7 @@ const RegisterButton=()=>{
 }
   return (
     <BackgroundLayout>
-    <View>
+    <View style={{padding:19,}}>
       <StatusBar
         barStyle="light-content" 
         backgroundColor={theme.lightColor.whiteColor}  
@@ -29,11 +29,15 @@ const RegisterButton=()=>{
         style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_347,}}
         source={require('../../asstets/images/welcomeImage.png')}
         />
+        <View style={{width:267,marginHorizontal:73,}}>
         <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
-        <View style={{width:theme.horizontalSpacing.space_230}}>
-        {/* <Text style={{textAlign:"center",fontWeight:'600',color:"#592951",fontSize:theme.fontSizes.size_20,margin:20}}>{'Discover Your Dream Job Here'}</Text> */}
-        <Text style={{letterSpacing:1,lineHeight:20,paddingHorizontal:10,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_20,width:335,alignSelf:'center'}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
+        </View>
+        <View style={{}}>
         
+
+      <View style={{marginLeft:41,marginRight:42}}>
+        <Text style={{lineHeight:20,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_18,marginTop:theme.verticalSpacing.space_20,width:329,alignSelf:'center',}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
+        </View>
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
         
          <TouchableOpacity style={[style.button,{marginRight:10}]}
