@@ -11,6 +11,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
+import Loader from "../../reusableComponent/loader/loader";
 
 const EditProfile = ({ navigation, route }) => {
     const { profileData = {} } = route?.params || {};
@@ -23,14 +24,21 @@ const EditProfile = ({ navigation, route }) => {
     const [lastName, setLastName] = useState(profileData?.lastName || '');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}`|| '');
+    const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}` || '');
     const [companyName, setCompanyName] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [phoneError, setPhoneError] = useState(''); // State for phone number error
 
     const response = useSelector(getLoginResponse);
     const userId = response?.data?.id;
 
     const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
+
+    // Phone number validation regex (valid for 10-digit US numbers, adjust as needed)
+    const validatePhoneNumber = (phone) => {
+        const phoneRegEx = /^[0-9]{10}$/; // 10 digits only
+        return phoneRegEx.test(phone);
+    };
 
     const pickImageFromGallery = () => {
         launchImageLibrary(
@@ -71,6 +79,12 @@ const EditProfile = ({ navigation, route }) => {
     };
 
     const handleSubmit = () => {
+        // Validate phone number before submission
+        if (!validatePhoneNumber(phoneNumber)) {
+            setPhoneError('Please enter a valid 10-digit phone number.');
+            return; // Exit if validation fails
+        }
+
         const formData = new FormData();
         formData.append('firstName', firstName);
         formData.append('lastName', lastName);
@@ -105,11 +119,12 @@ const EditProfile = ({ navigation, route }) => {
     };
 
     const supportItems = [
-    { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
+        { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
     ];
 
     return (
         <ScrollView style={{ marginBottom: theme.verticalSpacing.space_30 }}>
+            <Loader isLoading={isLoading} />
             <View style={{ paddingHorizontal: 7 }}>
                 <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
                     onPress={() => navigation.goBack()}
@@ -184,12 +199,15 @@ const EditProfile = ({ navigation, route }) => {
                     <CustomTextInput
                         value={phoneNumber}
                         onChangeText={(text) => {
-                        const formattedText = text.replace(/\D/g,'').slice(0,10);
-                        setPhoneNumber(formattedText);
+                            const formattedText = text.replace(/\D/g, '').slice(0, 10);
+                            setPhoneNumber(formattedText);
+                            setPhoneError(''); // Reset error message on change
                         }}
                         maxLength={10}
                         placeholder={'+44 (0) XXXX XXX XXX'}
                     />
+                    {phoneError ? <Text style={{ color: 'red', fontSize: 14 }}>{phoneError}</Text> : null} {/* Display error message */}
+
                     <Text style={styles.TextStyle}>Company name</Text>
                     <CustomTextInput
                         value={companyName}
