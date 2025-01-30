@@ -66,7 +66,7 @@ const LoginScreen = ({ navigation }) => {
           lineHeight:20
         }}
       >
-        {"Welcome back, you have been missed!"}
+        {"Welcome back you have been missed!"}
       </Text>
       <View style={style.LoginInputView}>
         <Text>Email</Text>
@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
-          placeholder={". . . . . . . ."}
+          placeholder={".  .  .  .  ."}
         />
         <View style={style.rememberForgetContainer}>
           <CustomCheckbox
@@ -97,7 +97,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={{ marginTop: theme.verticalSpacing.space_40 }}>
-        <CustomButton onPress={handleSignIn} title={"Log in"} />
+        <CustomButton onPress={handleSignIn} title={"Login"} />
       </View>
       <View
         style={{

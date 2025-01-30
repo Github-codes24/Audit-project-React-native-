@@ -8,10 +8,12 @@ import { alertSuccess, alertError } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { useResendOtpForgotPasswordApiMutation, useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
 import { ScrollView } from 'react-native-gesture-handler';
+import CustomModal from '../../reusableComponent/customModal/customModal';
 
 const OtpScreen = ({ navigation, route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
+   const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple submissions
   const intervalRef = useRef(null);
@@ -37,10 +39,10 @@ const OtpScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (isVerifySuccess && verifyData?.success) {
-      alertSuccess('Success', 'OTP verification successful');
+
       navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
     } else if (verifyError || !verifyData?.success) {
-      alertError(verifyError?.data?.message || 'OTP verification failed');
+    console.log('error')
     }
     setIsSubmitting(false);
   }, [isVerifySuccess, verifyData, verifyError, navigation]);
@@ -56,14 +58,22 @@ const OtpScreen = ({ navigation, route }) => {
   }, [timer]);
 
   const handleResendCode = () => {
-    alertSuccess('Otp resend')
     if (!isResendDisabled) {
       setIsResendDisabled(true);
+       setModalVisible(true); 
       setTimer(30);
       resendOtp({ email });
-      alertSuccess('Code resend!');
+    
     }
   };
+
+
+const closeModal = () => {
+    setModalVisible(false);
+  };
+
+
+
 
   const handleChange = (text, index) => {
     const newOtp = [...otp];
@@ -80,6 +90,23 @@ const OtpScreen = ({ navigation, route }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
+ <CustomModal
+          visible={isModalVisible}
+          onClose={closeModal}
+          title="Code sent!"
+          description={"Code has been sent to your email please check your email"}
+          buttons={[
+            {
+              label: "Verify code",
+              type: "primary",
+              onPress: () => {
+                closeModal();
+              },
+            },
+          ]}
+        />
+
+
         <View style={{ }}>
           <CustomHeader
             onBackPress={() => navigation.goBack()}

@@ -80,7 +80,7 @@ console.log('complianceCategoryData',complianceCategoryData)
         {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
       </Text>
       
-      <Text style={styles.subHeader}>Select Category</Text>
+      <Text style={styles.subHeader}>Select category</Text>
 
       {categoryData?.length > 0 ? (
         categoryData.map((category) => (
@@ -117,26 +117,29 @@ console.log('complianceCategoryData',complianceCategoryData)
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 19,
     backgroundColor: '#F2F3F5',
-    flexGrow: 1, 
+    
   },
   header: {
-    fontSize:20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: '700',
     marginBottom: 10,
-    marginTop:15
+    marginTop:15,
+    
   },
   subHeader: {
     fontSize: theme.fontSizes.size_20,
     marginTop: theme.verticalSpacing.space_100,
-    fontWeight:'600'
+    fontWeight:'600',
+    
   },
   category: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 15,
+    height:theme.verticalSpacing.space_58,
+    paddingHorizontal:10,
     marginVertical: 5,
     backgroundColor: 'white',
     borderRadius: 10,

@@ -30,9 +30,9 @@ const EligibityResult = ({ onPressRetakeExam, isEligible }) => {
           <Text style={styles.title}>
             {isEligible
               ? "Congratulations 🎉\nyou are eligible!"
-              : "Sorry,\nyou are not eligible!"}
+              : "Sorry\nyou are not eligible!"}
           </Text>
-          <Text style={styles.subtitle}>Additional information goes here.</Text>
+          <Text style={styles.subtitle}>mbjksdbv ijshvsw </Text>
 
           {/* Contact Us Button */}
           <TouchableOpacity

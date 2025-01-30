@@ -10,13 +10,15 @@ import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { useResendOtpForRegistrationPasswordApiMutation, useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
 import { useSelector,useDispatch } from 'react-redux';
 import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
+import CustomModal from '../../reusableComponent/customModal/customModal';
 
 const EmailVerificationScreen = ({ navigation,route }) => {
   
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
+   const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-   const [isSubmitting, setIsSubmitting] = useState(false); // Track submit state to prevent multiple submissions
+   const [isSubmitting, setIsSubmitting] = useState(false); 
      const intervalRef = useRef(null);
 const dispatch=useDispatch()
   
@@ -42,6 +44,11 @@ const [verifyOtp,{
   verifyOtp({email,otp:otpString})
  }
  
+const closeModal = () => {
+    setModalVisible(false);
+  };
+
+
  
  useEffect(() => {
      if (timer > 0) {
@@ -79,15 +86,18 @@ const [ResendOtpRegistrationPasswordApi, {
 
 
 
+
+
+
+
 const handleResendCode = () => {
-     alertSuccess('Otp resend !')
-    if (!isResendDisabled) {
-      setTimer(30); 
-      setIsResendDisabled(true); 
-   ResendOtpRegistrationPasswordApi({email})
-    // console.log('Code resent!');
-    }
-  };
+  if (!isResendDisabled) {
+    setModalVisible(true); 
+    setTimer(30); 
+    setIsResendDisabled(true);
+    ResendOtpRegistrationPasswordApi({ email });
+  }
+};
 
   
 
@@ -107,10 +117,24 @@ const handleChange = (text, index) => {
   };
 
 
-
   return (
     <SafeAreaView>
     <View style={styles.container}>
+       <CustomModal
+          visible={isModalVisible}
+          onClose={closeModal}
+          title="Code sent!"
+          description={"Code has been sent to your email please check your email"}
+          buttons={[
+            {
+              label: "Verify code",
+              type: "primary",
+              onPress: () => {
+                closeModal();
+              },
+            },
+          ]}
+        />
      <View style={{}}>
       <CustomHeader
       onBackPress={()=>navigation.goBack()}

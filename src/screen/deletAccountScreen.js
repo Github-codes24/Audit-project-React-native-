@@ -9,6 +9,7 @@ import { getLoginResponse } from '../redux/stateSelector/authStateSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccountApiMutation } from '../redux/apiSlice/authApiSlice';
 import { resetAuth } from '../redux/stateSlice/authStateSlice';
+import { resetCookies } from '../redux/stateSlice/cookiesStateSlice';
 const DeleteScreen = ({navigation}) => {
 
 const response=useSelector(getLoginResponse)
@@ -34,6 +35,7 @@ const response=useSelector(getLoginResponse)
           text: 'Yes', 
           onPress: () => {
             deleteAccount(userId); 
+            dispatch(resetCookies())
             navigation.navigate(MainRoutes.DELETE_SUCCESSFULLY) 
           },
         },

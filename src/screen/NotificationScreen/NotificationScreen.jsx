@@ -63,10 +63,8 @@ const [markNotificationAsRead,{
   return getAllUserNotificationApidata?.notifications; 
 };
 
-
 const formatDate = (date) => {
     const createdAt = moment(date);
-
     if (createdAt.isSame(moment(), 'day')) {
       return `Today at ${createdAt.format('hh:mm A')}`;
     } else if (createdAt.isSame(moment().subtract(1, 'day'), 'day')) {
@@ -78,13 +76,18 @@ const formatDate = (date) => {
 
 
   const NotificationItem = ({ item }) => (
-    <TouchableOpacity  style={styles.notificationItem}
+    <TouchableOpacity  style={[
+      styles.notificationItem,
+      selectedTab === 'Unread' ? styles.unreadNotificationItem :null,
+       !item?.isRead ? styles.unreadBackground : null
+    ]}
      onPress={() => {
       setSelectedNotificationId(item?._id)
-      if (selectedTab ==='Unread') {
-      markNotificationAsRead(item?._id)
-      }
-         navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?.blogId });
+     if (!item?.isRead) {
+      markNotificationAsRead(item?._id);
+    }
+      const blogIdToSend = item?.blogId || item; 
+    navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: blogIdToSend });
      }} 
     >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
@@ -104,6 +107,7 @@ const formatDate = (date) => {
         {/* header  */}
         <Header/>
       {/* Custom Tabs */}
+      
       <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',color:theme.lightColor.blackColor,
         margin:theme.horizontalSpacing.space_10,marginHorizontal:20}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
@@ -139,6 +143,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  unreadNotificationItem: {
+  backgroundColor: '#E3F2FD', 
+},
   headerView: {
     height: 105,
     backgroundColor: "#592951",
@@ -153,6 +160,13 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: "row",
+  },
+   unreadNotificationItem: {
+    borderLeftWidth: 4,
+    borderLeftColor: 'blue', 
+  },
+  unreadBackground: {
+    backgroundColor: '#EAF3FF', 
   },
   imageWrapper: {
     width: 60,

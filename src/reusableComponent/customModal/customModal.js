@@ -9,14 +9,25 @@ import {
   Dimensions,
 } from "react-native";
 import { theme } from "../../utils";
+import * as Svg from '../../asstets/images/svg'
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const CustomModal = ({ visible, onClose, title, description, buttons, size = "50%" }) => {
+const CustomModal = ({
+  visible,
+  onClose,
+  title,
+  titleTextStyle = {},
+  descriptionTextStyle = {},
+  description,
+  buttons,
+  size = "50%",
+}) => {
   const sizePercentage = {
     "25%": SCREEN_HEIGHT * 0.25,
     "50%": SCREEN_HEIGHT * 0.5,
     "75%": SCREEN_HEIGHT * 0.75,
+    "80%": SCREEN_HEIGHT * 0.8,
     "100%": SCREEN_HEIGHT,
   };
 
@@ -27,18 +38,22 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
       animationType="slide"
       transparent={true}
       visible={visible}
-      // Disable backdrop touch to prevent closing the modal
       onRequestClose={() => {}}
     >
       <View style={styles.overlay}>
         <View style={[styles.bottomSheetContainer, { maxHeight: modalHeight }]}>
           {/* Title */}
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, titleTextStyle]}>{title}</Text>
 
           {/* Description */}
           {description.length > 150 ? (
-            <ScrollView style={styles.descriptionContainer} showsVerticalScrollIndicator={false}>
-              <Text style={styles.description}>{description}</Text>
+            <ScrollView
+              style={styles.descriptionContainer}
+              showsVerticalScrollIndicator={false}
+            >
+              <Text style={[styles.description, descriptionTextStyle]}>
+                {description}
+              </Text>
             </ScrollView>
           ) : (
             <View style={styles.descriptionWrapper}>
@@ -56,10 +71,12 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
                   button.type === "primary"
                     ? styles.primaryButton
                     : styles.secondaryButton,
+                  button.type === "text" ? { borderWidth: 0 } : {},
+                  { flexDirection: "row", alignItems: "center" }, // Flex to align text and icon
                 ]}
                 onPress={() => {
-                  button.onPress(); // Close modal only on button press
-                  if (onClose) onClose(); // Optional: Call onClose on button press
+                  button.onPress();
+                  if (onClose) onClose();
                 }}
               >
                 <Text
@@ -72,6 +89,11 @@ const CustomModal = ({ visible, onClose, title, description, buttons, size = "50
                 >
                   {button.label}
                 </Text>
+                {button.label.toLowerCase().includes("cookies") && (
+                  <View style={{marginLeft:5}}>
+                  <Svg.Arrow style={styles.arrowIcon} />
+                  </View>
+                )}
               </TouchableOpacity>
             ))}
           </View>
@@ -125,6 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
+    width: "100%", // Ensure the button spans the full width
   },
   primaryButton: {
     backgroundColor: "#FFFFFF",
@@ -140,6 +163,9 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: "#FFFFFF",
+  },
+  arrowIcon: {
+    marginLeft: 10, 
   },
 });
 

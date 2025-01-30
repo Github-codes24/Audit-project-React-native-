@@ -25,11 +25,16 @@ const onSubmit=()=>{
     return (
     <View style={style.Main}>
       <View style={{marginTop:'30%'}}>
+        <View style={{width:'100%',justifyContent:"center",alignItems:"center"}}>
       <Image
       style={{width:252,height:375}}
       source={require('../../asstets/images/updateSuccess.png')}
       />
-      <Text style={{width:260,fontWeight:'700',fontSize:20,alignSelf:"center",textAlign:'center',marginTop:20}}>{'Your changes have been successfully saved!'}</Text>
+      </View>
+      <View style={{width:'100%'}}>
+      <Text style={{width:220,fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',marginTop:30,}}>{'Your changes have'}</Text>
+      <Text style={{width:220,fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',}}>been successfully saved!</Text>
+     </View>
       </View>
       <View style={{position:'absolute',bottom:theme.verticalSpacing.space_60}}>
        <CustomButton

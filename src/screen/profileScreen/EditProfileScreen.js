@@ -19,15 +19,16 @@ const EditProfile = ({ navigation, route }) => {
 
     console.log('profileData@@', profileData, route?.params);
     console.log('Phone Number:', profileData?.phoneNumber);
+    
     const inputRef = useRef(null);
     const [firstName, setFirstName] = useState(profileData?.firstName || '');
     const [lastName, setLastName] = useState(profileData?.lastName || '');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}` || '');
-    const [companyName, setCompanyName] = useState('');
+    const [companyName, setCompanyName] = useState(profileData?.company || '');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [phoneError, setPhoneError] = useState(''); // State for phone number error
+    const [phoneError, setPhoneError] = useState(''); 
 
     const response = useSelector(getLoginResponse);
     const userId = response?.data?.id;
@@ -241,22 +242,25 @@ const EditProfile = ({ navigation, route }) => {
                             borderRadius: 10,
                             alignItems: "center",
                             width: "80%",
+                           
                         }}
                     >
+
+                        <View style={{}}>
                         <TouchableOpacity onPress={pickImageFromGallery}>
                             <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                 <Svg.GalleryIcon />
-                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from Gallery</Text>
+                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from gallery</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={captureImageFromCamera}>
                             <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                 <Svg.CameraIcon />
-                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from Camera</Text>
+                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Open camera</Text>
                             </View>
                         </TouchableOpacity>
-
+                      </View>
                         <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                             <Text style={{ fontSize: 16, marginVertical: 10, color: "red" }}>Cancel</Text>
                         </TouchableOpacity>
@@ -308,7 +312,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: theme.lightColor.whiteColor,
         marginBottom: theme.verticalSpacing.space_10,
-        letterSpacing: 1,
+        
     },
     TextStyle: {
         marginTop: theme.verticalSpacing.space_10,

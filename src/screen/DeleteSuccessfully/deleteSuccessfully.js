@@ -46,7 +46,7 @@ const DeleteSuccessFully=({navigation})=>{
             <View style={style.modalContent}>
               <Text style={style.modalTitle}>Redirecting....</Text>
               <Text style={style.modalDescription}>
-                 Redirecting to Welcom screen in {countdown} second{countdown > 1 ? "s" : ""}...
+                 Redirecting to Welcome page in {countdown} second{countdown > 1 ? "s" : ""}...
                  </Text>
              
             </View>

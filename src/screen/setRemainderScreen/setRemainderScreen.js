@@ -16,15 +16,18 @@ import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useNavigation } from "@react-navigation/native";
 
 
-const SetRemainderScreen = ({navigation}) => {
+const SetRemainderScreen = ({navigation,route}) => {
+
+const {remainderdata}=route?.params || {}
+console.log('remainderdata',remainderdata)
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [reminderName, setReminderName] = useState("");
-  const [employeeName, setEmployeeName] = useState("");
-  const [employeeEmail, setEmployeeEmail] = useState("");
-  const [reminderFor, setReminderFor] = useState("");
-  const [description, setDescription] = useState("");
+  const [reminderName, setReminderName] = useState(remainderdata?.reminderName);
+  const [employeeName, setEmployeeName] = useState(remainderdata?.employeeName);
+  const [employeeEmail, setEmployeeEmail] = useState(remainderdata?.employeeEmail);
+  const [reminderFor, setReminderFor] = useState(remainderdata?.reminderFor);
+  const [description, setDescription] = useState(remainderdata?.description);
 
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
@@ -54,7 +57,7 @@ const SetRemainderScreen = ({navigation}) => {
       .unwrap()
       .then((response) => {
         console.log("Reminder set successfully:", response);
-        alertSuccess("Reminder set successfully!");
+       
       })
       .catch((err) => {
         alertError(err?.data?.message || "Error setting reminder.");
@@ -63,9 +66,8 @@ const SetRemainderScreen = ({navigation}) => {
 
   useEffect(() => {
     if (isSetRemainderApiMutationSuccess) {
-      alertSuccess("Reminder set successfully!");
       navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-        screen: 'Remainder', 
+        screen: 'Reminder', 
       });
     }
   }, [isSetRemainderApiMutationSuccess]);

@@ -26,7 +26,8 @@ const QuestionSection = ({
     skip: checkerType === 'compliance'
   })
 
-  console.log('selectedAnswers@@',selectedAnswers)
+  
+  console.log('selectedAeligibilityQuestionsnswers@@',eligibilityQuestions)
 
   const {
     isLoading: isLoadingComplianceQuestions,
@@ -56,7 +57,6 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
   const getQuestionsToDisplay = () => {
     return questions?.slice(currentIndex, currentIndex + 3);
   };
-
 
   const handlePreviousLocal = () => {
     if (currentIndex - 3 >= 0) {
@@ -133,17 +133,29 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
       ))}
 
       <View style={styles.navigationButtons}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
-          <Text style={{ color: "white",fontSize:15,fontWeight:'500'   }}>Previous</Text>
-        </TouchableOpacity>
-        {currentIndex + 3 >= questions?.length ? (
-        <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
-          <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Submit</Text>
-        </TouchableOpacity>
+        
+       {currentIndex + 3 >= questions?.length ? (
+        // When "Submit" button appears, move "Previous" button to top
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
+            <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:15  }}>Previous</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.buttonStyle,{width:theme.horizontalSpacing.space_374,marginTop:20}]} onPress={handleSubmit}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       ) : (
-        <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
-          <Text style={{ color: "white",fontSize:15,fontWeight:'500' }}>Next</Text>
-        </TouchableOpacity>
+        // Normal Previous/Next button layout
+        <View style={[styles.navigationButtons,{flexDirection:"row"}]}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Previous</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Next</Text>
+          </TouchableOpacity>
+        </View>
       )}
       </View>
     </View>
@@ -153,7 +165,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
 const styles = StyleSheet.create({
   header: {
-    fontSize:20,
+    fontSize:theme.fontSizes.size_18,
     fontWeight: "700",
     marginTop:10,
     marginLeft:10
@@ -163,9 +175,10 @@ const styles = StyleSheet.create({
     margin:10,
     marginHorizontal:15,
     fontWeight: "400",
+
   },
   navigationButtons: {
-    flexDirection: "row",
+   
     alignItems: "center",
     justifyContent: "center",
     marginTop:theme.verticalSpacing.space_50,

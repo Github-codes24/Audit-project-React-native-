@@ -76,14 +76,14 @@ const RegisterScreen = ({ navigation }) => {
               value={firstName}
               onChangeText={(text) => setFirstName(text)}
               style={styles.nameTextInput}
-              placeholder="John"
+              placeholder="First name"
               placeholderTextColor="#BABABA"
             />
             <TextInput
               value={lastName}
               onChangeText={(text) => setLastName(text)}
               style={[styles.nameTextInput, { marginLeft: 10 }]}
-              placeholder="Weak"
+              placeholder="Last name"
               placeholderTextColor="#BABABA"
             />
           </View>

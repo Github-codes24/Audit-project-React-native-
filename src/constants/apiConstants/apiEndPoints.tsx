@@ -41,6 +41,7 @@ getBlogById:'api/blogRoutes/getBlogById',
 //customer support api slice
 contactUs:'api/contactUs/createContactUs',
 aboutUs:'api/aboutUs/getAboutUs',
+getContactUs:'api/contactUs/getAdminContactUs',
 
 //Notification support api Slice
 

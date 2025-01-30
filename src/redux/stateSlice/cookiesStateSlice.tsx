@@ -1,8 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
- cookiesStatus :'',
+  cookiesStatus: '',
 };
 
 export const cookiesStateSlice = createSlice({
@@ -10,23 +9,25 @@ export const cookiesStateSlice = createSlice({
   initialState,
   reducers: {
     acceptCookies: (state) => {
-     state.cookiesStatus = 'accepted';
+      state.cookiesStatus = 'accepted';
     },
-    
-    rejectCookies: state => {
+    rejectCookies: (state) => {
       state.cookiesStatus = 'rejected';
     },
     customizeCookies: (state) => {
       state.cookiesStatus = 'customized';
     },
+    resetCookies: (state) => {
+      state.cookiesStatus = ''; // Correctly resetting the state
+    },
   },
 });
 
 export const {
- acceptCookies,
- rejectCookies,
- customizeCookies,
+  acceptCookies,
+  rejectCookies,
+  customizeCookies,
+  resetCookies, // Exporting resetCookies
 } = cookiesStateSlice.actions;
 
-// Export the authSlice.reducer to be included in the store.
 export default cookiesStateSlice.reducer;

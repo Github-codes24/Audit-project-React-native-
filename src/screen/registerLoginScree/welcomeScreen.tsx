@@ -18,48 +18,47 @@ const RegisterButton=()=>{
   navigation.navigate(MainRoutes.REGISTER_SCREEN)
 }
   return (
-    <BackgroundLayout>
-    <View style={{padding:19,}}>
-      <StatusBar
-        barStyle="light-content" 
-        backgroundColor={theme.lightColor.whiteColor}  
-      />
-      <View style={{ height: '100%',alignItems:"center",justifyContent:'center' }}>
+   
+    <View style={{marginHorizontal:19,}}>
+    <StatusBar backgroundColor={'#F2F3F5'}/> 
+
+      <View style={{ height: '100%',alignItems:"center",justifyContent:"center" }}>
         <Image
         style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_347,}}
         source={require('../../asstets/images/welcomeImage.png')}
         />
-        <View style={{width:267,marginHorizontal:73,}}>
+        <View style={{width:theme.horizontalSpacing.space_260,justifyContent:"center",marginLeft:10}}>
         <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
         </View>
         <View style={{}}>
         
 
-      <View style={{marginLeft:41,marginRight:42}}>
-        <Text style={{lineHeight:20,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_18,marginTop:theme.verticalSpacing.space_20,width:329,alignSelf:'center',}}>{'Securely manage your compliance and sponsor license requirements in one place'}</Text>
+      <View style={{marginLeft:41,marginRight:theme.horizontalSpacing.space_42,}}>
+        <Text style={{lineHeight:20,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_26,width:329,alignSelf:'center',paddingHorizontal:10,}}>{'Securely manage your compliance and '}</Text>
+       <Text style={{alignSelf:'center',fontWeight:'400',textAlign:"center",fontSize:theme.fontSizes.size_16,marginTop:-2}}>{'sponsor license requirements in one place'}</Text>
         </View>
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
-        
-         <TouchableOpacity style={[style.button,{marginRight:10}]}
+        <View style={{flexDirection:"row",marginHorizontal:theme.horizontalSpacing.space_20,}}>
+         <TouchableOpacity style={[style.button,{}]}
         onPress={LoginNavigation}
         >
-          <Text style={{textAlign:"center",color:theme.lightColor.whiteColor}}>Login</Text>
+          <Text style={{textAlign:"center",color:theme.lightColor.whiteColor,fontWeight:'500',fontSize:theme.fontSizes.size_16}}>Login</Text>
         </TouchableOpacity>
        
         
-         <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,marginHorizontal:10}]}
+         <TouchableOpacity style={[style.button,{backgroundColor:'white',borderWidth:.3,}]}
         onPress={RegisterButton}
         >
-          <Text style={{color:theme.lightColor.brownColor}}>{'Get Started Free'}</Text>
+          <Text style={{color:theme.lightColor.brownColor,fontWeight:'500',fontSize:theme.fontSizes.size_16}}>{'Get Started Free'}</Text>
         
         
         </TouchableOpacity>
-       
+       </View>
         </View>
        </View>
       </View>
     </View>
-    </BackgroundLayout>
+    
   );
 };
 
@@ -84,6 +83,7 @@ const style = StyleSheet.create({
     color: theme.lightColor.blackColor,
   },
   button:{
+    marginHorizontal:10,
     width:theme.horizontalSpacing.space_170,
     height:theme.verticalSpacing.space_50,
     backgroundColor:theme.lightColor.brownColor,

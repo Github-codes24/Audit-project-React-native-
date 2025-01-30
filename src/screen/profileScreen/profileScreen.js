@@ -9,6 +9,7 @@ import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import { useSelector } from 'react-redux';
 import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
+import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
 
 
 const ProfileScreen = ({navigation}) => {
@@ -17,9 +18,8 @@ const dispatch=useDispatch()
  
 const response=useSelector(getLoginResponse)
   // console.log('2222222',response)
-
  const userId=response?.data?.id
-console.log('userId',userId)
+// console.log('userId',userId)
  const { 
     data: getuserdata, 
     error: getUserdataApiError, 
@@ -36,7 +36,8 @@ const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
 
 
  const handleLogOut = () => {
-    dispatch(resetAuth()); 
+    dispatch(resetAuth());
+    dispatch(resetCookies()) 
     setIsDialogVisible(false); 
   };
 
@@ -193,7 +194,9 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: theme.lightColor.brownColor,
-    padding: 15,
+    height:50,
+    alignItems:'center',
+    justifyContent:'center',
     borderRadius: 10,
     flex: 1,
     marginRight: 10,

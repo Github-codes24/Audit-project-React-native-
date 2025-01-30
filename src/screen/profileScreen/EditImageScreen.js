@@ -24,7 +24,7 @@ const EditImage = ({ navigation }) => {
         } else if (response.errorMessage) {
           console.error('ImagePicker Error:', response.errorMessage);
         } else if (response.assets && response.assets.length > 0) {
-          setImageUri(response.assets[0].uri); // Set the selected image URI
+          setImageUri(response.assets[0].uri); 
         }
       }
     );
@@ -43,7 +43,7 @@ const EditImage = ({ navigation }) => {
         } else if (response.errorMessage) {
           console.error('Camera Error:', response.errorMessage);
         } else if (response.assets && response.assets.length > 0) {
-          setImageUri(response.assets[0].uri); // Set the captured image URI
+          setImageUri(response.assets[0].uri); 
         }
       }
     );
@@ -57,12 +57,12 @@ const EditImage = ({ navigation }) => {
     {
       label: 'Upload from gallery',
       icon: <Svg.GalleryIcon />,
-      onPress: pickImageFromGallery, // Assign the function
+      onPress: pickImageFromGallery, 
     },
     {
       label: 'Open camera',
       icon: <Svg.CameraIcon />,
-      onPress: captureImageFromCamera, // Assign the function
+      onPress: captureImageFromCamera,
     },
   ];
 

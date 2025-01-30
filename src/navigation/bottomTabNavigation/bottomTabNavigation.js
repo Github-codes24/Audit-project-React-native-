@@ -72,7 +72,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Eligibity"
+        name="Eligibility"
         component={EligibityScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.Eligibility color={color} size={size} />,
@@ -86,7 +86,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Remainder"
+        name="Reminder"
         component={RemainderListScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.RemianderIcon color={color} size={size} />,

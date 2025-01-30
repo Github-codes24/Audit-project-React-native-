@@ -57,27 +57,34 @@ const onRefresh = async () => {
     return <Text style={{width:'100%',height:'100%',alignSelf:"center",textAlign:'center'}}>Loading....</Text>;
   }
 
-
-
-console.log('getAllReminderApiData',getAllReminderApiData)
+  console.log('getAllReminderApiData',getAllReminderApiData)
 
   const renderReminderItem = ({ item }) => (
     <View style={styles.reminderCard}>
         <View style={{flexDirection:"row",justifyContent:'space-between',alignItems:"center"}}>
-    <Text style={{fontSize: theme.fontSizes.size_20, fontWeight: '600'}}> 
-    {moment(item?.date).format("DD-MMM-YYYY")} 
-   </Text>        
-    <Svg.Arrow/>
-        
+    {/* <Svg.Arrow/>    */}
        </View>
-      
+        <TouchableOpacity
+        
+        onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN,{remainderdata:item})}
+        >
       <View style={styles.reminderContent}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:"center",marginTop:theme.verticalSpacing.space_10}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',paddingRight:theme.horizontalSpacing.space_30}}>
+        <Text style={{fontWeight:'600',fontSize:theme.fontSizes.size_20,}}>{item?.employeeName}</Text>
+       <Text style={{fontSize: theme.fontSizes.size_20, fontWeight: '600'}}> 
+        {moment(item?.date).format("DD-MMM-YYYY")} 
+       </Text>        
+      
+       </View>
+        <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'500',marginVertical:5}}>{item?.reminderName}</Text>
+          <View style={{flexDirection:'row',justifyContent:'space-between',width:theme.horizontalSpacing.space_374}}>
         <Text style={styles.title}>{item?.reminderFor}</Text>
         <Text style={styles.description}>{item?.description}</Text>
+      
         </View>
+   
       </View>
-     
+       </TouchableOpacity>
     </View>
   );
 
@@ -182,10 +189,10 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_20,
     fontWeight: "bold",
     color:theme.lightColor.blackColor,
-    marginRight: 16,
+    
   },
   reminderContent: {
-    flex: 1,
+  width:theme.horizontalSpacing.space_374
   },
   title: {
     fontSize:theme.fontSizes.size_14,
@@ -198,7 +205,8 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_14,
     color:theme.lightColor.blackColor,
     fontWeight:"600",
-    width:theme.horizontalSpacing.space_170
+   paddingHorizontal:theme.horizontalSpacing.space_30,
+    alignSelf:'flex-end'
   },
   arrow: {
     fontSize:theme.fontSizes.size_24,

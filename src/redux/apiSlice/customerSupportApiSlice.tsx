@@ -13,6 +13,17 @@ export const CustomerSupportApiSlice = baseApi.injectEndpoints({
         keepUnusedDataFor: 5,
       }),
     }),
+
+getContactUs: builder.query({
+        query: () => ({
+          url: apiEndPoints?.getContactUs,
+          method: 'GET',
+          keepUnusedDataFor: 5,
+        }),
+      }),
+
+
+
     AboutUs: builder.query({
         query: () => ({
           url: apiEndPoints?.aboutUs,
@@ -33,5 +44,6 @@ export const CustomerSupportApiSlice = baseApi.injectEndpoints({
 export const {
 useContactUsApiMutation,
 useAboutUsQuery,
+useGetContactUsQuery,
  
 } = CustomerSupportApiSlice;

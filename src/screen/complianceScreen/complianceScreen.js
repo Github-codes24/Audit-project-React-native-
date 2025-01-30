@@ -11,12 +11,18 @@ import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/compli
 import Loader from "../../reusableComponent/loader/loader";
 import ComplianceResult from "../../reusableComponent/result/complianceResult";
 import Header from "../../reusableComponent/header/header";
+
+
+
 const ComplianceScreen = () => {
+
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
  const [selectedCategory, setSelectedCategory] = useState();
-
+ 
+ console.log('selectedCategory',selectedCategory)
 
  const [
   calculateCompilanceScore,

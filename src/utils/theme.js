@@ -110,6 +110,7 @@ const theme = {
   space_347:hp(347),
   },
   horizontalSpacing: {
+    space_170:wp(170),
     space_2: wp(2),
     space_4: wp(4),
     space_6: wp(6),

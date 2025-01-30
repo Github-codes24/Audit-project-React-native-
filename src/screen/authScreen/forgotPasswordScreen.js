@@ -79,9 +79,13 @@ const ForgotPasswordScreen = () => {
                 <View style={{marginTop:theme.verticalSpacing.space_28,}}>
                    <Text style={style.headerTitle}>{'Forgot Password'}</Text>
                </View>
-        <Text style={style.Textstyle}>
-          No worries! Enter your email address below and we will send you a code to reset password.
+               <View style={{paddingRight:10,width:370,}}>
+        <Text style={[style.Textstyle,{}]}>
+          No worries! Enter your email address below  
         </Text>
+        <Text style={{marginTop:-8}}>and we will send you a code to reset</Text>
+        <Text style={{}}>password.</Text>
+        </View>
         <View style={style.inputView}>
           <Text>Email</Text>
           <CustomTextInput
@@ -146,14 +150,14 @@ const style = StyleSheet.create({
     marginBottom: 20,
   },
   Textstyle: {
-    marginTop: theme.verticalSpacing.space_10,
-    
+    marginTop: theme.verticalSpacing.space_10, 
     fontSize:theme.fontSizes.size_16,
-   
-    width:theme.horizontalSpacing.space_374,
+    
     color:'black',
     fontWeight:'400', 
     letterSpacing: theme.fontSizes.size_16 * 0.03,
+     marginBottom: 8,
+
   },
   inputView: {
     marginTop: theme.verticalSpacing.space_100,

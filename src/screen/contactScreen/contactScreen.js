@@ -6,7 +6,7 @@ import CustomButton from "../../reusableComponent/button/button";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../reusableComponent/header/header";
-import { useContactUsApiMutation } from "../../redux/apiSlice/customerSupportApiSlice";
+import { useContactUsApiMutation, useGetContactUsQuery } from "../../redux/apiSlice/customerSupportApiSlice";
 import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import { useSelector } from "react-redux";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
@@ -17,7 +17,7 @@ import * as Svg from '../../asstets/images/svg'
 
 const ContactScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('');
+   const [name, setName] = useState('');
   const [emailEnquiry, setEmailEnquiry] = useState('');
   const [message, setMessage] = useState('');
   
@@ -27,25 +27,46 @@ const ContactScreen = () => {
   const response = useSelector(getLoginResponse);
   const userId = response?.data?.id;
 
-  const { 
+
+const { 
     data: getuserdata, 
     error: getUserdataApiError, 
     isLoading: getUserdataApiIsLoading 
-  } = useGetuserApiQuery(userId);
+  } = useGetuserApiQuery(userId); 
+  
 
-  const { email, phoneNumber } = getuserdata?.getUser || {};
+const { 
+    data: getcontactusData, 
+    error: getcontactusDataApiError, 
+    isLoading: getcontactusDataApiIsLoading 
+  } = useGetContactUsQuery();
+
+
+useEffect(() => {
+    if (getcontactusData?.data) {
+      const { firstName, lastName, email } = getcontactusData.data;
+      setName(`${getuserdata?.getUser?.firstName} ${getuserdata?.getUser?.lastName}`);
+      setEmailEnquiry(getuserdata?.getUser?.email);
+    }
+  }, [getcontactusData]);
+
+
+
+
+  console.log('getcontactusData',getcontactusData)
+
+  const { email, phoneNumber,firstName,lastName } = getcontactusData?.data || {};
 
   const closeModal = () => {
     setModalVisible(false);
   };
 
  const handleFormSubmit = () => {
-  contactUsApi({ name, email: emailEnquiry, message })
+  contactUsApi({ name,email: emailEnquiry, message })
     .then((response) => {
+      console.log('response4354354',response)
       if (response?.data) {
         setModalVisible(true);
-        setName('');
-        setEmailEnquiry('');
         setMessage('');
       } else {
         console.log("No data received from API");
@@ -111,18 +132,30 @@ const ContactScreen = () => {
         <Text style={{color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5,fontWeight:'500'}}>{phoneNumber}</Text>
 
         <Text style={style.textBox}>Name</Text>
-        <CustomTextInput
+        <TextInput
+          value={`${getuserdata?.getUser?.firstName} ${getuserdata?.getUser?.lastName}`} 
+          editable={false} 
+        style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingLeft:10}}
+        />
+        {/* <CustomTextInput
           placeholder={"John Weak"}
           value={name}
           onChangeText={(text) => setName(text)}
-        />
+        /> */}
 
         <Text style={style.textBox}>Email</Text>
-        <CustomTextInput
+        <TextInput
+          value={getuserdata?.getUser?.email}
+          editable={false}
+        style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingHorizontal:10}}
+        />
+
+
+        {/* <CustomTextInput
           placeholder={"john@example.com"}
           value={emailEnquiry}
           onChangeText={(text) => setEmailEnquiry(text)}
-        />
+        /> */}
 
         <Text style={style.textBox}>Message</Text>
         <TextInput
