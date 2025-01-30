@@ -7,8 +7,9 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ScrollView,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+
 import * as Svg from '../../asstets/images/svg'
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
