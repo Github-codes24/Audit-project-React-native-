@@ -119,9 +119,7 @@ const BlogDetailsScreen = ({ route }) => {
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.backButton}
-              onPress={() => navigation.navigate(MainRoutes?.DASHBOARD_SCREEN,{
-                screen:'Resource',
-              })}
+              onPress={() => navigation.navigate('Resource')}
               >
                 <Text style={styles.buttonText}>Recent Blogs</Text>
               </TouchableOpacity>

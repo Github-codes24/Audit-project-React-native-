@@ -1,4 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import ComplianceStack from './stackNavigation/complianceStackNavigation';
+import { Eligibility } from '../asstets/images/svg';
+import ResourceScreen from '../screen/resourceScreen/resourceScreen';
 
 
 export const MainRoutes = {
@@ -29,7 +32,10 @@ export const MainRoutes = {
   BLOG_DETAILS_SCREEN:"BlogDetailsScreen",
   SET_REMAINDER_SCREEN:"SetRemainderScreen",
   DELETE_SUCCESSFULLY:'DeleteSuccessFully',
-  UPDATE_SUCCESSFULLY:'UpdateSuccessFully'
+  UPDATE_SUCCESSFULLY:'UpdateSuccessFully',
+  COMPLIANCE_SCREEN:'ComplianceStack',
+ELIGIBILITY_SCREEN:'EligibilityScreen',
+  RESOURCE_SCREEN:'ResourceScreen',
 };
 
 export const RootStackParamList = {

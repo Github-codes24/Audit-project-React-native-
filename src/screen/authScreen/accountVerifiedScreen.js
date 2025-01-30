@@ -21,7 +21,7 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
           clearInterval(interval); 
           setModalVisible(true); 
          dispatch(setLoginResponse(verifyOtpApiData));
-         navigation.navigate(MainRoutes.DASHBOARD_SCREEN,{screen:'Home'})
+         navigation.navigate('Home')
         }
         return prev - 1; 
       });

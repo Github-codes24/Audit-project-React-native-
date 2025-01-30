@@ -17,9 +17,7 @@ const closeModal = () => {
   };
 
 const onSubmit=()=>{
-  navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-  screen: "Home",
-});
+  navigation.navigate('Home');
 }
 
     return (

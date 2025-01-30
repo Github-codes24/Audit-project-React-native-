@@ -6,7 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  RefreshControl
+  RefreshControl,
+
 } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
@@ -17,7 +18,7 @@ import { useSelector } from "react-redux";
 import { useGetAllReminderApiQuery } from "../../redux/apiSlice/reminderApiSlice";
 import moment from "moment";
 import Loader from "../../reusableComponent/loader/loader";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const ReminderListScreen = ({navigation}) => {
    const [refreshing, setRefreshing] = useState(false);
@@ -110,7 +111,9 @@ const onRefresh = async () => {
         <Text style={{textAlign:"center",alignSelf:'center'}}>No reminders found.</Text>
       )}
       <TouchableOpacity style={styles.addButton}
-      onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN)}
+      onPress={()=>navigation.navigate(
+        MainRoutes.SET_REMAINDER_SCREEN 
+      )}
       >
         <Svg.PlusIcon/>
         <Text style={styles.addButtonText}>Add reminder</Text>

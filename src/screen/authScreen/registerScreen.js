@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -7,7 +7,7 @@ import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { alertError } from "../../utils/Toast";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const RegisterScreen = ({ navigation }) => {
   const inputRef = useRef(null);

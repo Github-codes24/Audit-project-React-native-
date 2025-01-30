@@ -66,9 +66,7 @@ console.log('remainderdata',remainderdata)
 
   useEffect(() => {
     if (isSetRemainderApiMutationSuccess) {
-      navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-        screen: 'Reminder', 
-      });
+      navigation.navigate('Reminder');
     }
   }, [isSetRemainderApiMutationSuccess]);
 

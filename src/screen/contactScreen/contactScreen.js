@@ -96,9 +96,7 @@ useEffect(() => {
             type: "primary",
             onPress: () => {
               closeModal();
-              navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-                     screen: 'Home', 
-                   });
+              navigation.navigate('Home');
             },
           },
         ]}

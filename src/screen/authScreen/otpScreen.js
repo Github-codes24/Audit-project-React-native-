@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
@@ -7,7 +7,6 @@ import CustomButton from '../../reusableComponent/button/button';
 import { alertSuccess, alertError } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { useResendOtpForgotPasswordApiMutation, useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
-import { ScrollView } from 'react-native-gesture-handler';
 import CustomModal from '../../reusableComponent/customModal/customModal';
 
 const OtpScreen = ({ navigation, route }) => {

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { 
-Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity 
+Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView 
 } from "react-native";
 import { useSelector } from "react-redux";
 import { useGetAboutUsApiQuery } from "../../redux/apiSlice/profileApiSlice";
@@ -8,7 +8,7 @@ import Swiper from "react-native-swiper";
 import { theme } from "../../utils";
 import Loader from "../../reusableComponent/loader/loader";
 import Header from "../../reusableComponent/header/header";
-import { ScrollView } from "react-native-gesture-handler";
+
 import * as Svg from '../../asstets/images/svg';
 
 
