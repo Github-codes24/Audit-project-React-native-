@@ -26,31 +26,17 @@ const QuestionSection = ({
     skip: checkerType === 'compliance'
   })
 
-  console.log('selectedAnswers@@',selectedAnswers)
+
 
   const {
     isLoading: isLoadingComplianceQuestions,
     isError: isErrorComplianceQuestions,
     data: complianceQuestions,
   }= useGetcompilanceQuestionsQuery({
-    category: selectedCategory?.data?.name,
+    category: selectedCategory?.name,
    },{
     skip: checkerType === 'eligibility'
   })
-
-
-console.log('complianceQuestions',complianceQuestions)
-
-
-
-  const [
-    calculateCompilanceScore,
-    {
-      isLoading: isLoadingCalculateCompilanceScore,
-      isError: isErrorCalculateCompilanceScore, 
-      isSuccess: isSuccessCalculateCompilanceScore
-    }
-  ]= useCalculateCompilanceScoreMutation()
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
