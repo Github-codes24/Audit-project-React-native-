@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity,ScrollView } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
-import { ScrollView } from "react-native-gesture-handler";
+
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 import Header from "../../reusableComponent/header/header";

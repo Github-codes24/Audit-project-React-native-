@@ -7,6 +7,7 @@ import MainStackNavigation from './stackNavigation/mainStacknavigation';
 import { useSelector } from 'react-redux';
 import AuthStack from './stackNavigation/authStackNavigator';
 import SplashScreen from '../screen/splashScreen/splashScreen';
+import BottomTabNavigator from './bottomTabNavigation/bottomTabNavigation';
 
 const RootNavigator = () => {
   const [splashVisible, setSplashVisible] = useState(true);
@@ -25,7 +26,7 @@ const RootNavigator = () => {
 
   const getRouteName = () => {
     if (loginResponse?.token) {
-        return <MainStackNavigation/>
+        return <BottomTabNavigator/>
     } else {
       return  <AuthStack/>
     }

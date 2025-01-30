@@ -9,6 +9,7 @@ import ContactScreen from '../../screen/contactScreen/contactScreen';
 import * as Svg from '../../asstets/images/svg'; // Import SVG icons
 import { theme } from '../../utils';
 import RemainderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
+import MainStackNavigation from '../stackNavigation/mainStacknavigation';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -59,7 +60,7 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={DashBoardScreen}
+        component={MainStackNavigation}
         options={{
         tabBarIcon: ({ color, size }) => <Svg.HomeIcon color={color} size={size} />,
         }}

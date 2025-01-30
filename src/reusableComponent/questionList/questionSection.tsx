@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,ScrollView } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
 import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 import Loader from "../loader/loader";
-import { ScrollView } from "react-native-gesture-handler";
+
 import { theme } from "../../utils";
 
 const QuestionSection = ({
@@ -26,32 +26,16 @@ const QuestionSection = ({
     skip: checkerType === 'compliance'
   })
 
-  
-  console.log('selectedAeligibilityQuestionsnswers@@',eligibilityQuestions)
 
   const {
     isLoading: isLoadingComplianceQuestions,
     isError: isErrorComplianceQuestions,
     data: complianceQuestions,
   }= useGetcompilanceQuestionsQuery({
-    category: selectedCategory?.data?.name,
+    category: selectedCategory?.name,
    },{
     skip: checkerType === 'eligibility'
   })
-
-
-console.log('complianceQuestions',complianceQuestions)
-
-
-
-  const [
-    calculateCompilanceScore,
-    {
-      isLoading: isLoadingCalculateCompilanceScore,
-      isError: isErrorCalculateCompilanceScore, 
-      isSuccess: isSuccessCalculateCompilanceScore
-    }
-  ]= useCalculateCompilanceScoreMutation()
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {

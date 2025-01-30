@@ -19,6 +19,7 @@ import BlogDetailsScreen from '../../screen/blogDetailsScreen/blogDetailsScreen'
 import SetRemainderScreen from '../../screen/setRemainderScreen/setRemainderScreen';
 import DeleteSuccessFully from '../../screen/DeleteSuccessfully/deleteSuccessfully';
 import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessfully';
+import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 const Stack = createStackNavigator();
 
 const MainStackNavigation = () => {
@@ -31,7 +32,7 @@ const MainStackNavigation = () => {
       >
          <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
-        component={BottomTabNavigator} 
+        component={DashBoardScreen} 
       />
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
