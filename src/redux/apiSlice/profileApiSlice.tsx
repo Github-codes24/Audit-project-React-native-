@@ -23,14 +23,30 @@ export const profileApiSlice = baseApi.injectEndpoints({
       query:(id) => ({
         url: `${apiEndPoints?.getUser}/${id}`,
         method: 'Get',
-    
       }),
-
-     
-
-
     }),
 
+    getAboutUsApi: builder.query({
+      query: () => ({
+        url: apiEndPoints?.aboutUSGetApi,
+        method: 'GET',
+        keepUnusedDataFor: 5,
+      }),
+    }),
+
+
+ updateUserProfileApiSlice: builder.mutation({
+  query: ({ id, formData }) => ({
+    url: `${apiEndPoints?.updateUserApi}/${id}`,
+    method: 'PUT', 
+    body: formData, 
+     headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+ keepUnusedDataFor: 5, 
+  }),
+
+}),
 
 
 
@@ -41,6 +57,8 @@ export const profileApiSlice = baseApi.injectEndpoints({
 export const {
  useGetProfileTermAndConditionApiQuery,
  useGetPrivacyPolicyQuery,
- useGetuserApiQuery
+ useGetuserApiQuery,
+ useGetAboutUsApiQuery,
+ useUpdateUserProfileApiSliceMutation,
  
 } = profileApiSlice;

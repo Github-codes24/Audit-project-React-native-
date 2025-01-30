@@ -57,6 +57,10 @@ const AuthStack = () => {
         name={MainRoutes?.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN} 
         component={PasswordChnageSuccessFullyScreen} 
       />
+       <Stack.Screen 
+        name={MainRoutes?.ABOUTUS_SCREEN} 
+        component={PasswordChnageSuccessFullyScreen} 
+      />
     </Stack.Navigator>
   );
 };

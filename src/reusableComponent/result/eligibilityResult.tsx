@@ -1,89 +1,95 @@
 import React from "react";
-import { Text, View,StyleSheet,Image,TouchableOpacity,StatusBar } from "react-native";
-import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
-const EligibityResult=({onPressRetakeExam,isEligible})=>{
-   return (
-    <View style={styles.container}>
-      <View style={{alignItems:"center",justifyContent:"center"}}>  
-        <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text>
-      <Image
-        source={
-          isEligible
-            ? require('../../asstets/images/elegable.png') // Replace with the eligible image path
-            : require('../../asstets/images/non-Elegable.png') // Replace with the not eligible image path
-        }
-        style={styles.image}
-      />
-      <Text style={styles.title}>
-        {isEligible ? 'Congratulations 🎉\nYou are eligible!' : 'Sorry,\nYou are not eligible!'}
-      </Text>
-      <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>
-      <TouchableOpacity style={styles.contactButton}>
-        <Text style={styles.contactText}>Contact us</Text>
-      </TouchableOpacity>
-      <CustomButton
-      title={'Retake the exam'}
-      onPress={onPressRetakeExam}
-      />
-       </View>
-    </View>
+import { theme } from "../../utils";
+
+const EligibityResult = ({ onPressRetakeExam, isEligible }) => {
+  const navigation = useNavigation();
+
+  return (
+    <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
+      <View style={styles.container}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+         
+          <Text style={styles.resultHeader}>Result</Text>
+
+          {/* Eligibility Image */}
+          <Image
+            source={
+              isEligible
+                ? require("../../asstets/images/elegable.png")
+                : require("../../asstets/images/non-Elegable.png")
+            }
+            style={styles.image}
+            resizeMode="contain"
+          />
+
+          {/* Eligibility Message */}
+          <Text style={styles.title}>
+            {isEligible
+              ? "Congratulations 🎉\nyou are eligible!"
+              : "Sorry\nyou are not eligible!"}
+          </Text>
+          <Text style={styles.subtitle}>mbjksdbv ijshvsw </Text>
+
+          {/* Contact Us Button */}
+          <TouchableOpacity
+            style={styles.contactButton}
+            onPress={() => navigation.navigate(MainRoutes.CONTACTUS_SCREEN)}
+          >
+            <Text style={styles.contactText}>Contact us</Text>
+          </TouchableOpacity>
+
+          {/* Retake Exam Button */}
+          <CustomButton title={"Retake the exam"} onPress={onPressRetakeExam} />
+        </View>
+      </View>
+    </ScrollView>
   );
-}
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5",
+  },
+  resultHeader: {
+    color: "black",
+    fontSize: theme.fontSizes.size_24,
+    fontWeight: "600",
+    marginTop: 10,
   },
   image: {
-    width:222,
-    height: 220,
-    marginTop:theme.verticalSpacing.space_80
+    width: theme.horizontalSpacing.space_222,
+    height: theme.verticalSpacing.space_290,
+    marginTop: theme.verticalSpacing.space_50,
   },
-   headerView:{
-        height:105,
-        backgroundColor:"#592951",
-        // borderBottomLeftRadius:60,
-        // borderBottomRightRadius:60,
-        paddingHorizontal:30,
-        justifyContent:'center'
-      
-    },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: theme.verticalSpacing.space_20,
   },
   subtitle: {
-    fontSize:theme.fontSizes.size_16,
-    color:theme.lightColor.blackColor,
-    textAlign: 'center',
-    marginTop:20
+    fontSize: theme.fontSizes.size_16,
+    color: theme.lightColor.blackColor,
+    textAlign: "center",
+    marginTop: theme.verticalSpacing.space_20,
   },
   contactButton: {
-    borderWidth:.3,
+    backgroundColor: theme.lightColor.whiteColor,
+    borderWidth: 0.3,
     paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 5,
-    margin:theme.verticalSpacing.space_30,
-    marginTop:theme.verticalSpacing.space_46
+    paddingHorizontal: theme.horizontalSpacing.space_30,
+    borderRadius: 10,
+    margin: theme.verticalSpacing.space_30,
+    marginTop: theme.verticalSpacing.space_46,
   },
   contactText: {
     color: theme.lightColor.brownColor,
-    fontWeight: 'bold',
-  },
-  retakeButton: {
-    backgroundColor: '#673AB7',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  retakeText: {
-    color: '#FFF',
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

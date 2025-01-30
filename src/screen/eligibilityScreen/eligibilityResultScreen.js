@@ -10,13 +10,13 @@ const EligibityResultScreen=({navigation,isEligible})=>{
    return (
     <View style={styles.container}>
         <Header/>
-      <View style={{alignItems:"center",justifyContent:"center"}}>  
-        <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text>
+      <View style={{alignItems:"center",justifyContent:"center",}}>  
+        {/* <Text style={{color:'black',fontSize:theme.fontSizes.size_18,fontWeight:'600',marginTop:10}}>{'Result'}</Text> */}
       <Image
         source={
           isEligible
-            ? require('../../asstets/images/elegable.png') // Replace with the eligible image path
-            : require('../../asstets/images/non-Elegable.png') // Replace with the not eligible image path
+            ? require('../../asstets/images/elegable.png') 
+            : require('../../asstets/images/non-Elegable.png') 
         }
         style={styles.image}
       />
@@ -38,10 +38,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
+    
   },
   image: {
+    // backgroundColor:'red',
     width:222,
-    height: 220,
+    height:267,
     marginTop:theme.verticalSpacing.space_80
   },
    headerView:{

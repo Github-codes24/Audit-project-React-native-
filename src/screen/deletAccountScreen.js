@@ -9,6 +9,7 @@ import { getLoginResponse } from '../redux/stateSelector/authStateSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteAccountApiMutation } from '../redux/apiSlice/authApiSlice';
 import { resetAuth } from '../redux/stateSlice/authStateSlice';
+import { resetCookies } from '../redux/stateSlice/cookiesStateSlice';
 const DeleteScreen = ({navigation}) => {
 
 const response=useSelector(getLoginResponse)
@@ -34,7 +35,8 @@ const response=useSelector(getLoginResponse)
           text: 'Yes', 
           onPress: () => {
             deleteAccount(userId); 
-             dispatch(resetAuth()); 
+            dispatch(resetCookies())
+            navigation.navigate(MainRoutes.DELETE_SUCCESSFULLY) 
           },
         },
       ],
@@ -47,26 +49,13 @@ const response=useSelector(getLoginResponse)
 
   return (
     <View style={styles.container}>
-      {/* Header Section */}
+     
      <TouchableOpacity
      onPress={()=>navigation.goBack()}
      >
       <Svg.ArrowBack/>
       </TouchableOpacity>
       
-      {/* User Information Card */}
-      <View style={styles.userCard}>
-        <Image 
-          source={require('../asstets/images/manImage.png')} // Replace with actual image URL
-          style={styles.userImage} 
-        />
-        <View>
-          <Text style={styles.userName}>John Weak</Text>
-          <Text style={styles.userEmail}>workforreings@gmail.com</Text>
-        </View>
-      </View>
-      
-      {/* Illustration and Message */}
       <View style={styles.warningSection}>
         <Image 
           source={require('../asstets/images/delete.png')} // Replace with actual image URL
@@ -76,15 +65,16 @@ const response=useSelector(getLoginResponse)
           If you confirm the deletion of your account, it will be permanently 
           removed from our database and cannot be recovered.
         </Text>
-      </View>
-      
-      {/* Confirm Button */}
-      <View style={{marginTop:theme.verticalSpacing.space_50}}>
+         <View style={{marginTop:theme.verticalSpacing.space_50}}>
       <CustomButton
       onPress={handleDelete}
       title={'Confirm delete'}
       />
       </View>
+      </View>
+      
+      {/* Confirm Button */}
+     
     </View>
   );
 };
@@ -94,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     padding: 16,
+    marginTop:20
   },
   headerText: {
     fontSize: 20,
@@ -130,8 +121,9 @@ const styles = StyleSheet.create({
   warningSection: {
     alignItems: 'center',
     marginBottom: 24,
-   
-    height:375
+    justifyContent:"center",
+  //  backgroundColor:'red',
+    height:'100%'
   },
   warningImage: {
     width: 275,
@@ -139,11 +131,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   warningText: {
-    fontSize:theme.fontSizes.size_16,
-    color: '#555',
+    // backgroundColor:"red",
+    width:theme.horizontalSpacing.space_327,
+    fontSize:theme.fontSizes.size_18,
+    color: '#000000',
     textAlign: 'center',
     lineHeight: 24,
-    marginVertical:30
+    marginVertical:30,
+    fontWeight:'400'
   },
   confirmButton: {
     backgroundColor: '#6A1B9A',

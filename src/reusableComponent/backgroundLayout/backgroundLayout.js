@@ -5,7 +5,7 @@ const BackgroundLayout = ({ children }) => {
   return (
    
       <View style={styles.overlay}>
-         <StatusBar backgroundColor={'#F2F3F5'}/>
+         {/* <StatusBar backgroundColor={'red'}/> */}
         {children}
       </View>
       

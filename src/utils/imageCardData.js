@@ -27,8 +27,8 @@
       onPress: () => console.log('Card 3 Pressed'),
     },
     {
-     image: require('../asstets/images/cricket.png'), // Replace with your main image path
-      profileImage:require('../asstets/images/manImage.png'), // Replace with your profile image path
+     image: require('../asstets/images/cricket.png'), 
+      profileImage:require('../asstets/images/manImage.png'), 
       title: 'The Beauty Of The Valley Of Fires',
       date: 'Jan 2, 2025',
       name: 'John Doe',

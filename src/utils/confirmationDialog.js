@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import theme from './theme';
 
 const ConfirmationDialog = ({
   visible,
@@ -15,7 +16,7 @@ const ConfirmationDialog = ({
       transparent={true}
       visible={visible}
       animationType="fade"
-      onRequestClose={onCancel} // Close dialog on back press
+      onRequestClose={onCancel} 
     >
       <View style={styles.modalOverlay}>
         <View style={styles.dialogContainer}>
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor:theme.lightColor.brownColor,
     padding: 10,
     marginLeft: 5,
     borderRadius: 5,

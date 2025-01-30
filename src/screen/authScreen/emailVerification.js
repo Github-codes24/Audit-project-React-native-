@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import React, { useState,useEffect, useRef } from 'react';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../asstets/images/svg'
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
@@ -7,27 +7,27 @@ import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertError, alertSuccess, ToastComponent } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-import { useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
+import { useResendOtpForRegistrationPasswordApiMutation, useVerifyOtpForRegistrationMutation } from '../../redux/apiSlice/authApiSlice';
 import { useSelector,useDispatch } from 'react-redux';
 import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
+import CustomModal from '../../reusableComponent/customModal/customModal';
 
 const EmailVerificationScreen = ({ navigation,route }) => {
+  
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(30);
+   const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-   
+   const [isSubmitting, setIsSubmitting] = useState(false); 
+     const intervalRef = useRef(null);
 const dispatch=useDispatch()
-  console.log('otp44',otp)
+  
+
+console.log('otp44',otp)
  const {email}=route?.params||{}
- console.log('emaill333',email)
+//  console.log('emaill333',email)
 
-
-function convertOtpToString(otpArray) {
-  if (!Array.isArray(otpArray)) {
-    throw new Error("Input must be an array");
-  }
-  return otpArray.join("");
-}
+const convertOtpToString = (otpArray) => otpArray.join("");
 
 const [verifyOtp,{
    isLoading: verifyOtpApiLoading,
@@ -36,7 +36,7 @@ const [verifyOtp,{
       data:verifyOtpApiData,
  }]=useVerifyOtpForRegistrationMutation()
  
- console.log('verifyOtpApiData',verifyOtpApiData,isVerifyOtpApiSuccess)
+//  console.log('verifyOtpApiData',verifyOtpApiData,isVerifyOtpApiSuccess)
  
  const handleVerifyAccount=()=>{
  let otpString=convertOtpToString(otp)
@@ -44,62 +44,104 @@ const [verifyOtp,{
   verifyOtp({email,otp:otpString})
  }
  
+const closeModal = () => {
+    setModalVisible(false);
+  };
+
+
  
-  // useEffect(() => {
-  //   let interval;
-  //   if (timer > 0) {
-  //     interval = setInterval(() => {
-  //       setTimer((prevTimer) => prevTimer - 1);
-  //     }, 1000);
-  //   } else {
-  //     setIsResendDisabled(false); 
-  //   }
-  //   return () => clearInterval(interval); 
-  // }, []);
+ useEffect(() => {
+     if (timer > 0) {
+       intervalRef.current = setInterval(() => {
+         setTimer((prevTimer) => prevTimer - 1);
+       }, 1000);
+     } else {
+       setIsResendDisabled(false);
+       clearInterval(intervalRef.current);
+     }
+     return () => clearInterval(intervalRef.current);
+   }, [timer]);
 
   
-useEffect(()=>{
-    if(isVerifyOtpApiSuccess){
-    dispatch(setLoginResponse(verifyOtpApiData))
-     navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN)
-    alertSuccess('Success','Email verification Successful')
-    }else if(verifyOtpApiError){
-    console.log('loginApiError',verifyOtpApiError.data?.message)
-    alertError(verifyOtpApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
-    }
-},[isVerifyOtpApiSuccess,verifyOtpApiData,verifyOtpApiError])
+useEffect(() => {
+  if (isVerifyOtpApiSuccess) {
+    
+    navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN, {
+      verifyOtpApiData, 
+    });
+    // alertSuccess('Success', 'Email verification successful');
+  } else if (verifyOtpApiError) {
+    // console.log('verifyOtpApiError', verifyOtpApiError.data?.message);
+    alertError(
+      verifyOtpApiError?.data?.message || 'Otp doesn’t match. Please enter a valid OTP.'
+    );
+  }
+}, [isVerifyOtpApiSuccess, verifyOtpApiData, verifyOtpApiError, navigation]);
+  
 
-  const handleResendCode = () => {
-     alertSuccess('send')
-    if (!isResendDisabled) {
-      setTimer(60); 
-      setIsResendDisabled(true);  
-      console.log('Code resent!');
-    }
-  };
 
-  const handleChange = (text, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = text;
-    setOtp(newOtp);
+const [ResendOtpRegistrationPasswordApi, {
+    isLoading: ResendOtpRegistrationPasswordApisLoading,
+  }] = useResendOtpForRegistrationPasswordApiMutation();
 
-    if (text && index < 3) {
-      inputs[index + 1]?.focus();
-    }
-  };
+
+
+
+
+
+
+const handleResendCode = () => {
+  if (!isResendDisabled) {
+    setModalVisible(true); 
+    setTimer(30); 
+    setIsResendDisabled(true);
+    ResendOtpRegistrationPasswordApi({ email });
+  }
+};
+
+  
 
   const inputs = [];
 
 
+const handleChange = (text, index) => {
+    const newOtp = [...otp];
+    const isBackspace = text === ''; 
+    newOtp[index] = text;
+    setOtp(newOtp);
+    if (!isBackspace && text && index < otp.length - 1) {
+      inputs[index + 1]?.focus(); 
+    } else if (isBackspace && index > 0) {
+      inputs[index - 1]?.focus(); 
+    }
+  };
+
+
   return (
-    <BackgroundLayout>
+    <SafeAreaView>
     <View style={styles.container}>
-     
+       <CustomModal
+          visible={isModalVisible}
+          onClose={closeModal}
+          title="Code sent!"
+          description={"Code has been sent to your email please check your email"}
+          buttons={[
+            {
+              label: "Verify code",
+              type: "primary",
+              onPress: () => {
+                closeModal();
+              },
+            },
+          ]}
+        />
+     <View style={{}}>
       <CustomHeader
       onBackPress={()=>navigation.goBack()}
       leftIcon={<Svg.ArrowBack/>}
       title={'Email Verification'}
       />
+      </View>
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
         Code sent to <Text style={styles.email}>{email}</Text>.Please enter the code below
@@ -119,30 +161,30 @@ useEffect(()=>{
         ))}
       </View>
        
-      <View style={{marginTop:theme.verticalSpacing.space_156}}>
+      <View style={{marginTop:theme.verticalSpacing.space_114}}>
        <CustomButton
        onPress={handleVerifyAccount}
-       title={'Verify Account'}
+       title={'Verify account'}
        />
        </View>
-<View style={styles.resendContainer}>
-        <Text style={styles.resendText}>Didn’t receive Code?</Text>
+ <View style={styles.resendContainer}>
+        <Text style={styles.resendText}>Didn’t receive code?</Text>
         <TouchableOpacity
          onPress={handleResendCode}
           disabled={isResendDisabled}
         >
-          <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' },]}> Resend Code</Text>
+         <Text   style={[styles.resendLink,   { textDecorationLine: 'underline' }, isResendDisabled && { color: 'gray' },]}> Resend code</Text> 
         </TouchableOpacity>
       </View>
       
-        <Text style={styles.timerText}>Resend Code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
+        <Text style={styles.timerText}>Resend code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
       {/* Resend Code Section */}
       
 
       {/* Timer */}
      
     </View>
-    </BackgroundLayout>
+    </SafeAreaView>
   );
 };
 
@@ -150,7 +192,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // backgroundColor: '#F9F5F2',
-    // paddingHorizontal: 20,
+    paddingHorizontal:19,
     // paddingTop: 50,
   },
   backButton: {
@@ -173,11 +215,11 @@ const styles = StyleSheet.create({
     width:theme.horizontalSpacing.space_370,
     fontSize: theme.fontSizes.size_18,
     color: '#3D3D3D',
-    marginVertical: 20,
-    marginHorizontal:20,
+    height:60,
     fontWeight:'400',
-    marginTop:theme.verticalSpacing.space_80,
-    lineHeight:20
+    marginTop:theme.verticalSpacing.space_20,
+    lineHeight:20,
+    letterSpacing: theme.fontSizes.size_16 * 0.03, 
   },
   email: {
     fontWeight: 'bold',
@@ -190,13 +232,13 @@ const styles = StyleSheet.create({
     marginTop:theme.verticalSpacing.space_100,
     
     // marginTop: 20,
-    paddingHorizontal:theme.horizontalSpacing.space_20,
+  
     // backgroundColor:'red'
   },
   otpInput: {
     margin:5,
-    width:theme.horizontalSpacing.space_60,
-    height:theme.verticalSpacing.space_60,
+    width:theme.horizontalSpacing.space_50,
+    height:theme.verticalSpacing.space_50,
     borderRadius: 8,
     borderWidth: 1,
     borderColor:theme.lightColor.borderColor,
@@ -209,7 +251,7 @@ const styles = StyleSheet.create({
     // marginTop: 30,
     backgroundColor: '#6A1B9A',
     borderRadius: 8,
-    paddingVertical: 15,
+    
     alignItems: 'center',
   },
   submitButtonText: {
@@ -220,7 +262,7 @@ const styles = StyleSheet.create({
   resendContainer: {
     // backgroundColor:"red",
     flexDirection: 'row',
-    paddingHorizontal:theme.horizontalSpacing.space_30,
+  
     // justifyContent: 'center',
     marginTop:theme.verticalSpacing.space_20,
   },
@@ -237,7 +279,7 @@ const styles = StyleSheet.create({
     
   },
   timerText: {
-    paddingHorizontal:theme.horizontalSpacing.space_30,
+    
     // textAlign: 'center',
     marginTop:5,
     color: '#3D3D3D',

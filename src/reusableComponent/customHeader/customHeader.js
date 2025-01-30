@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Replace with a different library if not using Expo
 import { theme } from '../../utils';
 
@@ -12,12 +12,14 @@ const CustomHeader = ({
   leftIconColor = theme.lightColor.backButtonColor, // Default color for the left icon button
 }) => {
   return (
+    <SafeAreaView>
     <View style={styles.container}>
       {/* <StatusBar backgroundColor={''} /> */}
       <View
         style={{
-          paddingHorizontal: 10,
-          height: theme.verticalSpacing.space_60,
+          // paddingHorizontal: 10,
+          // backgroundColor:"red",
+          height: theme.verticalSpacing.space_80,
           width: theme.horizontalSpacing.space_70,
           top: 20,
           width: '100%',
@@ -36,6 +38,7 @@ const CustomHeader = ({
         {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
@@ -45,8 +48,8 @@ const styles = StyleSheet.create({
     height: theme.verticalSpacing.space_156,
   },
   backButton: {
-    padding: 8,
-    marginLeft: 10,
+    paddingVertical:10,
+   
     borderRadius: 50,
     width: theme.horizontalSpacing.space_32,
     alignItems: 'center',
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
   textContainer: {
     width: '100%',
     // height: theme.verticalSpacing.space_60,
-    paddingHorizontal:theme.horizontalSpacing.space_20
+    
     // alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor:"red"

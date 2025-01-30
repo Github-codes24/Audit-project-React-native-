@@ -19,12 +19,17 @@ export const eligibilityApiSlice = baseApi.injectEndpoints({
         params:params,
         keepUnusedDataFor: 5,}),
 
-     
-
-
     }),
 
-  
+calculateEligibilityScore: builder.mutation({
+        query:(body) => ({
+          url: apiEndPoints?.getEligibilityScore,
+          method: 'POST',
+          body:body,
+          keepUnusedDataFor: 5,}),
+      }),
+
+
 
   }),
   overrideExisting: true,
@@ -33,4 +38,6 @@ export const eligibilityApiSlice = baseApi.injectEndpoints({
 export const {
 useGetEligibilityQuestionsQuery,
 useGetEligibilityCategoryQuery,
+useCalculateEligibilityScoreMutation,
+
 } = eligibilityApiSlice;

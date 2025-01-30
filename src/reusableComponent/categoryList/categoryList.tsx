@@ -23,6 +23,10 @@ const CategorySelector = ({
     refetch: refetchCompliance
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
+
+console.log('complianceCategoryData',complianceCategoryData)
+
+
   // Fetch eligibility categories if checkerType is 'eligibility'
   const {
     data: eligibilityCategoryData,
@@ -43,10 +47,10 @@ const CategorySelector = ({
     handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
   };
 
-  // Refresh function for pull-to-refresh
+ 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetchData(); // Trigger the appropriate refetch function
+    await refetchData(); 
     setRefreshing(false);
   };
 
@@ -76,7 +80,7 @@ const CategorySelector = ({
         {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
       </Text>
       
-      <Text style={styles.subHeader}>Select Category</Text>
+      <Text style={styles.subHeader}>Select category</Text>
 
       {categoryData?.length > 0 ? (
         categoryData.map((category) => (
@@ -113,24 +117,29 @@ const CategorySelector = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 19,
     backgroundColor: '#F2F3F5',
-    flexGrow: 1, 
+    
   },
   header: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize:theme.fontSizes.size_20,
+    fontWeight: '700',
     marginBottom: 10,
+    marginTop:15,
+    
   },
   subHeader: {
-    fontSize: theme.fontSizes.size_16,
-    marginTop: theme.verticalSpacing.space_50,
+    fontSize: theme.fontSizes.size_20,
+    marginTop: theme.verticalSpacing.space_100,
+    fontWeight:'600',
+    
   },
   category: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 15,
+    height:theme.verticalSpacing.space_58,
+    paddingHorizontal:10,
     marginVertical: 5,
     backgroundColor: 'white',
     borderRadius: 10,

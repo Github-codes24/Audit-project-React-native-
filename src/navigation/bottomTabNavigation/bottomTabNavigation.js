@@ -9,6 +9,7 @@ import ContactScreen from '../../screen/contactScreen/contactScreen';
 import * as Svg from '../../asstets/images/svg'; // Import SVG icons
 import { theme } from '../../utils';
 import RemainderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
+import MainStackNavigation from '../stackNavigation/mainStacknavigation';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -53,26 +54,26 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false, // Ensure this is placed here
+        headerShown: false, 
       }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
       <Tab.Screen
         name="Home"
-        component={DashBoardScreen}
+        component={MainStackNavigation}
         options={{
         tabBarIcon: ({ color, size }) => <Svg.HomeIcon color={color} size={size} />,
         }}
       />
       <Tab.Screen
-        name="compliance"
+        name="Compliance"
         component={complianceScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.ComplianceIcon color={color} size={size} />,
         }}
       />
       <Tab.Screen
-        name="Eligibity"
+        name="Eligibility"
         component={EligibityScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.Eligibility color={color} size={size} />,
@@ -86,7 +87,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Remainder"
+        name="Reminder"
         component={RemainderListScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Svg.RemianderIcon color={color} size={size} />,

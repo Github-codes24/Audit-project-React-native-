@@ -1,72 +1,122 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
+  RefreshControl
 } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../asstets/images/svg'
 import Header from "../../reusableComponent/header/header";
-const ReminderListScreen = () => {
-  const reminders = [
-    {
-      id: "1",
-      date: "10-Jan-2025",
-      title: "Happy Birthday!!!",
-      description: "It's Michael's birthday! Give him a call",
-    },
-    {
-      id: "2",
-      date: "09-Jan-2025",
-      title: "Visa will be expiring soon",
-      description: "Michael's visa will be expiring soon",
-    },
-    {
-      id: "3",
-      date: "08-Jan-2025",
-      title: "Meeting",
-      description: "Meeting with client for new topics",
-    },
-  ];
+import { MainRoutes } from "../../navigation/routeAndParamsList";
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
+import { useSelector } from "react-redux";
+import { useGetAllReminderApiQuery } from "../../redux/apiSlice/reminderApiSlice";
+import moment from "moment";
+import Loader from "../../reusableComponent/loader/loader";
+import { ScrollView } from "react-native-gesture-handler";
+
+const ReminderListScreen = ({navigation}) => {
+   const [refreshing, setRefreshing] = useState(false);
+
+const response=useSelector(getLoginResponse)
+  console.log('2222222',response)
+
+ const userId=response?.data?.id
+
+const {
+  data: getAllReminderApiData,
+  isLoading: isgetAllReminderApiDataiLoading,
+  isSuccess:isgetAllReminderApiDataSuccess,
+  error: getAllReminderApiDataError,
+  refetch: refetchAllReminderApiData,
+} = useGetAllReminderApiQuery(userId);
+
+
+const onRefresh = async () => {
+    setRefreshing(true); 
+    refetchAllReminderApiData();
+    setRefreshing(false); 
+  };
+
+
+
+
+ useEffect(() => {
+    refetchAllReminderApiData()
+  }, [getAllReminderApiData]);
+
+  if (isgetAllReminderApiDataiLoading) {
+    return <Loader/>
+  }
+
+  if (getAllReminderApiDataError) {
+    return <Text style={{width:'100%',height:'100%',alignSelf:"center",textAlign:'center'}}>Loading....</Text>;
+  }
+
+  console.log('getAllReminderApiData',getAllReminderApiData)
 
   const renderReminderItem = ({ item }) => (
     <View style={styles.reminderCard}>
-        <View style={{flexDirection:"row",justifyContent:'space-between'}}>
-      <Text style={styles.date}>{item.date}</Text>
-        <Svg.Arrow/>
-        
+        <View style={{flexDirection:"row",justifyContent:'space-between',alignItems:"center"}}>
+    {/* <Svg.Arrow/>    */}
        </View>
-      
+        <TouchableOpacity
+        
+        onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN,{remainderdata:item})}
+        >
       <View style={styles.reminderContent}>
-        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <View style={{flexDirection:'row',justifyContent:'space-between',paddingRight:theme.horizontalSpacing.space_30}}>
+        <Text style={{fontWeight:'600',fontSize:theme.fontSizes.size_20,}}>{item?.employeeName}</Text>
+       <Text style={{fontSize: theme.fontSizes.size_20, fontWeight: '600'}}> 
+        {moment(item?.date).format("DD-MMM-YYYY")} 
+       </Text>        
+      
+       </View>
+        <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'500',marginVertical:5}}>{item?.reminderName}</Text>
+          <View style={{flexDirection:'row',justifyContent:'space-between',width:theme.horizontalSpacing.space_374}}>
+        <Text style={styles.title}>{item?.reminderFor}</Text>
+        <Text style={styles.description}>{item?.description}</Text>
+      
         </View>
+   
       </View>
-     
+       </TouchableOpacity>
     </View>
   );
 
   return (
+    
     <View style={styles.container}>
          <Header/>
+         
       <Text style={styles.header}>Reminder</Text>
-
+      {getAllReminderApiData?.data?.length > 0 ? (
       <FlatList
-        data={reminders}
+      style={{marginBottom:theme.verticalSpacing.space_156}}
+        data={getAllReminderApiData?.data}
         keyExtractor={(item) => item.id}
         renderItem={renderReminderItem}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+       refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       />
-
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>+ Add reminder</Text>
+       ) : (
+        <Text style={{textAlign:"center",alignSelf:'center'}}>No reminders found.</Text>
+      )}
+      <TouchableOpacity style={styles.addButton}
+      onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN)}
+      >
+        <Svg.PlusIcon/>
+        <Text style={styles.addButtonText}>Add reminder</Text>
       </TouchableOpacity>
     </View>
+   
   );
 };
 
@@ -139,23 +189,24 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_20,
     fontWeight: "bold",
     color:theme.lightColor.blackColor,
-    marginRight: 16,
+    
   },
   reminderContent: {
-    flex: 1,
+  width:theme.horizontalSpacing.space_374
   },
   title: {
     fontSize:theme.fontSizes.size_14,
     fontWeight: "bold",
     color: "#000",
     // width:150,
-    marginTop:theme.verticalSpacing.space_10
+    // marginTop:theme.verticalSpacing.space_10
   },
   description: {
     fontSize:theme.fontSizes.size_14,
     color:theme.lightColor.blackColor,
-    // marginTop: 4,
-    width:theme.horizontalSpacing.space_170
+    fontWeight:"600",
+   paddingHorizontal:theme.horizontalSpacing.space_30,
+    alignSelf:'flex-end'
   },
   arrow: {
     fontSize:theme.fontSizes.size_24,
@@ -171,11 +222,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
     alignItems: "center",
+    flexDirection:"row",
+    justifyContent:'center'
   },
   addButtonText: {
+    // textAlign:'center',
     fontSize:theme.fontSizes.size_16,
-    fontWeight: "bold",
+    fontWeight: "500",
     color: "#FFFFFF",
+    marginLeft:5
   },
 });
 

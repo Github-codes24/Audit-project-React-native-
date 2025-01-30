@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator,ScrollView } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
-import { ScrollView } from "react-native-gesture-handler";
+
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
 import ComplianceResult from "../../reusableComponent/result/complianceResult";
 import Header from "../../reusableComponent/header/header";
+
+
+
 const ComplianceScreen = () => {
+
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
  const [selectedCategory, setSelectedCategory] = useState();
-
+ 
+ console.log('selectedCategory',selectedCategory)
 
  const [
   calculateCompilanceScore,
@@ -61,16 +67,12 @@ useEffect(() => {
   };
 
   const handleNext = () => {
-    
+    // setStep('result')
   };
 
-  const onSubmit = (payload) => {
-    
+  const onSubmit = (payload) => { 
     calculateCompilanceScore(payload)
-   
   }
-
-
 
   return (
     <View style={styles.main}>
@@ -82,11 +84,13 @@ useEffect(() => {
       )}
      
       {step==='category' && (
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="compliance"
         />
+        </ScrollView>
       )
       }
    
@@ -106,8 +110,8 @@ useEffect(() => {
   step === 'result' && (  
     <ComplianceResult
     scorePercentage={ calculateCompilanceScoreData?.scorePercentage % 1 === 0
-      ? calculateCompilanceScoreData?.scorePercentage // Integer, no decimals
-      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }// Fractional, 2 decimals}
+      ? calculateCompilanceScoreData?.scorePercentage 
+      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }
     onPressRetakeExam={()=>setStep('category')} 
     />
   )
@@ -129,7 +133,7 @@ width:theme.horizontalSpacing.space_110,
 height:theme.verticalSpacing.space_50, 
 backgroundColor:theme.lightColor.brownColor ,
 borderRadius:10,
-marginHorizontal:20
+marginHorizontal:19
   },
   header: {
     fontSize: 18,

@@ -25,8 +25,18 @@ import RemianderIcon from "./common/reminderIcon";
 import GalleryIcon from "./common/GalleryIcon";
 import CameraIcon from "./common/CameraIcon";
 import EditImage from "./common/EditImage";
+import DateIcon from "./common/dateIcon";
+import PlusIcon from "./common/plusIcon";
+import DropDownIcon from "./common/dropDown";
+import ShareIcon from "./common/shareIcon";
+import PhoneIcon from "./common/phoneIcon";
+import CheckList from "./common/checkList";
+import ArrowRight from "./common/arrowRight";
+import ArrowLeftDown from "./common/leftArrow";
+import ProfileEdit from "./common/profileEdit";
 
 export {
+    CheckList,
 ArrowBack,
 EyeOpen,
 Edit,
@@ -54,4 +64,12 @@ RemianderIcon,
 GalleryIcon,
 CameraIcon,
 EditImage,
+DateIcon,
+PlusIcon,
+DropDownIcon,
+ShareIcon,
+PhoneIcon,
+ArrowRight,
+ArrowLeftDown,
+ProfileEdit
 };

@@ -1,107 +1,124 @@
-import React,{useState,useEffect} from "react";
-import { View,Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from '../../asstets/images/svg';
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import CustomButton from "../../reusableComponent/button/button";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { useResetPasswordApiMutation } from "../../redux/apiSlice/authApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
-import { alertSuccess } from "../../utils/Toast";
-const CreateNewPassword=({navigation,route})=>{
+import { alertError, alertSuccess } from "../../utils/Toast";
 
-const [newPassword,setNewPassword]=useState('')
-const [confirmPassword,setConfirmPassword]=useState('')
-const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+const CreateNewPassword = ({ navigation, route }) => {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevState => !prevState);
-  };
-const {email}=route.params||{}
-console.log("email11111",email)
+  const { email } = route.params || {};
 
-const [resetPasswordApi,{
-   isLoading: resetPasswordApiLoading,
+  const [
+    resetPasswordApi,
+    {
+      isLoading: resetPasswordApiLoading,
       isSuccess: isResetPasswordApiSuccess,
       error: resetPasswordApiError,
-      data:resetPasswordpApiData,
- }]=useResetPasswordApiMutation()
+      data: resetPasswordpApiData,
+    },
+  ] = useResetPasswordApiMutation();
 
-const handleResetPassword=()=>{
-resetPasswordApi({email,newPassword,confirmPassword})
-}
-
- useEffect(()=>{
-    if(isResetPasswordApiSuccess){
-        navigation.navigate(MainRoutes?.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN)
-       alertSuccess('Success','Password change successfully')
-    }else if(resetPasswordApiError){
-    console.log('loginApiError',resetPasswordApiError.data?.message)
-    alertError(resetPasswordApiError?.data?.message||'Otp don,t match,Please enter valid Otp')
+  const handleResetPassword = () => {
+    if (newPassword.length < 6 || confirmPassword.length < 6) {
+      alertError("Password must have at least 6 characters.");
+      return;
     }
- },[isResetPasswordApiSuccess,resetPasswordApiError,resetPasswordpApiData])
 
-  return(
+    if (newPassword !== confirmPassword) {
+      alertError("Passwords do not match. Please try again.");
+      return;
+    }
+
+    resetPasswordApi({ email, newPassword, confirmPassword });
+  };
+
+  useEffect(() => {
+    if (isResetPasswordApiSuccess) {
+      alertSuccess("Success", "Password changed successfully.");
+      navigation.navigate(MainRoutes?.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN);
+    } else if (resetPasswordApiError) {
+      console.log("resetPasswordApiError", resetPasswordApiError.data?.message);
+      alertError(
+        resetPasswordApiError?.data?.message || "An error occurred. Please try again."
+      );
+    }
+  }, [isResetPasswordApiSuccess, resetPasswordApiError, resetPasswordpApiData]);
+
+  return (
     <BackgroundLayout>
-    <View style={{backgroundColor:'#F2F3F5',height:'100%'}}>
+      <View style={{ backgroundColor: "#F2F3F5", height: "100%",paddingHorizontal:19 }}>
         <CustomHeader
-         onBackPress={()=>navigation.goBack()}
-        leftIcon={<Svg.ArrowBack/>}
-        title={'Create New Password'}
+          onBackPress={() => navigation.goBack()}
+          title={"Create New Password"}
         />
-      <Text style={style.Textstyle}>Please enter and confirm your new password.You will need to login after you reset.</Text>
-      <View style={style.inputView}>
-        <Text>New Password</Text>
-        <CustomTextInput
-        value={newPassword}
-        secureTextEntry={!isPasswordVisible}
-        onChangeText={(text)=>setNewPassword(text)}
-        placeholder={'New password'}
-          rightIcon={
-                   <View style={style.eyeIcon}>
-                     <Text onPress={togglePasswordVisibility}>
-                       {isPasswordVisible ? <Svg.EyeOpen/> : <Svg.CloseEye/>} {/* Simple eye and eye-slash emoji */}
-                     </Text>
-                   </View>
-                 }
-        />
-       <Text style={{marginLeft:8}}>{'must have 8 char.'}</Text>
-        <Text style={{marginTop:20}}>Confirm Password</Text>
-        <CustomTextInput
-         value={confirmPassword}
-        onChangeText={(text)=>setConfirmPassword(text)}
-         placeholder={'Confirm password'}
-         rightIcon={<Svg.CloseEye/>}
-        />
-        <View style={{width:'100%',height:"100%",marginTop:theme.verticalSpacing.space_165}}>
-        <CustomButton
-        onPress={handleResetPassword}
-        title={'Reset Password'}
-        />
+        <Text style={styles.description}>
+          Please enter and confirm your new password. You will need to log in after you reset.
+        </Text>
+        <View style={styles.inputView}>
+          <Text>New Password</Text>
+          <CustomTextInput
+            secureTextEntry={true}
+            value={newPassword}
+            textColor={"#BABABA"}
+            onChangeText={(text) => setNewPassword(text)}
+            placeholder={"New password"}
+          />
+          <Text style={styles.hintText}>must contain 6 char.</Text>
+          <Text style={styles.label}>Confirm Password</Text>
+          <CustomTextInput
+            secureTextEntry={true}
+            textColor={"#BABABA"}
+            value={confirmPassword}
+            onChangeText={(text) => setConfirmPassword(text)}
+            placeholder={"Confirm password"}
+          />
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              onPress={handleResetPassword}
+              title={"Reset Password"}
+              disabled={resetPasswordApiLoading}
+            />
+          </View>
         </View>
-    </View>
-    </View>
+      </View>
     </BackgroundLayout>
-)
-}
-const style=StyleSheet.create({
-    main:{
-        width:"100%",
-        justifyContent:"center"
-    },
-Textstyle:{
-width:theme.horizontalSpacing.space_358,
-// textAlign:"center",
-paddingHorizontal:theme.horizontalSpacing.space_20,
-lineHeight:20,
-// alignSelf:'center',
-color:'#475569'
-    },
-    
-    inputView:{
-        marginTop:theme.verticalSpacing.space_100,
-        padding:10,  
-    }
-})
+  );
+};
+
+const styles = StyleSheet.create({
+  description: {
+    width: 290,
+    marginTop:20,
+   fontSize:theme.fontSizes.size_16,
+    lineHeight: 20,
+    color:'black',
+    fontWeight:'400'
+  },
+  inputView: {
+    marginTop: theme.verticalSpacing.space_100,
+   
+  },
+  hintText: {
+    marginLeft: 8,
+    fontSize: 12,
+    color: "#A0A0A0",
+  },
+  label: {
+    marginTop: 20,
+   
+    fontSize: 14,
+    color: "#333",
+  },
+  buttonContainer: {
+    marginTop: theme.verticalSpacing.space_165,
+  },
+});
+
 export default CreateNewPassword;

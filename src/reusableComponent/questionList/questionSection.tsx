@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity,ScrollView } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
 import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 import Loader from "../loader/loader";
-import { ScrollView } from "react-native-gesture-handler";
+
 import { theme } from "../../utils";
 
 const QuestionSection = ({
@@ -26,7 +26,6 @@ const QuestionSection = ({
     skip: checkerType === 'compliance'
   })
 
-  console.log('selectedAnswers@@',selectedAnswers)
 
   const {
     isLoading: isLoadingComplianceQuestions,
@@ -37,21 +36,11 @@ const QuestionSection = ({
    },{
     skip: checkerType === 'eligibility'
   })
-
-  const [
-    calculateCompilanceScore,
-    {
-      isLoading: isLoadingCalculateCompilanceScore,
-      isError: isErrorCalculateCompilanceScore, 
-      isSuccess: isSuccessCalculateCompilanceScore
-    }
-  ]= useCalculateCompilanceScoreMutation()
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
     return questions?.slice(currentIndex, currentIndex + 3);
   };
-
 
   const handlePreviousLocal = () => {
     if (currentIndex - 3 >= 0) {
@@ -60,8 +49,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     }
     else{
       handlePrevious?.(true);
-    }
-   
+    } 
   };
 
   const handleOptionSelect = (selectedOption, questionId) => {
@@ -102,11 +90,9 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     onSubmit?.(payload);
   };
 
-
-
   return (
     <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
-    <View>
+    <View style={{}}>
         <Loader
         isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
         {checkerType==='compliance' ?
@@ -124,24 +110,36 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
           options={questionData?.questions?.answerOptions}
           selectedOption={selectedAnswers[questionData?._id]}
           onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
-          questionNumber={currentIndex + index + 1} // Add this line
-          totalQuestions={questions?.length} // Add this line
+          questionNumber={currentIndex + index + 1} 
+          totalQuestions={questions?.length}
           
         />
       ))}
 
       <View style={styles.navigationButtons}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
-          <Text style={{ color: "white" }}>Previous</Text>
-        </TouchableOpacity>
-        {currentIndex + 3 >= questions?.length ? (
-        <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmit}>
-          <Text style={{ color: "white" }}>Submit</Text>
-        </TouchableOpacity>
+        
+       {currentIndex + 3 >= questions?.length ? (
+        // When "Submit" button appears, move "Previous" button to top
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
+            <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:15  }}>Previous</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.buttonStyle,{width:theme.horizontalSpacing.space_374,marginTop:20}]} onPress={handleSubmit}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       ) : (
-        <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
-          <Text style={{ color: "white" }}>Next</Text>
-        </TouchableOpacity>
+        // Normal Previous/Next button layout
+        <View style={[styles.navigationButtons,{flexDirection:"row"}]}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Previous</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Next</Text>
+          </TouchableOpacity>
+        </View>
       )}
       </View>
     </View>
@@ -151,27 +149,30 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 18,
-    fontWeight: "bold",
-    margin: 10,
+    fontSize:theme.fontSizes.size_18,
+    fontWeight: "700",
+    marginTop:10,
+    marginLeft:10
   },
   selectedCategoryText: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "600",
+    fontSize:16,
+    margin:10,
+    marginHorizontal:15,
+    fontWeight: "400",
+
   },
   navigationButtons: {
-    flexDirection: "row",
+   
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop:theme.verticalSpacing.space_50,
   },
   buttonStyle: {
     alignItems: "center",
     justifyContent: "center",
     width: 110,
     height: 50,
-    backgroundColor: "#592951", // Example brown color
+    backgroundColor: "#592951", 
     borderRadius: 10,
     marginHorizontal: 20,
   },

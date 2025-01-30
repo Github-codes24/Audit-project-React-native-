@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import moment from 'moment';
+import theme from './theme';
 
 const ImageCard = ({ 
   image, 
@@ -12,21 +14,22 @@ const ImageCard = ({
 }) => {
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-      {/* Main Image */}
       <Image source={image} style={styles.cardImage} resizeMode="cover" />
       
-      {/* Details Overlay */}
       <View style={styles.overlay}>
-        {/* Profile Image */}
-        <Image source={profileImage} style={styles.profileImage} />
-        
-        {/* Text Details */}
-        <View style={styles.textContainer}>
-          <Text style={styles.field}>{field}</Text>
+        <View style={{}}>
+          <View style={{ backgroundColor: '#FCEADE', borderRadius:5, paddingHorizontal:theme.horizontalSpacing.space_10,alignSelf: 'flex-start',alignItems:"center",justifyContent:"center" }}>
+            <Text style={styles.field}>{field}</Text>
+          </View>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.meta}>
-            {name} · {date}
-          </Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Image source={profileImage} style={styles.profileImage} />
+          <View style={styles.textContainer}>
+            <Text style={styles.meta}>{name}</Text>
+            <Text style={styles.meta}>{moment(date).format("DD-MMM-YYYY")} </Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -51,9 +54,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    // backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 12,
   },
   profileImage: {
@@ -64,14 +64,12 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     marginRight: 12,
   },
-  textContainer: {
-    flex: 1,
-  },
+  textContainer: {},
   field: {
-    color: '#FFC107', 
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    color: theme.lightColor.brownColor, 
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: '400',
+    
   },
   title: {
     color: '#fff',
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   meta: {
-    color: '#ccc',
+    color: theme.lightColor.whiteColor,
     fontSize: 12,
   },
 });

@@ -6,58 +6,81 @@ import CustomButton from "../../reusableComponent/button/button";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../reusableComponent/header/header";
-import { useContactUsApiMutation } from "../../redux/apiSlice/customerSupportApiSlice";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { useContactUsApiMutation, useGetContactUsQuery } from "../../redux/apiSlice/customerSupportApiSlice";
+import { useGetuserApiQuery } from "../../redux/apiSlice/profileApiSlice";
+import { useSelector } from "react-redux";
+import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import Loader from "../../reusableComponent/loader/loader";
+import { alertError } from "../../utils/Toast";
+import { MainRoutes } from "../../navigation/routeAndParamsList";
+import * as Svg from '../../asstets/images/svg'
 
 const ContactScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+   const [name, setName] = useState('');
+  const [emailEnquiry, setEmailEnquiry] = useState('');
+  const [message, setMessage] = useState('');
+  
   const navigation = useNavigation();
   const [contactUsApi, { isLoading }] = useContactUsApiMutation();
+
+  const response = useSelector(getLoginResponse);
+  const userId = response?.data?.id;
+
+
+const { 
+    data: getuserdata, 
+    error: getUserdataApiError, 
+    isLoading: getUserdataApiIsLoading 
+  } = useGetuserApiQuery(userId); 
+  
+
+const { 
+    data: getcontactusData, 
+    error: getcontactusDataApiError, 
+    isLoading: getcontactusDataApiIsLoading 
+  } = useGetContactUsQuery();
+
+
+useEffect(() => {
+    if (getcontactusData?.data) {
+      const { firstName, lastName, email } = getcontactusData.data;
+      setName(`${getuserdata?.getUser?.firstName} ${getuserdata?.getUser?.lastName}`);
+      setEmailEnquiry(getuserdata?.getUser?.email);
+    }
+  }, [getcontactusData]);
+
+
+
+
+  console.log('getcontactusData',getcontactusData)
+
+  const { email, phoneNumber,firstName,lastName } = getcontactusData?.data || {};
 
   const closeModal = () => {
     setModalVisible(false);
   };
 
-  // Validation schema
-  const validationSchema = Yup.object().shape({
-    Name: Yup.string().trim().required("Name is required"),
-    email: Yup.string()
-      .email("Enter a valid email address")
-      .required("Email is required"),
-    message: Yup.string()
-      .trim()
-      .min(10, "Message must be at least 10 characters")
-      .required("Message is required"),
-  });
+ const handleFormSubmit = () => {
+  contactUsApi({ name,email: emailEnquiry, message })
+    .then((response) => {
+      console.log('response4354354',response)
+      if (response?.data) {
+        setModalVisible(true);
+        setMessage('');
+      } else {
+        console.log("No data received from API");
+        // alert("Something went wrong. Please try again.");
+      }
+    })
+    .catch((error) => {
+      alertError("Failed to submit the form. Please try again.");
+    });
+};
+<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.62 7.79C5.06 10.62 7.38 12.93 10.21 14.38L12.41 12.18C12.68 11.91 13.08 11.82 13.43 11.94C14.55 12.31 15.76 12.51 17 12.51C17.55 12.51 18 12.96 18 13.51V17C18 17.55 17.55 18 17 18C7.61 18 0 10.39 0 1C0 0.45 0.45 0 1 0H4.5C5.05 0 5.5 0.45 5.5 1C5.5 2.25 5.7 3.45 6.07 4.57C6.18 4.92 6.1 5.31 5.82 5.59L3.62 7.79Z" fill="black"/>
+</svg>
 
-  // Form submission handler
-  const handleFormSubmit =  (values, { resetForm }) => {
-    console.log("Form submitted:", values);
-    contactUsApi(values)
-  };
-
-  // Initialize Formik
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } = useFormik({
-    initialValues: {
-      Name: "",
-      email: "",
-      message: "",
-    },
-    validationSchema,
-    onSubmit: handleFormSubmit,
-  });
-
-  // Automatically close modal after a delay (optional)
-  useEffect(() => {
-    if (isModalVisible) {
-      const timer = setTimeout(() => {
-        closeModal();
-      }, 3000); // Close modal after 3 seconds
-      return () => clearTimeout(timer); // Cleanup timer
-    }
-  }, [isModalVisible]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#F2F3F5" }}>
@@ -66,14 +89,16 @@ const ContactScreen = () => {
         visible={isModalVisible}
         onClose={closeModal}
         title="Thank You!"
-        description={"We will get back to you shortly"}
+        description="We will get back to you shortly"
         buttons={[
           {
             label: "Go to home page",
             type: "primary",
             onPress: () => {
               closeModal();
-              navigation.navigate("Home");
+              navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
+                     screen: 'Home', 
+                   });
             },
           },
         ]}
@@ -92,36 +117,45 @@ const ContactScreen = () => {
         >
           {"Contact us"}
         </Text>
-
-        <Text style={style.textStyle}>Email</Text>
-        <Text>{"Email222@gmail.com"}</Text>
-
-        <Text style={[style.textStyle, { marginTop: 10 }]}>Phone No.</Text>
-        <Text>{"9155071883"}</Text>
+        <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10}}>
+         <Svg.MessageIcon/>
+        <Text style={[style.textStyle,{marginLeft:5}]}>Email</Text>
+        </View>
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500'}}>{email}</Text>
+         <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10,}}>
+      
+        <Svg.PhoneIcon/>
+        
+        <Text style={[style.textStyle, {marginLeft:5 }]}>Phone No.</Text>
+        </View>
+        
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5,fontWeight:'500'}}>{phoneNumber}</Text>
 
         <Text style={style.textBox}>Name</Text>
-        <CustomTextInput
-          placeholder={"Enter your name"}
-          value={values.Name}
-          onChangeText={handleChange("Name")}
-          onBlur={handleBlur("Name")}
-          error={touched.Name && errors.Name}
+        <TextInput
+          value={`${getuserdata?.getUser?.firstName} ${getuserdata?.getUser?.lastName}`} 
+          editable={false} 
+        style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingLeft:10}}
         />
-        {touched.Name && errors.Name && (
-          <Text style={style.errorText}>{errors.Name}</Text>
-        )}
+        {/* <CustomTextInput
+          placeholder={"John Weak"}
+          value={name}
+          onChangeText={(text) => setName(text)}
+        /> */}
 
         <Text style={style.textBox}>Email</Text>
-        <CustomTextInput
-          placeholder={"Enter your email address"}
-          value={values.email}
-          onChangeText={handleChange("email")}
-          onBlur={handleBlur("email")}
-          error={touched.email && errors.email}
+        <TextInput
+          value={getuserdata?.getUser?.email}
+          editable={false}
+        style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingHorizontal:10}}
         />
-        {touched.email && errors.email && (
-          <Text style={style.errorText}>{errors.email}</Text>
-        )}
+
+
+        {/* <CustomTextInput
+          placeholder={"john@example.com"}
+          value={emailEnquiry}
+          onChangeText={(text) => setEmailEnquiry(text)}
+        /> */}
 
         <Text style={style.textBox}>Message</Text>
         <TextInput
@@ -130,20 +164,19 @@ const ContactScreen = () => {
             backgroundColor: "white",
             borderRadius: 10,
             padding: 10,
+            textAlignVertical: "top",
+            
           }}
-          placeholder="Enter your query...."
+          placeholder="Enter your query........."
+          placeholderTextColor={'#BABABA'}
           multiline
-          value={values.message}
-          onChangeText={handleChange("message")}
-          onBlur={handleBlur("message")}
+          value={message}
+          onChangeText={(text) => setMessage(text)}
         />
-        {touched.message && errors.message && (
-          <Text style={style.errorText}>{errors.message}</Text>
-        )}
 
-        <View style={{ marginTop: theme.verticalSpacing.space_10 }}>
+        <View style={{ marginTop: theme.verticalSpacing.space_30 }}>
           <CustomButton
-            onPress={handleSubmit}
+            onPress={handleFormSubmit}
             title={isLoading ? "Submitting..." : "Submit"}
             disabled={isLoading}
           />
@@ -157,7 +190,7 @@ const style = StyleSheet.create({
   textStyle: {
     fontSize: theme.fontSizes.size_18,
     fontWeight: "600",
-    marginTop: 5,
+    // marginTop: 5,
   },
   textBox: {
     marginTop: theme.horizontalSpacing.space_14,

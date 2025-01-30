@@ -3,45 +3,113 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
 import Header from '../../reusableComponent/header/header';
-// Sample Notification Data
-const notifications = [
-  { id: '1', type: 'follow' , message: 'sent you a follow request', timestamp: 'Yesterday at 11:42 PM', read: false },
-  { id: '2', type: 'comments', message: 'left 5 comments on Issa compliance report', timestamp: 'Yesterday at 11:30 PM', read: true },
-  { id: '3', type: 'comments', message: 'left 2 comments on Issa compliance report', timestamp: 'Yesterday at 10:40 PM', read: false },
-  { id: '4', type: 'comments', message: 'left 8 comments on Issa compliance report', timestamp: 'Yesterday at 10:30 PM', read: false },
-  { id: '5', type: 'comments', message: 'left 4 comments on Issa compliance report', timestamp: 'Yesterday at 10:25 PM', read: true },
-];
+import { useDispatch,useSelector } from 'react-redux';
+import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
+import {  useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, useGet10UserReadApiSliceQuery,useMarkNotificationAsReadMutation  } from '../../redux/apiSlice/notificationApiSlice';
+import Loader from '../../reusableComponent/loader/loader';
+import { MainRoutes } from '../../navigation/routeAndParamsList';
+import moment from 'moment';
+
 
 const NotificationScreen = ({navigation}) => {
-  const [selectedTab, setSelectedTab] = useState('All'); // Default tab is "All"
+  const [selectedTab, setSelectedTab] = useState('All'); 
+  const [selectedNotificationId, setSelectedNotificationId] = useState(null);
 
-  // Filtered data based on selected tab
-  const getFilteredNotifications = () => {
-    if (selectedTab === 'Unread') {
-      return notifications.filter((item) => !item.read);
+  console.log('selectedNotificationId',selectedNotificationId)
+
+const response=useSelector(getLoginResponse)
+ const userId=response?.data?.id
+console.log('userId5554546',userId)
+
+  const { 
+      data: getAllUserNotificationApidata, 
+      error: getAllUserNotificationApiError, 
+      isLoading:getAllUserNotificationApiIsLoading 
+    } = useGetAlluserApiNotificationQuery(userId);
+    
+    
+console.log('getAllUserNotificationApidata',getAllUserNotificationApidata)
+
+
+const { 
+      data: get10userUnReadApiNotificationApidata, 
+      error: get10userUnReadApiNotificationApiError, 
+      isLoading:get10userUnReadApiNotificationApiIsLoading ,
+    } = useGet10UserUnReadApiSliceQuery(userId); 
+
+const { 
+      data: get10userReadApiNotificationApidata, 
+      error: get10userReadApiNotificationApiError, 
+      isLoading:get10userReadApiNotificationApiIsLoading ,
+    } = useGet10UserReadApiSliceQuery(userId); 
+
+const [markNotificationAsRead,{
+  isLoading: markNotificationAsReadApiIsLoading,
+  isSuccess: markNotificationAsReadApiSuccess
+}] = useMarkNotificationAsReadMutation();
+
+ const getFilteredNotifications = () => {
+    
+  if (!getAllUserNotificationApidata?.notifications) {
+    return []; 
+  }
+ 
+  if (selectedTab ==='Unread') {
+    return get10userUnReadApiNotificationApidata?.notifications}
+  
+    if (selectedTab ==='Read') {
+    return get10userReadApiNotificationApidata?.notifications
+  }
+  return getAllUserNotificationApidata?.notifications; 
+};
+
+const formatDate = (date) => {
+    const createdAt = moment(date);
+    if (createdAt.isSame(moment(), 'day')) {
+      return `Today at ${createdAt.format('hh:mm A')}`;
+    } else if (createdAt.isSame(moment().subtract(1, 'day'), 'day')) {
+      return `Yesterday at ${createdAt.format('hh:mm A')}`;
+    } else {
+      return createdAt.format('MMMM D, YYYY [at] hh:mm A');
     }
-    if (selectedTab === 'Read') {
-      return notifications.filter((item) => item.read);
-    }
-    return notifications; // For "All" tab
   };
 
-  // Notification Item Component
+
   const NotificationItem = ({ item }) => (
-    <TouchableOpacity onPress={undefined} style={styles.notificationItem}>
+    <TouchableOpacity  style={[
+      styles.notificationItem,
+      selectedTab === 'Unread' ? styles.unreadNotificationItem :null,
+       !item?.isRead ? styles.unreadBackground : null
+    ]}
+     onPress={() => {
+      setSelectedNotificationId(item?._id)
+     if (!item?.isRead) {
+      markNotificationAsRead(item?._id);
+    }
+      const blogIdToSend = item?.blogId || item; 
+    navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: blogIdToSend });
+     }} 
+    >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
       <View >
-      <Text style={styles.NotificationMsg}>{item.message}</Text>
-      <Text style={styles.timestamp}>{item.timestamp}</Text>
+      <Text style={styles.NotificationMsg}>{item.title}</Text>
+           <Text style={styles.timestamp}>
+      {formatDate(item?.createdAt)}
+    </Text>
+
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
+      <Loader isLoading={getAllUserNotificationApiIsLoading || get10userUnReadApiNotificationApiIsLoading || get10userReadApiNotificationApiIsLoading || markNotificationAsReadApiIsLoading} />
         {/* header  */}
         <Header/>
       {/* Custom Tabs */}
+      
+      <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',color:theme.lightColor.blackColor,
+        margin:theme.horizontalSpacing.space_10,marginHorizontal:20}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
         {['All', 'Unread', 'Read'].map((tab) => (
           <TouchableOpacity
@@ -75,6 +143,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  unreadNotificationItem: {
+  backgroundColor: '#E3F2FD', 
+},
   headerView: {
     height: 105,
     backgroundColor: "#592951",
@@ -89,6 +160,13 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: "row",
+  },
+   unreadNotificationItem: {
+    borderLeftWidth: 4,
+    borderLeftColor: 'blue', 
+  },
+  unreadBackground: {
+    backgroundColor: '#EAF3FF', 
   },
   imageWrapper: {
     width: 60,
@@ -115,10 +193,13 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#f5f5f5',
-    paddingVertical: 10,
+    // backgroundColor: '#f5f5f5',
+    // paddingVertical: 10,
+    borderBottomWidth:1,
+    borderColor:"gray"
   },
   tabButton: {
+    // backgroundColor:"red",
     paddingVertical: theme.verticalSpacing.space_8,
     paddingHorizontal: theme.horizontalSpacing.space_14,
     // borderRadius: 20,
@@ -126,8 +207,8 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     // Color: 'purple',
-    borderBottomWidth: 3,  // Paper-like underline
-    borderBottomColor: 'purple', // Purple color
+    borderBottomWidth:2, 
+    borderBottomColor: 'purple', 
     paddingBottom: 2,
     
   },

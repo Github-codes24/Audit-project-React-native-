@@ -1,22 +1,34 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity,ScrollView } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
-import { ScrollView } from "react-native-gesture-handler";
+
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 import Header from "../../reusableComponent/header/header";
+import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
+import { useCalculateEligibilityScoreMutation } from "../../redux/apiSlice/eligibilityApiSlice";
 
 const EligibilityScreen = () => {
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
- 
- 
   const [selectedCategory, setSelectedCategory] = useState();
+
+  const [
+ calculateEligibilityScore,
+  {
+    isLoading: isLoadingCalculateCompilanceScore,
+    isError: isErrorCalculateCompilanceScore, 
+    isSuccess: isSuccessCalculateCompilanceScore,
+    data: calculateCompilanceScoreData,
+  }
+]= useCalculateEligibilityScoreMutation()
+
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -26,47 +38,43 @@ const EligibilityScreen = () => {
 };
 
   const handleTakeTest = () => {
-    setStep('question');
+  setStep('question');
   };
 
   const handleSelect = (selectedCategory) => {
     setSelectedCategory(selectedCategory)
-  
   };
-
 
   const handlePrevious = (stepFlag) => {
    if(stepFlag){
     setStep('category');
    }
   };
-
   const handleNext = () => {
-   
   };
 
   const onSubmit = (payload) => {
+    calculateEligibilityScore(payload)
     setStep('result');
   }
-
-
 
   return (
     <View style={styles.main}>
       <Header/>
      
-      {step==='category' && (
-        
+      {step==='category' && ( 
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
-        />
-        
+        />  
+        </ScrollView>
       )
       }
    
    {step==='question' &&
+   <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
    <QuestionSection
         selectedCategory={selectedCategory}
         handleOptionSelect={handleOptionSelect}
@@ -75,12 +83,14 @@ const EligibilityScreen = () => {
         checkerType="eligibility"
         onSubmit={onSubmit}
       />
+      </ScrollView>
 
 }
 
 {
   step==='result' && <EligibityResult
-  onPressRetakeExam={()=>{
+  isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='eligible'}
+  onPressRetakeExam={()=>{ 
     setStep('category')
   }}
   />
