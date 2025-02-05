@@ -1,39 +1,35 @@
 import React, { useRef } from "react";
 import { 
-Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView 
+  Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView 
 } from "react-native";
-import { useSelector } from "react-redux";
 import { useGetAboutUsApiQuery } from "../../redux/apiSlice/profileApiSlice";
 import Swiper from "react-native-swiper";
 import { theme } from "../../utils";
 import Loader from "../../reusableComponent/loader/loader";
 import Header from "../../reusableComponent/header/header";
-
 import * as Svg from '../../asstets/images/svg';
-
-
+import RenderHtml from 'react-native-render-html';
+import { useWindowDimensions } from 'react-native';
 
 const AboutUsScreen = () => {
   const swiperRef = useRef(null);
+  const { width } = useWindowDimensions();
 
   const { 
     data: getAboutdata, 
-    error: getAboutApiError, 
     isLoading: getGetAboutApiIsLoading 
   } = useGetAboutUsApiQuery({}); 
 
-  // console.log("getAboutdata", getAboutdata);
+  const content = getAboutdata?.aboutUs?.[0]?.content || '';
+
   // Custom Dot Pagination
-  
-  const renderPagination = (index, total) => {
-    return (
-      <View style={styles.customPagination}>
-        {[...Array(total)].map((_, i) => (
-          <View key={i} style={i === index ? styles.activeDot : styles.dot} />
-        ))}
-      </View>
-    );
-  };
+  const renderPagination = (index, total) => (
+    <View style={styles.customPagination}>
+      {[...Array(total)].map((_, i) => (
+        <View key={i} style={i === index ? styles.activeDot : styles.dot} />
+      ))}
+    </View>
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -42,7 +38,9 @@ const AboutUsScreen = () => {
           <Header />
           <Loader isLoading={getGetAboutApiIsLoading} />
           <Text style={styles.title}>About Us</Text>
+
           <View style={{ marginHorizontal: 10 }}>
+            {/* Image Slider */}
             <View style={{ position: "relative" }}>
               <Swiper
                 ref={swiperRef}
@@ -50,9 +48,9 @@ const AboutUsScreen = () => {
                 autoplay={true}
                 autoplayTimeout={5}
                 renderPagination={renderPagination}
-              removeClippedSubviews={false}
+                removeClippedSubviews={false}
               >
-                {getAboutdata?.aboutUs[0]?.image?.length > 0 ? (
+                {getAboutdata?.aboutUs?.[0]?.image?.length > 0 ? (
                   getAboutdata.aboutUs[0].image.map((slide, index) => (
                     <View style={styles.slide} key={index}>
                       <Image style={styles.image} source={{ uri: slide }} />
@@ -72,15 +70,20 @@ const AboutUsScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.contentText}>
-              {getAboutdata?.aboutUs[0]?.content}
-            </Text>
+            {/* About Us Content */}
+            {/<[a-z][\s\S]*>/i.test(content) ? (
+              <RenderHtml contentWidth={width} source={{ html: content }} />
+            ) : (
+              <Text style={styles.contentText}>{content}</Text>
+            )}
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+export default AboutUsScreen;
 
 const styles = StyleSheet.create({
   title: {
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     position: "absolute",
-    bottom:theme.verticalSpacing.space_50, 
+    bottom: theme.verticalSpacing.space_50, 
     width: "100%",
   },
   dot: {
@@ -139,5 +142,3 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
 });
-
-export default AboutUsScreen;

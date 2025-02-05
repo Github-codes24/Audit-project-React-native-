@@ -90,9 +90,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: theme.fontSizes.size_16,
-    color: theme.lightColor.lightGrayColor,
-    
-   
+    color:theme.lightColor.blackColor,
     // paddingHorizontal: theme.horizontalSpacing.space_8,
     
   },

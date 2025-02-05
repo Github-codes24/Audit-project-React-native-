@@ -12,10 +12,11 @@ import { alertError, alertSuccess } from "../../utils/Toast";
 import { useRegisterMutation } from "../../redux/apiSlice/authApiSlice";
 import { useDispatch } from "react-redux";
 import CustomModal from "../../reusableComponent/customModal/customModal";
+import Loader from "../../reusableComponent/loader/loader"; // Import loader component
 
 const RegisterCompanyScreen = ({ navigation, route }) => {
   const { email, password, firstName, lastName, confirmPassword } = route.params || {};
- const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [isPrivacyChecked, setPrivacyChecked] = useState(false);
   const [isTermsChecked, setTermsChecked] = useState(false);
   const [company, setCompanyName] = useState("");
@@ -29,17 +30,15 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
       return;
     }
     if (isPrivacyChecked && isTermsChecked) {
-      registerApi({email,password,firstName,lastName,company,phoneNumber,confirmPassword }).unwrap();
+      registerApi({ email, password, firstName, lastName, company, phoneNumber, confirmPassword }).unwrap();
     } else {
       alertError("Please agree to both terms to continue.");
     }
   };
 
-
-const closeModal = () => {
+  const closeModal = () => {
     setModalVisible(false);
   };
-
 
   const validatePhoneNumber = (number) => {
     const phonePattern = /^[0-9]{10}$/;
@@ -54,19 +53,19 @@ const closeModal = () => {
     }
 
     if (isSuccess) {
-        setModalVisible(true);
+      setModalVisible(true);
     }
   }, [isSuccess, error, data, dispatch, navigation]);
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-
-      <CustomModal
+        {/* Modal for Success */}
+        <CustomModal
           visible={isModalVisible}
           onClose={closeModal}
           title="Code sent!"
-          description={"Code has been sent to your email please check your email"}
+          description={"Code has been sent to your email. Please check your email."}
           buttons={[
             {
               label: "Verify code",
@@ -84,15 +83,18 @@ const closeModal = () => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
             <Svg.ArrowBack />
           </TouchableOpacity>
-          
         </View>
-       <View style={{marginTop:theme.verticalSpacing.space_28,}}>
-          <Text style={{fontSize:theme.fontSizes.size_30,fontWeight:'600',color: theme.lightColor.blackColor,}}>Register Account</Text>
-       </View>
-       
+
+        {/* Title */}
+        <View style={{ marginTop: theme.verticalSpacing.space_28 }}>
+          <Text style={{ fontSize: theme.fontSizes.size_30, fontWeight: "600", color: theme.lightColor.blackColor }}>
+            Register Account
+          </Text>
+        </View>
+
         {/* Input Fields */}
         <View style={styles.inputContainer}>
-          <Text style={{fontWeight:'400',fontSize:theme.fontSizes.size_16}}>Company name (not required)</Text>
+          <Text style={{ fontWeight: "400", fontSize: theme.fontSizes.size_16 }}>Company name (not required)</Text>
           <CustomTextInput
             value={company}
             onChangeText={(text) => setCompanyName(text)}
@@ -113,7 +115,7 @@ const closeModal = () => {
             isChecked={isPrivacyChecked}
             onPress={() => setPrivacyChecked(!isPrivacyChecked)}
             text={"I have read and understood the"}
-            linkText={"Privacy Policy*"}
+            linkText={"Privacy Policy*"}
             link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
           />
           <CustomCheckbox
@@ -129,6 +131,9 @@ const closeModal = () => {
         <View style={styles.footer}>
           <CustomButton onPress={handleVerify} title={"Verify your account"} />
         </View>
+
+        {/* Loader */}
+        {isLoading && <Loader isLoading={isLoading} />}
       </View>
     </SafeAreaView>
   );
@@ -137,10 +142,10 @@ const closeModal = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal:19,
+    paddingHorizontal: 19,
   },
   headerTitle: {
-    fontSize:theme.fontSizes.size_30,
+    fontSize: theme.fontSizes.size_30,
     fontWeight: "600",
     color: theme.lightColor.blackColor,
   },
@@ -149,29 +154,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     marginBottom: theme.verticalSpacing.space_30,
-   
     height: 50,
   },
   backIcon: {
-    
     marginRight: 10,
-  },
-  headerTitle: {
-    fontSize:theme.fontSizes.size_20,
-    fontWeight: "600",
-    color: theme.lightColor.blackColor,
   },
   inputContainer: {
     marginTop: theme.verticalSpacing.space_100,
-    
   },
   label: {
-    marginTop:theme.verticalSpacing.space_20,
-    fontWeight:'400',fontSize:theme.fontSizes.size_16
+    marginTop: theme.verticalSpacing.space_20,
+    fontWeight: "400",
+    fontSize: theme.fontSizes.size_16,
   },
   checkboxContainer: {
     marginTop: theme.verticalSpacing.space_20,
-   
   },
   footer: {
     marginTop: theme.verticalSpacing.space_50,

@@ -58,7 +58,7 @@ const response=useSelector(getLoginResponse)
       
       <View style={styles.warningSection}>
         <Image 
-          source={require('../asstets/images/delete.png')} // Replace with actual image URL
+          source={require('../asstets/images/delete.png')}
           style={styles.warningImage} 
         />
         <Text style={styles.warningText}>
@@ -83,18 +83,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    padding: 16,
+   marginHorizontal:19,
     marginTop:20
   },
   headerText: {
-    fontSize: 20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
     marginBottom: 24,
   },
-  userCard: {
-    
+  userCard: { 
     // alignItems: 'center',
-    
    marginTop:theme.verticalSpacing.space_20,
     borderRadius: 8,
     shadowColor: '#000',
@@ -132,11 +130,12 @@ const styles = StyleSheet.create({
   },
   warningText: {
     // backgroundColor:"red",
-    width:theme.horizontalSpacing.space_327,
-    fontSize:theme.fontSizes.size_18,
+    width:theme.horizontalSpacing.space_374,
+    // width:theme.horizontalSpacing.space_327,
+    fontSize:theme.fontSizes.size_16,
     color: '#000000',
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 20,
     marginVertical:30,
     fontWeight:'400'
   },

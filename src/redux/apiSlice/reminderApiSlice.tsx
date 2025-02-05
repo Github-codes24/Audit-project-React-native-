@@ -11,6 +11,14 @@ export const remainderApiSlice = baseApi.injectEndpoints({
       }),
     }),
 
+ getReminderForOptionApi: builder.query({
+  query: () => ({
+    url: apiEndPoints?.getReaminderForOptionApi,  
+    method: 'GET',
+  }),
+}),
+
+
  setRemainderApi: builder.mutation({
         query:({userId,body}) => ({
            url: `${apiEndPoints?.createRemainderApi}/${userId}`,
@@ -19,6 +27,20 @@ export const remainderApiSlice = baseApi.injectEndpoints({
           keepUnusedDataFor: 5,}),
       }),
 
+   UpdateRemainderApi: builder.mutation({
+        query:({id,body}) => ({
+           url: `${apiEndPoints?.updateReminder}/${id}`,
+          method: 'PUT',
+          body:body,
+          keepUnusedDataFor: 5,}),
+      }),
+
+   deleteRemainderApi: builder.mutation({
+        query:({id}) => ({
+           url: `${apiEndPoints?.deleteReminder}/${id}`,
+          method: 'DELETE',
+          keepUnusedDataFor: 5,}),
+      }),
 
 
   }),
@@ -28,5 +50,8 @@ export const remainderApiSlice = baseApi.injectEndpoints({
 export const {
  useGetAllReminderApiQuery,
  useSetRemainderApiMutation,
+ useUpdateRemainderApiMutation,
+ useDeleteRemainderApiMutation,
+ useGetReminderForOptionApiQuery,
  
 } = remainderApiSlice;

@@ -86,10 +86,6 @@ const [ResendOtpRegistrationPasswordApi, {
 
 
 
-
-
-
-
 const handleResendCode = () => {
   if (!isResendDisabled) {
     setModalVisible(true); 
@@ -212,18 +208,21 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   description: {
-    width:theme.horizontalSpacing.space_370,
-    fontSize: theme.fontSizes.size_18,
+    width:theme.horizontalSpacing.space_374,
+    fontSize: theme.fontSizes.size_16,
     color: '#3D3D3D',
     height:60,
     fontWeight:'400',
     marginTop:theme.verticalSpacing.space_20,
-    lineHeight:20,
+    lineHeight:24,
     letterSpacing: theme.fontSizes.size_16 * 0.03, 
+    marginVertical:5,
+    
   },
   email: {
-    fontWeight: 'bold',
+    fontWeight: '400',
     color:theme.lightColor.borderColor,
+    fontSize:theme.fontSizes.size_16
   },
   otpContainer: {
     alignItems:"center",

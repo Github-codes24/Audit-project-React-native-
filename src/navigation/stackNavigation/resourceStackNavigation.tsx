@@ -53,6 +53,10 @@ const ResourceStack = () => {
       name={MainRoutes.EDITPROFILE_SCREEN}
       component={EditProfile}
       />
+       <Stack.Screen
+      name={MainRoutes.TERMANDCONDITION_SCREEN}
+      component={TermsAndConditionScreen}
+      />
       <Stack.Screen
       name={MainRoutes.EDITIMAGE_SCREEN}
       component={EditImage}

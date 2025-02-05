@@ -9,13 +9,14 @@ import {  useGet10UserUnReadApiSliceQuery, useGetAlluserApiNotificationQuery, us
 import Loader from '../../reusableComponent/loader/loader';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import moment from 'moment';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const NotificationScreen = ({navigation}) => {
-  const [selectedTab, setSelectedTab] = useState('All'); 
+  const [selectedTab, setSelectedTab] = useState('Unread'); 
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
 
-  console.log('selectedNotificationId',selectedNotificationId)
+  console.log('selectedNotificationId555555',selectedNotificationId)
 
 const response=useSelector(getLoginResponse)
  const userId=response?.data?.id
@@ -57,9 +58,9 @@ const [markNotificationAsRead,{
   if (selectedTab ==='Unread') {
     return get10userUnReadApiNotificationApidata?.notifications}
   
-    if (selectedTab ==='Read') {
-    return get10userReadApiNotificationApidata?.notifications
-  }
+  //   if (selectedTab ==='Read') {
+  //   return get10userReadApiNotificationApidata?.notifications
+  // }
   return getAllUserNotificationApidata?.notifications; 
 };
 
@@ -76,6 +77,8 @@ const formatDate = (date) => {
 
 
   const NotificationItem = ({ item }) => (
+
+    console.log('item645646',item),
     <TouchableOpacity  style={[
       styles.notificationItem,
       selectedTab === 'Unread' ? styles.unreadNotificationItem :null,
@@ -83,11 +86,19 @@ const formatDate = (date) => {
     ]}
      onPress={() => {
       setSelectedNotificationId(item?._id)
-     if (!item?.isRead) {
-      markNotificationAsRead(item?._id);
+       if (!item?.isRead) {
+      markNotificationAsRead(item?._id)
+        .unwrap()
+        .catch((error) => console.error('Error marking notification as read:', error));
     }
-      const blogIdToSend = item?.blogId || item; 
-    navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: blogIdToSend });
+    
+      if (item?.type === 'BLOG') {
+       
+        navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: item?.blogId });
+      } else {
+        navigation.navigate(MainRoutes.NOTIFICATION_DETAILS_SCREEN, { item:item});
+      }
+    
      }} 
     >
         <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
@@ -102,6 +113,7 @@ const formatDate = (date) => {
   );
 
   return (
+    <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
     <View style={styles.container}>
       <Loader isLoading={getAllUserNotificationApiIsLoading || get10userUnReadApiNotificationApiIsLoading || get10userReadApiNotificationApiIsLoading || markNotificationAsReadApiIsLoading} />
         {/* header  */}
@@ -111,7 +123,7 @@ const formatDate = (date) => {
       <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',color:theme.lightColor.blackColor,
         margin:theme.horizontalSpacing.space_10,marginHorizontal:20}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
-        {['All', 'Unread', 'Read'].map((tab) => (
+        {[ 'Unread','All', ].map((tab) => (
           <TouchableOpacity
             key={tab}
             style={[styles.tabButton, selectedTab === tab && styles.activeTab]}
@@ -132,6 +144,7 @@ const formatDate = (date) => {
         ListEmptyComponent={<Text style={styles.emptyText}>No notifications available.</Text>}
       />
     </View>
+    </ScrollView>
   );
 };
 

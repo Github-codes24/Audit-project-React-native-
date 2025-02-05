@@ -87,6 +87,7 @@ useEffect(() => {
       <Loader isLoading={isLoading} />
       <CustomModal
         visible={isModalVisible}
+        
         onClose={closeModal}
         title="Thank You!"
         description="We will get back to you shortly"
@@ -163,7 +164,7 @@ useEffect(() => {
             borderRadius: 10,
             padding: 10,
             textAlignVertical: "top",
-            
+            width:theme.horizontalSpacing.space_374
           }}
           placeholder="Enter your query........."
           placeholderTextColor={'#BABABA'}

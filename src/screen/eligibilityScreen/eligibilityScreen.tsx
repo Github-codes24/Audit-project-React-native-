@@ -7,6 +7,8 @@ import QuestionSection from "../../reusableComponent/questionList/questionSectio
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 import Header from "../../reusableComponent/header/header";
 import { useCalculateEligibilityScoreMutation } from "../../redux/apiSlice/eligibilityApiSlice";
+import { useSelector } from "react-redux";
+import { getLoginResponse } from "../../redux/stateSelector";
 
 const EligibilityScreen = () => {
   
@@ -14,6 +16,17 @@ const EligibilityScreen = () => {
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
   const [selectedCategory, setSelectedCategory] = useState();
+
+
+
+const response=useSelector(getLoginResponse)
+   
+const userId=response?.data?.id
+
+console.log('userId90798786',userId)
+
+
+
 
   const [
  calculateEligibilityScore,
@@ -49,15 +62,18 @@ const EligibilityScreen = () => {
   const handleNext = () => {
   };
 
-  const onSubmit = (payload) => {
-    calculateEligibilityScore(payload)
+const onSubmit = (payload) => {
+const newPayload={
+    userId:userId,
+    ...payload
+}
+    calculateEligibilityScore(newPayload)
     setStep('result');
   }
 
   return (
     <View style={styles.main}>
       <Header/>
-     
       {step==='category' && ( 
         <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector

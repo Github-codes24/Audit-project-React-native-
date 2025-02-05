@@ -94,7 +94,7 @@ const EditImage = ({ navigation }) => {
             <TouchableOpacity
               key={index}
               style={styles.supportItem}
-              onPress={item.onPress} // Call the respective function
+              onPress={item.onPress} 
             >
               <View style={styles.iconTextContainer}>
                 <Text style={styles.supportIcon}>{item.icon}</Text>

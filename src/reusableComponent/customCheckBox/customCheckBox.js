@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     
   },
   checkbox: {
-    width:12,
-    height: 12,
+    width:theme.horizontalSpacing.space_16,
+    height:theme.verticalSpacing.space_16,
     borderWidth: 1,
     borderColor:theme.lightColor.blackColor,
     borderRadius:2,

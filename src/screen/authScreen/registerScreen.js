@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, ScrollView } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from "../../asstets/images/svg";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -8,36 +8,58 @@ import { MainRoutes } from "../../navigation/routeAndParamsList";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { alertError } from "../../utils/Toast";
 
-
 const RegisterScreen = ({ navigation }) => {
   const inputRef = useRef(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Error state
+  const [errors, setErrors] = useState({});
+
+  const validateInputs = () => {
+    let newErrors = {};
+
+    if (!firstName) {
+      newErrors.firstName = "First name is required";
+    } else if (firstName.length < 2) {
+      newErrors.firstName = "First name must be at least 2 characters";
+    }
+
+    if (!lastName) {
+      newErrors.lastName = "Last name is required";
+    } else if (lastName.length < 2) {
+      newErrors.lastName = "Last name must be at least 2 characters";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+      if (!emailPattern.test(email)) newErrors.email = "Enter a valid email address";
+    }
+
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (!passwordPattern.test(password)) {
+      newErrors.password = "Password must be 8+ chars, include 1 uppercase & 1 special char.";
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Confirm password is required";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleRegister = () => {
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      alertError("Missing Fields", "Please fill out all fields.");
-      return;
-    }
-
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    if (!emailPattern.test(email)) {
-      alertError("Invalid email", "Please enter a valid Gmail address.");
-      return;
-    }
-
-    if (password.length < 6) {
-      alertError("Password too short", "Password must be at least 6 characters.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alertError("Passwords don't match", "Please make sure both passwords are the same.");
-      return;
-    }
+    if (!validateInputs()) return;
 
     navigation.navigate(MainRoutes.REGISTER_COMPANY_SCREEN, {
       email,
@@ -57,7 +79,7 @@ const RegisterScreen = ({ navigation }) => {
             <Svg.ArrowBack />
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: theme.verticalSpacing.space_28, }}>
+        <View style={{ marginTop: theme.verticalSpacing.space_28 }}>
           <Text style={styles.headerTitle}>Register Account</Text>
         </View>
 
@@ -66,7 +88,7 @@ const RegisterScreen = ({ navigation }) => {
           {/* Labels */}
           <View style={styles.row}>
             <Text style={styles.label}>First name</Text>
-            <Text style={[styles.label,{marginLeft:theme.horizontalSpacing.space_10}]}>Last name</Text>
+            <Text style={[styles.label, { marginLeft: theme.horizontalSpacing.space_10 }]}>Last name</Text>
           </View>
 
           {/* Inputs */}
@@ -74,43 +96,67 @@ const RegisterScreen = ({ navigation }) => {
             <TextInput
               ref={inputRef}
               value={firstName}
-              onChangeText={(text) => setFirstName(text)}
+              onChangeText={(text) => {
+                setFirstName(text);
+                setErrors({ ...errors, firstName: "" });
+              }}
               style={styles.nameTextInput}
               placeholder="First name"
               placeholderTextColor="#BABABA"
             />
             <TextInput
               value={lastName}
-              onChangeText={(text) => setLastName(text)}
+              onChangeText={(text) => {
+                setLastName(text);
+                setErrors({ ...errors, lastName: "" });
+              }}
               style={[styles.nameTextInput, { marginLeft: 10 }]}
               placeholder="Last name"
               placeholderTextColor="#BABABA"
             />
           </View>
 
+          {/* Error Messages */}
+          <View style={{flexDirection:'row'}}>
+            {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
+            {errors.lastName && <Text style={[styles.errorText,{marginLeft:theme.horizontalSpacing.space_10}]}>{errors.lastName}</Text>}
+          </View>
+
           <Text style={styles.TextStyle}>Enter your email address</Text>
           <CustomTextInput
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => {
+              setEmail(text);
+              setErrors({ ...errors, email: "" });
+            }}
             placeholder={"Enter your email address"}
           />
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+
           <Text style={styles.TextStyle}>Password</Text>
           <CustomTextInput
             secureTextEntry={true}
-            textColor={"#BABABA"}
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => {
+              setPassword(text);
+              setErrors({ ...errors, password: "" });
+            }}
             placeholder={"Password"}
             rightIcon={<Svg.CloseEye />}
           />
+          {errors.password && <Text style={[styles.errorText,{width:'100%'}]}>{errors.password}</Text>}
+
           <Text style={styles.TextStyle}>Confirm password</Text>
           <CustomTextInput
             secureTextEntry={true}
-            textColor={"#BABABA"}
             value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+              setErrors({ ...errors, confirmPassword: "" });
+            }}
             placeholder={"Confirm password"}
           />
+          {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
         </View>
 
         <View style={{ marginTop: theme.verticalSpacing.space_165 }}>
@@ -123,17 +169,16 @@ const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal:19,
+    paddingHorizontal: 19,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    height: 50,
+    height:theme.verticalSpacing.space_50,
     marginBottom: 20,
   },
   backIcon: {
-  
     marginRight: 10,
   },
   headerTitle: {
@@ -143,7 +188,6 @@ const styles = StyleSheet.create({
   },
   nameView: {
     marginTop: theme.verticalSpacing.space_80,
-    
   },
   row: {
     flexDirection: "row",
@@ -153,7 +197,6 @@ const styles = StyleSheet.create({
   label: {
     flex: 1,
     textAlign: "left",
-    // marginBottom: 10,
     color: theme.lightColor.blackColor,
   },
   nameTextInput: {
@@ -164,11 +207,16 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.borderColor,
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
-  
-    fontSize:theme.fontSizes.size_16
+    fontSize: theme.fontSizes.size_16,
   },
   TextStyle: {
     marginTop: 20,
+  },
+  errorText: {
+    width: theme.horizontalSpacing.space_187,
+    color: "red",
+    fontSize: theme.fontSizes.size_14,
+    marginTop: 5,
   },
 });
 

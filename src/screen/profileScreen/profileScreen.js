@@ -10,6 +10,7 @@ import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import { useSelector } from 'react-redux';
 import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
 import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const ProfileScreen = ({navigation}) => {
@@ -54,7 +55,8 @@ const supportItems = [
     { label: 'Notification', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
   ];
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex:1,}}>
+      <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_50}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}
@@ -123,6 +125,7 @@ const supportItems = [
         />
       </View>
     </View>
+    </ScrollView>
     </SafeAreaView>
   );
 };
@@ -131,13 +134,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    padding: 20,
+    padding:theme.horizontalSpacing.space_20,
   },
   backButton: {
-    marginBottom: 20,
+    marginBottom:theme.verticalSpacing.space_20,
   },
   backArrow: {
-    fontSize: 18,
+    fontSize:theme.fontSizes.size_18 ,
   },
   profileSection: {
     flexDirection: 'row',
@@ -175,9 +178,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF',
-    padding: 15,
-    marginBottom: 10,
+    height:theme.verticalSpacing.space_48,
+     paddingHorizontal:theme.horizontalSpacing.space_16,
     borderRadius: 10,
+    marginTop:theme.verticalSpacing.space_20
   },
   supportIcon: {
     marginRight: 15,
@@ -187,31 +191,36 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     fontWeight: '500',
   },
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop:theme.verticalSpacing.space_40
-  },
-  logoutButton: {
-    backgroundColor: theme.lightColor.brownColor,
-    height:50,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius: 10,
-    flex: 1,
-    marginRight: 10,
-  },
-  deleteAccountButton: {
-    backgroundColor: theme.lightColor.brownColor,
-    padding: 15,
-    borderRadius: 10,
-    flex: 1,
-  },
-  actionText: {
-    color: '#FFF',
-    textAlign: 'center',
-    fontWeight: '600',
-  },
+ actions: {
+  flexDirection: 'row',
+  justifyContent: "center",
+  alignItems: "center",
+  marginVertical:theme.verticalSpacing.space_80
+},
+logoutButton: {
+  backgroundColor: theme.lightColor.brownColor,
+  height: 50,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 10,
+  width: theme.horizontalSpacing.space_173,
+  marginHorizontal: 5, 
+},
+deleteAccountButton: {
+  backgroundColor: theme.lightColor.brownColor, 
+  height: 50,
+  borderRadius: 10,
+  width: theme.horizontalSpacing.space_173,
+  alignItems: "center",
+  justifyContent: "center",
+  marginHorizontal: 5, 
+},
+actionText: {
+  color: "white",
+  fontSize: theme.fontSizes.size_16,
+  fontWeight: "500",
+},
+
 });
 
 export default ProfileScreen;

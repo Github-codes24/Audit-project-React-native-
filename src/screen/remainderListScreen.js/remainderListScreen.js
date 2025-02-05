@@ -24,10 +24,9 @@ const ReminderListScreen = ({navigation}) => {
    const [refreshing, setRefreshing] = useState(false);
 
 const response=useSelector(getLoginResponse)
-  console.log('2222222',response)
-
+ 
  const userId=response?.data?.id
-
+ console.log('userId787685695876',userId)
 const {
   data: getAllReminderApiData,
   isLoading: isgetAllReminderApiDataiLoading,
@@ -42,8 +41,6 @@ const onRefresh = async () => {
     refetchAllReminderApiData();
     setRefreshing(false); 
   };
-
-
 
 
  useEffect(() => {
@@ -66,8 +63,7 @@ const onRefresh = async () => {
     {/* <Svg.Arrow/>    */}
        </View>
         <TouchableOpacity
-        
-        onPress={()=>navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN,{remainderdata:item})}
+        onPress={()=>navigation.navigate(MainRoutes.UPDATE_REMINDER_SCREEN,{remainderdata:item})}
         >
       <View style={styles.reminderContent}>
         <View style={{flexDirection:'row',justifyContent:'space-between',paddingRight:theme.horizontalSpacing.space_30}}>
@@ -80,6 +76,7 @@ const onRefresh = async () => {
         <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'500',marginVertical:5}}>{item?.reminderName}</Text>
           <View style={{flexDirection:'row',justifyContent:'space-between',width:theme.horizontalSpacing.space_374}}>
         <Text style={styles.title}>{item?.reminderFor}</Text>
+        
         <Text style={styles.description}>{item?.description}</Text>
       
         </View>
@@ -201,6 +198,8 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_14,
     fontWeight: "bold",
     color: "#000",
+    // backgroundColor:"red",
+    width:130
     // width:150,
     // marginTop:theme.verticalSpacing.space_10
   },
@@ -209,7 +208,9 @@ const styles = StyleSheet.create({
     color:theme.lightColor.blackColor,
     fontWeight:"600",
    paddingHorizontal:theme.horizontalSpacing.space_30,
-    alignSelf:'flex-end'
+    alignSelf:'flex-end',
+    // backgroundColor:"red",
+    width:theme.horizontalSpacing.space_222
   },
   arrow: {
     fontSize:theme.fontSizes.size_24,

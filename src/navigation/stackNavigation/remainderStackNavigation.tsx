@@ -20,6 +20,8 @@ import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import ReminderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import UpdateReminderScreen from '../../screen/updateReminder/updateReminder';
 const Stack = createStackNavigator();
 
 const RemainderStack = () => {
@@ -33,23 +35,11 @@ const RemainderStack = () => {
   name={MainRoutes.REMAINDERLIST_SCREEN}
   component={ReminderListScreen} 
 />
-      <Stack.Screen
-  name={MainRoutes.RESOURCE_SCREEN}
-  component={ResourceScreen} 
-/>
-    <Stack.Screen
-  name={MainRoutes.ELIGIBILITY_SCREEN}
-  component={EligibilityScreen} 
-/>
-  <Stack.Screen
-  name={MainRoutes.COMPLIANCE_SCREEN}
-  component={ComplianceScreen} 
-/>
       
-        <Stack.Screen
-        name={MainRoutes.DASHBOARD_SCREEN}
-        component={DashBoardScreen} 
-      />
+    
+ 
+      
+       
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
         component={ProfileScreen} 
@@ -82,17 +72,22 @@ const RemainderStack = () => {
         name={MainRoutes.CONTACTUS_SCREEN}
         component={ContactScreen} 
       />
-
- <Stack.Screen
-        name={MainRoutes.BLOG_DETAILS_SCREEN}
-        component={BlogDetailsScreen} 
+     <Stack.Screen
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
       />
+
+  <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
+
+ 
     <Stack.Screen
       name={MainRoutes.SET_REMAINDER_SCREEN}
        component={SetRemainderScreen} 
       />
 
-    {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 
@@ -100,6 +95,10 @@ const RemainderStack = () => {
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
+      />
+      <Stack.Screen
+        name={MainRoutes.UPDATE_REMINDER_SCREEN}
+        component={UpdateReminderScreen} 
       />
       </Stack.Navigator>
   );

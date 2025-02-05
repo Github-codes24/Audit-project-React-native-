@@ -29,6 +29,10 @@ const EditProfile = ({ navigation, route }) => {
     const [companyName, setCompanyName] = useState(profileData?.company || '');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [phoneError, setPhoneError] = useState(''); 
+    const [passwordError, setPasswordError] = useState('');
+const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+
 
     const response = useSelector(getLoginResponse);
     const userId = response?.data?.id;
@@ -40,6 +44,24 @@ const EditProfile = ({ navigation, route }) => {
         const phoneRegEx = /^[0-9]{10}$/; 
         return phoneRegEx.test(phone);
     };
+
+
+ const validatePassword = (password) => {
+        if (!password) return true; // Allow empty password
+        const passwordRegEx = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+        return passwordRegEx.test(password);
+
+if (password && confirmPassword !== password) {
+        alertError('Confirm password does not match the password.');
+        return;
+    }
+
+
+
+    };
+
+ 
+
 
     const pickImageFromGallery = () => {
         launchImageLibrary(
@@ -83,8 +105,19 @@ const EditProfile = ({ navigation, route }) => {
         // Validate phone number before submission
         if (!validatePhoneNumber(phoneNumber)) {
             setPhoneError('Please enter a valid 10-digit phone number.');
-            return; // Exit if validation fails
+            return; 
         }
+         if (password && !validatePassword(password)) {
+            setPasswordError('Password must be at least 8 characters, include 1 uppercase letter, and 1 special character.');
+            return;
+        }
+       if (password && confirmPassword !== password) {
+        setConfirmPasswordError('Confirm password does not match.');
+        return;
+    }
+
+
+
 
         const formData = new FormData();
         formData.append('firstName', firstName);
@@ -92,7 +125,7 @@ const EditProfile = ({ navigation, route }) => {
         formData.append('password', password);
         formData.append('confirmPassword', confirmPassword);
         formData.append('phoneNumber', phoneNumber);
-        formData.append('Company', companyName);
+        formData.append('company', companyName);
         if (imageUri) {
             const file = {
                 uri: imageUri,
@@ -124,7 +157,7 @@ const EditProfile = ({ navigation, route }) => {
     ];
 
     return (
-        <ScrollView style={{ marginBottom: theme.verticalSpacing.space_30 }}>
+        <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_50 }}>
             <Loader isLoading={isLoading} />
             <View style={{ paddingHorizontal: 7 }}>
                 <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
@@ -167,7 +200,7 @@ const EditProfile = ({ navigation, route }) => {
                                 value={firstName}
                                 onChangeText={(text) => setFirstName(text)}
                                 style={styles.nameTextInput}
-                                placeholder="John"
+                                placeholder="First name"
                             />
                         </View>
                         <View style={styles.halfWidth}>
@@ -176,7 +209,7 @@ const EditProfile = ({ navigation, route }) => {
                                 value={lastName}
                                 onChangeText={(text) => setLastName(text)}
                                 style={styles.nameTextInput}
-                                placeholder="Weak"
+                                placeholder="Last name"
                             />
                         </View>
                     </View>
@@ -185,10 +218,11 @@ const EditProfile = ({ navigation, route }) => {
                     <Text style={styles.TextStyle}>Password</Text>
                     <CustomTextInput
                         value={password}
-                        onChangeText={(text) => setPassword(text)}
+                    onChangeText={(text) => { setPassword(text); setPasswordError(''); }}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
                         secureTextEntry={true}
                     />
+                    {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
                     <Text style={styles.TextStyle}>Confirm password</Text>
                     <CustomTextInput
                         value={confirmPassword}
@@ -196,6 +230,7 @@ const EditProfile = ({ navigation, route }) => {
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
                         secureTextEntry={true}
                     />
+               {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
                     <Text style={styles.TextStyle}>Phone number</Text>
                     <CustomTextInput
                         value={phoneNumber}
@@ -288,14 +323,16 @@ const styles = StyleSheet.create({
     },
     supportIcon: {
         marginRight: 8,
+         
     },
+    errorText: { color: 'red', fontSize: 14 },
     supportText: {
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
         color: '#000',
     },
     nameView: {
-        marginTop: theme.verticalSpacing.space_10,
+        marginTop:5,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -306,22 +343,23 @@ const styles = StyleSheet.create({
     },
     nameTextInput: {
         height: theme.horizontalSpacing.space_50,
-        borderWidth: 1,
-        borderRadius: 8,
-        borderColor: theme.lightColor.grayColor,
+        borderWidth:.3,
+        borderRadius:10,
+        borderColor:'gray',
         paddingHorizontal: 10,
         backgroundColor: theme.lightColor.whiteColor,
-        marginBottom: theme.verticalSpacing.space_10,
-        
+        // marginBottom: theme.verticalSpacing.space_10,
+        width:theme.horizontalSpacing.space_173
     },
     TextStyle: {
-        marginTop: theme.verticalSpacing.space_10,
+        marginTop: theme.verticalSpacing.space_20,
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
     },
     actions: {
-        marginTop: theme.verticalSpacing.space_34,
+        marginTop: theme.verticalSpacing.space_30,
         alignItems: 'center',
+        
     },
     SavechangesButton: {
         width: theme.horizontalSpacing.space_374,

@@ -34,9 +34,10 @@ import CheckList from "./common/checkList";
 import ArrowRight from "./common/arrowRight";
 import ArrowLeftDown from "./common/leftArrow";
 import ProfileEdit from "./common/profileEdit";
+import DeleteIcon from "./common/deleteIcon";
 
 export {
-    CheckList,
+CheckList,
 ArrowBack,
 EyeOpen,
 Edit,
@@ -71,5 +72,6 @@ ShareIcon,
 PhoneIcon,
 ArrowRight,
 ArrowLeftDown,
-ProfileEdit
+ProfileEdit,
+DeleteIcon
 };

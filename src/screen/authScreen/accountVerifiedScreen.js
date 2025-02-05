@@ -10,7 +10,7 @@ import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
 const AccountVerifiedScreen = ({ navigation, route }) => {
   const { verifyOtpApiData } = route.params || {};
   const [isModalVisible, setModalVisible] = useState(true);
-  const [countdown, setCountdown] = useState(5); 
+  const [countdown, setCountdown] = useState(3); 
 
   const dispatch=useDispatch()
 

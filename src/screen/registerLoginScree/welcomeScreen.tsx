@@ -27,14 +27,16 @@ const RegisterButton=()=>{
         style={{width:theme.horizontalSpacing.space_236,height:theme.verticalSpacing.space_347,}}
         source={require('../../asstets/images/welcomeImage.png')}
         />
-        <View style={{width:theme.horizontalSpacing.space_260,justifyContent:"center",marginLeft:10}}>
-        <Text style={style.textStyle}>{'Welcome to Compliance Portal'}</Text>
+        <View style={{justifyContent:"center",marginTop:theme.verticalSpacing.space_20}}>
+        <Text style={style.textStyle}>{'Welcome to'}</Text>
+        <Text style={[style.textStyle,{marginTop:-5}]}>{'Compliance Portal'}</Text>
         </View>
+
         <View style={{}}>
         
 
       <View style={{marginLeft:41,marginRight:theme.horizontalSpacing.space_42,}}>
-        <Text style={{lineHeight:20,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_26,width:329,alignSelf:'center',paddingHorizontal:10,}}>{'Securely manage your compliance and '}</Text>
+        <Text style={{lineHeight:20,textAlign:"center",fontWeight:'400',fontSize:theme.fontSizes.size_16,marginTop:theme.verticalSpacing.space_26,alignSelf:'center',paddingHorizontal:10,}}>{'Securely manage your compliance and '}</Text>
        <Text style={{alignSelf:'center',fontWeight:'400',textAlign:"center",fontSize:theme.fontSizes.size_16,marginTop:-2}}>{'sponsor license requirements in one place'}</Text>
         </View>
         <View style={{flexDirection:"row",alignItems:'center',justifyContent:'center'}}>
@@ -75,9 +77,9 @@ const style = StyleSheet.create({
     color: 'black',
   },
   textStyle: {
-    width:theme.horizontalSpacing.space_260,
+    // width:theme.horizontalSpacing.space_260,
     textAlign: "center",
-     marginTop: theme.verticalSpacing.space_20,
+    //  marginTop: theme.verticalSpacing.space_20,
     fontSize: theme.fontSizes.size_30,
     fontWeight: 'bold',
     color: theme.lightColor.blackColor,

@@ -79,15 +79,15 @@ const ForgotPasswordScreen = () => {
                 <View style={{marginTop:theme.verticalSpacing.space_28,}}>
                    <Text style={style.headerTitle}>{'Forgot Password'}</Text>
                </View>
-               <View style={{paddingRight:10,width:370,}}>
+               <View style={{paddingRight:10,}}>
         <Text style={[style.Textstyle,{}]}>
           No worries! Enter your email address below  
         </Text>
-        <Text style={{marginTop:-8}}>and we will send you a code to reset</Text>
-        <Text style={{}}>password.</Text>
+        <Text style={[style.Textstyle,{marginTop:-8}]}>and we will send you a code to reset</Text>
+        <Text style={[style.Textstyle,{marginTop:-8}]}>password.</Text>
         </View>
         <View style={style.inputView}>
-          <Text>Email</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'400'}}>Email</Text>
           <CustomTextInput
             value={email}
             onChangeText={(text) => setEmail(text)}
@@ -122,13 +122,13 @@ const style = StyleSheet.create({
     width: '100%',
     flexDirection: 'row', 
     justifyContent: 'flex-end', 
-    marginTop:20,
-    height:19
-    
+    marginTop:theme.verticalSpacing.space_20,
+    height:theme.verticalSpacing.space_26, 
+    // backgroundColor:'red'
   },
   backToLoginText: {
     textAlign: 'right',
-   
+   marginRight:theme.horizontalSpacing.space_10,
     color: theme.lightColor.blackColor,
     fontWeight: '600',
     fontSize:theme.fontSizes.size_16

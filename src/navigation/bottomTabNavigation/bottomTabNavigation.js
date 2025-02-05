@@ -14,8 +14,9 @@ import ComplianceStack from '../stackNavigation/complianceStackNavigation';
 import EligibilityStack from '../stackNavigation/eligibilityStackNavigation';
 import ResourceStack from '../stackNavigation/resourceStackNavigation';
 import RemainderStack from '../stackNavigation/remainderStackNavigation';
-const Tab = createBottomTabNavigator();
 
+
+const Tab = createBottomTabNavigator();
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
     <View style={styles.tabBarContainer}>

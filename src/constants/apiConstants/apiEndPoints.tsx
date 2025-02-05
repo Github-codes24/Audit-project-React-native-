@@ -57,6 +57,8 @@ get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
 createRemainderApi:'api/reminder/createReminder',
 getAllRemainderApi:'api/reminder/getAllReminder',
 getReaminderForOptionApi:'api/reminder/getReminderForOptions',
-
+updateReminder:'api/reminder/updateReminderById',
+getReminderById:'api/reminder/getReminderById',
+deleteReminder:"api/reminder/deleteReminderById",
 
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, ScrollView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import { String, theme } from "../../utils";
@@ -39,14 +39,15 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     if (isLoginApiSuccess) {
       dispatch(setLoginResponse(loginApiData));
-      alertSuccess("Success", "Login Successful");
+      // alertSuccess("Success", "Login Successful");
     } else if (isLoginApiError) {
       console.log("loginApiError", loginApiError?.data?.message);
-      alertError(loginApiError?.data?.message || "Invalid credentials, please try again.");
+      // alertError(loginApiError?.data?.message || "Invalid credentials, please try again.");
     }
   }, [isLoginApiSuccess, loginApiData, loginApiError]);
 
   return (
+    <ScrollView style={{flex:1}}>
     <View style={{ backgroundColor: "#F2F3F5", paddingHorizontal:19}}>
       <Loader isLoading={isLoginApiLoading} message={"Please wait..."} />
       <StatusBar backgroundColor={"#F2F3F5"} />
@@ -57,11 +58,11 @@ const LoginScreen = ({ navigation }) => {
       />
       <Text
         style={{
-          width:374,
+         
           marginTop: 5,
           fontWeight: "400",
           color: theme.lightColor.blackColor,
-          
+          fontSize:theme.fontSizes.size_16,
           marginTop:10,
           lineHeight:20
         }}
@@ -76,13 +77,17 @@ const LoginScreen = ({ navigation }) => {
           placeholder={"Enter your email address"}
         />
         <Text style={{ marginTop: 10 }}>Password</Text>
-        <CustomTextInput
-          textColor={"#BABABA"}
+        <CustomTextInput 
+        textColor={'black'}
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
           placeholder={".  .  .  .  ."}
         />
+    {isLoginApiError && loginApiError?.data?.message ? (
+    <Text style={style.errorText}>{loginApiError?.data?.message}</Text>
+    ) : null}
+
         <View style={style.rememberForgetContainer}>
           <CustomCheckbox
             isChecked={isRememberChecked}
@@ -124,6 +129,7 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -134,15 +140,23 @@ const style = StyleSheet.create({
    
   },
   rememberForgetContainer: {
-    flexDirection: "row", // Align horizontally
-    justifyContent: "space-between", // Spread items across the row
-    alignItems: "center", // Vertically center items
-    marginTop:5, // Add top spacing
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    marginTop:5, 
+    // backgroundColor:"red",
+    paddingHorizontal:7
   },
   forgetText: {
     color: theme.lightColor.blackColor,
     fontWeight: "600",
-    fontSize: theme.fontSizes.size_14, // Match font size for consistency
+    fontSize: theme.fontSizes.size_14, 
+  },
+   errorText: {
+    color: "red",
+    fontSize:theme.fontSizes.size_14,
+    marginTop: 5,
+    marginLeft:5
   },
 });
 

@@ -20,6 +20,8 @@ import SetRemainderScreen from '../../screen/setRemainderScreen/setRemainderScre
 import DeleteSuccessFully from '../../screen/DeleteSuccessfully/deleteSuccessfully';
 import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessfully';
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 const Stack = createStackNavigator();
 
 const MainStackNavigation = () => {
@@ -86,6 +88,14 @@ const MainStackNavigation = () => {
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
+      />
+       <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.RESOURCE_SCREEN}
+        component={ResourceScreen} 
       />
       </Stack.Navigator>
       

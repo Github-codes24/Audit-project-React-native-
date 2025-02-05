@@ -28,8 +28,8 @@ const [refreshing, setRefreshing] = useState(false);
 //  console.log(selectedCategory)
 
 useEffect(() => {
-    if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
-      setSelectedCategory(categoryApiData?.data?.[0]?.category); 
+     if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
+      setSelectedCategory('Recent Blogs'); 
     }
   }, [isCategoryApiDataSuccess]);
 
@@ -47,15 +47,13 @@ const {
   isLoading: isSelectedCategoryApiLoading,
   error: SelectedCategoryApiError,
   refetch: selectedCategoryApiData,
-} = useGetAllBlogsQuery({category:selectedCategory});
+  } = useGetAllBlogsQuery(selectedCategory !== "Recent Blogs" ? { category: selectedCategory } : {});
+
 
 
 console.log('categoryApiData',categoryApiData)
 
-const uniqueCategories = categoryApiData?.data
-  .map((item) => item?.category) 
-  .filter((category, index, self) => self.indexOf(category) === index); 
-
+const uniqueCategories = ["Recent Blogs", ...new Set(categoryApiData?.data?.map((item) => item?.category))];
 // console.log('uniqueCategories',uniqueCategories);
 
 const onRefresh = async () => {
@@ -199,7 +197,6 @@ const styles = StyleSheet.create({
         // borderBottomRightRadius:60,
         paddingHorizontal:30,
         justifyContent:'center'
-      
     },
   header: {
     fontSize:theme.fontSizes.size_20,
@@ -212,7 +209,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FFF',
     paddingHorizontal:10,
-    marginBottom: 12,
+    
     borderRadius: 8,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -244,7 +241,9 @@ const styles = StyleSheet.create({
     color:theme.lightColor.blackColor,
   },
   blogDiscription: {
-    fontSize:theme.fontSizes.size_14,
+    fontSize:'500',
+    width:theme.horizontalSpacing.space_187,
+    fontSize:theme.fontSizes.size_16,
     color:theme.lightColor.blackColor,
   },
   detailsContainer: {

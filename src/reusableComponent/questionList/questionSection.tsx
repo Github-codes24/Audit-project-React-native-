@@ -39,12 +39,12 @@ const QuestionSection = ({
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
-    return questions?.slice(currentIndex, currentIndex + 2);
+    return questions?.slice(currentIndex, currentIndex + 3);
   };
 
   const handlePreviousLocal = () => {
-    if (currentIndex - 2 >= 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 2);
+    if (currentIndex - 3 >= 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 3);
       handlePrevious?.(false);
     }
     else{
@@ -66,8 +66,8 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
   };
 
   const handleNextLocal = () => {
-    if (currentIndex + 2 < questions?.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 2);
+    if (currentIndex + 3 < questions?.length) {
+      setCurrentIndex((prevIndex) => prevIndex + 3);
       handleNext?.();
     }
   };
@@ -99,9 +99,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
       <Text style={styles.header}>Sponsor License Compliance Checker</Text>
       :      <Text style={styles.header}>Sponsor License Eligibilty Checker</Text>
         }
-      <Text style={styles.selectedCategoryText}>
-        Q&A:
-      </Text>
+     
 
       {getQuestionsToDisplay()?.map((questionData,index) => (
         <QuestionCard
@@ -118,7 +116,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
       <View style={styles.navigationButtons}>
         
-       {currentIndex + 2 >= questions?.length ? (
+       {currentIndex + 3 >= questions?.length ? (
         // When "Submit" button appears, move "Previous" button to top
         <View style={styles.navigationButtons}>
           <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
@@ -165,16 +163,16 @@ const styles = StyleSheet.create({
    
     alignItems: "center",
     justifyContent: "center",
-    marginTop:theme.verticalSpacing.space_50,
+    marginTop:theme.verticalSpacing.space_20,
   },
   buttonStyle: {
     alignItems: "center",
     justifyContent: "center",
-    width: 110,
-    height: 50,
+    width:theme.horizontalSpacing.space_173,
+    height:50,
     backgroundColor: "#592951", 
     borderRadius: 10,
-    marginHorizontal: 20,
+    marginHorizontal:theme.horizontalSpacing.space_12
   },
 });
 

@@ -18,6 +18,7 @@ import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import { MainRoutes } from '../routeAndParamsList';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 const Stack = createStackNavigator();
 
 const EligibilityStack = () => {
@@ -31,14 +32,22 @@ const EligibilityStack = () => {
   name={MainRoutes.ELIGIBILITY_SCREEN}
   component={EligibilityScreen} 
 />
-  <Stack.Screen
+  {/* <Stack.Screen
   name={MainRoutes.COMPLIANCE_SCREEN}
   component={ComplianceScreen} 
-/>
+/> */}
       
         <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
         component={DashBoardScreen} 
+      />
+        <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
+       <Stack.Screen
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
       />
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
@@ -72,15 +81,17 @@ const EligibilityStack = () => {
         name={MainRoutes.CONTACTUS_SCREEN}
         component={ContactScreen} 
       />
+       
 
  <Stack.Screen
         name={MainRoutes.BLOG_DETAILS_SCREEN}
         component={BlogDetailsScreen} 
       />
-    <Stack.Screen
+
+    {/* <Stack.Screen
       name={MainRoutes.SET_REMAINDER_SCREEN}
        component={SetRemainderScreen} 
-      />
+      /> */}
 
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    <Stack.Screen

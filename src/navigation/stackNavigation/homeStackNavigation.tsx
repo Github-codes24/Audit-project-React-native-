@@ -16,6 +16,8 @@ import DeleteSuccessFully from '../../screen/DeleteSuccessfully/deleteSuccessful
 import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessfully';
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import { MainRoutes } from '../routeAndParamsList';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -49,10 +51,17 @@ const HomeStack = () => {
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
       />
-      
+       <Stack.Screen
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
+      />
        <Stack.Screen
         name={MainRoutes.NOTIFICATION_SCREEN}
         component={NotificationScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.RESOURCE_SCREEN}
+        component={ResourceScreen} 
       />
       <Stack.Screen
         name={MainRoutes.ABOUTUS_SCREEN}
@@ -62,7 +71,7 @@ const HomeStack = () => {
         component={ContactScreen} 
       />
 
- <Stack.Screen
+       <Stack.Screen
         name={MainRoutes.BLOG_DETAILS_SCREEN}
         component={BlogDetailsScreen} 
       />
@@ -76,10 +85,24 @@ const HomeStack = () => {
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 
       />
+      <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
       />
+      <Stack.Screen
+        name={MainRoutes.BLOG_DETAILS_SCREEN}
+        component={BlogDetailsScreen} 
+      />
+ <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
+
+
       </Stack.Navigator>
   );
 };

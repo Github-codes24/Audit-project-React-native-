@@ -13,9 +13,13 @@ const QuestionCard = ({
 }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.questionNumber}>{`Question: ${questionNumber}/${totalQuestions}`}</Text>
-      <Text style={styles.question}>{question}</Text>
-      <View style={styles.optionsContainer}>
+
+      
+      <View style={{  flexDirection: 'row', padding: 10,width:theme.horizontalSpacing.space_285 }}>
+  <Text style={{ flexShrink: 1, marginRight: 10,fontSize:theme.fontSizes.size_16,fontWeight:'500' }}>{question}</Text>
+  <Text style={{ flexShrink: 1,fontSize:theme.fontSizes.size_16,fontWeight:'500'  }}>{`${questionNumber}/${totalQuestions}`}</Text>
+</View>
+     <View style={styles.optionsContainer}>
         {options.map((option) => (
           <View
             key={option}
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
   },
   questionNumber: {
     fontSize: 16,
-    marginBottom:4,
+    
   },
   question: {
     fontSize: 16,

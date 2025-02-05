@@ -134,7 +134,7 @@ const closeModal = () => {
 
         <View style={{ marginTop: theme.verticalSpacing.space_114 }}>
           <CustomButton
-            textColor={'#BABABA'}
+            
             onPress={handleForgotPasswordVerifyAccount}
             title={'Create new password'}
             disabled={isSubmitting || otp.includes('')} // Disable if submitting or OTP incomplete

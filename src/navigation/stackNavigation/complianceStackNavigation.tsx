@@ -17,6 +17,9 @@ import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessful
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import { MainRoutes } from '../routeAndParamsList';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+// import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+
 const Stack = createStackNavigator();
 
 const ComplianceStack = () => {
@@ -31,9 +34,13 @@ const ComplianceStack = () => {
   component={ComplianceScreen} 
 />
       
-        <Stack.Screen
+        {/* <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
         component={DashBoardScreen} 
+      /> */}
+       <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
       />
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
@@ -52,6 +59,10 @@ const ComplianceStack = () => {
         component={PrivacyPolicyScreen} 
       />
        <Stack.Screen
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
+      />
+       <Stack.Screen
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
       />
@@ -68,14 +79,14 @@ const ComplianceStack = () => {
         component={ContactScreen} 
       />
 
- <Stack.Screen
+  <Stack.Screen
         name={MainRoutes.BLOG_DETAILS_SCREEN}
         component={BlogDetailsScreen} 
-      />
+      /> 
     <Stack.Screen
       name={MainRoutes.SET_REMAINDER_SCREEN}
        component={SetRemainderScreen} 
-      />
+      /> 
 
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    <Stack.Screen

@@ -34,8 +34,10 @@ export const MainRoutes = {
   DELETE_SUCCESSFULLY:'DeleteSuccessFully',
   UPDATE_SUCCESSFULLY:'UpdateSuccessFully',
   COMPLIANCE_SCREEN:'ComplianceStack',
-ELIGIBILITY_SCREEN:'EligibilityScreen',
+  ELIGIBILITY_SCREEN:'EligibilityScreen',
   RESOURCE_SCREEN:'ResourceScreen',
+  NOTIFICATION_DETAILS_SCREEN:'NotificationDetailsScreen',
+  UPDATE_REMINDER_SCREEN:'UpdateReminderScreen',
 };
 
 export const RootStackParamList = {
@@ -65,6 +67,8 @@ export const RootStackParamList = {
   [MainRoutes.SET_REMAINDER_SCREEN]:{}|undefined,
   [MainRoutes.DELETE_SUCCESSFULLY]:{}|undefined,
    [MainRoutes.UPDATE_SUCCESSFULLY]:{}|undefined,
+  [MainRoutes.NOTIFICATION_DETAILS_SCREEN]:{}|undefined,
+  [MainRoutes.UPDATE_REMINDER_SCREEN]:{}|undefined,
 
 };
 

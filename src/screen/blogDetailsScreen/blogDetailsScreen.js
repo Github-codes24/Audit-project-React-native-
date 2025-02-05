@@ -9,10 +9,12 @@ import ImageSwiper from '../../reusableComponent/ImageSlider/imageSwiper';
 import Header from '../../reusableComponent/header/header';
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
+import RenderHTML from 'react-native-render-html';
+
 
 const BlogDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { id } = route?.params; // Get the initial blog id from route params
+  const { id } = route?.params; 
 
   const [selectedBlogId, setSelectedBlogId] = React.useState(id);
 
@@ -47,12 +49,26 @@ const BlogDetailsScreen = ({ route }) => {
     readTime=''
   } = blog || {};
 
+
+ const isHtml = /<[^>]+>/g.test(description)
+const htmlStyles = {
+    p: {
+      marginTop: theme.verticalSpacing.space_10,
+      fontSize: theme.fontSizes.size_16,
+      textAlign: 'justify',
+      marginBottom:theme.verticalSpacing.space_20,
+      paddingHorizontal: 19,
+      lineHeight: 20,
+      color: 'black',
+      fontWeight: '400',
+    },
+  };
+
+
   const handleNavigation = (direction) => {
     if (!blogApiData || !Array.isArray(blogApiData.data)) return;
-
-    const blogs = blogApiData.data; // List of all blogs
+    const blogs = blogApiData.data; 
     const currentIndex = blogs.findIndex((item) => item._id === selectedBlogId);
-
     if (direction === 'next' && currentIndex < blogs.length - 1) {
       // Navigate to the next blog
       setSelectedBlogId(blogs[currentIndex + 1]._id);
@@ -101,9 +117,12 @@ const BlogDetailsScreen = ({ route }) => {
                   <Text style={{textAlign:'right',color:'gray'}}>{readTime}</Text>
             </View>
          
-           
-           
-            <Text style={styles.detailsContent}>{description || ''}</Text>
+             {isHtml ? (
+            <RenderHTML  source={{ html: description }} tagsStyles={htmlStyles}/>
+          ) : (
+         
+            <Text style={styles.description}>{description}</Text>
+          )}
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',marginHorizontal:19 }}>
               <TouchableOpacity
@@ -119,7 +138,7 @@ const BlogDetailsScreen = ({ route }) => {
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.backButton}
-              onPress={() => navigation.navigate('Resource')}
+              onPress={() => navigation.navigate(MainRoutes.RESOURCE_SCREEN)}
               >
                 <Text style={styles.buttonText}>Recent Blogs</Text>
               </TouchableOpacity>
@@ -161,11 +180,11 @@ const styles = StyleSheet.create({
     
     marginTop: theme.verticalSpacing.space_10,
   },
-  detailsContent: {
+  description: {
     marginTop: theme.verticalSpacing.space_10,
     fontSize: theme.fontSizes.size_16,
     textAlign: 'justify',
-    marginBottom: 20,
+    marginBottom:theme.verticalSpacing.space_20,
     paddingHorizontal:19,
     lineHeight: 20,
     color: 'black',
@@ -175,7 +194,7 @@ const styles = StyleSheet.create({
   backButton: {
     backgroundColor: theme.lightColor.brownColor,
     paddingVertical: theme.verticalSpacing.space_16,
-    paddingHorizontal: 20,
+     width:theme.horizontalSpacing.space_110,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',

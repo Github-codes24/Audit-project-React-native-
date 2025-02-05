@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Svg, { Path } from 'react-native-svg';
 
-const ImageSwiper = ({ images, showNavigation = false }) => {
+const ImageSwiper = ({ images, showNavigation = false , imageStyle = {},containerStyle={}}) => {
   const swiperRef = useRef(null);
 
   // Function to go to the previous slide
@@ -21,7 +21,7 @@ const ImageSwiper = ({ images, showNavigation = false }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,containerStyle]}>
       {showNavigation && (
         <>
           {/* Previous button */}
@@ -61,7 +61,7 @@ const ImageSwiper = ({ images, showNavigation = false }) => {
       >
         {images?.map((imageUrl, index) => (
           <View style={styles.slide} key={index}>
-            <Image style={styles.image} source={{ uri: imageUrl }} />
+             <Image style={[styles.image, imageStyle]}source={{ uri: imageUrl }} />
           </View>
         ))}
       </Swiper>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     height: 230,
     position: 'relative',
-    // borderRadius:10,
+    
   },
   slide: {
     

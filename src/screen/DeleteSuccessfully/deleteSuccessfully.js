@@ -9,7 +9,7 @@ const DeleteSuccessFully=({navigation})=>{
   const dispatch = useDispatch();
 
   const [isModalVisible, setModalVisible] = useState(true); 
- const [countdown, setCountdown] = useState(5);
+ const [countdown, setCountdown] = useState(3);
 
   const closeModal = () => {
     setModalVisible(false);

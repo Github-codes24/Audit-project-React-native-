@@ -11,11 +11,18 @@ import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/compli
 import Loader from "../../reusableComponent/loader/loader";
 import ComplianceResult from "../../reusableComponent/result/complianceResult";
 import Header from "../../reusableComponent/header/header";
-
-
+import { getLoginResponse } from "../../redux/stateSelector";
+import { useSelector } from "react-redux";
 
 const ComplianceScreen = () => {
 
+
+
+const response=useSelector(getLoginResponse)
+   
+const userId=response?.data?.id
+
+console.log('userId90798786',userId)
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
@@ -71,7 +78,11 @@ useEffect(() => {
   };
 
   const onSubmit = (payload) => { 
-    calculateCompilanceScore(payload)
+    const newPayload={
+      userId:userId,
+      ...payload 
+    }
+    calculateCompilanceScore(newPayload)
   }
 
   return (
