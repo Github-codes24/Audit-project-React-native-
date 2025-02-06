@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 },
 logoutButton: {
   backgroundColor: theme.lightColor.brownColor,
-  height: 50,
+ height:theme.verticalSpacing.space_50,
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 10,
@@ -208,7 +208,7 @@ logoutButton: {
 },
 deleteAccountButton: {
   backgroundColor: theme.lightColor.brownColor, 
-  height: 50,
+height:theme.verticalSpacing.space_50,
   borderRadius: 10,
   width: theme.horizontalSpacing.space_173,
   alignItems: "center",

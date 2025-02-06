@@ -109,9 +109,9 @@ const htmlStyles = {
               <Image style={styles.authorImage} source={{ uri: authorImage }} />
               <View style={[styles.authorTextContainer, {  }]}>
                 <Text style={styles.detailsAuthor}>{authorName || ''}</Text>
-                <Text style={{ color: 'gray' }}>
-                  {moment(createdAt).format('DD MMMM, YYYY') || ''}
-                </Text>
+               <Text style={{ color: 'gray' }}>
+          {moment(createdAt, moment.ISO_8601, true).isValid() ? moment(createdAt).format('DD MMMM, YYYY') : ''}
+              </Text>
                 </View>
               </View>
                   <Text style={{textAlign:'right',color:'gray'}}>{readTime}</Text>

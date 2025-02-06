@@ -83,7 +83,7 @@ useEffect(() => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F2F3F5" }}>
+    <View style={{ flex: 1, backgroundColor: "#F2F3F5", }}>
       <Loader isLoading={isLoading} />
       <CustomModal
         visible={isModalVisible}
@@ -107,6 +107,8 @@ useEffect(() => {
       <Header />
 
       <ScrollView contentContainerStyle={{ padding: 10 }} showsVerticalScrollIndicator={false}>
+        
+        <View style={{marginHorizontal:theme.horizontalSpacing.space_10}}>
         <Text
           style={{
             color: theme.lightColor.blackColor,
@@ -172,6 +174,8 @@ useEffect(() => {
           value={message}
           onChangeText={(text) => setMessage(text)}
         />
+
+ </View>
 
         <View style={{ marginTop: theme.verticalSpacing.space_30 }}>
           <CustomButton

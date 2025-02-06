@@ -50,15 +50,13 @@ const AboutUsScreen = () => {
                 renderPagination={renderPagination}
                 removeClippedSubviews={false}
               >
-                {getAboutdata?.aboutUs?.[0]?.image?.length > 0 ? (
-                  getAboutdata.aboutUs[0].image.map((slide, index) => (
-                    <View style={styles.slide} key={index}>
-                      <Image style={styles.image} source={{ uri: slide }} />
-                    </View>
-                  ))
-                ) : (
-                  <Text>No images available</Text>
-                )}
+               {getAboutdata?.aboutUs?.[0]?.image?.length > 0 && (
+  getAboutdata.aboutUs[0].image.map((slide, index) => (
+    <View style={styles.slide} key={index}>
+      <Image style={styles.image} source={{ uri: slide }} />
+    </View>
+  ))
+)}
               </Swiper>
 
               {/* Right Arrow Button */}

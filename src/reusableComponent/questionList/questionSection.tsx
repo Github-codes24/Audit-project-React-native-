@@ -39,11 +39,11 @@ const QuestionSection = ({
  
 const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
-    return questions?.slice(currentIndex, currentIndex + 3);
+    return questions?.slice(currentIndex, currentIndex + 2);
   };
 
   const handlePreviousLocal = () => {
-    if (currentIndex - 3 >= 0) {
+    if (currentIndex - 2 >= 0) {
       setCurrentIndex((prevIndex) => prevIndex - 3);
       handlePrevious?.(false);
     }
@@ -66,8 +66,8 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
   };
 
   const handleNextLocal = () => {
-    if (currentIndex + 3 < questions?.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 3);
+    if (currentIndex + 2 < questions?.length) {
+      setCurrentIndex((prevIndex) => prevIndex + 2);
       handleNext?.();
     }
   };
@@ -116,10 +116,10 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
       <View style={styles.navigationButtons}>
         
-       {currentIndex + 3 >= questions?.length ? (
+       {currentIndex + 2 >= questions?.length ? (
         // When "Submit" button appears, move "Previous" button to top
         <View style={styles.navigationButtons}>
-          <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
+          <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:theme.verticalSpacing.space_50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
             <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:15  }}>Previous</Text>
           </TouchableOpacity>
 
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width:theme.horizontalSpacing.space_173,
-    height:50,
+   height:theme.verticalSpacing.space_50,
     backgroundColor: "#592951", 
     borderRadius: 10,
     marginHorizontal:theme.horizontalSpacing.space_12

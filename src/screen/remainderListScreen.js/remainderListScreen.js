@@ -219,7 +219,8 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor:theme.lightColor.brownColor,
-    paddingVertical: 14,
+    height:theme.verticalSpacing.space_50,
+    // paddingVertical: 14,
     borderRadius: 12,
     position: "absolute",
     bottom:theme.verticalSpacing.space_100,

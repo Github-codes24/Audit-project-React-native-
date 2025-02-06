@@ -86,7 +86,7 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
   };
 
   return (
-    <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_50 }}>
+    <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
       <Header />
 
       <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center", paddingHorizontal: 10 }}>

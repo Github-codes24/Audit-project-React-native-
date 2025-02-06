@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
   },
   dropdown: {},
   placeholderStyle: {
-    fontSize: theme.fontSizes.size_14,
+    fontSize: theme.fontSizes.size_16,
     marginLeft: 10,
     color: 'gray',
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
   selectedTextStyle: {
-    fontSize: theme.fontSizes.size_14,
+    fontSize: theme.fontSizes.size_16,
     color: theme.lightColor.blackColor,
     fontFamily: theme.fontFamily.notoSans.regular_400,
     paddingHorizontal: theme.horizontalSpacing.space_8,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   itemTextStyle: {
     fontWeight: '400',
     color: theme.lightColor.blackColor,
-    fontSize: theme.fontSizes.size_14,
+    fontSize: theme.fontSizes.size_16,
   },
   labelContainer: {
     position: 'absolute',

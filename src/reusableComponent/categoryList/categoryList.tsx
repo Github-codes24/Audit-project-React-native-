@@ -7,15 +7,11 @@ import { useGetCompilanceQuestionsCategoryQuery } from '../../redux/apiSlice/com
 import { useGetEligibilityCategoryQuery } from '../../redux/apiSlice/eligibilityApiSlice';
 import Loader from '../loader/loader';
 
-const CategorySelector = ({ 
-  handleSelect, 
-  onTakeTest,
-  checkerType = 'compliance', // Determines the type of category to load
-}) => {
+const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance' }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  // Fetch compliance categories if checkerType is 'compliance'
+  // Fetch categories based on checkerType
   const {
     data: complianceCategoryData,
     isLoading: isLoadingCompliance,
@@ -23,11 +19,6 @@ const CategorySelector = ({
     refetch: refetchCompliance
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
-
-console.log('complianceCategoryData',complianceCategoryData)
-
-
-  // Fetch eligibility categories if checkerType is 'eligibility'
   const {
     data: eligibilityCategoryData,
     isLoading: isLoadingEligibility,
@@ -35,111 +26,110 @@ console.log('complianceCategoryData',complianceCategoryData)
     refetch: refetchEligibility
   } = useGetEligibilityCategoryQuery({}, { skip: checkerType !== 'eligibility' });
 
-  // Determine the current category data based on checkerType
   const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
-  const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
   const isLoading = checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
+  const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
   const refetchData = checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
 
-  // Handle category selection
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategoryId(selectedCategory?._id);
-    handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
+    handleSelect && handleSelect(selectedCategory);
   };
 
- 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetchData(); 
+    await refetchData();
     setRefreshing(false);
   };
 
-  // Loading state
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   }
 
-  // Error state
   if (isError) {
     return (
-      <ScrollView
-        contentContainerStyle={styles.container}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
+      <View style={styles.container}>
         <Text style={styles.errorText}>Failed to load categories. Please try again later.</Text>
-      </ScrollView>
+      </View>
     );
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
+    <View style={styles.container}>
       <Text style={styles.header}>
         {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
       </Text>
-      
+
       <Text style={styles.subHeader}>Select category</Text>
 
-      {categoryData?.length > 0 ? (
-        categoryData.map((category) => (
-          <TouchableOpacity
-            key={category?._id}
-            style={styles.category}
-            onPress={() => handleCategorySelect(category)}
-          >
-            <Text style={styles.categoryText}>{category.name}</Text>
-            <View
-              style={[
-                styles.circle,
-                selectedCategoryId === category?._id && styles.selectedCircle,
-              ]}
-            >
-              {selectedCategoryId === category?._id && <Svg.CheckIcon />}
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text>No categories available</Text>
-      )}
-
-      <View style={{ marginTop: theme.verticalSpacing.space_100 }}>
-        <CustomButton
-          title="Take test"
-          onPress={onTakeTest} 
-          disabled={!selectedCategoryId} // Disable button if no category is selected
-        />
+      <View style={styles.scrollContainer}>
+        <ScrollView
+          contentContainerStyle={styles.categoriesContainer}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+          {categoryData?.length > 0 ? (
+            categoryData.map((category) => (
+              <TouchableOpacity
+                key={category?._id}
+                style={styles.category}
+                onPress={() => handleCategorySelect(category)}
+              >
+                <Text style={styles.categoryText}>{category.name}</Text>
+                <View
+                  style={[
+                    styles.circle,
+                    selectedCategoryId === category?._id && styles.selectedCircle,
+                  ]}
+                >
+                  {selectedCategoryId === category?._id && <Svg.CheckIcon />}
+                </View>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text>No categories available</Text>
+          )}
+        </ScrollView>
       </View>
-    </ScrollView>
+
+      {/* Fixed Bottom Button */}
+      <View style={styles.buttonContainer}>
+        <CustomButton title="Take test" onPress={onTakeTest} disabled={!selectedCategoryId} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+   flex:1,
     paddingHorizontal: 19,
     backgroundColor: '#F2F3F5',
-    
   },
   header: {
-    fontSize:theme.fontSizes.size_20,
+    fontSize: theme.fontSizes.size_20,
     fontWeight: '700',
     marginBottom: 10,
-    marginTop:15,
-    
+    marginTop: 15,
   },
   subHeader: {
     fontSize: theme.fontSizes.size_20,
     marginTop: theme.verticalSpacing.space_100,
-    fontWeight:'600',
-    
+    fontWeight: '600',
+  },
+  scrollContainer: {
+    height:"100%", 
+    marginBottom: 80, 
+    // backgroundColor:"red"
+  },
+  categoriesContainer: {
+    paddingBottom:theme.verticalSpacing.space_80,
   },
   category: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height:theme.verticalSpacing.space_58,
-    paddingHorizontal:10,
+    height: theme.verticalSpacing.space_58,
+    paddingHorizontal: 10,
     marginVertical: 5,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -168,6 +158,18 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginBottom: 10,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom:theme.verticalSpacing.space_100,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 19,
+    backgroundColor: '#F2F3F5',
+    paddingVertical: 10,
+    height:theme.verticalSpacing.space_50,
+    alignItems:"center",
+    justifyContent:"center"
   },
 });
 

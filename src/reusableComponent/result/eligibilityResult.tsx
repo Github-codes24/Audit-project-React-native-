@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { theme } from "../../utils";
 
-const EligibityResult = ({ onPressRetakeExam, isEligible }) => {
+const EligibityResult = ({ onPressRetakeExam, isEligible,eligibilityImage }) => {
   const navigation = useNavigation();
-
+  const isValidImage = eligibilityImage && eligibilityImage.startsWith('http');
+   const [showText, setShowText] = useState(false);
+  
+  useEffect(() => {
+    
+    const timer = setTimeout(() => {
+      setShowText(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
       <View style={styles.container}>
@@ -16,22 +26,23 @@ const EligibityResult = ({ onPressRetakeExam, isEligible }) => {
           <Text style={styles.resultHeader}>Result</Text>
 
           {/* Eligibility Image */}
-          <Image
-            source={
-              isEligible
-                ? require("../../asstets/images/elegable.png")
-                : require("../../asstets/images/non-Elegable.png")
-            }
-            style={styles.image}
-            resizeMode="contain"
-          />
+         {isValidImage && (
+            <Image
+              source={{ uri: eligibilityImage }} 
+              style={styles.image}
+              resizeMode="contain"
+            />
+          )}
+
 
           {/* Eligibility Message */}
-          <Text style={styles.title}>
-            {isEligible
-              ? "Congratulations 🎉\nyou are eligible!"
-              : "Sorry\nyou are not eligible!"}
-          </Text>
+          {showText && (
+            <Text style={styles.title}>
+              {isEligible
+                ? "Congratulations 🎉\nyou are eligible!"
+                : "Sorry\nyou are not eligible!"}
+            </Text>
+          )}
           <Text style={styles.subtitle}>mbjksdbv ijshvsw </Text>
 
           {/* Contact Us Button */}

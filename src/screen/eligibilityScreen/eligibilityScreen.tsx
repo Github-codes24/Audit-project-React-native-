@@ -75,13 +75,13 @@ const newPayload={
     <View style={styles.main}>
       <Header/>
       {step==='category' && ( 
-        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+        // <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
         />  
-        </ScrollView>
+        // </ScrollView>
       )
       }
    
@@ -102,6 +102,7 @@ const newPayload={
 {
   step==='result' && <EligibityResult
   isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='eligible'}
+  eligibilityImage={calculateCompilanceScoreData?.eligibilityImage}
   onPressRetakeExam={()=>{ 
     setStep('category')
   }}

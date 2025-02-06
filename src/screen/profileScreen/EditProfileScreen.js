@@ -157,7 +157,7 @@ if (password && confirmPassword !== password) {
     ];
 
     return (
-        <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_50 }}>
+        <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_100 }}>
             <Loader isLoading={isLoading} />
             <View style={{ paddingHorizontal: 7 }}>
                 <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}

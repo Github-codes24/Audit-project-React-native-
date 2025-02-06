@@ -25,7 +25,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
   const content = privacyPolicyData?.data?.sections || '';
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1,marginBottom:theme.verticalSpacing.space_100 }}>
       <View style={styles.container}>
         <Loader isLoading={privacyPolicyIsLoading} />
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   HeadText: {
     fontSize: theme.fontSizes.size_30,
     fontWeight: '600',
-    marginTop: theme.horizontalSpacing.space_100,
+    marginTop: theme.horizontalSpacing.space_50,
     marginBottom: theme.verticalSpacing.space_20,
   },
   privacyPolicyText: {
