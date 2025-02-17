@@ -48,27 +48,19 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={{flex:1}}>
-    <View style={{ backgroundColor: "#F2F3F5", paddingHorizontal:19}}>
+    <View style={{ backgroundColor: "#F2F3F5", paddingHorizontal:19,}}>
       <Loader isLoading={isLoginApiLoading} message={"Please wait..."} />
-      <StatusBar backgroundColor={"#F2F3F5"} />
+      {/* <StatusBar backgroundColor={"#F2F3F5"} /> */}
+     
       <CustomHeader
         onBackPress={() => navigation.goBack()}
         leftIcon={<Svg.ArrowBack />}
-        title={"Login Here"}
+        title={"Sign in to your Account"}
+        subtitle={'Welcome back you have been missed!'}
       />
-      <Text
-        style={{
-         
-          marginTop: 5,
-          fontWeight: "400",
-          color: theme.lightColor.blackColor,
-          fontSize:theme.fontSizes.size_16,
-          marginTop:10,
-          lineHeight:20
-        }}
-      >
-        {"Welcome back you have been missed!"}
-      </Text>
+
+    
+     
       <View style={style.LoginInputView}>
         <Text>Email</Text>
         <CustomTextInput
@@ -135,8 +127,9 @@ const LoginScreen = ({ navigation }) => {
 
 const style = StyleSheet.create({
   LoginInputView: {
-    marginTop: theme.verticalSpacing.space_80,
+    marginTop: theme.verticalSpacing.space_40,
     justifyContent: "center",
+    // backgroundColor:'red'
    
   },
   rememberForgetContainer: {

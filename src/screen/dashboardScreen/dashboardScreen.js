@@ -24,7 +24,7 @@ import { getCookiesStatus } from "../../redux/stateSelector";
 import { AboutUsContent } from "../../reusableComponent/aboutUsContent/aboutUsContent";
 
 const DashBoardScreen = ({ navigation }) => {
-  const [isModalVisible, setModalVisible] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
   const cookiesStatus = useSelector(getCookiesStatus);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -40,11 +40,6 @@ const DashBoardScreen = ({ navigation }) => {
   };
 
 
-
-
-
-
-  
   const onRefresh = async () => {
     setRefreshing(true);
     refetchAboutUs();
@@ -111,25 +106,28 @@ const DashBoardScreen = ({ navigation }) => {
         />
         <Header userName={"John Doe"} />
         <View style={{paddingHorizontal:19}}>
-        <Text style={style.sponsorText}>{"Sponsor License Checker"}</Text>
+        <Text style={style.sponsorText}>{"Sponsor  Licence  Checker"}</Text>
         <LicenseCard
-          title={"Sponsor License Compliance Checker"}
-          description={"Check your score "}
+          title={"Check Your Sponsor Licence Compliance Score"}
+          description={"Use this tool to check your compliance with sponsor licence duties."}
           icon={require("../../asstets/images/Compliance.png")}
           onPress={() => navigation.navigate("Compliance")}
         />
+
         <LicenseCard
-          title={"Sponsor License Eligibility Checker"}
-          description={"Check if you are eligible or not "}
+          title={"Check Your Eligibility for Sponsor Licence"}
+          description={"Check if your business is eligible for a sponsor licence in the UK "}
           icon={require("../../asstets/images/Checklist.png")}
           onPress={() => navigation.navigate("Eligibility")}
         />
+    
         <LicenseCard
-          title={"Reminder"}
-          description={"Check or mark some important dates"}
+          title={" Monitor Visa Status"}
+          description={"Set reminders and receive notifications for your employees’ visa expiries."}
           icon={require("../../asstets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
+   
         <View style={[style.horizontalAlignContainer, { marginTop: 10 }]}>
           <Text style={style.latestBlogText}>{"Latest Blog"}</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Resource")}>
@@ -149,6 +147,7 @@ const DashBoardScreen = ({ navigation }) => {
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
             </TouchableOpacity>
           </View>
+          <Text style={{marginTop:theme.verticalSpacing.space_50,color:'gray'}}>{'Authorised and regulated by the Solicitors Regulation. SRA No. 8006464. Verify here'}</Text>
         </View>
         </View>
       </View>

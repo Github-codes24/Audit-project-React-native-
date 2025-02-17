@@ -14,13 +14,16 @@ import Loader from "../../reusableComponent/loader/loader";
 import { alertError } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import * as Svg from '../../asstets/images/svg'
+import CustomDropDown from "../../reusableComponent/customDropDown/customDropDown";
 
 const ContactScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
    const [name, setName] = useState('');
   const [emailEnquiry, setEmailEnquiry] = useState('');
   const [message, setMessage] = useState('');
-  
+  const [mobileNumber,setMobileNumber]=useState('')
+   const [mobileError, setMobileError] = useState('');
+
   const navigation = useNavigation();
   const [contactUsApi, { isLoading }] = useContactUsApiMutation();
 
@@ -50,9 +53,6 @@ useEffect(() => {
     }
   }, [getcontactusData]);
 
-
-
-
   console.log('getcontactusData',getcontactusData)
 
   const { email, phoneNumber,firstName,lastName } = getcontactusData?.data || {};
@@ -61,7 +61,21 @@ useEffect(() => {
     setModalVisible(false);
   };
 
+   const validateMobileNumber = (number) => {
+    const regex = /^[0-9]{10}$/; 
+    return regex.test(number);
+  };
+
+
+
  const handleFormSubmit = () => {
+  if (mobileNumber && !validateMobileNumber(mobileNumber)) {
+      setMobileError('Mobile number must be exactly 10 digits.');
+      return;
+    } else {
+      setMobileError(''); // Clear error if valid
+    }
+
   contactUsApi({ name,email: emailEnquiry, message })
     .then((response) => {
       console.log('response4354354',response)
@@ -82,9 +96,17 @@ useEffect(() => {
 </svg>
 
 
+  const data = [
+    { label: "Book consultation for sponsor licence", value: "Book consultation for sponsor licence" },
+    { label: "Book consultation for compliance audit.", value: "Book consultation for compliance audit." },
+    { label: "Consultation for something else", value: "Consultation for something else" },
+       { label: "Want to share feedback", value: "Want to share feedback" },
+ 
+  ];
   return (
+          <ScrollView style={{marginBottom:theme.verticalSpacing.space_80}} showsVerticalScrollIndicator={false}>
     <View style={{ flex: 1, backgroundColor: "#F2F3F5", }}>
-      <Loader isLoading={isLoading} />
+      <Loader isLoading={isLoading}/>
       <CustomModal
         visible={isModalVisible}
         
@@ -106,7 +128,8 @@ useEffect(() => {
       <StatusBar backgroundColor={"#592951"} />
       <Header />
 
-      <ScrollView contentContainerStyle={{ padding: 10 }} showsVerticalScrollIndicator={false}>
+       
+       <View style={{marginHorizontal:theme.horizontalSpacing.space_10}}>
         
         <View style={{marginHorizontal:theme.horizontalSpacing.space_10}}>
         <Text
@@ -114,23 +137,15 @@ useEffect(() => {
             color: theme.lightColor.blackColor,
             fontSize: theme.fontSizes.size_20,
             fontWeight: "700",
+            marginLeft:-2
           }}
         >
           {"Contact us"}
         </Text>
-        <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10}}>
-         <Svg.MessageIcon/>
-        <Text style={[style.textStyle,{marginLeft:5}]}>Email</Text>
-        </View>
-        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500'}}>{email}</Text>
-         <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10,}}>
-      
-        <Svg.PhoneIcon/>
-        
-        <Text style={[style.textStyle, {marginLeft:5 }]}>Phone No.</Text>
-        </View>
-        
-        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,marginLeft:5,fontWeight:'500'}}>{phoneNumber}</Text>
+        <Text style={style.textBox}>{'I want to'}</Text>
+         <CustomDropDown
+         data={data}
+         />
 
         <Text style={style.textBox}>Name</Text>
         <TextInput
@@ -151,6 +166,18 @@ useEffect(() => {
         style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingHorizontal:10}}
         />
 
+           <Text style={style.textBox}>Contact number</Text>
+        <TextInput
+         keyboardType="numeric"
+            maxLength={10} 
+          value={mobileNumber}
+         placeholder="Enter contact number"
+         onChangeText={(text)=>setMobileNumber(text)}
+        style={{width:theme.horizontalSpacing.space_374,height:theme.verticalSpacing.space_50,backgroundColor:'white',borderRadius:10,paddingHorizontal:10}}
+        />
+        {mobileError ? (
+            <Text style={style.errorText}>{mobileError}</Text>
+          ) : null}
 
         {/* <CustomTextInput
           placeholder={"john@example.com"}
@@ -184,8 +211,23 @@ useEffect(() => {
             disabled={isLoading}
           />
         </View>
-      </ScrollView>
+         <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10,marginLeft:5}}>
+        
+        <Text style={[style.textStyle,{marginLeft:5}]}>Email</Text>
+        </View>
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500',marginLeft:10}}>{'admin@narasolicitors.com'}</Text>
+         <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_10,marginLeft:5}}>
+         
+        <Text style={[style.textStyle, {marginLeft:5 }]}>Contact</Text>
+        </View>
+        <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500',marginLeft:10}}>{'+44 204 576 4977'}</Text>
+        <View style={{marginLeft:10,marginTop:10}}>
+      <Text style={style.textStyle}>{'Website'}</Text>
+      <Text style={{color:'black',fontSize:theme.fontSizes.size_16,fontWeight:'500'}}>{'www.narasolicitors.com'}</Text>
+      </View>
     </View>
+    </View>
+      </ScrollView>
   );
 };
 
@@ -207,5 +249,14 @@ const style = StyleSheet.create({
     marginTop: 5,
   },
 });
+
+
+
+
+
+
+
+
+
 
 export default ContactScreen;

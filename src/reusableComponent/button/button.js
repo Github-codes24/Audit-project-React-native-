@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderRadius:theme.horizontalSpacing.space_10, 
     alignItems: 'center',
     justifyContent: 'center',
-    width:theme.horizontalSpacing.space_370,
+    width:theme.horizontalSpacing.space_374,
    height:theme.verticalSpacing.space_50,
     alignSelf:'center',
     

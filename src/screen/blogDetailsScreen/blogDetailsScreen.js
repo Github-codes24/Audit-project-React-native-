@@ -13,6 +13,18 @@ import RenderHTML from 'react-native-render-html';
 
 
 const BlogDetailsScreen = ({ route }) => {
+
+
+
+
+
+
+
+
+
+
+
+
   const navigation = useNavigation();
   const { id } = route?.params; 
 

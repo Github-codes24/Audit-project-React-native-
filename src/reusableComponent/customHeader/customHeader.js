@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Replace with a different library if not using Expo
 import { theme } from '../../utils';
+import { useNavigation } from '@react-navigation/native';
 
 const CustomHeader = ({
   title,
@@ -9,8 +10,14 @@ const CustomHeader = ({
   onBackPress,
   leftIcon,
   titleColor = '#1F2937',
-  leftIconColor = theme.lightColor.backButtonColor, // Default color for the left icon button
+  leftIconColor = theme.lightColor.backButtonColor,
+
+  // Default color for the left icon button
 }) => {
+
+const navigation=useNavigation()
+
+
   return (
     <SafeAreaView>
     <View style={styles.container}>
@@ -27,7 +34,7 @@ const CustomHeader = ({
       >
         <TouchableOpacity
           style={[styles.backButton, { backgroundColor: leftIcon ? leftIconColor : 'transparent' }]}
-          onPress={onBackPress}
+          onPress={()=>navigation.goBack()}
         >
           {leftIcon}
         </TouchableOpacity>
@@ -35,8 +42,9 @@ const CustomHeader = ({
 
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
-        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+
       </View>
+        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
     </View>
     </SafeAreaView>
   );
@@ -45,34 +53,31 @@ const CustomHeader = ({
 const styles = StyleSheet.create({
   container: {
   //  backgroundColor:'red',
-    height: theme.verticalSpacing.space_156,
+  // backgroundColor:'red',
+  // height: theme.verticalSpacing.space_156,
   },
   backButton: {
-    paddingVertical:10,
-   
+    paddingVertical:10, 
     borderRadius: 50,
     width: theme.horizontalSpacing.space_32,
     alignItems: 'center',
     justifyContent: 'center',
   },
   textContainer: {
-    width: '100%',
-    // height: theme.verticalSpacing.space_60,
-    
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // backgroundColor:"red"
+    width:'73%',
+    // backgroundColor:"pink"
   },
   title: {
     fontSize: theme.fontSizes.size_30,
-    fontWeight: 'bold',
+    fontWeight:'bold',
     color:theme.lightColor.blackColor,
     marginTop:theme.verticalSpacing.space_40
   },
   subtitle: {
-    fontSize: 14,
-    color: 'red',
-    marginTop: 4,
+    fontSize:theme.fontSizes.size_16,
+    color:theme.lightColor.blackColor,
+    marginTop:theme.verticalSpacing.space_20,
+    fontWeight:'700'
   },
 });
 

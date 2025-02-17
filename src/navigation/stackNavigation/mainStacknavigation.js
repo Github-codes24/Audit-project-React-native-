@@ -22,6 +22,8 @@ import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessful
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+
+
 const Stack = createStackNavigator();
 
 const MainStackNavigation = () => {

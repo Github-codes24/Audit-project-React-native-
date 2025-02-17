@@ -60,9 +60,6 @@ if (password && confirmPassword !== password) {
 
     };
 
- 
-
-
     const pickImageFromGallery = () => {
         launchImageLibrary(
             {

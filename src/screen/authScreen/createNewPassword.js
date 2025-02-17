@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -8,7 +8,7 @@ import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroun
 import { useResetPasswordApiMutation } from "../../redux/apiSlice/authApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { alertError, alertSuccess } from "../../utils/Toast";
-
+import * as Svg from '../../asstets/images/svg'
 const CreateNewPassword = ({ navigation, route }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,17 +44,20 @@ const CreateNewPassword = ({ navigation, route }) => {
 
   useEffect(() => {
     if (isResetPasswordApiSuccess) {
-      alertSuccess("Success", "Password changed successfully.");
+      // alertSuccess("Success", "Password changed successfully.");
       navigation.navigate(MainRoutes.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN);
     } else if (resetPasswordApiError) {
-      alertError(resetPasswordApiError?.data?.message || "An error occurred. Please try again.");
+      console.log('resetPasswordApiError',resetPasswordApiError)
+      // alertError(resetPasswordApiError?.data?.message || "An error occurred. Please try again.");
     }
   }, [isResetPasswordApiSuccess, resetPasswordApiError]);
 
   return (
     <BackgroundLayout>
       <View style={styles.container}>
+        <View style={{}}>
         <CustomHeader onBackPress={() => navigation.goBack()} title="Create New Password" />
+      </View>
         <Text style={styles.description}>
           Please enter and confirm your new  
         </Text>
@@ -94,6 +97,12 @@ const CreateNewPassword = ({ navigation, route }) => {
           <View style={styles.buttonContainer}>
             <CustomButton onPress={handleResetPassword} title="Reset Password" disabled={resetPasswordApiLoading} />
           </View>
+          <View style={{flexDirection:'row',alignItems:'center',marginTop:theme.verticalSpacing.space_20}}>
+           <TouchableOpacity onPress={()=>navigation.navigate(MainRoutes?.LOGIN_SCREEN)}>
+            <Svg.ArrowBack/>
+            </TouchableOpacity>
+          <Text style={{fontWeight:'bold',fontSize:theme.fontSizes.size_18,marginLeft:10}}>Back to login</Text>
+           </View>
         </View>
       </View>
     </BackgroundLayout>
@@ -115,7 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   inputView: {
-    marginTop: theme.verticalSpacing.space_100,
+    marginTop: theme.verticalSpacing.space_70,
   },
   label: {
     marginTop: 20,
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   buttonContainer: {
-    marginTop: theme.verticalSpacing.space_165,
+    marginTop: theme.verticalSpacing.space_100,
   },
 });
 

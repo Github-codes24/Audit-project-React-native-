@@ -23,7 +23,7 @@ const EmailVerificationScreen = ({ navigation,route }) => {
 const dispatch=useDispatch()
   
 
-console.log('otp44',otp)
+// console.log('otp44',otp)
  const {email}=route?.params||{}
 //  console.log('emaill333',email)
 
@@ -135,13 +135,19 @@ const handleChange = (text, index) => {
       <CustomHeader
       onBackPress={()=>navigation.goBack()}
       leftIcon={<Svg.ArrowBack/>}
-      title={'Email Verification'}
+      title={'Verify Your Email'}
+      sub
       />
       </View>
        {/* <Text style={styles.heading}>Check Your Email</Text> */}
       <Text style={styles.description}>
-        Code sent to <Text style={styles.email}>{email}</Text>.Please enter the code below
+       We have sent a 4-digit code to your email <Text style={styles.email}>{email} </Text>. Please check your inbox and spam folder.
       </Text>
+
+       <Text style={{marginTop:theme.verticalSpacing.space_20,fontSize:theme.fontSizes.size_16}}>{'Please enter the code below to verify your account.'}</Text>
+
+
+
       {/* OTP Input Fields */}
       <View style={styles.otpContainer}>
         {otp.map((digit, index) => (
@@ -211,12 +217,13 @@ const styles = StyleSheet.create({
     width:theme.horizontalSpacing.space_374,
     fontSize: theme.fontSizes.size_16,
     color: '#3D3D3D',
-    height:60,
+    // height:60,
     fontWeight:'400',
     marginTop:theme.verticalSpacing.space_20,
-    lineHeight:24,
-    letterSpacing: theme.fontSizes.size_16 * 0.03, 
+    lineHeight:22,
+   
     marginVertical:5,
+  
     
   },
   email: {
@@ -228,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     // justifyContent:"center",
     flexDirection: 'row',
-    marginTop:theme.verticalSpacing.space_100,
+    marginTop:theme.verticalSpacing.space_40,
     
     // marginTop: 20,
   
@@ -275,6 +282,7 @@ const styles = StyleSheet.create({
     color: '#6A1B9A',
     fontWeight: '600',
     fontSize:theme.fontSizes.size_16,
+    marginLeft:5
     
   },
   timerText: {

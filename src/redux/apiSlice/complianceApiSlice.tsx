@@ -19,9 +19,6 @@ export const complianceApiSlice = baseApi.injectEndpoints({
         params:params,
         keepUnusedDataFor: 5,}),
 
-     
-
-
     }),
 
     calculateCompilanceScore: builder.mutation({

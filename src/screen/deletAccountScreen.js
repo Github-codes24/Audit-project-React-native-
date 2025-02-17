@@ -62,8 +62,8 @@ const response=useSelector(getLoginResponse)
           style={styles.warningImage} 
         />
         <Text style={styles.warningText}>
-          If you confirm the deletion of your account, it will be permanently 
-          removed from our database and cannot be recovered.
+         If you confirm the deletion of your account, it will be permanently removed from our database
+       and cannot be recovered. Additionally, all your reminders will be lost and cannot be restored.
         </Text>
          <View style={{marginTop:theme.verticalSpacing.space_50}}>
       <CustomButton

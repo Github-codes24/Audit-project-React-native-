@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from "../../asstets/images/svg";
 import { theme } from "../../utils";
@@ -8,7 +8,6 @@ import CustomTextInput from "../../reusableComponent/customTextInput/customTextI
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CustomCheckbox from "../../reusableComponent/customCheckBox/customCheckBox";
-import { alertError, alertSuccess } from "../../utils/Toast";
 import { useRegisterMutation } from "../../redux/apiSlice/authApiSlice";
 import { useDispatch } from "react-redux";
 import CustomModal from "../../reusableComponent/customModal/customModal";
@@ -18,22 +17,28 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
   const { email, password, firstName, lastName, confirmPassword } = route.params || {};
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPrivacyChecked, setPrivacyChecked] = useState(false);
-  const [isTermsChecked, setTermsChecked] = useState(false);
   const [company, setCompanyName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State to handle error messages
+  const [privacyError, setPrivacyError] = useState(""); // State for privacy error
 
   const dispatch = useDispatch();
 
   const handleVerify = () => {
     if (!phoneNumber || !validatePhoneNumber(phoneNumber)) {
-      alertError("Invalid phone number", "Please enter a valid 10-digit phone number.");
+      // Show error only if phone number is invalid
+      setErrorMessage("Please enter a valid 10-digit phone number.");
       return;
     }
-    if (isPrivacyChecked && isTermsChecked) {
-      registerApi({ email, password, firstName, lastName, company, phoneNumber, confirmPassword }).unwrap();
-    } else {
-      alertError("Please agree to both terms to continue.");
+
+    if (!isPrivacyChecked) {
+      setPrivacyError("You must agree to the terms and privacy policy checkbox.");
+      return;
     }
+
+    setErrorMessage(""); // Clear any previous error messages
+    setPrivacyError(""); // Clear privacy error message
+    registerApi({ email, password, firstName, lastName, company, phoneNumber, confirmPassword }).unwrap();
   };
 
   const closeModal = () => {
@@ -49,7 +54,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (error) {
-      alertError(error?.data?.message || "An error occurred during registration.");
+      setErrorMessage(error?.data?.message || "An error occurred during registration.");
     }
 
     if (isSuccess) {
@@ -78,23 +83,15 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           ]}
         />
 
-        {/* Custom Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
-            <Svg.ArrowBack />
-          </TouchableOpacity>
-        </View>
-
-        {/* Title */}
-        <View style={{ marginTop: theme.verticalSpacing.space_28 }}>
-          <Text style={{ fontSize: theme.fontSizes.size_30, fontWeight: "600", color: theme.lightColor.blackColor }}>
-            Register Account
-          </Text>
-        </View>
+        <CustomHeader
+          leftIcon={<Svg.ArrowBack />}
+          title={'Getting Started'}
+          subtitle={'Let’s create your free account here'}
+        />
 
         {/* Input Fields */}
         <View style={styles.inputContainer}>
-          <Text style={{ fontWeight: "400", fontSize: theme.fontSizes.size_16 }}>Company name (not required)</Text>
+          <Text style={{ fontWeight: "400", fontSize: theme.fontSizes.size_16 }}>Company name (Optional)</Text>
           <CustomTextInput
             value={company}
             onChangeText={(text) => setCompanyName(text)}
@@ -107,29 +104,29 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
             keyboardType="numeric"
             placeholder={"+44 (0) XXXX XXX XXX"}
           />
-        </View>
 
-        {/* Checkboxes */}
-        <View style={styles.checkboxContainer}>
-          <CustomCheckbox
-            isChecked={isPrivacyChecked}
-            onPress={() => setPrivacyChecked(!isPrivacyChecked)}
-            text={"I have read and understood the"}
-            linkText={"Privacy Policy*"}
-            link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
-          />
-          <CustomCheckbox
-            isChecked={isTermsChecked}
-            onPress={() => setTermsChecked(!isTermsChecked)}
-            text={"I agree to the"}
-            linkText={"Terms and Conditions*"}
-            link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
-          />
-        </View>
+          {/* Error Message for Phone Number */}
+          {phoneNumber && !validatePhoneNumber(phoneNumber) && (
+            <Text style={styles.errorText}>Please enter a valid 10-digit phone number.</Text>
+          )}
 
-        {/* Verify Button */}
-        <View style={styles.footer}>
-          <CustomButton onPress={handleVerify} title={"Verify your account"} />
+          <View style={styles.checkboxContainer}>
+            <CustomCheckbox
+              isChecked={isPrivacyChecked}
+              onPress={() => setPrivacyChecked(!isPrivacyChecked)}
+              text={"By creating an account, you agree to the "}
+              linkText={"Terms and Conditions*"}
+              link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
+              linkText2={'Privacy Policy*'}
+            />
+          </View>
+
+          {/* Privacy Error Message */}
+          {privacyError && <Text style={styles.errorText}>{privacyError}</Text>}
+
+          <View style={styles.footer}>
+            <CustomButton onPress={handleVerify} title={"Create account"} />
+          </View>
         </View>
 
         {/* Loader */}
@@ -141,26 +138,12 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     paddingHorizontal: 19,
   },
-  headerTitle: {
-    fontSize: theme.fontSizes.size_30,
-    fontWeight: "600",
-    color: theme.lightColor.blackColor,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    marginBottom: theme.verticalSpacing.space_30,
-    height: 50,
-  },
-  backIcon: {
-    marginRight: 10,
-  },
   inputContainer: {
-    marginTop: theme.verticalSpacing.space_100,
+    marginTop: theme.verticalSpacing.space_40,
+    height: "70%",
   },
   label: {
     marginTop: theme.verticalSpacing.space_20,
@@ -173,6 +156,14 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: theme.verticalSpacing.space_50,
     alignItems: "center",
+    position: 'absolute',
+    bottom: theme.verticalSpacing.space_20,
+    alignSelf: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: theme.fontSizes.size_14,
+    marginTop: 5,
   },
 });
 

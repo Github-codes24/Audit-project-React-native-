@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { 
   Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView 
 } from "react-native";
@@ -22,17 +22,15 @@ const AboutUsScreen = () => {
 
   const content = getAboutdata?.aboutUs?.[0]?.content || '';
 
-  // Custom Dot Pagination
-  const renderPagination = (index, total) => (
-    <View style={styles.customPagination}>
-      {[...Array(total)].map((_, i) => (
-        <View key={i} style={i === index ? styles.activeDot : styles.dot} />
-      ))}
-    </View>
-  );
+  useEffect(() => {
+    // Ensure that the swiper scrolls automatically every 3 seconds
+    if (swiperRef.current) {
+      swiperRef.current.scrollBy(1, true);
+    }
+  }, [swiperRef.current]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1,marginBottom:theme.verticalSpacing.space_80 }}>
       <ScrollView>
         <View style={{ flex: 1 }}>
           <Header />
@@ -41,22 +39,24 @@ const AboutUsScreen = () => {
 
           <View style={{ marginHorizontal: 10 }}>
             {/* Image Slider */}
-            <View style={{ position: "relative" }}>
+            <View style={{ height: 300 }}>
               <Swiper
                 ref={swiperRef}
                 style={styles.wrapper}
                 autoplay={true}
-                autoplayTimeout={5}
-                renderPagination={renderPagination}
-                removeClippedSubviews={false}
+                autoplayTimeout={3} 
+                loop={true}
+                showsPagination={true} 
+                dotColor={"#A7A7A7"}
+                activeDotColor={"white"} 
               >
-               {getAboutdata?.aboutUs?.[0]?.image?.length > 0 && (
-  getAboutdata.aboutUs[0].image.map((slide, index) => (
-    <View style={styles.slide} key={index}>
-      <Image style={styles.image} source={{ uri: slide }} />
-    </View>
-  ))
-)}
+                {getAboutdata?.aboutUs?.[0]?.image?.length > 0 && (
+                  getAboutdata.aboutUs[0].image.map((slide, index) => (
+                    <View style={styles.slide} key={index}>
+                      <Image style={styles.image} source={{ uri: slide }} />
+                    </View>
+                  ))
+                )}
               </Swiper>
 
               {/* Right Arrow Button */}
@@ -91,23 +91,23 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   wrapper: {
-    height: theme.horizontalSpacing.space_358,
+    // backgroundColor: 'red',
   },
   slide: {
     justifyContent: "center",
     alignItems: "center",
   },
   image: {
-    height: 322,
-    width: "100%",
-    resizeMode: "cover",
+    height: theme.verticalSpacing.space_390,
+    width: '100%',
     borderRadius: 10,
+    backgroundColor: "red"
   },
   customPagination: {
     flexDirection: "row",
     justifyContent: "center",
     position: "absolute",
-    bottom: theme.verticalSpacing.space_50, 
+    bottom: 20, 
     width: "100%",
   },
   dot: {

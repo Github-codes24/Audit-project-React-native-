@@ -22,7 +22,7 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
           fontWeight:'600'
         }}
         >Result</Text>
-        <View style={{marginTop:40}}>
+        <View style={{marginTop:40,}}>
         <CircularProgress percentage={scorePercentage} />
         </View>
         <Text
@@ -37,10 +37,11 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
         }}
         >
             {
-                `You scored ${scorePercentage}% in sponsor license compliance`
+                `You scored ${scorePercentage}% in sponsor licence  compliance`
             }
         </Text>
-      <Text style={styles.subtitle}>mbjksdbv ijshvsw</Text>
+      <Text style={styles.subtitle}>Your sponsor licence compliance can be at potential risk*
+. Book a consultation with our experts.</Text>
       <TouchableOpacity style={styles.contactButton}
       onPress={()=>{
         navigation.navigate(MainRoutes.CONTACTUS_SCREEN)
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     color:theme.lightColor.blackColor,
     textAlign: 'center',
     marginTop:theme.verticalSpacing.space_20,
+    marginHorizontal:20
   },
   contactButton: {
     backgroundColor:theme.lightColor.whiteColor,

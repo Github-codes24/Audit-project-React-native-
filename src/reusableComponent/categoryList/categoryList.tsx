@@ -57,7 +57,7 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
+        {checkerType === 'compliance' ? 'Sponsor Licence Compliance Checker' : 'Sponsor Licence Eligibility Checker'}
       </Text>
 
       <Text style={styles.subHeader}>Select category</Text>

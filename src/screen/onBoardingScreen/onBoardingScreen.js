@@ -41,7 +41,7 @@ const OnboardingScreen = ({ navigation }) => {
         />
         <Text style={styles.title}>All in One Place!</Text>
         <Text style={styles.description}>
-          Efficient tools for all your compliance needs. Manage audits and licenses with confidence.
+          Efficient tools for all your compliance needs. Manage audits and Licence with confidence.
         </Text>
          <View style={{marginTop:50,alignItems:"center"}}>
         <CustomButton onPress={handleNext} title="Next" />

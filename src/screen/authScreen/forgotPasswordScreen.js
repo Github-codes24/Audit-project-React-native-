@@ -41,10 +41,12 @@ const ForgotPasswordScreen = () => {
     if (isForgotPasswordApiSuccess) {
       setModalVisible(true);
     } else if (forgotPasswordApiError) {
-      alertError(
-        "Forgot Password Error",
-        forgotPasswordApiError?.data?.message || "Something went wrong. Please try again."
-      );
+
+      console.log('forgotPasswordApiError',forgotPasswordApiError)
+      // alertError(
+      //   "Forgot Password Error",
+      //   forgotPasswordApiError?.data?.message || "Something went wrong. Please try again."
+      // );
     }
   }, [isForgotPasswordApiSuccess, forgotPasswordApiError]);
 
@@ -133,8 +135,7 @@ const style = StyleSheet.create({
     fontWeight: '600',
     fontSize:theme.fontSizes.size_16
   },
-   backIcon: {
-    
+   backIcon: {  
     marginRight: 10,
   },
   headerTitle: {
@@ -151,21 +152,17 @@ const style = StyleSheet.create({
   },
   Textstyle: {
     marginTop: theme.verticalSpacing.space_10, 
-    fontSize:theme.fontSizes.size_16,
-    
+    fontSize:theme.fontSizes.size_16, 
     color:'black',
     fontWeight:'400', 
-    letterSpacing: theme.fontSizes.size_16 * 0.03,
-     marginBottom: 8,
-
+    marginBottom: 8,
   },
   inputView: {
-    marginTop: theme.verticalSpacing.space_100,
-    
+    marginTop: theme.verticalSpacing.space_100,  
   },
   buttonContainer: {
     width: '100%',
-    marginTop: theme.verticalSpacing.space_156,
+    marginTop:theme.verticalSpacing.space_100,
   },
 });
 

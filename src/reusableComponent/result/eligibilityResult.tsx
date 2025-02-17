@@ -43,7 +43,10 @@ const EligibityResult = ({ onPressRetakeExam, isEligible,eligibilityImage }) => 
                 : "Sorry\nyou are not eligible!"}
             </Text>
           )}
-          <Text style={styles.subtitle}>mbjksdbv ijshvsw </Text>
+          <Text style={styles.subtitle}>{isEligible
+              ? "Your business is potentially eligible for sponsor licence*. CTA: Book a consultation with our experts."
+              : "Book a consultation for tailored advice."}
+     </Text>
 
           {/* Contact Us Button */}
           <TouchableOpacity
@@ -88,6 +91,7 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
     textAlign: "center",
     marginTop: theme.verticalSpacing.space_20,
+    marginHorizontal:20
   },
   contactButton: {
     backgroundColor: theme.lightColor.whiteColor,

@@ -8,6 +8,8 @@ import RootNavigator from './src/navigation/rootNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { ToastComponent } from './src/utils/Toast';
 import BackgroundLayout from './src/reusableComponent/backgroundLayout/backgroundLayout';
+
+
 const App = () => (
   <View style={{ flex: 1 }}>
     <Provider store={store}>

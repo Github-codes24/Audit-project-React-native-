@@ -114,9 +114,10 @@ const closeModal = () => {
           />
         </View>
         <Text style={styles.description}>
-          Code send to <Text style={styles.email}>{email}</Text>. Please enter the code below.
+         We have sent a 4-digit code to your email<Text style={styles.email}>{email} </Text>. Please check your inbox and spam folder.
         </Text>
 
+     <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'400'}}>{'Please enter the code below to verify your account.'}</Text>
         {/* OTP Input Fields */}
         <View style={styles.otpContainer}>
           {otp.map((digit, index) => (
@@ -171,8 +172,7 @@ const styles = StyleSheet.create({
     color: '#3D3D3D',
     marginVertical: 20,
     fontWeight: '400',
-   
-    lineHeight: 20,
+    lineHeight: 22,
   },
   email: {
     fontWeight: 'bold',
@@ -180,9 +180,8 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
-   
-    marginTop: theme.verticalSpacing.space_114,
+    flexDirection: 'row', 
+    marginTop: theme.verticalSpacing.space_40,
   },
   otpInput: {
     margin: 5,

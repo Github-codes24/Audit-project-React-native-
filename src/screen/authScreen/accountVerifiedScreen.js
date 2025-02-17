@@ -15,26 +15,21 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
   const dispatch=useDispatch()
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(interval); 
-          setModalVisible(true); 
-         dispatch(setLoginResponse(verifyOtpApiData));
-         navigation.navigate('Home')
-        }
-        return prev - 1; 
-      });
-    }, 1000); 
+    const timeout = setTimeout(() => {
+      dispatch(setLoginResponse(verifyOtpApiData));
+      navigation.navigate(MainRoutes?.DASHBOARD_SCREEN); 
+    }, 1000);
 
-    return () => clearInterval(interval); 
-  }, [navigation]);
+    return () => clearTimeout(timeout); 
+  }, [navigation, dispatch]);
+
+  
 
   return (
     <BackgroundLayout>
       <View style={style.Main}>
         {/* Bottom Sheet Modal */}
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={isModalVisible}
@@ -48,7 +43,7 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
               </Text>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
 
         <Image
           style={style.imageStyle}
@@ -67,13 +62,15 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
 
 const style = StyleSheet.create({
   Main: {
-    flex: 1,
+    // backgroundColor:'red',
+    height:'100%',
     alignItems: "center",
     justifyContent: "center",
   },
   imageStyle: {
     width: 342,
     height: 244,
+    marginBottom:theme.verticalSpacing.space_20,
   },
   successTitle: {
     fontWeight: "700",
@@ -112,7 +109,7 @@ const style = StyleSheet.create({
     textAlign: "center",
     lineHeight: 20,
     fontWeight: "400",
-    letterSpacing: 0.5,
+    
     marginTop: theme.verticalSpacing.space_50,
   },
   bottomSection: {

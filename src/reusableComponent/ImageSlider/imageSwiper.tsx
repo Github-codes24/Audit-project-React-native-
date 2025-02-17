@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Svg, { Path } from 'react-native-svg';
+import { theme } from '../../utils';
 
 const ImageSwiper = ({ images, showNavigation = false , imageStyle = {},containerStyle={}}) => {
   const swiperRef = useRef(null);
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: 'absolute',
-    bottom: 10,
+    bottom:theme.verticalSpacing.space_24,
     left: 0,
     right: 0,
     alignItems: 'center',
