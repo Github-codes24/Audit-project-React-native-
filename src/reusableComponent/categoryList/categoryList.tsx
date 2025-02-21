@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_20,
     fontWeight: '700',
     marginBottom: 10,
-    marginTop: 15,
+    marginTop:theme.verticalSpacing.space_20,
   },
   subHeader: {
     fontSize: theme.fontSizes.size_20,

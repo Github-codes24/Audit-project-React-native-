@@ -123,14 +123,13 @@ const onRefresh = async () => {
 const styles = StyleSheet.create({
   container: {
     height:'100%',
-
     // flex: 1,
     backgroundColor: "#F2F3F5",
   },
   header: {
     fontSize:theme.fontSizes.size_20,
     fontWeight: "600",
-    marginVertical: 10,
+    marginVertical:theme.verticalSpacing.space_20,
     marginLeft:theme.horizontalSpacing.space_20,
     color:theme.lightColor.blackColor
   },

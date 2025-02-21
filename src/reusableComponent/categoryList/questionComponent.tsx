@@ -61,11 +61,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    marginHorizontal: 10,
+    marginHorizontal:theme.horizontalSpacing.space_18,
+    marginTop:theme.verticalSpacing.space_20
   },
   questionNumber: {
-    fontSize: 16,
-    
+    fontSize: 16, 
   },
   question: {
     fontSize: 16,

@@ -14,20 +14,25 @@ const RootNavigator = () => {
   console.log('Splash screen visible');
     const timer = setTimeout(() => {
       setSplashVisible(false);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const getRouteName = () => {
     if (loginResponse?.token) {
-      return <BottomTabNavigator />;
+      console.log('inside bottom')
+      return <BottomTabNavigator/>;
     } else {
-      return <AuthStack />;
+       console.log('inside Auth')
+      return <AuthStack/>;
     }
   };
 
-  return splashVisible ? <SplashScreen /> : getRouteName();
+  return  splashVisible ? <SplashScreen /> :getRouteName();
+  
+  
+  
 };
 
 export default RootNavigator;

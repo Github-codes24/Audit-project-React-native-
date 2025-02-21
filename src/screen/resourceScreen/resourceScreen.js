@@ -68,12 +68,8 @@ const handleCategorySelect = (item) => {
   };
 
   const renderBlogItem = ({ item }) => (
-    <ScrollView
-    style={{flex:1}}
-      refreshControl={
-       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-       }
-    >
+   
+   
     <TouchableOpacity
       style={styles.blogItem}
       onPress={() => {
@@ -101,10 +97,16 @@ const handleCategorySelect = (item) => {
         </View>
       </View>
     </TouchableOpacity>
-    </ScrollView>
+    
   );
 
     return(
+      <ScrollView
+      style={{}}
+       refreshControl={
+       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+       }
+      >
        <View style={[styles.container,{}]}>
         <Loader isLoading={isCategoryDataLoading||isSelectedCategoryApiLoading} />
       <Header/>
@@ -121,7 +123,8 @@ const handleCategorySelect = (item) => {
       <TouchableOpacity
         onPress={() => handleCategorySelect(item)}
         style={{
-          marginHorizontal: theme.horizontalSpacing.space_10,
+          
+        marginTop:10,
           paddingVertical: theme.verticalSpacing.space_10,
           borderBottomWidth: selectedCategory === item ? 2 : 0,
           borderBottomColor: selectedCategory === item ? theme.lightColor.brownColor : 'transparent',
@@ -144,7 +147,7 @@ const handleCategorySelect = (item) => {
           
 {/* {selectedCategory===uniqueCategories && ( */}
  <FlatList
-    contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_80 }}
+    contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_100 }}
             data={selectedCategoryApidata?.data}
             renderItem={renderBlogItem}
             keyExtractor={(item) => item?.id}
@@ -183,6 +186,7 @@ const handleCategorySelect = (item) => {
 
 )}       */}
     </View>
+    </ScrollView>
     )
 }
 const styles = StyleSheet.create({
@@ -202,7 +206,8 @@ const styles = StyleSheet.create({
     fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
     // marginBottom: 16,
-    padding:20
+    marginHorizontal:theme.horizontalSpacing.space_20,
+    marginTop:theme.verticalSpacing.space_20
   },
   blogItem: {
     flex:1,
@@ -215,11 +220,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     // elevation: 2,
-    marginHorizontal:theme.horizontalSpacing.space_10,
+    marginHorizontal:theme.horizontalSpacing.space_20,
     alignItems:"center",
+    marginTop:theme.verticalSpacing.space_20,
     // justifyContent:"center",
     padding:theme.horizontalSpacing.space_10,
-    marginTop:theme.verticalSpacing.space_10
+    // marginTop:theme.verticalSpacing.space_10
     // marginBottom:100
   },
   blogImage: {

@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
   },
   contactText: {
     color: theme.lightColor.brownColor,
-    fontWeight: "bold",
+    fontWeight: "500",
+    fontSize:theme.fontSizes.size_16
   },
 });
 

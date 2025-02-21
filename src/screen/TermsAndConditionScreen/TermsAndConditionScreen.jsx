@@ -25,7 +25,8 @@ const TermsAndConditionScreen = ({ navigation }) => {
   const content = profileTermAndConditionData?.data?.sections || '';
 
   return (
-    <SafeAreaView style={{ flex: 1,marginBottom:theme.verticalSpacing.space_100 }}>
+    <SafeAreaView>
+      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
       <View style={styles.container}>
         <Loader isLoading={profileTermAndConditionIsLoading} />
 
@@ -36,14 +37,15 @@ const TermsAndConditionScreen = ({ navigation }) => {
 
         <Text style={styles.HeadText}>{profileTermAndConditionData?.data?.title}</Text>
 
-        <ScrollView>
+        
           {/<[a-z][\s\S]*>/i.test(content) ? (
             <RenderHtml contentWidth={width} source={{ html: content }} />
           ) : (
             <Text style={styles.termsAndConditionText}>{content}</Text>
           )}
-        </ScrollView>
+        
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

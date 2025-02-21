@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native'
 import * as Svg from '../../asstets/images/svg';
 import { theme } from '../../utils';
 
-const CustomCheckbox = ({ isChecked, onPress, text, link, linkText, linkText2, link2 }) => {
+const CustomCheckbox = ({ isChecked, onPress, text, link, linkText, linkText2, link2,showAndText = false  }) => {
   return (
     <View style={styles.checkboxContainer}>
       {/* Checkbox */}
@@ -15,21 +15,25 @@ const CustomCheckbox = ({ isChecked, onPress, text, link, linkText, linkText2, l
       </TouchableOpacity>
 
       {/* Text with links in the same line */}
-      <Text style={styles.checkboxText}>
+     <Text style={styles.checkboxText}>
         {text}{' '}
         <Text 
           style={styles.linkText} 
-          onPress={() => Linking.openURL(link)} // Link for the first text
+          onPress={() => Linking.openURL(link)}
         >
           {linkText}
-        </Text>{' '}
-        and {' '}
-        <Text 
-          style={styles.linkText} 
-          onPress={() => Linking.openURL(link2)} // Link for the second text
-        >
-          {linkText2}
         </Text>
+        {showAndText && linkText2 && link2 && (
+          <>
+            {' '}and{' '}
+            <Text 
+              style={styles.linkText} 
+              onPress={() => Linking.openURL(link2)}
+            >
+              {linkText2}
+            </Text>
+          </>
+        )}
       </Text>
     </View>
   );
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:5
+    marginTop:2
   },
   checkedCheckbox: {
     backgroundColor: 'white',

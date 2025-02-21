@@ -25,7 +25,8 @@ const PrivacyPolicyScreen = ({ navigation }) => {
   const content = privacyPolicyData?.data?.sections || '';
 
   return (
-    <SafeAreaView style={{ flex: 1,marginBottom:theme.verticalSpacing.space_100 }}>
+    <SafeAreaView>
+      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
       <View style={styles.container}>
         <Loader isLoading={privacyPolicyIsLoading} />
 
@@ -36,14 +37,15 @@ const PrivacyPolicyScreen = ({ navigation }) => {
 
         <Text style={styles.HeadText}>{privacyPolicyData?.data?.title}</Text>
         
-        <ScrollView>
+        
           {/<[a-z][\s\S]*>/i.test(content) ? (
             <RenderHtml contentWidth={width} source={{ html: content }} />
           ) : (
             <Text style={styles.privacyPolicyText}>{content}</Text>
           )}
-        </ScrollView>
+       
       </View>
+       </ScrollView>
     </SafeAreaView>
   );
 };

@@ -26,19 +26,8 @@ const CustomDropDown = ({
   const [isFocus, setIsFocus] = useState(false);
 
   const renderRightIcon = () => (
-    <View
-      style={[
-        styles.rightIconContainer,
-        { width: rightIconContainerWidth },
-      ]}
-    >
-      <View
-        style={{
-          marginRight: theme.horizontalSpacing.space_10,
-          justifyContent: 'center',
-          paddingRight: theme.horizontalSpacing.space_10,
-        }}
-      >
+    <View style={[styles.rightIconContainer, { width: rightIconContainerWidth }]}>
+      <View style={styles.iconWrapper}>
         <Svg.DropDownIcon color={dropdownIconColor || theme.lightColor.blackColor} />
       </View>
     </View>
@@ -54,13 +43,8 @@ const CustomDropDown = ({
         )}
 
         <Dropdown
-          style={[
-            styles.dropdown,
-            {
-              width: containerWidth,
-              height: theme.verticalSpacing.space_50,
-            },
-          ]}
+          style={styles.dropdown}
+          containerStyle={styles.dropdownContainerStyle}
           placeholderStyle={[styles.placeholderStyle, placeholderTextStyle]}
           selectedTextStyle={[styles.selectedTextStyle, selectedTextStyle]}
           data={data}
@@ -80,6 +64,10 @@ const CustomDropDown = ({
           renderRightIcon={renderRightIcon}
           itemTextStyle={[styles.itemTextStyle, listItemTextStyle]}
           searchPlaceholder={searchPlaceholder}
+          flatListProps={{
+            ItemSeparatorComponent: () => <View style={{ height: 0 }} />, // No extra gap
+            contentContainerStyle: { paddingVertical: 0, marginVertical: 0 },
+          }}
         />
       </View>
     </TouchableOpacity>
@@ -97,7 +85,19 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     marginTop: 5,
   },
-  dropdown: {},
+  dropdown: {
+    width: '100%',
+    height: theme.verticalSpacing.space_50,
+    borderRadius: 10,
+    paddingVertical: 0, // No extra padding
+    marginVertical: 0,  // No extra margin
+  },
+  dropdownContainerStyle: {
+    borderRadius: 10,
+    paddingVertical: 0, 
+    marginVertical: 0,
+     
+  },
   placeholderStyle: {
     fontSize: theme.fontSizes.size_16,
     marginLeft: 10,
@@ -114,14 +114,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  iconWrapper: {
+    marginRight: theme.horizontalSpacing.space_10,
+    justifyContent: 'center',
+    paddingRight: theme.horizontalSpacing.space_10,
+  },
   itemTextStyle: {
+    fontSize: theme.fontSizes.size_16,
     fontWeight: '400',
     color: theme.lightColor.blackColor,
-    fontSize: theme.fontSizes.size_16,
+    paddingVertical:0, // Reduce item spacing
+    marginVertical: 0,  // Ensure no extra margin
+    
   },
   labelContainer: {
     position: 'absolute',
-    top: -theme.horizontalSpacing.space_8,
     left: theme.horizontalSpacing.space_8,
     backgroundColor: theme.lightColor.whiteColor,
     paddingHorizontal: 4,

@@ -55,8 +55,8 @@ const supportItems = [
     { label: 'Notification', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
   ];
   return (
-    <SafeAreaView style={{flex:1,}}>
-      <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_50}}>
+    <SafeAreaView>
+      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: theme.verticalSpacing.space_30,
+   
   },
   profileImage: {
    
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   flexDirection: 'row',
   justifyContent: "center",
   alignItems: "center",
-  marginVertical:theme.verticalSpacing.space_80
+ marginTop:theme.verticalSpacing.space_114
 },
 logoutButton: {
   backgroundColor: theme.lightColor.brownColor,

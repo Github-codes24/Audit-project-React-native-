@@ -89,9 +89,9 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
     <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
       <Header />
 
-      <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center", paddingHorizontal: 10 }}>
+      <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",  }}>
        
-        <View style={{ marginVertical: theme.horizontalSpacing.space_10 }}>
+        <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
           <Text style={style.remainderText}>{"Reminder"}</Text>
           <Text style={style.textStyle}>{"Reminder name"}</Text>
           <TextInput
@@ -151,13 +151,14 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
             style={[style.textInput, { height: theme.verticalSpacing.space_114, textAlignVertical: "top" }]}
           />
         </View>
-
+        <View style={{marginTop:theme.verticalSpacing.space_10}}>
         <CustomButton
           title={ "Set reminder"}
           onPress={handleSetReminder}
           isLoading={loading}
           disabled={loading}
         />
+        </View>
       </View>
     </ScrollView>
   );
@@ -179,7 +180,7 @@ const style = StyleSheet.create({
     height: theme.verticalSpacing.space_50,
     backgroundColor: theme.lightColor.whiteColor,
     borderRadius: 10,
-    paddingHorizontal: theme.horizontalSpacing.space_16,
+    paddingHorizontal: theme.horizontalSpacing.space_10,
     marginVertical: 4,
   },
 });

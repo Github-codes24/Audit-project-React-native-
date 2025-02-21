@@ -100,7 +100,6 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
       :      <Text style={styles.header}>Sponsor Licence Eligibilty Checker</Text>
         }
      
-
       {getQuestionsToDisplay()?.map((questionData,index) => (
         <QuestionCard
           key={questionData?.id}
@@ -120,22 +119,22 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         // When "Submit" button appears, move "Previous" button to top
         <View style={styles.navigationButtons}>
           <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:theme.verticalSpacing.space_50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
-            <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:15  }}>Previous</Text>
+            <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:theme.fontSizes.size_16  }}>Previous</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.buttonStyle,{width:theme.horizontalSpacing.space_374,marginTop:20}]} onPress={handleSubmit}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Submit</Text>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16  }}>Submit</Text>
           </TouchableOpacity>
         </View>
       ) : (
         // Normal Previous/Next button layout
         <View style={[styles.navigationButtons,{flexDirection:"row"}]}>
           <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Previous</Text>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16}}>Previous</Text>
           </TouchableOpacity>
-
+     
           <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:15  }}>Next</Text>
+            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16}}>Next</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -149,11 +148,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize:theme.fontSizes.size_18,
     fontWeight: "700",
-    marginTop:10,
-    marginLeft:10
+    marginTop:theme.verticalSpacing.space_20,
+    marginLeft:theme.horizontalSpacing.space_20
   },
   selectedCategoryText: {
-    fontSize:16,
+    fontSize:theme.fontSizes.size_16,
     margin:10,
     marginHorizontal:15,
     fontWeight: "400",

@@ -20,10 +20,10 @@ const WelcomeScreen = ({ navigation }) => {
 
   // Function to handle the deep linking on "Verify here" text
   const openVerificationLink = () => {
-    const url = "https://www.sra.org.uk/consumers/register/";  // Replace this with the actual URL
+    const url = "https://www.sra.org.uk/consumers/register/";
     Linking.openURL(url).catch(err => console.error("Error opening link: ", err));
   };
-
+   
   return (
     <View style={{ marginHorizontal: 19 }}>
       <StatusBar backgroundColor={'#F2F3F5'} />
@@ -38,8 +38,8 @@ const WelcomeScreen = ({ navigation }) => {
           <Text style={[style.textStyle, { marginTop: -5 }]}>{'Licence Compliance Guru'}</Text>
         </View>
 
-        <View style={{ marginLeft: 41, marginRight: theme.horizontalSpacing.space_42 ,width:theme.horizontalSpacing.space_374 }}>
-          <Text style={{ lineHeight: 20, textAlign: "center", fontWeight: '400', fontSize: theme.fontSizes.size_16, marginTop: theme.verticalSpacing.space_26, alignSelf: 'center', paddingHorizontal: 10 }}>
+        <View style={{ width:theme.horizontalSpacing.space_374 }}>
+          <Text style={{ lineHeight: 22, textAlign: "center", fontWeight: '400', fontSize: theme.fontSizes.size_16, marginTop: theme.verticalSpacing.space_26, alignSelf: 'center', paddingHorizontal:theme.horizontalSpacing.space_10, }}>
             {'Sponsor licence compliance checker app by Nara Solicitors to check sponsor licence eligibility,sponsor licence compliance score of your business and more.'}
           </Text>
           <Text style={{ alignSelf: 'center', fontWeight: '400', textAlign: "center", fontSize: theme.fontSizes.size_16, marginTop: -2 }}>
@@ -61,7 +61,7 @@ const WelcomeScreen = ({ navigation }) => {
 
         <View style={{ position: 'absolute', bottom: theme.verticalSpacing.space_30 }}>
           <TouchableOpacity onPress={openVerificationLink}>
-            <Text style={{ textAlign: 'center', fontSize: theme.fontSizes.size_14, color: 'gray' }}>
+            <Text style={{ textAlign: 'center', fontSize: theme.fontSizes.size_14, color: 'gray',lineHeight:22 }}>
               {'Authorised and regulated by the Solicitors Regulation. SRA No. 8006464. '}
               
               <Text style={{ color: theme.lightColor.brownColor }}>{'Verify here'}</Text>

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   RefreshControl,
+  Linking,
 } from "react-native";
 import { theme } from "../../utils";
 import LicenseCard from "../../utils/licenceCard";
@@ -58,9 +59,15 @@ const DashBoardScreen = ({ navigation }) => {
     refetch: refetchCategoryData,
   } = useGetAllBlogsQuery({});
 
+
+const openVerificationLink = () => {
+    const url = "https://www.sra.org.uk/consumers/register/";
+    Linking.openURL(url).catch(err => console.error("Error opening link: ", err));
+  };
+
   return (
     <ScrollView
-      style={{ flex:1, marginBottom: 30 }}
+      style={{ flex:1, }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View style={style.main}>
@@ -107,6 +114,7 @@ const DashBoardScreen = ({ navigation }) => {
         <Header userName={"John Doe"} />
         <View style={{paddingHorizontal:19}}>
         <Text style={style.sponsorText}>{"Sponsor  Licence  Checker"}</Text>
+         <View style={{marginTop:theme.verticalSpacing.space_10}}>
         <LicenseCard
           title={"Check Your Sponsor Licence Compliance Score"}
           description={"Use this tool to check your compliance with sponsor licence duties."}
@@ -122,12 +130,12 @@ const DashBoardScreen = ({ navigation }) => {
         />
     
         <LicenseCard
-          title={" Monitor Visa Status"}
+          title={"Monitor Visa Status"}
           description={"Set reminders and receive notifications for your employees’ visa expiries."}
           icon={require("../../asstets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
-   
+        </View>
         <View style={[style.horizontalAlignContainer, { marginTop: 10 }]}>
           <Text style={style.latestBlogText}>{"Latest Blog"}</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Resource")}>
@@ -147,7 +155,10 @@ const DashBoardScreen = ({ navigation }) => {
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
             </TouchableOpacity>
           </View>
-          <Text style={{marginTop:theme.verticalSpacing.space_50,color:'gray'}}>{'Authorised and regulated by the Solicitors Regulation. SRA No. 8006464. Verify here'}</Text>
+           <TouchableOpacity   style={{flexDirection:"row"}} onPress={openVerificationLink}>
+          <Text style={{marginTop:theme.verticalSpacing.space_80,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_14}}>Authorised and regulated by the Solicitors Regulation. SRA No. 8006464.<Text style={{color:theme.lightColor.brownColor,lineHeight:22,}}>{'Verify here'}</Text> </Text>
+          
+       </TouchableOpacity>
         </View>
         </View>
       </View>
@@ -162,8 +173,7 @@ const style = StyleSheet.create({
   },
   sponsorText: {
     fontSize: theme.fontSizes.size_24,
-    marginTop: theme.verticalSpacing.space_10,
-   
+    marginTop: theme.verticalSpacing.space_20,
     fontWeight: "600",
     color: theme.lightColor.blackColor,
   },

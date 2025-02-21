@@ -102,13 +102,13 @@ const styles = StyleSheet.create({
   },
   contactText: {
     color: theme.lightColor.brownColor,
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize:theme.fontSizes.size_16
   },
   retakeButton: {
     backgroundColor: '#673AB7',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical:10,
+    paddingHorizontal:20,
     borderRadius: 5,
   },
   retakeText: {

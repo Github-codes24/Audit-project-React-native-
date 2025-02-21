@@ -4028,6 +4028,7 @@ __metadata:
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:^5.0.0"
     react-native-screens: "npm:^4.4.0"
+    react-native-shadow-2: "npm:^7.1.1"
     react-native-svg: "npm:^15.10.1"
     react-native-svg-transformer: "npm:^1.5.0"
     react-native-swiper: "npm:^1.6.0"
@@ -4949,6 +4950,13 @@ __metadata:
     color-convert: "npm:^2.0.1"
     color-string: "npm:^1.9.0"
   checksum: 10c0/7fbe7cfb811054c808349de19fb380252e5e34e61d7d168ec3353e9e9aacb1802674bddc657682e4e9730c2786592a4de6f8283e7e0d3870b829bb0b7b2f6118
+  languageName: node
+  linkType: hard
+
+"colord@npm:2.9.2":
+  version: 2.9.2
+  resolution: "colord@npm:2.9.2"
+  checksum: 10c0/ff2de0fa956526abfc6d08ddb5696b09659fac26dc40917e7eed006689cc5181447fad819ccef3b8e73cbe1be056074b1422a2a84831515678022cbc49cc699c
   languageName: node
   linkType: hard
 
@@ -9694,6 +9702,18 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/9e7fdc975f67c1f3352d9446b0be4a9cc49f70bacffd47a2dc4db410bc6705a66e1a28cecf9035a754d37ec8d9ff7a1fd58bda100b50cbaf10ab3c62da4dc2aa
+  languageName: node
+  linkType: hard
+
+"react-native-shadow-2@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "react-native-shadow-2@npm:7.1.1"
+  dependencies:
+    colord: "npm:2.9.2"
+  peerDependencies:
+    react-native: "*"
+    react-native-svg: ">=12.1.0"
+  checksum: 10c0/279dc8da38528939e8067bf2e724840ea9a5bf490a1abb27bf58b03d01f9bc20622fbffe3e937550a076609c267961bbfbd1bc26b1218074ac2d34b73fc5b651
   languageName: node
   linkType: hard
 

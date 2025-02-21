@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { 
   Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView 
 } from "react-native";
@@ -14,6 +14,11 @@ import { useWindowDimensions } from 'react-native';
 const AboutUsScreen = () => {
   const swiperRef = useRef(null);
   const { width } = useWindowDimensions();
+  const [isAutoplay, setIsAutoplay] = useState(true);  // To control autoplay
+  const [clickCount, setClickCount] = useState(0);  // Track number of clicks
+  const [lastClickedTime, setLastClickedTime] = useState(null);  // Track last click time
+  const [intervalId, setIntervalId] = useState(null);  // To store interval reference
+  const [debounceTimeout, setDebounceTimeout] = useState(null); // To store debounce timeout reference
 
   const { 
     data: getAboutdata, 
@@ -22,16 +27,50 @@ const AboutUsScreen = () => {
 
   const content = getAboutdata?.aboutUs?.[0]?.content || '';
 
+
   useEffect(() => {
-    // Ensure that the swiper scrolls automatically every 3 seconds
-    if (swiperRef.current) {
-      swiperRef.current.scrollBy(1, true);
+    if (intervalId) {
+      clearInterval(intervalId);
     }
-  }, [swiperRef.current]);
+    if (isAutoplay) {
+      const newIntervalId = setInterval(() => {
+        if (swiperRef.current) {
+          swiperRef.current.scrollBy(1, true); 
+        }
+      }, 3000);
+      setIntervalId(newIntervalId);  
+    }
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);  
+      }
+    };
+  }, [isAutoplay]);  
+ 
+ const handleArrowPress = useCallback(() => {
+  const currentTime = Date.now();
+  setClickCount((prevCount) => prevCount + 1);  
+  if (swiperRef.current) {
+    swiperRef.current.scrollBy(1);
+    setIsAutoplay(false); 
+  }
+  setLastClickedTime(currentTime);
+  if (clickCount >= 2 && currentTime - lastClickedTime < 1000) {
+    setIsAutoplay(false);
+  }
+  if (debounceTimeout) {
+    clearTimeout(debounceTimeout);
+  }
+  const timeoutId = setTimeout(() => {
+    setClickCount(0); 
+    setIsAutoplay(true);  
+  }, 800);
+  setDebounceTimeout(timeoutId);
+}, [clickCount, lastClickedTime, debounceTimeout]);
 
   return (
-    <SafeAreaView style={{ flex: 1,marginBottom:theme.verticalSpacing.space_80 }}>
-      <ScrollView>
+    <SafeAreaView>
+      <ScrollView style={{ marginBottom: theme.verticalSpacing.space_100 }}>
         <View style={{ flex: 1 }}>
           <Header />
           <Loader isLoading={getGetAboutApiIsLoading} />
@@ -39,11 +78,11 @@ const AboutUsScreen = () => {
 
           <View style={{ marginHorizontal: 10 }}>
             {/* Image Slider */}
-            <View style={{ height: 300 }}>
+            <View style={{ height: 300,marginTop:theme.verticalSpacing.space_20 }}>
               <Swiper
                 ref={swiperRef}
                 style={styles.wrapper}
-                autoplay={true}
+                autoplay={isAutoplay}  // Control autoplay dynamically
                 autoplayTimeout={3} 
                 loop={true}
                 showsPagination={true} 
@@ -62,18 +101,19 @@ const AboutUsScreen = () => {
               {/* Right Arrow Button */}
               <TouchableOpacity 
                 style={styles.nextButton} 
-                onPress={() => swiperRef.current?.scrollBy(1)}
+                onPress={handleArrowPress}
               >
                 <Svg.ArrowRight />
               </TouchableOpacity>
             </View>
 
-            {/* About Us Content */}
+             <View style={{marginHorizontal:3}}>
             {/<[a-z][\s\S]*>/i.test(content) ? (
               <RenderHtml contentWidth={width} source={{ html: content }} />
             ) : (
               <Text style={styles.contentText}>{content}</Text>
             )}
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -88,7 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: theme.fontSizes.size_20,
     marginHorizontal: 10,
-    marginVertical: 15,
+   marginTop:theme.verticalSpacing.space_20
   },
   wrapper: {
     // backgroundColor: 'red',
@@ -101,7 +141,6 @@ const styles = StyleSheet.create({
     height: theme.verticalSpacing.space_390,
     width: '100%',
     borderRadius: 10,
-    backgroundColor: "red"
   },
   customPagination: {
     flexDirection: "row",

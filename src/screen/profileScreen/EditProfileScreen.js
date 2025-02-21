@@ -282,7 +282,7 @@ if (password && confirmPassword !== password) {
                         <TouchableOpacity onPress={pickImageFromGallery}>
                             <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                 <Svg.GalleryIcon />
-                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from gallery</Text>
+                                <Text style={{ fontSize:theme.fontSizes.size_16, marginVertical: 10, marginLeft: 10 }}>Upload from gallery</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
          
     },
-    errorText: { color: 'red', fontSize: 14 },
+    errorText: { color: 'red', fontSize:theme.fontSizes.size_14 },
     supportText: {
         fontSize: theme.fontSizes.size_16,
         fontWeight: '600',
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
         marginHorizontal: theme.horizontalSpacing.space_10,
     },
     actionText: {
-        fontWeight: '500',
+        fontWeight:'500',
         fontSize: theme.fontSizes.size_16,
         lineHeight: 20,
         color: theme.lightColor.whiteColor,

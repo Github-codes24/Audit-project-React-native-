@@ -121,7 +121,7 @@ const formatDate = (date) => {
       {/* Custom Tabs */}
       
       <Text style={{fontSize:theme.fontSizes.size_20,fontWeight:'700',color:theme.lightColor.blackColor,
-        margin:theme.horizontalSpacing.space_10,marginHorizontal:20}}>{'Notifications'}</Text>
+        marginHorizontal:20,marginTop:theme.verticalSpacing.space_20}}>{'Notifications'}</Text>
       <View style={styles.tabContainer}>
         {[ 'Unread','All', ].map((tab) => (
           <TouchableOpacity

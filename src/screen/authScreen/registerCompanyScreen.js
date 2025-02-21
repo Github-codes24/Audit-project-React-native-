@@ -118,6 +118,8 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
               linkText={"Terms and Conditions*"}
               link="https://drive.google.com/file/d/1SM4uLLNnwWuO4GNiBWIjCN_p0JMB1DOa/view?usp=drive_link"
               linkText2={'Privacy Policy*'}
+                link2="https://your-privacy-policy-link.com"
+              showAndText={true}
             />
           </View>
 
