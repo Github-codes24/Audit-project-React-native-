@@ -26,7 +26,7 @@ const onSubmit=()=>{
         <View style={{width:'100%',justifyContent:"center",alignItems:"center"}}>
       <Image
       style={{width:252,height:375}}
-      source={require('../../asstets/images/updateSuccess.png')}
+      source={require('../../assets/images/updateSuccess.png')}
       />
       </View>
       <View style={{}}>

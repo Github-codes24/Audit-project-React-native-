@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View,StyleSheet,Image,TouchableOpacity,StatusBar } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import Header from "../../reusableComponent/header/header";
@@ -15,8 +15,8 @@ const EligibityResultScreen=({navigation,isEligible})=>{
       <Image
         source={
           isEligible
-            ? require('../../asstets/images/elegable.png') 
-            : require('../../asstets/images/non-Elegable.png') 
+            ? require('../../asstes/images/elegable.png') 
+            : require('../../assets/images/non-Elegable.png') 
         }
         style={styles.image}
       />

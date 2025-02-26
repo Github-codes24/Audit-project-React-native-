@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import { theme } from "../../utils";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";

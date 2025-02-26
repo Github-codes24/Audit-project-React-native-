@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import ImageSwiper from '../../reusableComponent/ImageSlider/imageSwiper';
 import Header from '../../reusableComponent/header/header';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import moment from 'moment';
 import { theme } from '../../utils';
 

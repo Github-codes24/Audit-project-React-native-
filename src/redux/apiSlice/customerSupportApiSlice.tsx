@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseApi} from './baseApiSlice';
 import {apiEndPoints} from '../../constants/apiConstants';
-import { AboutUs } from '../../asstets/images/svg';
+import { AboutUs } from '../../assets/images/svg';
 
 export const CustomerSupportApiSlice = baseApi.injectEndpoints({
   endpoints: builder => ({

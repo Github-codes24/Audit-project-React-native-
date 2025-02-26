@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View,StyleSheet,Image,TouchableOpacity,StatusBar } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CircularProgress from "../progressIndicator/circularProgressIndicator";

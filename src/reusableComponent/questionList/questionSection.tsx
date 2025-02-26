@@ -44,7 +44,7 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
 
   const handlePreviousLocal = () => {
     if (currentIndex - 2 >= 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 3);
+      setCurrentIndex((prevIndex) => prevIndex - 2);
       handlePrevious?.(false);
     }
     else{

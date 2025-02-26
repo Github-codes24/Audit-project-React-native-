@@ -7,7 +7,7 @@ import Swiper from "react-native-swiper";
 import { theme } from "../../utils";
 import Loader from "../../reusableComponent/loader/loader";
 import Header from "../../reusableComponent/header/header";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import RenderHtml from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 

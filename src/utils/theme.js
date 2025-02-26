@@ -28,20 +28,15 @@ const theme = {
   },
 
   fontFamily: {
-    notoSans: {
-      regular_400: 'NotoSans-Regular',
-      medium_500: 'NotoSans-Medium',
-      bold_700: 'NotoSans-Bold',
-      extrabold_800: 'NotoSans-ExtraBold',
-      semibold_600: 'NotoSans-SemiBold',
-      thin_100: 'NotoSans-Thin',
+    inter: {
+      regular_400:'inter_18pt-Regular',
+      medium_500: 'inter_18pt-Medium',
+      bold_700: 'inter_18pt-Bold',
+      extrabold_800: 'inter_18pt-ExtraBold',
+      semibold_600: 'inter_18pt-SemiBold',
+      thin_100: 'inter_18pt-hin',
     },
-    jost: {
-      regular_400: 'Jost-Regular',
-      bold_700: 'Jost-Bold',
-      extrabold_800: 'Jost-ExtraBold',
-      semibold_600: 'Jost-SemiBold',
-    },
+   
   },
 
   verticalSpacing: {

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, StatusBar, ScrollView } from 
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import { String, theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useLoginApiMutation } from "../../redux/apiSlice/authApiSlice";

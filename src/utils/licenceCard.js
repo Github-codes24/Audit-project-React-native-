@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import theme from './theme';
-import * as Svg from '../asstets/images/svg'
+import * as Svg from '../assets/images/svg'
 const Card = ({ title, description, icon, onPress }) => {
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>

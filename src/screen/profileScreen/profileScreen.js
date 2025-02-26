@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView } from 'react-native';
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import { theme } from '../../utils';
 import { resetAuth } from '../../redux/stateSlice/authStateSlice';
 import { useDispatch } from 'react-redux';
@@ -75,7 +75,7 @@ const supportItems = [
       source={
     image?.length > 0
       ? { uri:image } 
-      : require('../../asstets/images/manImage.png') 
+      : require('../../assets/images/manImage.png') 
      }
   style={styles.profileImage}
       />

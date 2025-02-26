@@ -118,21 +118,21 @@ const openVerificationLink = () => {
         <LicenseCard
           title={"Check Your Sponsor Licence Compliance Score"}
           description={"Use this tool to check your compliance with sponsor licence duties."}
-          icon={require("../../asstets/images/Compliance.png")}
+          icon={require("../../assets/images/Compliance.png")}
           onPress={() => navigation.navigate("Compliance")}
         />
 
         <LicenseCard
           title={"Check Your Eligibility for Sponsor Licence"}
           description={"Check if your business is eligible for a sponsor licence in the UK "}
-          icon={require("../../asstets/images/Checklist.png")}
+          icon={require("../../assets/images/Checklist.png")}
           onPress={() => navigation.navigate("Eligibility")}
         />
     
         <LicenseCard
           title={"Monitor Visa Status"}
           description={"Set reminders and receive notifications for your employees’ visa expiries."}
-          icon={require("../../asstets/images/Calendr.png")}
+          icon={require("../../assets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
         </View>

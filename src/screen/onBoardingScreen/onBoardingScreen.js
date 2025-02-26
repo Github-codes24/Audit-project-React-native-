@@ -36,7 +36,7 @@ const OnboardingScreen = ({ navigation }) => {
       <View style={styles.slide}>
         <Image
           // Replace with your image source
-          source={require('../../asstets/images/onboarding1.png')}
+          source={require('../../assets/images/onboarding1.png')}
           style={styles.image}
         />
         <Text style={styles.title}>All in One Place!</Text>

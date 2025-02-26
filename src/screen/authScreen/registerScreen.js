@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
@@ -160,6 +160,7 @@ const RegisterScreen = ({ navigation }) => {
 
                 <Text style={styles.TextStyle}>Password</Text>
                 <CustomTextInput
+                  textColor={theme.lightColor.blackColor}
                   secureTextEntry={true}
                   value={password}
                   onChangeText={(text) => {
@@ -173,6 +174,7 @@ const RegisterScreen = ({ navigation }) => {
 
                 <Text style={styles.TextStyle}>Confirm password</Text>
                 <CustomTextInput
+                  textColor={theme.lightColor.blackColor}
                   secureTextEntry={true}
                   value={confirmPassword}
                   onChangeText={(text) => {

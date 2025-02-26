@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import Header from '../../reusableComponent/header/header';
 import { useDispatch,useSelector } from 'react-redux';
@@ -101,7 +101,7 @@ const formatDate = (date) => {
     
      }} 
     >
-        <Image style={styles.NotificationImage} source={require('../../asstets/images/manImage.png')} />
+        <Image style={styles.NotificationImage} source={require('../../assets/images/manImage.png')} />
       <View >
       <Text style={styles.NotificationMsg}>{item.title}</Text>
            <Text style={styles.timestamp}>

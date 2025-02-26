@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, Alert } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import CustomDropDown from "../../reusableComponent/customDropDown/customDropDown";

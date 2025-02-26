@@ -4,7 +4,7 @@ import ProfileScreen from '../../screen/profileScreen/profileScreen';
 import DeleteScreen from '../../screen/deletAccountScreen';
 import EditProfile from '../../screen/profileScreen/EditProfileScreen';
 import EditImage from '../../screen/profileScreen/EditImageScreen';
-import { Notification } from '../../asstets/images/svg';
+import { Notification } from '../../assets/images/svg';
 import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
 import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
 import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';

@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';

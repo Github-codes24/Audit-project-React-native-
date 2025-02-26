@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 

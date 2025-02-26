@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import ComplianceStack from './stackNavigation/complianceStackNavigation';
-import { Eligibility } from '../asstets/images/svg';
+import { Eligibility } from '../assets/images/svg';
 import ResourceScreen from '../screen/resourceScreen/resourceScreen';
 
 

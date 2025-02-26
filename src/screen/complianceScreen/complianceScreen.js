@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator,ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator,ScrollView, RefreshControl } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
 import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
@@ -28,7 +28,8 @@ console.log('userId90798786',userId)
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
  const [selectedCategory, setSelectedCategory] = useState();
- 
+   const [refreshing, setRefreshing] = useState(false);
+
  console.log('selectedCategory',selectedCategory)
 
  const [
@@ -85,6 +86,16 @@ useEffect(() => {
     calculateCompilanceScore(newPayload)
   }
 
+const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate an API call or data fetch
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
+
+
   return (
     <View style={styles.main}>
    <Header/>
@@ -95,7 +106,8 @@ useEffect(() => {
       )}
      
       {step==='category' && (
-        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}
+        >
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}

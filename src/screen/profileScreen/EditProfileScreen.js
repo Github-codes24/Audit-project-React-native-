@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView, SafeAreaView } from "react-native";
 import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { MainRoutes } from '../../navigation/routeAndParamsList';
@@ -30,16 +30,17 @@ const EditProfile = ({ navigation, route }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [phoneError, setPhoneError] = useState(''); 
     const [passwordError, setPasswordError] = useState('');
-const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
 
 
     const response = useSelector(getLoginResponse);
     const userId = response?.data?.id;
 
+    console.log('userId256654455',userId)
+
+
     const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
-
-
     const validatePhoneNumber = (phone) => {
         const phoneRegEx = /^[0-9]{10}$/; 
         return phoneRegEx.test(phone);
@@ -51,7 +52,7 @@ const [confirmPasswordError, setConfirmPasswordError] = useState('');
         const passwordRegEx = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
         return passwordRegEx.test(password);
 
-if (password && confirmPassword !== password) {
+ if (password && confirmPassword !== password) {
         alertError('Confirm password does not match the password.');
         return;
     }
@@ -113,9 +114,6 @@ if (password && confirmPassword !== password) {
         return;
     }
 
-
-
-
         const formData = new FormData();
         formData.append('firstName', firstName);
         formData.append('lastName', lastName);
@@ -154,6 +152,7 @@ if (password && confirmPassword !== password) {
     ];
 
     return (
+        <SafeAreaView style={{flex:1}}>
         <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_100 }}>
             <Loader isLoading={isLoading} />
             <View style={{ paddingHorizontal: 7 }}>
@@ -171,7 +170,7 @@ if (password && confirmPassword !== password) {
                     <Image
                         source={
                             imageUri ? { uri: imageUri }
-                            : require('../../asstets/images/manImage.png')
+                            : require('../../assets/images/manImage.png')
                         }
                         style={styles.profileImage}
                     />
@@ -214,6 +213,7 @@ if (password && confirmPassword !== password) {
                 <View>
                     <Text style={styles.TextStyle}>Password</Text>
                     <CustomTextInput
+                      textColor={theme.lightColor.blackColor}
                         value={password}
                     onChangeText={(text) => { setPassword(text); setPasswordError(''); }}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
@@ -222,6 +222,7 @@ if (password && confirmPassword !== password) {
                     {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
                     <Text style={styles.TextStyle}>Confirm password</Text>
                     <CustomTextInput
+                    textColor={theme.lightColor.blackColor}
                         value={confirmPassword}
                         onChangeText={(text) => setConfirmPassword(text)}
                         placeholder={'.  .  .  .  .  .  .  .  .  .'}
@@ -300,6 +301,7 @@ if (password && confirmPassword !== password) {
                 </View>
             </Modal>
         </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -351,7 +353,7 @@ const styles = StyleSheet.create({
     TextStyle: {
         marginTop: theme.verticalSpacing.space_20,
         fontSize: theme.fontSizes.size_16,
-        fontWeight: '600',
+        fontWeight: '500',
     },
     actions: {
         marginTop: theme.verticalSpacing.space_30,

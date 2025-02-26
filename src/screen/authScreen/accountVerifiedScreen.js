@@ -47,7 +47,7 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
 
         <Image
           style={style.imageStyle}
-          source={require("../../asstets/images/emailverification.png")}
+          source={require("../../assets/images/emailverification.png")}
         />
         <Text style={style.successTitle}>Verification Successful!</Text>
         <Text style={style.successDescription}>

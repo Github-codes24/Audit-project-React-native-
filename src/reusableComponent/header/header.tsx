@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView, StatusBar } from "react-native";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from "../../utils";
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
@@ -13,7 +13,9 @@ const Header = () => {
   const navigation = useNavigation();
   const userData = useSelector(getLoginResponse);
   const userId = userData?.data?.id;
+    
 
+  console.log('userData',userData)
 
 const { 
       data: get10userUnReadApiNotificationApidata, 
@@ -23,9 +25,6 @@ const {
 
   console.log('get10userUnReadApiNotificationApidata36645',get10userUnReadApiNotificationApidata)
 
-
-
-
   const { 
     data: getuserdata, 
     error: getUserdataApiError, 
@@ -34,6 +33,10 @@ const {
 
   const { firstName, lastName, image } =
     getuserdata?.getUser || {};
+
+
+  console.log('data366868689',firstName,lastName,image)
+
 
   return (
     <SafeAreaView>
@@ -53,7 +56,7 @@ const {
                   source={
                     image?.length > 0
                       ? { uri: image } 
-                      : require('../../asstets/images/manImage.png') 
+                      : require('../../assets/images/manImage.png') 
                   }
                 />
               </View>

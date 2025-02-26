@@ -8,7 +8,7 @@ import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroun
 import { useResetPasswordApiMutation } from "../../redux/apiSlice/authApiSlice";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { alertError, alertSuccess } from "../../utils/Toast";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 const CreateNewPassword = ({ navigation, route }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -72,6 +72,7 @@ const CreateNewPassword = ({ navigation, route }) => {
         <View style={styles.inputView}>
           <Text style={styles.label}>New Password</Text>
           <CustomTextInput
+          textColor={theme.lightColor.blackColor}
             secureTextEntry
             value={newPassword}
             onChangeText={(text) => {
@@ -84,6 +85,7 @@ const CreateNewPassword = ({ navigation, route }) => {
 
           <Text style={styles.label}>Confirm Password</Text>
           <CustomTextInput
+             textColor={theme.lightColor.blackColor}
             secureTextEntry
             value={confirmPassword}
             onChangeText={(text) => {

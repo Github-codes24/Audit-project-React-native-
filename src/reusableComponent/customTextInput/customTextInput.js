@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../utils';
-import * as Svg from '../../asstets/images/svg'; // Ensure these are valid SVG components or update the import path
+import * as Svg from '../../assets/images/svg'; // Ensure these are valid SVG components or update the import path
 
 const CustomTextInput = ({
   value,

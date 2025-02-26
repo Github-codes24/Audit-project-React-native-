@@ -13,7 +13,7 @@ import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import Loader from "../../reusableComponent/loader/loader";
 import { alertError } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import CustomDropDown from "../../reusableComponent/customDropDown/customDropDown";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -217,7 +217,6 @@ const ContactScreen = () => {
           {mobileError ? (
             <Text style={style.errorText}>{mobileError}</Text>
           ) : null}
-
           <Text style={style.textBox}>Message</Text>
           <TextInput
             style={{
@@ -292,8 +291,8 @@ const ContactScreen = () => {
 
 const style = StyleSheet.create({
   textStyle: {
-    fontSize: theme.fontSizes.size_18,
-    fontWeight: "600",
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: "500",
   },
   textBox: {
     marginTop: theme.horizontalSpacing.space_14,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
 import { alertSuccess, alertError } from '../../utils/Toast';

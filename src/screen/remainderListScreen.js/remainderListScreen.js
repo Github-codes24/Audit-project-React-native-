@@ -10,7 +10,7 @@ import {
 
 } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 import Header from "../../reusableComponent/header/header";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";

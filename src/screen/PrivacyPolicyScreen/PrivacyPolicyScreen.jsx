@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import { useGetPrivacyPolicyQuery } from '../../redux/apiSlice/profileApiSlice';
 import Loader from '../../reusableComponent/loader/loader';

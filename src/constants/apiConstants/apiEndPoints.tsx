@@ -1,4 +1,4 @@
-import { AboutUs } from "../../asstets/images/svg";
+import { AboutUs } from "../../assets/images/svg";
 
 export const apiEndPoints = {
   //auth API endpoint

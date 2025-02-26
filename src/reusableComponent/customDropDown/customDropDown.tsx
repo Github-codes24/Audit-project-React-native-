@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 
 const CustomDropDown = ({
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: theme.fontSizes.size_16,
     color: theme.lightColor.blackColor,
-    fontFamily: theme.fontFamily.notoSans.regular_400,
+    fontFamily: theme.fontFamily.inter.regular_400,
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
   rightIconContainer: {

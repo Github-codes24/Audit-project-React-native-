@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, Linking } from "react-native";
 import CustomButton from "../../reusableComponent/button/button";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import { theme } from "../../utils";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import LinearGradient from 'react-native-linear-gradient'; // Import LinearGradient
@@ -31,21 +31,28 @@ const WelcomeScreen = ({ navigation }) => {
       <View style={{ height: '100%', alignItems: "center", justifyContent: "center" }}>
         <Image
           style={{ width: theme.horizontalSpacing.space_236, height: theme.verticalSpacing.space_347 }}
-          source={require('../../asstets/images/welcomeImage.png')}
+          source={require('../../assets/images/welcomeImage.png')}
         />
         <View style={{ justifyContent: "center", marginTop: theme.verticalSpacing.space_20 }}>
           <Text style={style.textStyle}>{'Welcome to Sponsor'}</Text>
           <Text style={[style.textStyle, { marginTop: -5 }]}>{'Licence Compliance Guru'}</Text>
         </View>
 
-        <View style={{ width:theme.horizontalSpacing.space_374 }}>
-          <Text style={{ lineHeight: 22, textAlign: "center", fontWeight: '400', fontSize: theme.fontSizes.size_16, marginTop: theme.verticalSpacing.space_26, alignSelf: 'center', paddingHorizontal:theme.horizontalSpacing.space_10, }}>
-            {'Sponsor licence compliance checker app by Nara Solicitors to check sponsor licence eligibility,sponsor licence compliance score of your business and more.'}
-          </Text>
-          <Text style={{ alignSelf: 'center', fontWeight: '400', textAlign: "center", fontSize: theme.fontSizes.size_16, marginTop: -2 }}>
-            {' '}
-          </Text>
-        </View>
+        <View style={{ width: theme.horizontalSpacing.space_374 }}>
+  <Text 
+    style={{ 
+      lineHeight:20, 
+      textAlign: "center", 
+      fontFamily:theme.fontFamily.inter.regular_400, 
+      fontSize: theme.fontSizes.size_16, 
+      marginTop: theme.verticalSpacing.space_44, 
+      alignSelf: 'center', 
+      // paddingHorizontal: theme.horizontalSpacing.space_10 
+    }}>
+    Sponsor licence compliance checker app by Nara Solicitors to check sponsor licence eligibility, sponsor licence compliance score of your business and more.
+  </Text>
+</View>
+
 
         <View style={{  alignItems: 'center', justifyContent: 'center' }}>
           <View style={{ flexDirection: "row", marginHorizontal: theme.horizontalSpacing.space_20, }}>

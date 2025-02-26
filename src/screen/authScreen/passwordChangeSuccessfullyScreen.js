@@ -11,7 +11,7 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={require('../../asstets/images/passwordChange.png')}
+            source={require('../../assets/images/passwordChange.png')}
           />
           <View style={{alignItems:"center"}}>
           <View style={{}}>

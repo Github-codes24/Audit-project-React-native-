@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import CustomButton from '../reusableComponent/button/button';
 import CustomHeader from '../reusableComponent/customHeader/customHeader';
-import * as Svg from '../asstets/images/svg'
+import * as Svg from '../assets/images/svg'
 import { theme } from '../utils';
 import { MainRoutes } from '../navigation/routeAndParamsList';
 import { getLoginResponse } from '../redux/stateSelector/authStateSelector';
@@ -58,7 +58,7 @@ const response=useSelector(getLoginResponse)
       
       <View style={styles.warningSection}>
         <Image 
-          source={require('../asstets/images/delete.png')}
+          source={require('../assets/images/delete.png')}
           style={styles.warningImage} 
         />
         <Text style={styles.warningText}>

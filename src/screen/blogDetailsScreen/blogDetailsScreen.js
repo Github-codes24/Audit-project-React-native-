@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { useGetAllBlogsQuery, useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
 import { useNavigation } from '@react-navigation/native';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import moment from 'moment';
 import Loader from '../../reusableComponent/loader/loader';
 import ImageSwiper from '../../reusableComponent/ImageSlider/imageSwiper';

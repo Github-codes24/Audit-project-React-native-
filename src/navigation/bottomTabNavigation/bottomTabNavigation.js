@@ -6,7 +6,7 @@ import complianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import ContactScreen from '../../screen/contactScreen/contactScreen';
-import * as Svg from '../../asstets/images/svg'; // Import SVG icons
+import * as Svg from '../../assets/images/svg'
 import { theme } from '../../utils';
 import RemainderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
 import MainStackNavigation from '../stackNavigation/mainStacknavigation';
