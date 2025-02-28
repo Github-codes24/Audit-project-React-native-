@@ -26,7 +26,7 @@ const AboutUsScreen = () => {
   } = useGetAboutUsApiQuery({}); 
 
   const content = getAboutdata?.aboutUs?.[0]?.content || '';
-
+const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p>"
 
   useEffect(() => {
     if (intervalId) {
@@ -109,7 +109,12 @@ const AboutUsScreen = () => {
 
              <View style={{marginHorizontal:3}}>
             {/<[a-z][\s\S]*>/i.test(content) ? (
-              <RenderHtml contentWidth={width} source={{ html: content }} />
+              <RenderHtml contentWidth={width} source={{ html: content }} tagsStyles={{
+    p: { 
+      marginVertical:5, 
+      lineHeight: 20, 
+    }
+  }}/>
             ) : (
               <Text style={styles.contentText}>{content}</Text>
             )}
