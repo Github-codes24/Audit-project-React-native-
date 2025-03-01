@@ -70,7 +70,6 @@ const NotificationScreen = ({ navigation }) => {
   setRefreshing(JSON.stringify(prevData) !== JSON.stringify(data?.notifications));
 };
 
-
   const NotificationItem = ({ item }) => (
     <TouchableOpacity  
       style={[

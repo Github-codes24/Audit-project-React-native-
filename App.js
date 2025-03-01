@@ -8,25 +8,35 @@ import RootNavigator from './src/navigation/rootNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { ToastComponent } from './src/utils/Toast';
 import notifee, { AndroidImportance } from '@notifee/react-native';
+import { request, PERMISSIONS } from 'react-native-permissions';
 
 const App = () => {
   useEffect(() => {
-    requestPermissionAndroid();
+    requestPermissions();
     getFCMToken();
     setupNotificationHandlers();
   }, []);
 
-  const requestPermissionAndroid = async () => {
+  const requestPermissions = async () => {
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
         );
         if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('Notification permission denied');
+          console.log('Android Notification permission denied');
         }
       } catch (err) {
-        console.warn('Error requesting permissions:', err);
+        console.warn('Error requesting Android permissions:', err);
+      }
+    } else if (Platform.OS === 'ios') {
+      try {
+        const permissionStatus = await request(PERMISSIONS.IOS.NOTIFICATIONS);
+        if (permissionStatus !== 'granted') {
+          console.log('iOS Notification permission denied');
+        }
+      } catch (err) {
+        console.warn('Error requesting iOS permissions:', err);
       }
     }
   };
@@ -52,7 +62,7 @@ const App = () => {
   const setupNotificationHandlers = () => {
     messaging().onMessage(async remoteMessage => {
       const isLoggedIn = store.getState().auth.isLoggedIn; // Check login state
-      if (!isLoggedIn) return; // Don't show notification if user is not logged in
+      if (!isLoggedIn) return; 
 
       console.log('Foreground Notification:', remoteMessage);
       await displayNotification(remoteMessage);
@@ -103,7 +113,7 @@ const App = () => {
           </NavigationContainer>
         </PersistGate>
       </Provider>
-      <ToastComponent />
+      {/* <ToastComponent /> */}
     </View>
   );
 };

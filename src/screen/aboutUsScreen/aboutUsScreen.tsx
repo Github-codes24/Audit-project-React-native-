@@ -113,8 +113,9 @@ const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p
               
               tagsStyles={{
                               p: { 
+                               
                                 marginVertical:5, 
-                                lineHeight: 20,
+                                lineHeight:20,
                                 fontSize: theme.fontSizes.size_16,
                               fontWeight: '400', 
                               }
