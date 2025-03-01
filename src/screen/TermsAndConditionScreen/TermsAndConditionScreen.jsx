@@ -39,7 +39,17 @@ const TermsAndConditionScreen = ({ navigation }) => {
 
         
           {/<[a-z][\s\S]*>/i.test(content) ? (
-            <RenderHtml contentWidth={width} source={{ html: content }} />
+            <RenderHtml contentWidth={width} source={{ html: content }} 
+            tagsStyles={{
+                p: { 
+                  marginVertical:5, 
+                  lineHeight: 20,
+                  fontSize: theme.fontSizes.size_16,
+                fontWeight: '400', 
+                }
+              }}
+            
+            />
           ) : (
             <Text style={styles.termsAndConditionText}>{content}</Text>
           )}

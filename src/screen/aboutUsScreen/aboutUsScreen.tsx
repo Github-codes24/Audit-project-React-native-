@@ -109,12 +109,16 @@ const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p
 
              <View style={{marginHorizontal:3}}>
             {/<[a-z][\s\S]*>/i.test(content) ? (
-              <RenderHtml contentWidth={width} source={{ html: content }} tagsStyles={{
-    p: { 
-      marginVertical:5, 
-      lineHeight: 20, 
-    }
-  }}/>
+              <RenderHtml contentWidth={width} source={{ html: content }} 
+              
+              tagsStyles={{
+                              p: { 
+                                marginVertical:5, 
+                                lineHeight: 20,
+                                fontSize: theme.fontSizes.size_16,
+                              fontWeight: '400', 
+                              }
+                            }}/>
             ) : (
               <Text style={styles.contentText}>{content}</Text>
             )}

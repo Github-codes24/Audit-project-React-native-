@@ -2,10 +2,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface AuthState {
   loginResponse: object;
+   isLoggedIn: boolean;
 }
 
 const initialState: AuthState = {
   loginResponse: {},
+  isLoggedIn: false,
 };
 
 export const authSlice = createSlice({
@@ -13,7 +15,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setLoginResponse: (state, action: PayloadAction<object>) => {
-     state.loginResponse = action?.payload;
+      state.loginResponse = action.payload;
+      state.isLoggedIn = true; 
     },
     
     resetAuth: state => {
