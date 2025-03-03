@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, RefreshControl } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, RefreshControl,ScrollView } from 'react-native';
 import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import Header from '../../reusableComponent/header/header';
@@ -14,7 +14,7 @@ import {
 import Loader from '../../reusableComponent/loader/loader';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import moment from 'moment';
-import { ScrollView } from 'react-native-gesture-handler';
+
 
 const NotificationScreen = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState('Unread'); 
@@ -61,11 +61,11 @@ const NotificationScreen = ({ navigation }) => {
   setRefreshing(true);
   const prevData =
     selectedTab === 'Unread'
-      ? get10userUnReadApiNotificationApidata?.notifications
-      : getAllUserNotificationApidata?.notifications;
+    ? get10userUnReadApiNotificationApidata?.notifications
+    : getAllUserNotificationApidata?.notifications;
 
   const { data } =
-    selectedTab === 'Unread' ? await refetchUnread() : await refetchAll();
+  selectedTab === 'Unread' ? await refetchUnread() : await refetchAll();
 
   setRefreshing(JSON.stringify(prevData) !== JSON.stringify(data?.notifications));
 };

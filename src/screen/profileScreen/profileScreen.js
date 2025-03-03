@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView,ScrollView } from 'react-native';
 import * as Svg from '../../assets/images/svg'
 import { theme } from '../../utils';
 import { resetAuth } from '../../redux/stateSlice/authStateSlice';
@@ -10,7 +10,7 @@ import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import { useSelector } from 'react-redux';
 import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
 import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
-import { ScrollView } from 'react-native-gesture-handler';
+
 
 
 const ProfileScreen = ({navigation}) => {

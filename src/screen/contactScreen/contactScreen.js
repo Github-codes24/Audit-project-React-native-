@@ -25,7 +25,10 @@ const ContactScreen = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [mobileError, setMobileError] = useState('');
   const [value, setValue] = useState('');
-  const navigation = useNavigation();
+  const [messageError,setMessageError]=useState('')
+
+
+const navigation=useNavigation()
 
   const [contactUsApi, { isLoading }] = useContactUsApiMutation();
 
@@ -70,14 +73,19 @@ const ContactScreen = () => {
     } else {
       setMobileError(''); 
     }
-
-       console.log("📤 Sending data to API:", {
-        name,
-        email: emailEnquiry,
-        message,
-        contactNumber: mobileNumber,
-        iWantTo: value
-    });
+      if (!message.trim()) {
+    setMessageError('Message cannot be empty.');
+    return;
+  } else {
+    setMessageError('');
+  }
+    //    console.log("📤 Sending data to API:", {
+    //     name,
+    //     email: emailEnquiry,
+    //     message,
+    //     contactNumber: mobileNumber,
+    //     iWantTo: value
+    // });
 
 
     contactUsApi({ name, email: emailEnquiry, message, contactNumber: mobileNumber,iWantTo: value })
@@ -118,7 +126,7 @@ const ContactScreen = () => {
               type: "primary",
               onPress: () => {
                 closeModal();
-                navigation.navigate(MainRoutes.DASHBOARD_SCREEN);
+                navigation.navigate(MainRoutes?.DASHBOARD_SCREEN);
               },
             },
           ]}
@@ -233,6 +241,10 @@ const ContactScreen = () => {
             value={message}
             onChangeText={(text) => setMessage(text)}
           />
+          {messageError ? (
+  <Text style={style.errorText}>{messageError}</Text>
+) : null}
+
 
         </View>
 

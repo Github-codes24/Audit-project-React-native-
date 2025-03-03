@@ -119,14 +119,14 @@ const openVerificationLink = () => {
           title={"Check Your Sponsor Licence Compliance Score"}
           description={"Use this tool to check your compliance with sponsor licence duties."}
           icon={require("../../assets/images/Compliance.png")}
-          onPress={() => navigation.navigate("Compliance")}
+          onPress={() => navigation.navigate('Compliance')}
         />
 
         <LicenseCard
           title={"Check Your Eligibility for Sponsor Licence"}
           description={"Check if your business is eligible for a sponsor licence in the UK "}
           icon={require("../../assets/images/Checklist.png")}
-          onPress={() => navigation.navigate("Eligibility")}
+          onPress={() => navigation.navigate('Eligibility')}
         />
     
         <LicenseCard

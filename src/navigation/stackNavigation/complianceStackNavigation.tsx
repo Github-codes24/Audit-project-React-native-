@@ -34,10 +34,11 @@ const ComplianceStack = () => {
   component={ComplianceScreen} 
 />
       
-        {/* <Stack.Screen
+        <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
         component={DashBoardScreen} 
-      /> */}
+      />
+
        <Stack.Screen
         name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
         component={NotificationDetailsScreen} 
@@ -89,6 +90,8 @@ const ComplianceStack = () => {
       /> 
 
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
+   
+   
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 

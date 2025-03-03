@@ -18,6 +18,8 @@ import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import { MainRoutes } from '../routeAndParamsList';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
+import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -101,6 +103,15 @@ const HomeStack = () => {
         name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
         component={NotificationDetailsScreen} 
       />
+     <Stack.Screen
+        name={MainRoutes.COMPLIANCE_SCREEN}
+        component={ComplianceScreen} 
+      />
+    <Stack.Screen
+        name={MainRoutes.ELIGIBILITY_SCREEN}
+        component={EligibilityScreen} 
+      />
+
 
 
       </Stack.Navigator>

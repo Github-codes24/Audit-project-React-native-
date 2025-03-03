@@ -11,6 +11,8 @@ import notifee, { AndroidImportance } from '@notifee/react-native';
 import { request, PERMISSIONS } from 'react-native-permissions';
 
 const App = () => {
+
+
   useEffect(() => {
     requestPermissions();
     getFCMToken();
@@ -29,19 +31,24 @@ const App = () => {
       } catch (err) {
         console.warn('Error requesting Android permissions:', err);
       }
-    } else if (Platform.OS === 'ios') {
-      try {
-        const permissionStatus = await request(PERMISSIONS.IOS.NOTIFICATIONS);
-        if (permissionStatus !== 'granted') {
-          console.log('iOS Notification permission denied');
-        }
-      } catch (err) {
-        console.warn('Error requesting iOS permissions:', err);
-      }
-    }
+    } 
+     
+    // else if (Platform.OS === 'ios') {
+    //   try {
+    //     const permissionStatus = await request(PERMISSIONS.IOS.NOTIFICATIONS);
+    //     if (permissionStatus !== 'granted') {
+    //       console.log('iOS Notification permission denied');
+    //     }
+    //   } catch (err) {
+    //     console.warn('Error requesting iOS permissions:', err);
+    //   }
+    // }
+
+
   };
 
   const getFCMToken = async () => {
+    // await messaging().registerDeviceForRemoteMessages();
     try {
       const authStatus = await messaging().requestPermission();
       const enabled =
@@ -61,7 +68,7 @@ const App = () => {
 
   const setupNotificationHandlers = () => {
     messaging().onMessage(async remoteMessage => {
-      const isLoggedIn = store.getState().auth.isLoggedIn; // Check login state
+      const isLoggedIn = store.getState().auth.isLoggedIn; 
       if (!isLoggedIn) return; 
 
       console.log('Foreground Notification:', remoteMessage);
@@ -106,15 +113,15 @@ const App = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Provider store={store}>
-        <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-        </PersistGate>
-      </Provider>
-      {/* <ToastComponent /> */}
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
+    <ToastComponent />
+  </View>
   );
 };
 

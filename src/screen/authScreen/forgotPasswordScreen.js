@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView,ScrollView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../assets/images/svg';
 import { theme } from "../../utils";
@@ -13,7 +13,7 @@ import { alertError } from "../../utils/Toast";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../../reusableComponent/loader/loader";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
