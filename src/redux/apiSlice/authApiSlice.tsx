@@ -25,10 +25,10 @@ export const AuthApiSlice = baseApi.injectEndpoints({
 
 
     loginApi: builder.mutation({
-      query:({email,password}) => ({
+      query:({email,password,fcmToken}) => ({
         url: apiEndPoints?.loginApi,
         method: 'POST',
-        body:{email,password},
+        body:{email,password,fcmToken},
         // keepUnusedDataFor: 5,
 
       }),
@@ -65,13 +65,11 @@ export const AuthApiSlice = baseApi.injectEndpoints({
     }),
 
     verifyOtpForRegistration: builder.mutation({
-      query: ({email,otp}) => ({
+      query: ({email,otp,fcmToken}) => ({
         url: apiEndPoints?.OtpForRegisteration,
         method: 'POST',
-       body:{email,otp}
-        // keepUnusedDataFor: 5,
-
-        
+       body:{email,otp,fcmToken}
+        // keepUnusedDataFor: 5, 
       }),
     }),
 

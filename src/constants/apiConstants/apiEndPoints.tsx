@@ -30,7 +30,7 @@ getPrivacyPolicy:'api/privacyPolicy/getPrivacyPolicy',
 getTermAndDondition:'api/termsAndConditions/getTermsAndConditions',
 aboutUSGetApi:'api/aboutUs/getAboutUs',
 updateUserApi:'api/user/updateUser',
-
+logOutApi:'/api/user/logout',
 
 //blogs api endpoint
 getAllBlogs:'api/blogRoutes/getAllBlogs',

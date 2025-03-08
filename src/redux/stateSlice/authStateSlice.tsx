@@ -3,11 +3,13 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 interface AuthState {
   loginResponse: object;
    isLoggedIn: boolean;
+  
 }
 
 const initialState: AuthState = {
   loginResponse: {},
   isLoggedIn: false,
+  
 };
 
 export const authSlice = createSlice({
@@ -18,7 +20,10 @@ export const authSlice = createSlice({
       state.loginResponse = action.payload;
       state.isLoggedIn = true; 
     },
-    
+    setFcmToken: (state, action: PayloadAction<string>) => {
+      state.fcmToken = action.payload; 
+    },
+
     resetAuth: state => {
       Object.assign(state, initialState);
     },
@@ -28,8 +33,9 @@ export const authSlice = createSlice({
 export const {
  
   setLoginResponse,
+  setFcmToken,
   resetAuth,
 } = authSlice.actions;
 
-// Export the authSlice.reducer to be included in the store.
+
 export default authSlice.reducer;

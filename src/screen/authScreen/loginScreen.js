@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../reusableComponent/loader/loader";
 import CustomCheckbox from "../../reusableComponent/customCheckBox/customCheckBox";
 import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
-
+import { getFcmToken } from "../../redux/stateSelector";
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -23,7 +23,8 @@ const LoginScreen = ({ navigation }) => {
   const [isRememberChecked, setIsRememberChecked] = useState(false);
 
   const loginResponse = useSelector(getLoginResponse);
-
+  const FcmToken=useSelector(getFcmToken)
+  
   const [loginApi, { 
     isLoading: isLoginApiLoading, 
     isSuccess: isLoginApiSuccess, 
@@ -33,13 +34,17 @@ const LoginScreen = ({ navigation }) => {
   }] = useLoginApiMutation();
 
   const handleSignIn = () => {
-    loginApi({ email: email, password: password });
-  };
+    const payload = { email, password, fcmToken: FcmToken };
 
+    console.log("Sending Payload:", payload);
+
+    loginApi(payload);
+};
+    
   useEffect(() => {
     if (isLoginApiSuccess) {
       dispatch(setLoginResponse(loginApiData));
-      // alertSuccess("Success", "Login Successful");
+    
     } else if (isLoginApiError) {
       console.log("loginApiError", loginApiError?.data?.message);
       // alertError(loginApiError?.data?.message || "Invalid credentials, please try again.");

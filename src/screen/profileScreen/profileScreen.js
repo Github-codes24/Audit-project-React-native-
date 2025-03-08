@@ -8,8 +8,10 @@ import ConfirmationDialog from '../../utils/confirmationDialog';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import { useSelector } from 'react-redux';
-import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
+import { useGetuserApiQuery, useLogoutApiMutation } from '../../redux/apiSlice/profileApiSlice';
 import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
+import { useLoginApiMutation } from '../../redux/apiSlice/authApiSlice';
+import { apiEndPoints } from '../../constants/apiConstants';
 
 
 
@@ -18,7 +20,6 @@ const ProfileScreen = ({navigation}) => {
 const dispatch=useDispatch()
  
 const response=useSelector(getLoginResponse)
-  // console.log('2222222',response)
  const userId=response?.data?.id
 // console.log('userId',userId)
  const { 
@@ -27,20 +28,44 @@ const response=useSelector(getLoginResponse)
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
-  console.log('getuserdata:', getuserdata); 
-  console.log('isLoading:', getUserdataApiIsLoading); 
-  console.log('error:', getUserdataApiError); 
+  const [logOutApi,{isLoading:logoutApiisLoading}] = useLogoutApiMutation();
+
+
+  // console.log('getuserdata:', getuserdata); 
+  // console.log('isLoading:', getUserdataApiIsLoading); 
+  // console.log('error:', getUserdataApiError); 
  
  
 const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
     getuserdata?.getUser||{}
 
 
- const handleLogOut = () => {
-    dispatch(resetAuth());
-    dispatch(resetCookies()) 
-    setIsDialogVisible(false); 
-  };
+ const handleLogOut = async () => {
+  setIsDialogVisible(false); 
+
+  if (!userId) {
+    Alert.alert('Error', 'User ID not found');
+    return;
+  }
+
+  try {
+    console.log('Calling Logout API:', `${apiEndPoints?.logOutApi}/${userId}`);
+
+    const response = await logOutApi(userId).unwrap();
+
+    if (response?.success) {
+      dispatch(resetAuth());
+      dispatch(resetCookies());
+    } else {
+      Alert.alert('Error', 'Logout failed. Please try again.');
+    }
+  } catch (error) {
+    console.error('Logout API Error:', error);
+    Alert.alert('Error', 'Something went wrong. Please try again.');
+  }
+};
+
+
 
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.ProfileEdit/>,route: MainRoutes.EDITPROFILE_SCREEN,
@@ -117,7 +142,6 @@ const supportItems = [
         <ConfirmationDialog
           visible={isDialogVisible}
           title="Confirm Logout"
-          message="Are you sure you want to log out ?"
           onCancel={() => setIsDialogVisible(false)} 
           onConfirm={handleLogOut} 
           cancelText="Cancel"

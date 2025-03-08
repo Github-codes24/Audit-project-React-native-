@@ -36,8 +36,8 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
       return;
     }
 
-    setErrorMessage(""); // Clear any previous error messages
-    setPrivacyError(""); // Clear privacy error message
+    setErrorMessage(""); 
+    setPrivacyError(""); 
     registerApi({ email, password, firstName, lastName, company, phoneNumber, confirmPassword }).unwrap();
   };
 

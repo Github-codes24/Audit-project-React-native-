@@ -11,6 +11,7 @@ import { useResendOtpForRegistrationPasswordApiMutation, useVerifyOtpForRegistra
 import { useSelector,useDispatch } from 'react-redux';
 import { setLoginResponse } from '../../redux/stateSlice/authStateSlice';
 import CustomModal from '../../reusableComponent/customModal/customModal';
+import { getFcmToken } from '../../redux/stateSelector';
 
 const EmailVerificationScreen = ({ navigation,route }) => {
   
@@ -18,10 +19,13 @@ const EmailVerificationScreen = ({ navigation,route }) => {
   const [timer, setTimer] = useState(30);
    const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-   const [isSubmitting, setIsSubmitting] = useState(false); 
-     const intervalRef = useRef(null);
-const dispatch=useDispatch()
+  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const intervalRef = useRef(null);
+  const dispatch=useDispatch()
   
+const FcmToken=useSelector(getFcmToken)
+
+
 
 // console.log('otp44',otp)
  const {email}=route?.params||{}
@@ -41,7 +45,7 @@ const [verifyOtp,{
  const handleVerifyAccount=()=>{
  let otpString=convertOtpToString(otp)
  console.log('otpString',otpString)
-  verifyOtp({email,otp:otpString})
+  verifyOtp({email,otp:otpString,fcmToken:FcmToken})
  }
  
 const closeModal = () => {
