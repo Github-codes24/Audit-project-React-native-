@@ -21,12 +21,13 @@ const NotificationDetailsScreen = ({ route }) => {
               <ImageSwiper
                 images={Array.isArray(item?.image) ? item?.image : [item?.image]}
                 // showNavigation={true}
-                imageStyle={{
-                  width:'100%',
-                  height:400,
-                  resizeMode: 'contain', 
-                }}
-                containerStyle={{height:theme.verticalSpacing.space_388}}
+                // imageStyle={{
+                //   width:'100%',
+                //   height:400,
+                //   resizeMode: 'contain', 
+                //   backgroundColor:"pink"
+                // }}
+                // containerStyle={{height:theme.verticalSpacing.space_388}}
               />
             )}
 
@@ -35,7 +36,7 @@ const NotificationDetailsScreen = ({ route }) => {
             </TouchableOpacity> */}
           </View>
 
-          <ScrollView style={{ flex: 1, marginBottom: 100 }}>
+          <ScrollView style={{ flex: 1, marginBottom:100 }}>
             <View style={{ paddingHorizontal: 19 }}>
               <Text style={styles.detailsTitle}>{item?.title || ''}</Text>
             </View>
@@ -55,18 +56,18 @@ const NotificationDetailsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
-    backgroundColor: '#FFF',
+    // backgroundColor: 'red',
     borderRadius: 8,
   },
   detailsTitle: {
-    fontSize: 20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: '700',
-    marginBottom: 8,
-    marginTop: 10,
+    
+    marginTop:theme.verticalSpacing.space_10,
   },
   detailsContent: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize:theme.fontSizes.size_16,
     textAlign: 'justify',
     marginBottom: 20,
     paddingHorizontal: 19,

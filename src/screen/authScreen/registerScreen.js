@@ -116,7 +116,7 @@ const RegisterScreen = ({ navigation }) => {
                     ref={inputRef}
                     value={firstName}
                     onChangeText={(text) => {
-                      setFirstName(text);
+                      setFirstName(text.replace(/\s/g, ""));
                       setErrors({ ...errors, firstName: "" });
                     }}
                     style={styles.nameTextInput}
@@ -126,7 +126,7 @@ const RegisterScreen = ({ navigation }) => {
                   <TextInput
                     value={lastName}
                     onChangeText={(text) => {
-                      setLastName(text);
+                      setLastName(text.replace(/\s/g, ""));
                       setErrors({ ...errors, lastName: "" });
                     }}
                     style={[styles.nameTextInput, { marginLeft: 10 }]}

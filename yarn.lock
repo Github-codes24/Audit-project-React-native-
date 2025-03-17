@@ -4476,6 +4476,7 @@ __metadata:
     react-native: "npm:^0.77.0"
     react-native-alert-notification: "npm:^0.4.2"
     react-native-element-dropdown: "npm:^2.12.4"
+    react-native-fbsdk-next: "npm:^13.4.1"
     react-native-gesture-handler: "npm:^2.24.0"
     react-native-image-picker: "npm:^7.2.3"
     react-native-linear-gradient: "npm:^2.8.3"
@@ -4489,6 +4490,9 @@ __metadata:
     react-native-svg-transformer: "npm:^1.5.0"
     react-native-swiper: "npm:^1.6.0"
     react-native-toast-message: "npm:^2.2.1"
+    react-native-video: "npm:^6.10.2"
+    react-native-webview: "npm:^13.13.4"
+    react-native-youtube-iframe: "npm:^2.3.0"
     react-redux: "npm:^9.2.0"
     react-test-renderer: "npm:18.3.1"
     reactotron-react-native: "npm:^5.1.12"
@@ -6548,6 +6552,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"events@npm:^3.2.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: 10c0/d6b6f2adbccbcda74ddbab52ed07db727ef52e31a61ed26db9feb7dc62af7fc8e060defa65e5f8af9449b86b52cc1a1f6a79f2eafcf4e62add2b7a1fa4a432f6
+  languageName: node
+  linkType: hard
+
 "execa@npm:^5.0.0":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
@@ -7428,7 +7439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
+"invariant@npm:2.2.4, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -10108,6 +10119,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-fbsdk-next@npm:^13.4.1":
+  version: 13.4.1
+  resolution: "react-native-fbsdk-next@npm:13.4.1"
+  peerDependencies:
+    expo: ">=47.0.0"
+    react-native: ">=0.63.3"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 10c0/f38b8d360986e47dede9b5bcd6166e750f93c4f6d38b85013499ce6fa7d0a181b20cc009b6a05167930df0f56ed8dc79223f9cc4bee9969c8d928405fc750576
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.24.0":
   version: 2.24.0
   resolution: "react-native-gesture-handler@npm:2.24.0"
@@ -10288,6 +10312,48 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/03418b03ae345f5fe1c1747a98ae9c420a9ea37402d849920a14bfc6eb01541ad934266ae2656433604448d2fba1266ab6f6be649a49c9b22445e86444c1f6de
+  languageName: node
+  linkType: hard
+
+"react-native-video@npm:^6.10.2":
+  version: 6.10.2
+  resolution: "react-native-video@npm:6.10.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/6b3eaf806397cac16fae872670c2a709d12df7cad834131342c518bf91cffa744e53a8cb14183a0d431be84a55aaa8ca3712f7d47b02094d9365defd9a2140de
+  languageName: node
+  linkType: hard
+
+"react-native-webview@npm:^13.13.4":
+  version: 13.13.4
+  resolution: "react-native-webview@npm:13.13.4"
+  dependencies:
+    escape-string-regexp: "npm:^4.0.0"
+    invariant: "npm:2.2.4"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/00218d1e3fbe3f4fe0ecbe418c47d6a9448430e6998bb49748c1206dbba2b261ba03d034fe0787d841b6365854dcfe4c03638a4d192f7288936f011296a1fa6e
+  languageName: node
+  linkType: hard
+
+"react-native-youtube-iframe@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "react-native-youtube-iframe@npm:2.3.0"
+  dependencies:
+    events: "npm:^3.2.0"
+  peerDependencies:
+    react: ">=16.8.6"
+    react-native: ">=0.60"
+    react-native-web-webview: ">=1.0.2"
+    react-native-webview: ">=7.0.0"
+  peerDependenciesMeta:
+    react-native-web-webview:
+      optional: true
+    react-native-webview:
+      optional: true
+  checksum: 10c0/19df95b2060d83e4e4fddfb115ae333ccb1cb14e847ab0c84d68f0d8d62f1993497a80f3a26c49d51839ab5361d046528bc3de0e58d2160a4b42db5f8994edd6
   languageName: node
   linkType: hard
 
