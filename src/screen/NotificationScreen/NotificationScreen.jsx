@@ -14,9 +14,12 @@ import {
 import Loader from '../../reusableComponent/loader/loader';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 
-const NotificationScreen = ({ navigation }) => {
+const NotificationScreen = ({  }) => {
+
+  const navigation=useNavigation()
   const [selectedTab, setSelectedTab] = useState('Unread'); 
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -63,7 +66,7 @@ const NotificationScreen = ({ navigation }) => {
     selectedTab === 'Unread'
     ? get10userUnReadApiNotificationApidata?.notifications
     : getAllUserNotificationApidata?.notifications;
-
+  
   const { data } =
   selectedTab === 'Unread' ? await refetchUnread() : await refetchAll();
 
@@ -82,7 +85,7 @@ const NotificationScreen = ({ navigation }) => {
         if (!item?.isRead) {
           markNotificationAsRead(item?._id);
         }
-        const route = item?.type === 'BLOG' ? MainRoutes.BLOG_DETAILS_SCREEN : MainRoutes.NOTIFICATION_DETAILS_SCREEN;
+        const route = item?.type === 'BLOG' ? MainRoutes?.BLOG_DETAILS_SCREEN : MainRoutes?.NOTIFICATION_DETAILS_SCREEN;
         navigation.navigate(route, { id: item?.blogId, item });
       }}
     >

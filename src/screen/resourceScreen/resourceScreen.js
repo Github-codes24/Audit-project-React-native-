@@ -9,298 +9,241 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
+import Video from 'react-native-video';
 
-import * as Svg from '../../assets/images/svg'
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';
-import { useSelector,useDispatch } from 'react-redux';
 import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
 
+const ResourceScreen = ({ navigation }) => {
+  const [selectedCategory, setSelectedCategory] = useState('');
 
-const ResourceScreen=({navigation})=>{
-const [selectedBlog, setSelectedBlog] = useState(null);
- const [selectedCategory, setSelectedCategory] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
-const [refreshing, setRefreshing] = useState(false);
+  const {
+    data: categoryApiData,
+    isLoading: isCategoryDataLoading,
+    isSuccess: isCategoryApiDataSuccess,
+    refetch: refetchCategoryData,
+  } = useGetAllBlogsQuery({});
 
-//  console.log(selectedCategory)
+  const {
+    data: selectedCategoryApidata,
+    isLoading: isSelectedCategoryApiLoading,
+    refetch: selectedCategoryApiData,
+  } = useGetAllBlogsQuery(
+    selectedCategory && selectedCategory !== 'Recent Blogs'
+      ? { category: selectedCategory }
+      : {}
+  );
 
-useEffect(() => {
-     if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
-      setSelectedCategory('Recent Blogs'); 
+  // Set default category once the data is available
+  useEffect(() => {
+    if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
+      setSelectedCategory('Recent Blogs');
     }
-  }, [isCategoryApiDataSuccess]);
+  }, [isCategoryApiDataSuccess, categoryApiData]);
 
+  const uniqueCategories = [
+    'Recent Blogs',
+    ...new Set(categoryApiData?.data?.map((item) => item?.category)),
+  ];
 
-const {
-  data: categoryApiData,
-  isLoading: isCategoryDataLoading,
-  isSuccess:isCategoryApiDataSuccess,
-  error: isCategoryDataError,
-  refetch: refetchCategoryData,
-} = useGetAllBlogsQuery({});
-
-const {
-  data: selectedCategoryApidata,
-  isLoading: isSelectedCategoryApiLoading,
-  error: SelectedCategoryApiError,
-  refetch: selectedCategoryApiData,
-  } = useGetAllBlogsQuery(selectedCategory !== "Recent Blogs" ? { category: selectedCategory } : {});
-
-
-
-console.log('categoryApiData',categoryApiData)
-
-const uniqueCategories = ["Recent Blogs", ...new Set(categoryApiData?.data?.map((item) => item?.category))];
-// console.log('uniqueCategories',uniqueCategories);
-
-const onRefresh = async () => {
-    setRefreshing(true); 
-    refetchCategoryData();
-    setRefreshing(false); 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchCategoryData();
+    setRefreshing(false);
   };
 
-const handleCategorySelect = (item) => {
-  console.log('item',item)
+  const handleCategorySelect = (item) => {
     setSelectedCategory(item);
   };
 
+  const renderMedia = (uri) => {
+    if (!uri) return null;
+    const isVideo = uri.match(/\.(mp4|mov|avi|mkv|webm)$/i);
+    return isVideo ? (
+      <Video
+        source={{ uri }}
+        style={styles.blogMedia}
+        controls={false}
+        resizeMode="cover"
+        paused={true}
+      />
+    ) : (
+      <Image source={{ uri }} style={styles.blogMedia} />
+    );
+  };
+
   const renderBlogItem = ({ item }) => (
-   
-   
     <TouchableOpacity
       style={styles.blogItem}
-      onPress={() => {
-        // console.log('idrrrrr',item?._id)
-      navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?._id });
-    }}
+      onPress={() =>
+        navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: item?._id })
+      }
     >
-      <Image source={{uri:item?.image}} style={styles.blogImage} />
+      {renderMedia(item?.image)}
       <View style={styles.blogInfo}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
-        <Text style={styles.blogTitle}>{item?.title}</Text>
-        <Text style={{color:'gray',fontSize:theme.fontSizes.size_12}}>{item?.readTime}</Text>
+        <View style={styles.blogHeader}>
+          <Text style={styles.blogTitle}>{item?.title}</Text>
+          <Text style={styles.readTime}>{item?.readTime}</Text>
         </View>
-        <View style={{flexDirection:"row",justifyContent:"space-between",width:'95%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
-            <View>
-        {/* <Text style={styles.blogAuthor}>-{item?.content}</Text> */}
-        <Text style={styles.blogDiscription}>{item?.shortDescription}</Text>
-        </View>
-        <View style={{flexDirection:'row',alignItems:'center',width:theme.horizontalSpacing.space_100}}>
-          <Text style={{color:theme.lightColor.borderColor,fontSize:theme.fontSizes.size_12}}>{'Read more'}</Text>
-       <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
-        <Svg.Arrow/>
-        </View>
-        </View>
+        <View style={styles.blogDetails}>
+          <Text style={styles.blogDescription}>{item?.shortDescription}</Text>
+          <View style={styles.readMoreContainer}>
+            <Text style={styles.readMoreText}>{'Read more'}</Text>
+            <Svg.Arrow style={styles.arrowIcon} />
+          </View>
         </View>
       </View>
     </TouchableOpacity>
-    
   );
 
-    return(
-      <ScrollView
-      style={{}}
-       refreshControl={
-       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-       }
-      >
-       <View style={[styles.container,{}]}>
-        <Loader isLoading={isCategoryDataLoading||isSelectedCategoryApiLoading} />
-      <Header/>
-       <Loader isLoading={isCategoryDataLoading} />
-      <Text style={styles.header}>Blogs</Text>
-    <View style={{ flexDirection: "row", width: "100%",borderBottomWidth:1 }}>
-      
-      <FlatList
-    data={uniqueCategories}
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    keyExtractor={(item, index) => `category-${index}`}
-    renderItem={({ item }) => (
-      <TouchableOpacity
-        onPress={() => handleCategorySelect(item)}
-        style={{
-          
-        marginTop:10,
-          paddingVertical: theme.verticalSpacing.space_10,
-          borderBottomWidth: selectedCategory === item ? 2 : 0,
-          borderBottomColor: selectedCategory === item ? theme.lightColor.brownColor : 'transparent',
-        }}
-      >
-        <Text
-          style={{
-            marginHorizontal:theme.horizontalSpacing.space_20,
-            fontSize: theme.fontSizes.size_14,
-            fontWeight: '500',
-            color: selectedCategory === item ? 'gray' : 'black',
-          }}
-        >
-          {item}
-        </Text>
-      </TouchableOpacity>
-    )}
-  />
-    </View>
-          
-{/* {selectedCategory===uniqueCategories && ( */}
- <FlatList
-    contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_100 }}
-            data={selectedCategoryApidata?.data}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item?.id}
-             refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+  return (
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    >
+      <View style={styles.container}>
+        <Loader isLoading={isCategoryDataLoading || isSelectedCategoryApiLoading} />
+        <Header />
+        <Text style={styles.header}>Blogs</Text>
+        <View style={styles.categoryContainer}>
+          <FlatList
+            data={uniqueCategories}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item, index) => `category-${index}`}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => handleCategorySelect(item)}
+                style={[
+                  styles.categoryItem,
+                  selectedCategory === item && styles.categoryItemSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.categoryText,
+                    selectedCategory === item && styles.categoryTextSelected,
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            )}
           />
-  {/* )}   */}
+        </View>
 
-{/* {selectedCategory==="local_news"&& (
- <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)} */}
-
-
-
-   {/* {selectedCategory==="sports" && (
-    <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)}       */}
-
-    {/* {selectedCategory=== "lifestyles" && (
-         <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)}       */}
-    </View>
+        <FlatList
+          contentContainerStyle={styles.blogList}
+          data={selectedCategoryApidata?.data}
+          renderItem={renderBlogItem}
+          keyExtractor={(item) => item?._id}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        />
+      </View>
     </ScrollView>
-    )
-}
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
-   flex:1,
+    flex: 1,
     backgroundColor: '#F5F5F5',
   },
-  headerView:{
-        height:105,
-        backgroundColor:"#592951",
-        // borderBottomLeftRadius:60,
-        // borderBottomRightRadius:60,
-        paddingHorizontal:30,
-        justifyContent:'center'
-    },
   header: {
-    fontSize:theme.fontSizes.size_20,
+    fontSize: theme.fontSizes.size_20,
     fontWeight: 'bold',
-    // marginBottom: 16,
-    marginHorizontal:theme.horizontalSpacing.space_20,
-    marginTop:theme.verticalSpacing.space_20
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    marginTop: theme.verticalSpacing.space_20,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    borderBottomWidth: 1,
+  },
+  categoryItem: {
+    marginTop: 10,
+    paddingVertical: theme.verticalSpacing.space_10,
+  },
+  categoryItemSelected: {
+    borderBottomWidth: 2,
+    borderBottomColor: theme.lightColor.brownColor,
+  },
+  categoryText: {
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    fontSize: theme.fontSizes.size_14,
+    fontWeight: '500',
+    color: 'black',
+  },
+  categoryTextSelected: {
+    color: 'gray',
+  },
+  blogList: {
+    paddingBottom: theme.verticalSpacing.space_100,
   },
   blogItem: {
-    flex:1,
     flexDirection: 'row',
     backgroundColor: '#FFF',
-    paddingHorizontal:10,
-    
     borderRadius: 8,
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    alignItems: 'center',
+    marginTop: theme.verticalSpacing.space_20,
+    padding: theme.horizontalSpacing.space_10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    // elevation: 2,
-    marginHorizontal:theme.horizontalSpacing.space_20,
-    alignItems:"center",
-    marginTop:theme.verticalSpacing.space_20,
-    // justifyContent:"center",
-    padding:theme.horizontalSpacing.space_10,
-    // marginTop:theme.verticalSpacing.space_10
-    // marginBottom:100
   },
-  blogImage: {
-    width:theme.horizontalSpacing.space_50,
-    height:theme.verticalSpacing.space_50,
+  blogMedia: {
+    width: theme.horizontalSpacing.space_50,
+    height: theme.verticalSpacing.space_50,
     borderRadius: 8,
-    marginRight:theme.horizontalSpacing.space_12,
+    marginRight: theme.horizontalSpacing.space_12,
   },
   blogInfo: {
-    justifyContent: 'center',
-   
+    flex: 1,
+  },
+  blogHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '85%',
+    marginLeft: theme.horizontalSpacing.space_10,
+    paddingRight: theme.horizontalSpacing.space_20,
   },
   blogTitle: {
-    fontSize:theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: 'bold',
   },
-  blogAuthor: {
-    fontSize:theme.fontSizes.size_14,
-    color:theme.lightColor.blackColor,
+  readTime: {
+    color: 'gray',
+    fontSize: theme.fontSizes.size_12,
   },
-  blogDiscription: {
-    fontSize:'500',
-    width:theme.horizontalSpacing.space_187,
-    fontSize:theme.fontSizes.size_16,
-    color:theme.lightColor.blackColor,
+  blogDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '95%',
+    marginLeft: theme.horizontalSpacing.space_10,
+    paddingRight: theme.horizontalSpacing.space_20,
   },
-  detailsContainer: {
-    flex: 1,
-    
-    // alignItems: 'center',
-   
-    backgroundColor: '#FFF',
-    borderRadius: 8,
+  blogDescription: {
+    fontSize: theme.fontSizes.size_16,
+    width: theme.horizontalSpacing.space_187,
+    color: theme.lightColor.blackColor,
   },
-  detailsImage: {
-    width: '100%',
-    height: 200,   
-    marginBottom: 16,
+  readMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  detailsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    paddingLeft:10
+  readMoreText: {
+    color: theme.lightColor.borderColor,
+    fontSize: theme.fontSizes.size_12,
   },
-  detailsAuthor: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 4,
-  },
-  detailsDate: {
-    fontSize: 14,
-    color: '#AAA',
-    marginBottom: 16,
-  },
-  detailsContent: {
-    fontSize: 16,
-    textAlign: 'justify', // Makes the text evenly aligned on both sides
-    marginBottom: 20,
-    paddingHorizontal: 15, // Adds some padding for better readability
-    lineHeight: 26, // Increases space between lines for clarity
-    color: '#333', // Optional: Adjusts text color for better contrast
-},
-  backButton: {
-    backgroundColor: '#673AB7',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems:'center',
-    justifyContent:"center",
-    marginHorizontal:20
-  },
-  backButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
+  arrowIcon: {
+    marginLeft: theme.horizontalSpacing.space_10,
   },
 });
+
 export default ResourceScreen;

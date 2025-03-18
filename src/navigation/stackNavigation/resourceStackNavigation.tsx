@@ -19,6 +19,7 @@ import { MainRoutes } from '../routeAndParamsList';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 const Stack = createStackNavigator();
 
 const ResourceStack = () => {
@@ -99,6 +100,10 @@ const ResourceStack = () => {
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
+      />
+      <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
       />
       </Stack.Navigator>
   );

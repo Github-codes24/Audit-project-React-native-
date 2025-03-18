@@ -100,6 +100,10 @@ const RemainderStack = () => {
         name={MainRoutes.UPDATE_REMINDER_SCREEN}
         component={UpdateReminderScreen} 
       />
+       <Stack.Screen
+        name={MainRoutes.BLOG_DETAILS_SCREEN}
+        component={BlogDetailsScreen} 
+      />
       </Stack.Navigator>
   );
 };

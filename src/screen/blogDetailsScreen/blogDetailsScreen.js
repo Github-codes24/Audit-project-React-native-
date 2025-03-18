@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView,Share } from 'react-native';
 import Video from 'react-native-video'; // ✅ Import Video component
 import YoutubePlayer from 'react-native-youtube-iframe'; // ✅ For YouTube links
 import { useGetAllBlogsQuery, useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
@@ -12,6 +12,7 @@ import Header from '../../reusableComponent/header/header';
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import RenderHTML from 'react-native-render-html';
+import he from 'he';
 
 const BlogDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -35,13 +36,17 @@ const BlogDetailsScreen = ({ route }) => {
     addLink = '', 
   } = blog || {};
 
-  // ✅ Check if `addLink` is a valid YouTube or video file link
+  // ✅ Check if the URL is a video file
+  const isVideoFile = (url) => /\.(mp4|mkv|mov|avi|webm)$/i.test(url);
+  const videoUrl = image?.length > 0 && isVideoFile(image[0]) ? image[0] : null;
+  
+  
+  // ✅ Check if `addLink` is a YouTube link
   const isYouTubeLink = (url) => /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(url);
   const getYouTubeId = (url) => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
     return match ? match[1] : null;
   };
-  const isVideoFile = (url) => /\.(mp4|mkv|mov|avi|webm)$/i.test(url);
 
   const handleNavigation = (direction) => {
     if (!blogApiData || !Array.isArray(blogApiData.data)) return;
@@ -54,6 +59,22 @@ const BlogDetailsScreen = ({ route }) => {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      const cleanTitle = he.decode(title); 
+      const cleanDescription = description.replace(/<[^>]+>/g, ''); 
+
+      const shareMessage = `${cleanTitle}\n\n${cleanDescription}\n\nRead more: ${addLink || 'Check out this blog!'}`;
+
+      await Share.share({
+        message: shareMessage,
+        title: cleanTitle,
+      });
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Loader isLoading={blogDetailsIsLoading || isBlogApiDataLoading} />
@@ -61,37 +82,41 @@ const BlogDetailsScreen = ({ route }) => {
         <Header />
         <View style={styles.detailsContainer}>
           <View style={{ position: 'relative' }}>
-            {/* ✅ Show Video if Valid, Otherwise Show Image */}
             {isYouTubeLink(addLink) ? (
               <YoutubePlayer
                 height={220}
                 play={false}
                 videoId={getYouTubeId(addLink)}
               />
-            ) : isVideoFile(addLink) ? (
+            ) :   
+            (image?.length > 0 && isVideoFile(image[0])) ? (
               <Video
-                source={{ uri: addLink }}
+                source={{ uri:image[0]}}
                 style={styles.video}
                 controls
                 resizeMode="contain"
               />
-            ) : image?.length > 0 ? (
-              <ImageSwiper images={Array.isArray(image) ? image : [image]} showNavigation={true} />
+            ) : 
+            (image?.length > 0) ? (
+              <ImageSwiper 
+                images={Array.isArray(image) ? image : [image]} 
+                showNavigation={Array.isArray(image) && image.length > 1} 
+              />
             ) : null}
 
             <View style={styles.categoryContainer}>
               <Text style={styles.categoryText}>{category}</Text>
             </View>
 
-            <TouchableOpacity style={styles.svgIconContainer} onPress={() => console.log('SVG Icon Pressed')}>
+            <TouchableOpacity style={styles.svgIconContainer} onPress={handleShare}>
               <Svg.ShareIcon />
             </TouchableOpacity>
           </View>
 
           <View style={{ paddingHorizontal: 19 }}>
             <Text style={styles.detailsTitle}>{title}</Text>
-            <View style={[styles.authorContainer, { flexDirection: "row",justifyContent:"space-between"  }]}>
-              <View style={{ flexDirection: "row", }}>
+            <View style={[styles.authorContainer, { flexDirection: "row", justifyContent:"space-between" }]}>
+              <View style={{ flexDirection: "row" }}>
                 <Image style={styles.authorImage} source={{ uri: authorImage }} />
                 <View style={styles.authorTextContainer}>
                   <Text style={styles.detailsAuthor}>{authorName || ''}</Text>
@@ -114,7 +139,7 @@ const BlogDetailsScreen = ({ route }) => {
               <Text style={styles.buttonText}>Recent Blogs</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.backButton} onPress={() => handleNavigation('next')}>
-              <Text style={styles.buttonText}>Next</Text>
+              <Text style={[styles.buttonText, { marginRight: 5 }]}>Next</Text>
               <Svg.ArrowRight />
             </TouchableOpacity>
           </View>
@@ -127,7 +152,6 @@ const BlogDetailsScreen = ({ route }) => {
 const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
-    backgroundColor: '#FFF',
     borderRadius: 8,
   },
   video: {
@@ -139,6 +163,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     fontWeight: '500',
     color: 'white',
+    marginLeft: 5,
   },
   detailsTitle: {
     fontSize: theme.fontSizes.size_20,
@@ -162,8 +187,6 @@ const styles = StyleSheet.create({
   authorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    
-    
   },
   authorImage: {
     width: 37,
@@ -196,5 +219,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+
 
 export default BlogDetailsScreen;
