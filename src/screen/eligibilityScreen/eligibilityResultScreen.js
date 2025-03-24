@@ -28,7 +28,7 @@ const EligibityResultScreen=({navigation,isEligible})=>{
         <Text style={styles.contactText}>Contact us</Text>
       </TouchableOpacity>
       <CustomButton
-      title={'Retake the exam'}
+      title={'Retake the test'}
       />
        </View>
     </View>

@@ -1,13 +1,12 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image,
   RefreshControl,
-
+  ActivityIndicator,
 } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../assets/images/svg'
@@ -15,227 +14,128 @@ import Header from "../../reusableComponent/header/header";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
-import { useGetAllReminderApiQuery } from "../../redux/apiSlice/reminderApiSlice";
+import { useDeleteRemainderApiMutation, useGetAllReminderApiQuery } from "../../redux/apiSlice/reminderApiSlice";
 import moment from "moment";
 import Loader from "../../reusableComponent/loader/loader";
 
+const ReminderListScreen = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingId, setLoadingId] = useState(null);
+  const response = useSelector(getLoginResponse);
+  const userId = response?.data?.id;
 
-const ReminderListScreen = ({navigation}) => {
-   const [refreshing, setRefreshing] = useState(false);
+  const {
+    data: getAllReminderApiData,
+    isLoading: isgetAllReminderApiDataiLoading,
+    error: getAllReminderApiDataError,
+    refetch: refetchAllReminderApiData,
+  } = useGetAllReminderApiQuery(userId);
 
-const response=useSelector(getLoginResponse)
- 
- const userId=response?.data?.id
- console.log('userId787685695876',userId)
-const {
-  data: getAllReminderApiData,
-  isLoading: isgetAllReminderApiDataiLoading,
-  isSuccess:isgetAllReminderApiDataSuccess,
-  error: getAllReminderApiDataError,
-  refetch: refetchAllReminderApiData,
-} = useGetAllReminderApiQuery(userId);
+  const [deleteReminder] = useDeleteRemainderApiMutation();
 
-
-const onRefresh = async () => {
-    setRefreshing(true); 
-    refetchAllReminderApiData();
-    setRefreshing(false); 
+  const handleDelete = async (id) => {
+    setLoadingId(id);
+    try {
+      await deleteReminder({ id }).unwrap();
+      refetchAllReminderApiData();
+    } catch (error) {
+      console.error(error?.data?.message || "Error deleting reminder.");
+    } finally {
+      setLoadingId(null);
+    }
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchAllReminderApiData();
+    setRefreshing(false);
+  };
 
- useEffect(() => {
-    refetchAllReminderApiData()
-  }, [getAllReminderApiData]);
+  useEffect(() => {
+    refetchAllReminderApiData();
+  }, []);
 
   if (isgetAllReminderApiDataiLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   if (getAllReminderApiDataError) {
-    return <Text style={{width:'100%',height:'100%',alignSelf:"center",textAlign:'center'}}>Loading....</Text>;
+    return <Text style={styles.errorText}>Loading....</Text>;
   }
-
-  console.log('getAllReminderApiData',getAllReminderApiData)
 
   const renderReminderItem = ({ item }) => (
     <View style={styles.reminderCard}>
-        <View style={{flexDirection:"row",justifyContent:'space-between',alignItems:"center"}}>
-    {/* <Svg.Arrow/>    */}
-       </View>
-        <TouchableOpacity
-        onPress={()=>navigation.navigate(MainRoutes.UPDATE_REMINDER_SCREEN,{remainderdata:item})}
-        >
-      <View style={styles.reminderContent}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',paddingRight:theme.horizontalSpacing.space_30}}>
-        <Text style={{fontWeight:'600',fontSize:theme.fontSizes.size_20,}}>{item?.employeeName}</Text>
-       <Text style={{fontSize: theme.fontSizes.size_20, fontWeight: '600'}}> 
-        {moment(item?.date).format("DD-MMM-YYYY")} 
-       </Text>        
-      
-       </View>
-        <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'500',marginVertical:5}}>{item?.reminderName}</Text>
-          <View style={{flexDirection:'row',justifyContent:'space-between',width:theme.horizontalSpacing.space_374}}>
-        <Text style={styles.title}>{item?.reminderFor}</Text>
-        
-        <Text style={styles.description}>{item?.description}</Text>
-      
+      <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.UPDATE_REMINDER_SCREEN, { remainderdata: item })}>
+        <View style={styles.reminderContent}>
+          <View style={styles.reminderHeader}>
+            <Text style={styles.employeeName}>{item?.employeeName}</Text>
+            <Text style={styles.date}>{moment(item?.date).format("DD-MMM-YYYY")}</Text>
+          </View>
+          <Text style={styles.reminderName}>{item?.reminderName}</Text>
+          <Text style={styles.title}>{item?.reminderFor}</Text>
+          <View style={styles.actionContainer}>
+            <Text style={styles.description}>{item?.description}</Text>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item?._id)}>
+              {loadingId === item?._id ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <>
+                  <Text style={styles.deleteText}>Delete</Text>
+                  <Svg.DeleteIcon />
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
-   
-      </View>
-       </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 
   return (
-    
     <View style={styles.container}>
-         <Header/>
-         
+      <Header />
       <Text style={styles.header}>Reminder</Text>
       {getAllReminderApiData?.data?.length > 0 ? (
-      <FlatList
-      style={{marginBottom:theme.verticalSpacing.space_156}}
-        data={getAllReminderApiData?.data}
-        keyExtractor={(item) => item.id}
-        renderItem={renderReminderItem}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      />
-       ) : (
-        <Text style={{textAlign:"center",alignSelf:'center'}}>No reminders found.</Text>
+        <FlatList
+          style={styles.flatList}
+          data={getAllReminderApiData?.data}
+          keyExtractor={(item) => item.id}
+          renderItem={renderReminderItem}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        />
+      ) : (
+        <Text style={styles.noDataText}>No reminders found.</Text>
       )}
-      <TouchableOpacity style={styles.addButton}
-      onPress={()=>navigation.navigate(
-        MainRoutes.SET_REMAINDER_SCREEN 
-      )}
-      >
-        <Svg.PlusIcon/>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate(MainRoutes.SET_REMAINDER_SCREEN)}>
+        <Svg.PlusIcon />
         <Text style={styles.addButtonText}>Add reminder</Text>
       </TouchableOpacity>
     </View>
-   
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height:'100%',
-    // flex: 1,
-    backgroundColor: "#F2F3F5",
-  },
-  header: {
-    fontSize:theme.fontSizes.size_20,
-    fontWeight: "600",
-    marginVertical:theme.verticalSpacing.space_20,
-    marginLeft:theme.horizontalSpacing.space_20,
-    color:theme.lightColor.blackColor
-  },
-  listContent: {
-    paddingHorizontal: 16,
-    // paddingBottom: 80, 
-  },
-  
-    reminderCard: {
-    // flexDirection: "row",
-    // alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
-     padding:theme.horizontalSpacing.space_14,
-     marginVertical:5
-    //  backgroundColor:"red"
-  },
-   headerView: {
-    height: 105,
-    backgroundColor: "#592951",
-    paddingHorizontal:theme.horizontalSpacing.space_30,
-    justifyContent: "center",
-  },
-   headerContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop:theme.verticalSpacing.space_20,
-    alignItems: "center",
-  },
-  userInfo: {
-    flexDirection: "row",
-  },
-  imageWrapper: {
-    width: 60,
-    height: 60,
-    borderWidth: 1,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  userImage: {
-    width: 60,
-    height: 60,
-  },
-  userText: {
-   marginLeft:theme.horizontalSpacing.space_10
-  },
-  welcomeText: {
-    color: theme.lightColor.whiteColor,
-  },
-  userName: {
-    color: theme.lightColor.whiteColor,
-    fontSize: theme.fontSizes.size_24,
-  },
-  date: {
-    fontSize:theme.fontSizes.size_20,
-    fontWeight: "bold",
-    color:theme.lightColor.blackColor,
-    
-  },
-  reminderContent: {
-  width:theme.horizontalSpacing.space_374
-  },
-  title: {
-    fontSize:theme.fontSizes.size_14,
-    fontWeight: "bold",
-    color: "#000",
-    // backgroundColor:"red",
-    width:130
-    // width:150,
-    // marginTop:theme.verticalSpacing.space_10
-  },
-  description: {
-    fontSize:theme.fontSizes.size_14,
-    color:theme.lightColor.blackColor,
-    fontWeight:"600",
-   paddingHorizontal:theme.horizontalSpacing.space_30,
-    alignSelf:'flex-end',
-    // backgroundColor:"red",
-    width:theme.horizontalSpacing.space_222
-  },
-  arrow: {
-    fontSize:theme.fontSizes.size_24,
-    color: "#5D3FD3",
-
-  },
-  addButton: {
-    backgroundColor:theme.lightColor.brownColor,
-    height:theme.verticalSpacing.space_50,
-    // paddingVertical: 14,
-    borderRadius: 12,
-    position: "absolute",
-    bottom:theme.verticalSpacing.space_100,
-    alignSelf: "center",
-    width: "90%",
-    alignItems: "center",
-    flexDirection:"row",
-    justifyContent:'center'
-  },
-  addButtonText: {
-    // textAlign:'center',
-    fontSize:theme.fontSizes.size_16,
-    fontWeight: "500",
-    color: "#FFFFFF",
-    marginLeft:5
-  },
+  container: { height: '100%', backgroundColor: "#F2F3F5" },
+  header: { fontSize: theme.fontSizes.size_20, fontWeight: "600", marginVertical: theme.verticalSpacing.space_20, marginLeft: theme.horizontalSpacing.space_20, color: theme.lightColor.blackColor },
+  listContent: { paddingHorizontal: 16 },
+  flatList: { marginBottom: theme.verticalSpacing.space_156 },
+  reminderCard: { backgroundColor: "#FFFFFF", borderRadius: 12, padding: theme.horizontalSpacing.space_14, marginVertical: 5 },
+  reminderContent: { width: theme.horizontalSpacing.space_374 },
+  reminderHeader: { flexDirection: 'row', justifyContent: 'space-between', paddingRight: theme.horizontalSpacing.space_30 },
+  employeeName: { fontWeight: '600', fontSize: theme.fontSizes.size_20 },
+  date: { fontSize: theme.fontSizes.size_20, fontWeight: '600' },
+  reminderName: { fontSize: theme.fontSizes.size_16, fontWeight: '500', marginVertical: 5 },
+  title: { fontSize: theme.fontSizes.size_14, fontWeight: "bold", color: "#000", width: 130 },
+  description: { fontSize: theme.fontSizes.size_16, color: theme.lightColor.blackColor, fontWeight: "700", marginTop:5,width:theme.horizontalSpacing.space_260 },
+  actionContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderRadius: 8 },
+  deleteButton: { marginRight:theme.horizontalSpacing.space_20, flexDirection:'row', backgroundColor:theme.lightColor.brownColor, borderRadius:10, alignItems:"center", paddingHorizontal:5, paddingVertical:5,marginRight:theme.horizontalSpacing.space_26 },
+  deleteText: { fontSize: theme.fontSizes.size_16, color: "white", fontWeight: "600", marginRight: 5 },
+  addButton: { backgroundColor: theme.lightColor.brownColor, height: theme.verticalSpacing.space_50, borderRadius: 12, position: "absolute", bottom: theme.verticalSpacing.space_100, alignSelf: "center", width: "90%", alignItems: "center", flexDirection: "row", justifyContent: 'center' },
+  addButtonText: { fontSize: theme.fontSizes.size_16, fontWeight: "500", color: "#FFFFFF", marginLeft: 5 },
+  errorText: { width: '100%', height: '100%', alignSelf: "center", textAlign: 'center' },
+  noDataText: { textAlign: "center", alignSelf: 'center' },
 });
 
 export default ReminderListScreen;

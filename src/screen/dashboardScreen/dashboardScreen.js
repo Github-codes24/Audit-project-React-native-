@@ -61,7 +61,7 @@ const DashBoardScreen = ({ navigation }) => {
 
 
 const openVerificationLink = () => {
-    const url = "https://www.sra.org.uk/consumers/register/";
+    const url = "https://www.sra.org.uk/consumers/register/organisation/?sraNumber=8006464";
     Linking.openURL(url).catch(err => console.error("Error opening link: ", err));
   };
 
@@ -113,7 +113,7 @@ const openVerificationLink = () => {
         />
         <Header userName={"John Doe"} />
         <View style={{paddingHorizontal:19}}>
-        <Text style={style.sponsorText}>{"Sponsor  Licence  Checker"}</Text>
+        <Text style={style.sponsorText}>{"Welcome to Sponsor Licence Compliance Guru"}</Text>
          <View style={{marginTop:theme.verticalSpacing.space_10}}>
         <LicenseCard
           title={"Check Your Sponsor Licence Compliance Score"}
@@ -131,7 +131,7 @@ const openVerificationLink = () => {
     
         <LicenseCard
           title={"Monitor Visa Status"}
-          description={"Set reminders and receive notifications for your employees’ visa expiries."}
+          description={"Set reminders and receive notifications for your employee visa expiries."}
           icon={require("../../assets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
@@ -149,14 +149,14 @@ const openVerificationLink = () => {
         <View style={{}}>
           <AboutUsContent content={aboutUsData?.aboutUs?.[0]?.content} />
         </View>
-        <View style={{ paddingBottom: 100 }}>
+        <View style={{ paddingBottom:theme.verticalSpacing.space_100 }}>
           <View style={style.imageSwiperContainer}>
             <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}>
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
             </TouchableOpacity>
           </View>
            <TouchableOpacity   style={{flexDirection:"row"}} onPress={openVerificationLink}>
-          <Text style={{marginTop:theme.verticalSpacing.space_80,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_14}}>Authorised and regulated by the Solicitors Regulation. SRA No. 8006464.<Text style={{color:theme.lightColor.brownColor,lineHeight:22,}}>{'Verify here'}</Text> </Text>
+          <Text style={{marginTop:theme.verticalSpacing.space_80,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_16}}>Authorised and regulated by the Solicitors Regulation. SRA No. 8006464.<Text style={{color:theme.lightColor.brownColor,lineHeight:20,}}>{'Verify here'}</Text> </Text>
           
        </TouchableOpacity>
         </View>
@@ -172,7 +172,7 @@ const style = StyleSheet.create({
     
   },
   sponsorText: {
-    fontSize: theme.fontSizes.size_24,
+    fontSize: theme.fontSizes.size_20,
     marginTop: theme.verticalSpacing.space_20,
     fontWeight: "600",
     color: theme.lightColor.blackColor,

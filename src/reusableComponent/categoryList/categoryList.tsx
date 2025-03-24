@@ -57,10 +57,10 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        {checkerType === 'compliance' ? 'Sponsor Licence Compliance Checker' : 'Sponsor Licence Eligibility Checker'}
+        {checkerType === 'compliance' ? 'Check Your Sponsor License Compliance Score' : 'Check Your Eligibility For Sponsor License'}
       </Text>
 
-      <Text style={styles.subHeader}>Select category</Text>
+      <Text style={styles.subHeader}>Select your business category</Text>
 
       <View style={styles.scrollContainer}>
         <ScrollView
@@ -93,7 +93,7 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
 
       {/* Fixed Bottom Button */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="Take test" onPress={onTakeTest} disabled={!selectedCategoryId} />
+        <CustomButton title="Continue" onPress={onTakeTest} disabled={!selectedCategoryId} />
       </View>
     </View>
   );
@@ -102,8 +102,9 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
 const styles = StyleSheet.create({
   container: {
    flex:1,
+
     paddingHorizontal: 19,
-    backgroundColor: '#F2F3F5',
+    // backgroundColor: 'red',
   },
   header: {
     fontSize: theme.fontSizes.size_20,
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
     height:"100%", 
     marginBottom: 80, 
     // backgroundColor:"red"
+
   },
   categoriesContainer: {
     paddingBottom:theme.verticalSpacing.space_80,

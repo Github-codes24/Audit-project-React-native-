@@ -21,8 +21,8 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
           marginTop:theme.verticalSpacing.space_8,
           fontWeight:'600'
         }}
-        >Result</Text>
-        <View style={{marginTop:40,}}>
+        ></Text>
+        <View style={{}}>
         <CircularProgress percentage={scorePercentage} />
         </View>
         <Text
@@ -37,20 +37,20 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
         }}
         >
             {
-                `You scored ${scorePercentage}% in sponsor licence  compliance`
+             `You scored ${scorePercentage}% in sponsor licence  compliance`
             }
         </Text>
-      <Text style={styles.subtitle}>Your sponsor licence compliance can be at potential risk*
+      <Text style={styles.subtitle}>Your sponsor licence compliance can be at potential risk
 . Book a consultation with our experts.</Text>
       <TouchableOpacity style={styles.contactButton}
       onPress={()=>{
         navigation.navigate(MainRoutes.CONTACTUS_SCREEN)
       }}
       >
-        <Text style={styles.contactText}>Contact us</Text>
+        <Text style={styles.contactText}>Book a Consultation</Text>
       </TouchableOpacity>
       <CustomButton
-      title={'Retake the exam'}
+      title={'Retake the test'}
       onPress={onPressRetakeExam}
       />
        </View>
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     // borderRightColor:'red'
   },
   image: {
-    width:222,
-    height: 220,
-    marginTop:theme.verticalSpacing.space_80
+    width:theme.horizontalSpacing.space_222,
+    height:theme.verticalSpacing.space_220,
+    marginTop:theme.verticalSpacing.space_40
   },
    headerView:{
         height:105,

@@ -105,6 +105,8 @@ const theme = {
   space_347:hp(347),
   space_350:hp(350),
    space_390:hp(390),
+   space_395:hp(395),
+    space_220:hp(220),
   },
   horizontalSpacing: {
     space_170:wp(170),
@@ -175,6 +177,7 @@ const theme = {
      space_374: wp(374),
     space_330: wp(330),
       space_285: wp(285),
+     space_385: wp(385),
 
   },
   boderRadius: {

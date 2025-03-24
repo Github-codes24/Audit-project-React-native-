@@ -19,7 +19,6 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
       dispatch(setLoginResponse(verifyOtpApiData));
       navigation.navigate(MainRoutes?.DASHBOARD_SCREEN); 
     }, 1000);
-
     return () => clearTimeout(timeout); 
   }, [navigation, dispatch]);
 
@@ -47,7 +46,7 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
 
         <Image
           style={style.imageStyle}
-          source={require("../../assets/images/emailverification.png")}
+          source={require("../../assets/images/verificationSuccessful.png")}
         />
         <Text style={style.successTitle}>Verification Successful!</Text>
         <Text style={style.successDescription}>
@@ -69,7 +68,7 @@ const style = StyleSheet.create({
   },
   imageStyle: {
     width: 342,
-    height: 244,
+    height:350,
     marginBottom:theme.verticalSpacing.space_20,
   },
   successTitle: {

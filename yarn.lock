@@ -1512,6 +1512,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@callstack/react-theme-provider@npm:3.0.3":
+  version: 3.0.3
+  resolution: "@callstack/react-theme-provider@npm:3.0.3"
+  dependencies:
+    "@types/hoist-non-react-statics": "npm:^3.3.1"
+    deepmerge: "npm:^3.2.0"
+    hoist-non-react-statics: "npm:^3.3.0"
+  peerDependencies:
+    react: ^16.3.0
+  checksum: 10c0/3ef57b15173e31cebaad34fa5c2bb1c8621e547545aaf980365a1bb1718a395edaebccc11e08713e8b10dae48722991f3da869860bc486844a4f87533b9a5f51
+  languageName: node
+  linkType: hard
+
 "@egjs/hammerjs@npm:^2.0.17":
   version: 2.0.17
   resolution: "@egjs/hammerjs@npm:2.0.17"
@@ -4484,6 +4497,7 @@ __metadata:
     react: "npm:18.3.1"
     react-native: "npm:^0.77.0"
     react-native-alert-notification: "npm:^0.4.2"
+    react-native-country-picker-modal: "npm:^2.0.0"
     react-native-element-dropdown: "npm:^2.12.4"
     react-native-fbsdk-next: "npm:^13.4.1"
     react-native-gesture-handler: "npm:^2.24.0"
@@ -5803,6 +5817,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deepmerge@npm:^3.2.0":
+  version: 3.3.0
+  resolution: "deepmerge@npm:3.3.0"
+  checksum: 10c0/143bc6b6cd8a1216565c61c0fe38bf43fe691fb6876fb3f5727c6e323defe4e947c68fbab9957e17e837c5594a56af885c5834d23dc6cf2c41bef97090005104
+  languageName: node
+  linkType: hard
+
 "deepmerge@npm:^4.2.2, deepmerge@npm:^4.3.0, deepmerge@npm:^4.3.1":
   version: 4.3.1
   resolution: "deepmerge@npm:4.3.1"
@@ -6983,6 +7004,13 @@ __metadata:
   version: 1.2.3
   resolution: "functions-have-names@npm:1.2.3"
   checksum: 10c0/33e77fd29bddc2d9bb78ab3eb854c165909201f88c75faa8272e35899e2d35a8a642a15e7420ef945e1f64a9670d6aa3ec744106b2aa42be68ca5114025954ca
+  languageName: node
+  linkType: hard
+
+"fuse.js@npm:3.4.5":
+  version: 3.4.5
+  resolution: "fuse.js@npm:3.4.5"
+  checksum: 10c0/6fa7693930a69dde3dac343315bef5fe2b684310a2f876b59e30ffe03295938517c822714b984263c9c4a36c100a5acaca5218106825b64076b4528d2c56916c
   languageName: node
   linkType: hard
 
@@ -8705,6 +8733,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.toarray@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.toarray@npm:4.4.0"
+  checksum: 10c0/6ad3042f85f8a29e03b54547ab34aa811aa9478dea3086f3e4b1486c23a2bb28b25e8869df85187b1e12a2a6327dc5f738809a8ff28f1286d1ade96c796394bf
+  languageName: node
+  linkType: hard
+
 "lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
@@ -9310,6 +9345,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"modal-react-native-web@npm:0.2.0":
+  version: 0.2.0
+  resolution: "modal-react-native-web@npm:0.2.0"
+  dependencies:
+    warning: "npm:^4.0.1"
+  peerDependencies:
+    react: 16.x.x
+    react-art: 16.x.x
+    react-dom: 16.x.x
+    react-native-web: 0.9.x
+  checksum: 10c0/67d4bbdee286a78e66c7f447953749bbf470feda669b4162f4fc42efd6d460a10085e8a80e1ad68078ccc1e9f0fc2b5ee9fe3cec3602d8e9c64ea7d4acc4cb60
+  languageName: node
+  linkType: hard
+
 "moment@npm:^2.30.1":
   version: 2.30.1
   resolution: "moment@npm:2.30.1"
@@ -9398,6 +9447,15 @@ __metadata:
   dependencies:
     minimatch: "npm:^3.0.2"
   checksum: 10c0/16222e871708c405079ff8122d4a7e1d522c5b90fc8f12b3112140af871cfc70128c376e845dcd0044c625db0d2efebd2d852414599d240564db61d53402b4c1
+  languageName: node
+  linkType: hard
+
+"node-emoji@npm:1.10.0":
+  version: 1.10.0
+  resolution: "node-emoji@npm:1.10.0"
+  dependencies:
+    lodash.toarray: "npm:^4.4.0"
+  checksum: 10c0/4e86ce606e20e1f5c6c729600af7bd22a0046a01185e11262a2619d57471addcbeb3ee8e76f3aa32febef80410333b48088c2fa445fed9537183f5e7542b96de
   languageName: node
   linkType: hard
 
@@ -9973,6 +10031,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:15.7.2":
+  version: 15.7.2
+  resolution: "prop-types@npm:15.7.2"
+  dependencies:
+    loose-envify: "npm:^1.4.0"
+    object-assign: "npm:^4.1.1"
+    react-is: "npm:^16.8.1"
+  checksum: 10c0/4eb527daec962acd789c621ce3234a6f077ce202049291642d8efd13b19805adf07227672c570531cdb56a357640ea27e336527682b7ed4be0c5b392a01662ab
+  languageName: node
+  linkType: hard
+
 "prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
@@ -10067,6 +10136,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-async-hook@npm:3.6.1":
+  version: 3.6.1
+  resolution: "react-async-hook@npm:3.6.1"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 10c0/8cd145733e70623f23e08c915299be95b7bb4fded4720015691fbcb412a42a696b6bf7dcff6ef3301ef05c8aa7d3ae0d9eda0f0018435a2d0d7251b9793c7509
+  languageName: node
+  linkType: hard
+
 "react-devtools-core@npm:^6.0.1":
   version: 6.1.1
   resolution: "react-devtools-core@npm:6.1.1"
@@ -10100,7 +10178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.7.0":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
@@ -10122,6 +10200,25 @@ __metadata:
     react-native: ">=0.62.0"
     react-native-safe-area-context: "*"
   checksum: 10c0/3e017a90c5e1eec83e22dea298a33d6568352c99909cfa345d5fc7a4e57c5526d682472dc7dfb94efbc73ad4595265f75d083ddb942e84031816a77af720cef0
+  languageName: node
+  linkType: hard
+
+"react-native-country-picker-modal@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-country-picker-modal@npm:2.0.0"
+  dependencies:
+    "@callstack/react-theme-provider": "npm:3.0.3"
+    fuse.js: "npm:3.4.5"
+    modal-react-native-web: "npm:0.2.0"
+    node-emoji: "npm:1.10.0"
+    prop-types: "npm:15.7.2"
+    react-async-hook: "npm:3.6.1"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+    react-native-web: "*"
+  checksum: 10c0/61e04b7b9706b02a8cc79734adb6b37d284172d1cc34aa0e08cf3da321513fe13dfe29db483df9c065af32e4465a01d8f8ee6ba424fe04d018062a7db6e14562
   languageName: node
   linkType: hard
 
@@ -12046,6 +12143,15 @@ __metadata:
   version: 0.1.1
   resolution: "warn-once@npm:0.1.1"
   checksum: 10c0/f531e7b2382124f51e6d8f97b8c865246db8ab6ff4e53257a2d274e0f02b97d7201eb35db481843dc155815e154ad7afb53b01c4d4db15fb5aa073562496aff7
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.1":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: "npm:^1.0.0"
+  checksum: 10c0/aebab445129f3e104c271f1637fa38e55eb25f968593e3825bd2f7a12bd58dc3738bb70dc8ec85826621d80b4acfed5a29ebc9da17397c6125864d72301b937e
   languageName: node
   linkType: hard
 

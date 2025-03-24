@@ -106,14 +106,16 @@ const onRefresh = () => {
       )}
      
       {step==='category' && (
-        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}
-        >
+        // <ScrollView style={{}}
+        // >
+         
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="compliance"
         />
-        </ScrollView>
+       
+      //  </ScrollView>
       )
       }
    

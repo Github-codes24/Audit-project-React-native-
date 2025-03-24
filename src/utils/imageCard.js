@@ -25,10 +25,10 @@ const ImageCard = ({
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image source={profileImage} style={styles.profileImage} />
+          {/* <Image source={profileImage} style={styles.profileImage} /> */}
           <View style={styles.textContainer}>
-            <Text style={styles.meta}>{name}</Text>
-            <Text style={styles.meta}>{moment(date).format("DD-MMM-YYYY")} </Text>
+            {/* <Text style={styles.meta}>{name}</Text>
+            <Text style={styles.meta}>{moment(date).format("DD-MMM-YYYY")} </Text> */}
           </View>
         </View>
       </View>

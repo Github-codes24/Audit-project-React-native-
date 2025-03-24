@@ -85,12 +85,15 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.borderColor,
     paddingHorizontal: theme.horizontalSpacing.space_12,
     height: theme.verticalSpacing.space_50,
-    width:theme.horizontalSpacing.space_374
+    width:theme.horizontalSpacing.space_374,
+    marginTop:5
+    
   },
   input: {
     flex: 1,
     fontSize: theme.fontSizes.size_16,
     color:theme.lightColor.blackColor,
+    
     // paddingHorizontal: theme.horizontalSpacing.space_8,
     
   },

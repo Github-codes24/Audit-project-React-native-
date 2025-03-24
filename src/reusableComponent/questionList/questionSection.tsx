@@ -96,8 +96,8 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         <Loader
         isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
         {checkerType==='compliance' ?
-      <Text style={styles.header}>Sponsor Licence Compliance Checker</Text>
-      :      <Text style={styles.header}>Sponsor Licence Eligibilty Checker</Text>
+      <Text style={styles.header}>Check Your Sponsor Licence Compliance Score</Text>
+      :      <Text style={styles.header}>Check Your Eligibility For Sponsor Licence</Text>
         }
      
       {getQuestionsToDisplay()?.map((questionData,index) => (

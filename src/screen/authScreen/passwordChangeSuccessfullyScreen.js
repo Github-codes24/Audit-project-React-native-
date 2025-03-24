@@ -11,7 +11,7 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={require('../../assets/images/passwordChange.png')}
+            source={require('../../assets/images/passwordChanges.png')}
           />
           <View style={{alignItems:"center"}}>
           <View style={{}}>
@@ -19,8 +19,8 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
           <Text style={styles.description}>
             Your password has been changed successfully  
           </Text>
-          <Text style={{fontSize:theme.fontSizes.size_16}}>{'You can now use your new password to log in'}</Text>
-          <Text style={{fontSize:theme.fontSizes.size_16,}}>{'to your account.'}</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5}}>{'You can now use your new password to log in'}</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5}}>{'to your account.'}</Text>
          </View>
          </View>
          
@@ -48,13 +48,14 @@ const styles = StyleSheet.create({
   },
   container: {
     
-    
-   
-    paddingHorizontal: theme.horizontalSpacing.space_16,
+    alignItems:"center",
+    justifyContent:"center",
+
+    paddingHorizontal: theme.horizontalSpacing.space_20,
   },
   image: {
     width: theme.horizontalSpacing.space_327,
-    height: 273,
+    height:327,
     resizeMode: "contain",
   },
   title: {
@@ -65,12 +66,11 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
   },
   description: {
-   
- 
     lineHeight: 20,
     fontSize: theme.fontSizes.size_16,
     fontWeight:'400',
     color: theme.lightColor.blackColor,
+   marginLeft:5
     // marginVertical: theme.verticalSpacing.space_16,
   },
   buttonContainer: {

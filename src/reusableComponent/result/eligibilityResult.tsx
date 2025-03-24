@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { theme } from "../../utils";
 
-const EligibityResult = ({ onPressRetakeExam, isEligible,eligibilityImage }) => {
+const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) => {
   const navigation = useNavigation();
   const isValidImage = eligibilityImage && eligibilityImage.startsWith('http');
-   const [showText, setShowText] = useState(false);
-  
+  const [showText, setShowText] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   useEffect(() => {
-    
-    const timer = setTimeout(() => {
-      setShowText(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-  
+    if (imageLoaded) {
+      const timer = setTimeout(() => {
+        setShowText(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [imageLoaded]);
+
   return (
     <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
       <View style={styles.container}>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-         
-          <Text style={styles.resultHeader}>Result</Text>
+        <View style={styles.centerContent}>
+          <Text style={styles.resultHeader}>{''}</Text>
 
-          {/* Eligibility Image */}
-         {isValidImage && (
-            <Image
-              source={{ uri: eligibilityImage }} 
-              style={styles.image}
-              resizeMode="contain"
-            />
+          {/* Eligibility Image with Loader */}
+          {isValidImage && (
+            <View style={styles.imageContainer}>
+              {!imageLoaded && (
+                <View style={styles.loaderContainer}>
+                  <ActivityIndicator size="large" color={theme.lightColor.brownColor} />
+                </View>
+              )}
+              <Image
+                source={{ uri: eligibilityImage }}
+                style={styles.image}
+                resizeMode="contain"
+                onLoad={() => setImageLoaded(true)}
+              />
+            </View>
           )}
-
 
           {/* Eligibility Message */}
           {showText && (
@@ -44,16 +52,16 @@ const EligibityResult = ({ onPressRetakeExam, isEligible,eligibilityImage }) => 
             </Text>
           )}
           <Text style={styles.subtitle}>{isEligible
-              ? "Your business is potentially eligible for sponsor licence*. CTA: Book a consultation with our experts."
+              ? "Your business is potentially eligible for sponsor licence*. Book a consultation with our experts."
               : "Book a consultation for tailored advice."}
-     </Text>
+          </Text>
 
           {/* Contact Us Button */}
           <TouchableOpacity
             style={styles.contactButton}
             onPress={() => navigation.navigate(MainRoutes.CONTACTUS_SCREEN)}
           >
-            <Text style={styles.contactText}>Contact us</Text>
+            <Text style={styles.contactText}>Book a Consultation</Text>
           </TouchableOpacity>
 
           {/* Retake Exam Button */}
@@ -69,16 +77,34 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
+  centerContent: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
   resultHeader: {
     color: "black",
     fontSize: theme.fontSizes.size_24,
     fontWeight: "600",
     marginTop: 10,
   },
-  image: {
+  imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: theme.horizontalSpacing.space_222,
     height: theme.verticalSpacing.space_290,
     marginTop: theme.verticalSpacing.space_50,
+  },
+  loaderContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
   title: {
     fontSize: 20,
@@ -91,7 +117,7 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
     textAlign: "center",
     marginTop: theme.verticalSpacing.space_20,
-    marginHorizontal:20
+    marginHorizontal: 20,
   },
   contactButton: {
     backgroundColor: theme.lightColor.whiteColor,
@@ -105,7 +131,7 @@ const styles = StyleSheet.create({
   contactText: {
     color: theme.lightColor.brownColor,
     fontWeight: "500",
-    fontSize:theme.fontSizes.size_16
+    fontSize: theme.fontSizes.size_16,
   },
 });
 

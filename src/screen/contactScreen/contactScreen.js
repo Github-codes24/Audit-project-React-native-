@@ -66,42 +66,45 @@ const navigation=useNavigation()
     return regex.test(number);
   };
 
-  const handleFormSubmit = () => {
-    if (mobileNumber && !validateMobileNumber(mobileNumber)) {
-      setMobileError('Mobile number must be exactly 10 digits.');
-      return;
-    } else {
-      setMobileError(''); 
-    }
-      if (!message.trim()) {
+ const handleFormSubmit = () => {
+  setMobileError('');
+  setMessageError('');
+
+  // Validate mobile number only if it's not empty
+  if (!mobileNumber.trim()) {
+    setMobileError('Mobile number is required.');
+    return;
+  }
+
+  if (!validateMobileNumber(mobileNumber)) {
+    setMobileError('Mobile number must be exactly 10 digits.');
+    return;
+  }
+
+  // Validate message field
+  if (!message.trim()) {
     setMessageError('Message cannot be empty.');
     return;
-  } else {
-    setMessageError('');
   }
-    //    console.log("📤 Sending data to API:", {
-    //     name,
-    //     email: emailEnquiry,
-    //     message,
-    //     contactNumber: mobileNumber,
-    //     iWantTo: value
-    // });
+
+  // Submit API request
+  contactUsApi({ name, email: emailEnquiry, message, contactNumber: mobileNumber, iWantTo: value })
+    .then((response) => {
+      console.log('response:', response);
+      if (response?.data) {
+        setModalVisible(true);
+        setMessage('');
+        setMobileNumber(''); // Clear mobile number on success
+      } else {
+        console.log("No data received from API");
+      }
+    })
+    .catch((error) => {
+      alertError("Failed to submit the form. Please try again.");
+    });
+};
 
 
-    contactUsApi({ name, email: emailEnquiry, message, contactNumber: mobileNumber,iWantTo: value })
-      .then((response) => {
-        console.log('response3543554',response)
-        if (response?.data) {
-          setModalVisible(true);
-          setMessage('');
-        } else {
-          console.log("No data received from API");
-        }
-      })
-      .catch((error) => {
-        alertError("Failed to submit the form. Please try again.");
-      });
-  };
 
   
   const data = [
@@ -146,7 +149,7 @@ const navigation=useNavigation()
           >
             {"Contact us"}
           </Text>
-          <Text style={style.textBox}>{'I want to'}</Text>
+          <Text style={[style.textBox,{marginBottom:5}]}>{'I want to'}</Text>
           <Dropdown
            placeholderStyle={{
         color:'gray',
@@ -190,10 +193,13 @@ const navigation=useNavigation()
               height: theme.verticalSpacing.space_50,
               backgroundColor: 'white',
               borderRadius: 10,
-              paddingLeft: 10
+              paddingLeft: 10,
+              marginTop:5
             }}
           />
+             
 
+  
           <Text style={style.textBox}>Email</Text>
           <TextInput
             value={getuserdata?.getUser?.email}
@@ -203,7 +209,8 @@ const navigation=useNavigation()
               height: theme.verticalSpacing.space_50,
               backgroundColor: 'white',
               borderRadius: 10,
-              paddingHorizontal: 10
+              paddingHorizontal: 10,
+               marginTop:5
             }}
           />
 
@@ -219,7 +226,8 @@ const navigation=useNavigation()
               height: theme.verticalSpacing.space_50,
               backgroundColor: 'white',
               borderRadius: 10,
-              paddingHorizontal: 10
+              paddingHorizontal: 10,
+               marginTop:5
             }}
           />
           {mobileError ? (
@@ -233,7 +241,8 @@ const navigation=useNavigation()
               borderRadius: 10,
               padding: 10,
               textAlignVertical: "top",
-              width: theme.horizontalSpacing.space_374
+              width: theme.horizontalSpacing.space_374,
+              marginTop:5
             }}
             placeholder="Enter your query........."
             placeholderTextColor={'#BABABA'}
@@ -256,7 +265,9 @@ const navigation=useNavigation()
           />
         </View>
 
-        <View style={{ marginHorizontal: theme.horizontalSpacing.space_18 }}>
+        <View style={{ marginHorizontal: theme.horizontalSpacing.space_20 }}>
+
+          <Text style={{fontWeight:"700",marginTop:10,fontSize:theme.fontSizes.size_20,}}>Nara solicitors contact details</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: theme.verticalSpacing.space_10, }}>
             <Text style={[style.textStyle, {  }]}>Email</Text>
           </View>
@@ -311,6 +322,7 @@ const style = StyleSheet.create({
     color: theme.lightColor.blackColor,
     fontSize: theme.fontSizes.size_16,
     fontWeight: "500",
+   
   },
   errorText: {
     color: "red",

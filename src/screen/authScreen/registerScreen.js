@@ -237,6 +237,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
     fontSize: theme.fontSizes.size_16,
+    color:'black'
   },
   errorText: {
     color: "red",

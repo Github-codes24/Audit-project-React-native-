@@ -63,44 +63,70 @@ const ResourceScreen = ({ navigation }) => {
   };
 
   const renderMedia = (uri) => {
-    if (!uri) return null;
-    const isVideo = uri.match(/\.(mp4|mov|avi|mkv|webm)$/i);
-    return isVideo ? (
-      <Video
-        source={{ uri }}
-        style={styles.blogMedia}
-        controls={false}
-        resizeMode="cover"
-        paused={true}
-      />
-    ) : (
+  if (!uri) {
+    return (
+    <View style={{width:theme.horizontalSpacing.space_60,height:theme.verticalSpacing.space_60,borderWidth:.3,borderRadius:10}}>
+    <Text style={styles.noImageText}>No Image</Text>
+    </View>
+    )
+  }
+
+  const isVideo = uri.match(/\.(mp4|mov|avi|mkv|webm)$/i);
+  
+  return isVideo ? (
+    <Video
+      source={{ uri }}
+      style={styles.blogMedia}
+      controls={false}
+      resizeMode="cover"
+      paused={true}
+    />
+  ) : (
+    <View style={{ width: theme.horizontalSpacing.space_60, height: theme.verticalSpacing.space_60 }}>
       <Image source={{ uri }} style={styles.blogMedia} />
-    );
-  };
+    </View>
+  );
+};
+
 
   const renderBlogItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.blogItem}
-      onPress={() =>
-        navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: item?._id })
-      }
-    >
-      {renderMedia(item?.image)}
-      <View style={styles.blogInfo}>
-        <View style={styles.blogHeader}>
-          <Text style={styles.blogTitle}>{item?.title}</Text>
-          <Text style={styles.readTime}>{item?.readTime}</Text>
-        </View>
-        <View style={styles.blogDetails}>
-          <Text style={styles.blogDescription}>{item?.shortDescription}</Text>
-          <View style={styles.readMoreContainer}>
-            <Text style={styles.readMoreText}>{'Read more'}</Text>
-            <Svg.Arrow style={styles.arrowIcon} />
+  <TouchableOpacity
+    style={styles.blogItem}
+    onPress={() =>
+      navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: item?._id })
+    }
+  >
+    <View style={styles.blogInfo}>
+        <Text style={styles.readTime}>{item?.readTime}</Text>
+      
+        <Text style={styles.blogTitle}>{item?.title}</Text>
+      
+        
+     
+      
+      
+       <View style={styles.readMoreContainer}>
+          <Text style={styles.readMoreText}>{'Read more'}</Text>
+          <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
+          <Svg.Arrow style={styles.arrowIcon} />
           </View>
         </View>
+      <View style={styles.blogDetails}>
+        {/* <Text
+          style={styles.blogDescription}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {''}
+        </Text> */}
+       
       </View>
-    </TouchableOpacity>
-  );
+    </View>
+    {renderMedia(item?.image)}
+  </TouchableOpacity>
+);
+
+
 
   return (
     <ScrollView
@@ -142,7 +168,7 @@ const ResourceScreen = ({ navigation }) => {
           data={selectedCategoryApidata?.data}
           renderItem={renderBlogItem}
           keyExtractor={(item) => item?._id}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         />
       </View>
     </ScrollView>
@@ -188,6 +214,7 @@ const styles = StyleSheet.create({
   blogItem: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
+    justifyContent:"space-between",
     borderRadius: 8,
     marginHorizontal: theme.horizontalSpacing.space_20,
     alignItems: 'center',
@@ -196,42 +223,59 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
+   
+    
   },
   blogMedia: {
-    width: theme.horizontalSpacing.space_50,
-    height: theme.verticalSpacing.space_50,
+    width: theme.horizontalSpacing.space_60,
+    height: theme.verticalSpacing.space_60,
     borderRadius: 8,
-    marginRight: theme.horizontalSpacing.space_12,
+
+    // marginRight: theme.horizontalSpacing.space_12,
   },
   blogInfo: {
-    flex: 1,
+     width:theme.horizontalSpacing.space_260,
+    // backgroundColor:"red",
+    //  alignItems:"center"
+   justifyContent:"center",
+   
   },
   blogHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '85%',
-    marginLeft: theme.horizontalSpacing.space_10,
-    paddingRight: theme.horizontalSpacing.space_20,
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // width: '80%',
+    // marginLeft: theme.horizontalSpacing.space_10,
+    // paddingRight: theme.horizontalSpacing.space_20,
+    // backgroundColor:"pink"
   },
   blogTitle: {
     fontSize: theme.fontSizes.size_16,
     fontWeight: 'bold',
+    // alignItems:'center',
+    // justifyContent:"center",
+    // backgroundColor:'red',
+    width:theme.horizontalSpacing.space_260,
+    marginVertical:10
   },
   readTime: {
     color: 'gray',
     fontSize: theme.fontSizes.size_12,
+    // marginLeft:5
+    
   },
   blogDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '95%',
-    marginLeft: theme.horizontalSpacing.space_10,
-    paddingRight: theme.horizontalSpacing.space_20,
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // width: '85%',
+    // marginLeft: theme.horizontalSpacing.space_10,
+    // paddingRight: theme.horizontalSpacing.space_20,
+    // backgroundColor:"red"
   },
   blogDescription: {
     fontSize: theme.fontSizes.size_16,
     width: theme.horizontalSpacing.space_187,
     color: theme.lightColor.blackColor,
+    
   },
   readMoreContainer: {
     flexDirection: 'row',
@@ -244,6 +288,14 @@ const styles = StyleSheet.create({
   arrowIcon: {
     marginLeft: theme.horizontalSpacing.space_10,
   },
+  noImageText: {
+  fontSize: theme.fontSizes.size_14,
+  color: 'black',
+  textAlign: 'center',
+  marginVertical: theme.verticalSpacing.space_10,
+
+},
+
 });
 
 export default ResourceScreen;

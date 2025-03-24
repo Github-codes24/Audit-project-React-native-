@@ -180,11 +180,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     flexDirection: 'row',
     gap: theme.horizontalSpacing.space_12,
+    // backgroundColor:"pink"
   },
   NotificationMsg: {
     fontWeight: '400',
     fontSize: theme.fontSizes.size_16,
     marginBottom: theme.verticalSpacing.space_6,
+    // backgroundColor:"red",
+    width:"65%"
   },
   NotificationImage: {
     height: theme.horizontalSpacing.space_36,

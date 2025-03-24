@@ -16,7 +16,7 @@ import { getFcmToken } from '../../redux/stateSelector';
 const EmailVerificationScreen = ({ navigation,route }) => {
   
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(60);
    const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false); 
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     alignItems:"center",
-    // justifyContent:"center",
+    justifyContent:'space-between',
     flexDirection: 'row',
     marginTop:theme.verticalSpacing.space_40,
     
@@ -247,8 +247,8 @@ const styles = StyleSheet.create({
   },
   otpInput: {
     margin:5,
-    width:theme.horizontalSpacing.space_50,
-    height:theme.verticalSpacing.space_50,
+    width:theme.horizontalSpacing.space_60,
+    height:theme.verticalSpacing.space_60,
     borderRadius: 8,
     borderWidth: 1,
     borderColor:theme.lightColor.borderColor,
