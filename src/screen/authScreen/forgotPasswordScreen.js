@@ -58,11 +58,11 @@ const ForgotPasswordScreen = () => {
         <CustomModal
           visible={isModalVisible}
           onClose={closeModal}
-          title="Code sent!"
-          description={"Code has been sent to your email please check your email"}
+          title="Email verification code send!"
+          description={"A 4-digit email verification code has been sent to your email. Please check your inbox or spam folder to confirm your account."}
           buttons={[
             {
-              label: "Verify code",
+              label: "Continue",
               type: "primary",
               onPress: () => {
                 closeModal();

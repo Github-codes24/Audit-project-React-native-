@@ -65,7 +65,7 @@ const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) =>
           </TouchableOpacity>
 
           {/* Retake Exam Button */}
-          <CustomButton title={"Retake the exam"} onPress={onPressRetakeExam} />
+          <CustomButton title={"Retake the test"} onPress={onPressRetakeExam} />
         </View>
       </View>
     </ScrollView>

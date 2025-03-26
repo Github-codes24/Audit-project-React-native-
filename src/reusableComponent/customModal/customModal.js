@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: theme.fontSizes.size_16,
     color: "#E8E8E8",
-    lineHeight: 24,
+    lineHeight: 20,
     textAlign: "center",
   },
   buttonContainer: {

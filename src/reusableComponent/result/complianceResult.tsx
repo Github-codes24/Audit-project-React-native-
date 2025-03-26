@@ -14,15 +14,15 @@ const ComplianceResult=({onPressRetakeExam,isEligible,scorePercentage})=>{
     <View style={styles.container}>
       
       <View style={{alignItems:"center",justifyContent:"center"}}>  
-      <Text
+      {/* <Text
         style={{
           fontSize:theme.fontSizes.size_24,
           color:theme.lightColor.blackColor,
           marginTop:theme.verticalSpacing.space_8,
           fontWeight:'600'
         }}
-        ></Text>
-        <View style={{}}>
+        ></Text> */}
+        <View style={{marginTop:theme.verticalSpacing.space_14}}>
         <CircularProgress percentage={scorePercentage} />
         </View>
         <Text

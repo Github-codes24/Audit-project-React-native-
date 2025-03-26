@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,ScrollView, ActivityIndicator } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
@@ -15,6 +15,9 @@ const OtpScreen = ({ navigation, route }) => {
    const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple submissions
+  const [errorText, setErrorText] = useState('');
+ 
+ 
   const intervalRef = useRef(null);
   const inputs = []; 
 
@@ -26,26 +29,31 @@ const OtpScreen = ({ navigation, route }) => {
   const convertOtpToString = (otpArray) => otpArray.join("");
 
   const handleForgotPasswordVerifyAccount = () => {
-    if (otp.includes('')) {
-      alertError('Please enter the complete OTP');
-      return;
-    }
+    // if (otp.includes('')) {
+    //   setErrorText('Please enter the complete OTP');
+    //   return;
+    // }
 
     const otpString = convertOtpToString(otp);
     setIsSubmitting(true);
     forgotPasswordVerifyOtp({ email, otp: otpString });
   };
 
+
+
   useEffect(() => {
-    if (isVerifySuccess && verifyData?.success) {
+  if (isVerifySuccess && verifyData?.success) {
+    navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
+  } else if (verifyError || !verifyData?.success) {
+    const errorMessage = verifyError?.data?.message;
+    setErrorText(errorMessage);
+  }
+  setIsSubmitting(false);
+}, [isVerifySuccess, verifyData, verifyError, navigation]);
 
-      navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
-    } else if (verifyError || !verifyData?.success) {
-    console.log('error')
-    }
-    setIsSubmitting(false);
-  }, [isVerifySuccess, verifyData, verifyError, navigation]);
 
+ 
+ 
   useEffect(() => {
     if (timer > 0) {
       intervalRef.current = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -55,6 +63,7 @@ const OtpScreen = ({ navigation, route }) => {
     }
     return () => clearInterval(intervalRef.current);
   }, [timer]);
+
 
   const handleResendCode = () => {
     if (!isResendDisabled) {
@@ -70,9 +79,6 @@ const OtpScreen = ({ navigation, route }) => {
 const closeModal = () => {
     setModalVisible(false);
   };
-
-
-
 
   const handleChange = (text, index) => {
     const newOtp = [...otp];
@@ -114,7 +120,7 @@ const closeModal = () => {
           />
         </View>
         <Text style={styles.description}>
-         We have sent a 4-digit code to your email<Text style={styles.email}>{email} </Text>. Please check your inbox and spam folder.
+         We have sent a 4-digit code to your email <Text style={styles.email}>{email} </Text>. Please check your inbox and spam folder.
         </Text>
 
      <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'400'}}>{'Please enter the code below to verify your account.'}</Text>
@@ -132,13 +138,13 @@ const closeModal = () => {
             />
           ))}
         </View>
-
+         {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
         <View style={{ marginTop: theme.verticalSpacing.space_114 }}>
           <CustomButton
             
             onPress={handleForgotPasswordVerifyAccount}
-            title={'Create new password'}
-            disabled={isSubmitting || otp.includes('')} // Disable if submitting or OTP incomplete
+                 title={isSubmitting ? <ActivityIndicator color="white" /> : 'Create new password'}
+            disabled={isSubmitting || otp.includes('')} 
           />
         </View>
 
@@ -182,10 +188,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row', 
     justifyContent:'space-between',
-    marginTop: theme.verticalSpacing.space_40,
+    marginTop: theme.verticalSpacing.space_114,
   },
   otpInput: {
-    margin: 5,
+    
     width: theme.horizontalSpacing.space_60,
     height: theme.verticalSpacing.space_60,
     borderRadius: 8,
@@ -211,6 +217,11 @@ const styles = StyleSheet.create({
   timerText: {
     
     color: '#3D3D3D',
+  },
+   errorText: {
+    color: 'red',
+    fontSize:theme.fontSizes.size_16,
+    marginTop:10
   },
 });
 

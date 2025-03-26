@@ -22,14 +22,14 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
   const [selectedCountry, setSelectedCountry] = useState("GB");
   const [errorMessage, setErrorMessage] = useState("");
   const [privacyError, setPrivacyError] = useState("");
-
+ const [showModal, setShowModal] = useState(false);
   const countryPickerRef = useRef(null);
 
   const [registerApi, { isLoading, isSuccess, error }] = useRegisterMutation();
 
   const handleVerify = () => {
     if (!phoneNumber || !validatePhoneNumber(phoneNumber)) {
-      setErrorMessage("Please enter a valid 10-digit phone number.");
+      setErrorMessage("Please enter a valid 10 to 12-digit phone number.");
       return;
     }
 
@@ -52,7 +52,8 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
     });
   };
 
-  const validatePhoneNumber = (number) => /^[0-9]{10}$/.test(number);
+const validatePhoneNumber = (number) => /^[0-9]{10,12}$/.test(number);
+
 
   useEffect(() => {
     if (error) {
@@ -71,7 +72,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           visible={isModalVisible}
           onClose={() => setModalVisible(false)}
           title="Email verification code send!"
-          description="Code has been sent to your email. Please check your email."
+          description="A 4-digit email verification code has been sent to your email. Please check your inbox or spam folder to confirm your account."
           buttons={[
             {
               label: "Continue",
@@ -93,19 +94,28 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           <Text style={styles.label}>Phone number</Text>
           <View style={styles.phoneContainer}>
           
-            <View style={{height:theme.verticalSpacing.space_46,borderWidth:.3,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5}}>
+            <View style={{height:theme.verticalSpacing.space_50,borderWidth:.3,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5}}>
+           
+           <TouchableOpacity onPress={() => setShowModal(true)}>
+        <Text style={{ fontSize:theme.fontSizes.size_16, color: '#000', fontWeight: '400',alignItems:"center",justifyContent:"center" }}>
+          {countryCode}
+        </Text>
+      </TouchableOpacity>
+           
             <CountryPicker
-              ref={countryPickerRef}
-              withCallingCode
-              withCallingCodeButton
-              withFlag={false}
-              onSelect={(country) => {
-                setCountryCode(`+${country.callingCode?.[0] || "1"}`);
-                setSelectedCountry(country.cca2);
-              }}
-              countryCode={selectedCountry}
-             
-            />
+        ref={countryPickerRef}
+        withCallingCode
+        withFlag
+        onSelect={(country) => {
+          setCountryCode(`+${country.callingCode?.[0] || '1'}`);
+          setSelectedCountry(country.cca2);
+          setShowModal(false);
+        }}
+        countryCode={selectedCountry}
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        renderFlagButton={() => null} 
+      />
             </View>
             <CustomTextInput
               value={phoneNumber}
@@ -113,7 +123,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
               keyboardType="numeric"
               placeholder="Enter phone number"
               style={styles.phoneInput}
-              maxLength={10}
+              maxLength={12}
             />
           </View>
 

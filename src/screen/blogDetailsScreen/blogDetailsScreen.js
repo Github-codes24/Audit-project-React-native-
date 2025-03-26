@@ -24,7 +24,7 @@ const BlogDetailsScreen = ({ route }) => {
  const isFocused = useIsFocused();
  const scrollViewRef = useRef(null);
  
- 
+  console.log('id436475',id)
   // Fetch blog data
   const { data: blogApiData, isLoading: isBlogApiDataLoading } = useGetAllBlogsQuery({});
   const { data: getBlogDetailsData, isLoading: blogDetailsIsLoading } = useGetblogsByIdQuery({ id: selectedBlogId });
@@ -155,8 +155,6 @@ image && isVideoFile(image) ? (
   <Text style={styles.noMediaText}>Oops🥺 No media available for this blog.</Text>
 )}
 
-
-
             {/* <View style={styles.categoryContainer}>
               <Text style={styles.categoryText}>{category}</Text>
             </View> */}
@@ -183,8 +181,18 @@ image && isVideoFile(image) ? (
              </TouchableOpacity>
            
             </View>
-             <View style={{}}>
-            <RenderHTML source={{ html: description }} />
+             <View style={{marginTop:5}}>
+            <RenderHTML source={{ html: description }} 
+             tagsStyles={{
+                      p: { 
+                                marginVertical:8, 
+                                lineHeight:20,
+                                fontSize: theme.fontSizes.size_16,
+                              fontWeight: '400', 
+                              }
+                            }}
+            
+            />
             </View>
           </View>
 

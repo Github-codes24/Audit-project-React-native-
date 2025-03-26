@@ -36,8 +36,6 @@ logOutApi:'/api/user/logout',
 getAllBlogs:'api/blogRoutes/getAllBlogs',
 getBlogById:'api/blogRoutes/getBlogById',
 
-
-
 //customer support api slice
 contactUs:'api/contactUs/createContactUs',
 aboutUs:'api/aboutUs/getAboutUs',

@@ -65,13 +65,15 @@ const style = StyleSheet.create({
   imageContainer: {
     backgroundColor: theme.lightColor.brownColor,
     justifyContent: 'center',
+    
     alignItems: 'center',
     height:'50%',
 
   },
   image: {
-    width: theme.horizontalSpacing.space_385,
-    height: theme.verticalSpacing.space_390,
+    width: theme.horizontalSpacing.space_374,
+    height: theme.verticalSpacing.space_350,
+    alignSelf:"center"
   },
   textContainer: {
     justifyContent: 'center',

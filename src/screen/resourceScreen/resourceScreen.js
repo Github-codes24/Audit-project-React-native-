@@ -17,6 +17,7 @@ import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';
 import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
+import moment from 'moment';
 
 const ResourceScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -65,7 +66,7 @@ const ResourceScreen = ({ navigation }) => {
   const renderMedia = (uri) => {
   if (!uri) {
     return (
-    <View style={{width:theme.horizontalSpacing.space_60,height:theme.verticalSpacing.space_60,borderWidth:.3,borderRadius:10}}>
+    <View style={{width:theme.horizontalSpacing.space_60,height:theme.verticalSpacing.space_60,borderWidth:.3,borderRadius:10,justifyContent:"center"}}>
     <Text style={styles.noImageText}>No Image</Text>
     </View>
     )
@@ -97,7 +98,9 @@ const ResourceScreen = ({ navigation }) => {
     }
   >
     <View style={styles.blogInfo}>
-        <Text style={styles.readTime}>{item?.readTime}</Text>
+        <Text style={styles.readTime}>
+           {moment(item?.createdAt).format('DD MMM YYYY')}
+          </Text>
       
         <Text style={styles.blogTitle}>{item?.title}</Text>
       

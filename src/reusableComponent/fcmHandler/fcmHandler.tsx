@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-import notifee, { AndroidImportance } from '@notifee/react-native';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { setFcmToken } from '../../redux/stateSlice/authStateSlice';
 
 const FCMHandler = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     requestPermissions();
@@ -49,28 +51,47 @@ const FCMHandler = () => {
   };
 
   const setupNotificationHandlers = () => {
+    // Handle foreground notifications
     messaging().onMessage(async remoteMessage => {
       console.log('🔥 Foreground Message Received:', JSON.stringify(remoteMessage));
-
-      if (!remoteMessage) {
-        console.warn('⚠️ No remoteMessage received');
-        return;
-      }
-
       await displayNotification(remoteMessage);
     });
 
+    // Handle background notification click
     messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log('App opened from background:', remoteMessage);
+      console.log('🚀 App opened from background:', remoteMessage);
+      handleNotificationNavigation(remoteMessage);
     });
 
+   
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
         if (remoteMessage) {
-          console.log('App opened from quit state:', remoteMessage);
+          console.log('🚀 App opened from quit state:', remoteMessage);
+          handleNotificationNavigation(remoteMessage);
         }
       });
+
+    // Handle foreground notification click
+    notifee.onForegroundEvent(({ type, detail }) => {
+      if (type === EventType.PRESS) {
+        console.log('🔎 Notification clicked in foreground:', detail.notification);
+        handleNotificationNavigation(detail.notification);
+      }
+    });
+  };
+
+  const handleNotificationNavigation = (notificationData) => {
+    const screen = notificationData?.data?.screen;
+    const blogId = notificationData?.data?.blogId;
+
+    if (screen && blogId) {
+      console.log(`Navigating to ${screen} with blogId: ${blogId}`);
+      navigation.navigate(screen, { id:blogId });
+    } else {
+      console.warn('⚠️ Missing screen or blogId in notification data');
+    }
   };
 
   const displayNotification = async (remoteMessage) => {
@@ -97,8 +118,11 @@ const FCMHandler = () => {
         android: {
           channelId,
           smallIcon: 'ic_launcher',
-          pressAction: { id: 'default' },
+          pressAction: {
+            id: 'default',
+          },
         },
+        data,
       });
     } catch (error) {
       console.error('🚨 Error displaying notification:', error);

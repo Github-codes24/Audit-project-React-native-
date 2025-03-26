@@ -85,8 +85,7 @@ const NotificationScreen = ({  }) => {
         if (!item?.isRead) {
           markNotificationAsRead(item?._id);
         }
-        const route = item?.type === 'BLOG' ? MainRoutes?.BLOG_DETAILS_SCREEN : MainRoutes?.NOTIFICATION_DETAILS_SCREEN;
-        navigation.navigate(route, { id: item?.blogId, item });
+        navigation.navigate(MainRoutes?.BLOG_DETAILS_SCREEN ,{id:item?.blogId});
       }}
     >
       <Image style={styles.NotificationImage} source={require('../../assets/images/manImage.png')} />

@@ -10,6 +10,7 @@ import Loader from '../loader/loader';
 const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance' }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Fetch categories based on checkerType
   const {
@@ -34,12 +35,21 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategoryId(selectedCategory?._id);
     handleSelect && handleSelect(selectedCategory);
+    setErrorMessage('');
   };
 
   const onRefresh = async () => {
     setRefreshing(true);
     await refetchData();
     setRefreshing(false);
+  };
+
+  const handleContinue = () => {
+    if (!selectedCategoryId) {
+      setErrorMessage('Please select a category before continuing.');
+      return;
+    }
+    onTakeTest();
   };
 
   if (isLoading) {
@@ -88,12 +98,13 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
           ) : (
             <Text>No categories available</Text>
           )}
+                                {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
         </ScrollView>
+
       </View>
 
-      {/* Fixed Bottom Button */}
       <View style={styles.buttonContainer}>
-        <CustomButton title="Continue" onPress={onTakeTest} disabled={!selectedCategoryId} />
+        <CustomButton title="Continue" onPress={handleContinue} />
       </View>
     </View>
   );
@@ -101,16 +112,14 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
 
 const styles = StyleSheet.create({
   container: {
-   flex:1,
-
+    flex: 1,
     paddingHorizontal: 19,
-    // backgroundColor: 'red',
   },
   header: {
     fontSize: theme.fontSizes.size_20,
     fontWeight: '700',
     marginBottom: 10,
-    marginTop:theme.verticalSpacing.space_20,
+    marginTop: theme.verticalSpacing.space_20,
   },
   subHeader: {
     fontSize: theme.fontSizes.size_20,
@@ -118,13 +127,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   scrollContainer: {
-    height:"100%", 
-    marginBottom: 80, 
-    // backgroundColor:"red"
-
+    height: '100%',
+    marginBottom: 80,
   },
   categoriesContainer: {
-    paddingBottom:theme.verticalSpacing.space_80,
+    paddingBottom: theme.verticalSpacing.space_80,
   },
   category: {
     flexDirection: 'row',
@@ -156,22 +163,22 @@ const styles = StyleSheet.create({
     borderColor: 'green',
   },
   errorText: {
-    fontSize: theme.fontSizes.size_14,
+    fontSize: theme.fontSizes.size_16,
     color: 'red',
-    textAlign: 'center',
-    marginBottom: 10,
+   marginLeft:2,
+    // marginTop:10,
   },
   buttonContainer: {
     position: 'absolute',
-    bottom:theme.verticalSpacing.space_100,
+    bottom: theme.verticalSpacing.space_100,
     left: 0,
     right: 0,
     paddingHorizontal: 19,
     backgroundColor: '#F2F3F5',
     paddingVertical: 10,
-    height:theme.verticalSpacing.space_50,
-    alignItems:"center",
-    justifyContent:"center"
+    height: theme.verticalSpacing.space_50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

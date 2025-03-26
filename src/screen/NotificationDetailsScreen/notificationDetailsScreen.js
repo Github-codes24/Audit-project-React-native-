@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import ImageSwiper from '../../reusableComponent/ImageSlider/imageSwiper';
 import Header from '../../reusableComponent/header/header';
 import * as Svg from '../../assets/images/svg';
 import moment from 'moment';
 import { theme } from '../../utils';
+import { useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
 
 const NotificationDetailsScreen = ({ route }) => {
-  const { item } = route?.params || {};
 
-  console.log('itemmmmm',item)
+
+  const { id } = route?.params || {};
+
+  const [selectedBlogId, setSelectedBlogId] = useState(id);
+
+
+    
+  console.log('id567687',id)
+  
+const { data: getBlogDetailsData, isLoading: blogDetailsIsLoading, error } = useGetblogsByIdQuery({ id })
+
+   console.log('getBlogDetailsData3465757',getBlogDetailsData)
+   
+   
+   const item = getBlogDetailsData?.data;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -42,9 +42,9 @@ const EditProfile = ({ navigation, route }) => {
 
     const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
     const validatePhoneNumber = (phone) => {
-        const phoneRegEx = /^[0-9]{10}$/; 
-        return phoneRegEx.test(phone);
-    };
+  const phoneRegEx = /^[0-9]{10,12}$/; 
+  return phoneRegEx.test(phone);
+};
 
 
  const validatePassword = (password) => {
@@ -102,7 +102,7 @@ const EditProfile = ({ navigation, route }) => {
     const handleSubmit = () => {
         // Validate phone number before submission
         if (!validatePhoneNumber(phoneNumber)) {
-            setPhoneError('Please enter a valid 10-digit phone number.');
+            setPhoneError('Please enter a valid 10 to 12-digit phone number.');
             return; 
         }
          if (password && !validatePassword(password)) {
@@ -233,11 +233,11 @@ const EditProfile = ({ navigation, route }) => {
                     <CustomTextInput
                         value={phoneNumber}
                         onChangeText={(text) => {
-                            const formattedText = text.replace(/\D/g, '').slice(0, 10);
+                         const formattedText = text.replace(/\D/g, '').slice(0, 12);
                             setPhoneNumber(formattedText);
                             setPhoneError(''); 
                         }}
-                        maxLength={10}
+                        maxLength={12}
                         placeholder={'+44 (0) XXXX XXX XXX'}
                     />
                     {phoneError ? <Text style={{ color: 'red', fontSize: 14 }}>{phoneError}</Text> : null} {/* Display error message */}
@@ -348,7 +348,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: theme.lightColor.whiteColor,
         // marginBottom: theme.verticalSpacing.space_10,
-        width:theme.horizontalSpacing.space_173
+        width:theme.horizontalSpacing.space_173,
+        marginTop:5
     },
     TextStyle: {
         marginTop: theme.verticalSpacing.space_20,
