@@ -52,9 +52,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
     });
   };
 
-const validatePhoneNumber = (number) => /^[0-9]{10,12}$/.test(number);
-
-
+  const validatePhoneNumber = (number) => /^[0-9]{10,12}$/.test(number);
   useEffect(() => {
     if (error) {
       setErrorMessage(error?.data?.message || "An error occurred during registration.");
@@ -94,9 +92,8 @@ const validatePhoneNumber = (number) => /^[0-9]{10,12}$/.test(number);
           <Text style={styles.label}>Phone number</Text>
           <View style={styles.phoneContainer}>
           
-            <View style={{height:theme.verticalSpacing.space_50,borderWidth:.3,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5}}>
-           
-           <TouchableOpacity onPress={() => setShowModal(true)}>
+            <View style={{height:theme.verticalSpacing.space_50,borderWidth:1,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5,borderColor:theme.lightColor.borderColor}}>
+          <TouchableOpacity onPress={() => setShowModal(true)} style={{}}>
         <Text style={{ fontSize:theme.fontSizes.size_16, color: '#000', fontWeight: '400',alignItems:"center",justifyContent:"center" }}>
           {countryCode}
         </Text>

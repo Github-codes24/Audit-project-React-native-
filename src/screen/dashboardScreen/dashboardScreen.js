@@ -155,8 +155,8 @@ const openVerificationLink = () => {
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
             </TouchableOpacity>
           </View>
-           <TouchableOpacity   style={{flexDirection:"row"}} onPress={openVerificationLink}>
-          <Text style={{marginTop:theme.verticalSpacing.space_80,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_16}}>Authorised and regulated by the Solicitors Regulation. SRA No. 8006464.<Text style={{color:theme.lightColor.brownColor,lineHeight:20,}}>{'Verify here'}</Text> </Text>
+           <TouchableOpacity style={{flexDirection:"row"}} onPress={openVerificationLink}>
+          <Text style={{marginTop:theme.verticalSpacing.space_30,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_16}}>{'Authorised and regulated by the Solicitors Regulation.\n SRA No. 8006464.'}<Text style={{color:theme.lightColor.brownColor,lineHeight:20,}}>{'Verify here'}</Text> </Text>
           
        </TouchableOpacity>
         </View>
@@ -200,8 +200,8 @@ const style = StyleSheet.create({
     fontWeight: "500",
   },
   imageSwiperContainer: {
-    height: theme.verticalSpacing.space_230,
-   
+    height: theme.verticalSpacing.space_260,
+  //  backgroundColor:"red",
     marginTop: theme.verticalSpacing.space_10,
     borderRadius: theme.horizontalSpacing.space_10,
     overflow: "hidden",

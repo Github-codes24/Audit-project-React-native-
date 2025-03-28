@@ -1,53 +1,49 @@
-import React, { useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Svg, { Path } from 'react-native-svg';
 import { theme } from '../../utils';
 
-const ImageSwiper = ({ images, showNavigation = false , imageStyle = {},containerStyle={}}) => {
+const { width: screenWidth } = Dimensions.get('window');
+
+const ImageSwiper = ({ images, showNavigation = false, imageStyle = {}, containerStyle = {} }) => {
   const swiperRef = useRef(null);
+  const [imageHeights, setImageHeights] = useState([]);
+  const [maxHeight, setMaxHeight] = useState(200); // Default height
 
-  // Function to go to the previous slide
-  const goToPrevious = () => {
-    if (swiperRef.current) {
-      swiperRef.current.scrollBy(-1, true);
+  useEffect(() => {
+    if (imageHeights.length > 0) {
+      setMaxHeight(Math.max(...imageHeights)); // Adjust container height dynamically
     }
+  }, [imageHeights]);
+
+  const onImageLoad = (imageUrl, index) => {
+    Image.getSize(imageUrl, (imgWidth, imgHeight) => {
+      const calculatedHeight = (screenWidth * imgHeight) / imgWidth;
+      setImageHeights((prev) => {
+        const newHeights = [...prev];
+        newHeights[index] = calculatedHeight;
+        return newHeights;
+      });
+    });
   };
 
-  // Function to go to the next slide
-  const goToNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.scrollBy(1, true);
-    }
-  };
+  const goToPrevious = () => swiperRef.current?.scrollBy(-1, true);
+  const goToNext = () => swiperRef.current?.scrollBy(1, true);
 
   return (
-    <View style={[styles.container,containerStyle]}>
+    <View style={[styles.container, containerStyle, { height: maxHeight }]}>
       {showNavigation && (
         <>
-          {/* Previous button */}
           <TouchableOpacity onPress={goToPrevious} style={styles.prevButton}>
             <Svg height="30" width="30" viewBox="0 0 24 24" fill="none">
-              <Path
-                d="M15 19l-7-7 7-7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <Path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </Svg>
           </TouchableOpacity>
 
-          {/* Next button */}
           <TouchableOpacity onPress={goToNext} style={styles.nextButton}>
             <Svg height="30" width="30" viewBox="0 0 24 24" fill="none">
-              <Path
-                d="M9 5l7 7-7 7"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <Path d="M9 5l7 7-7 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </Svg>
           </TouchableOpacity>
         </>
@@ -59,10 +55,19 @@ const ImageSwiper = ({ images, showNavigation = false , imageStyle = {},containe
         autoplayTimeout={5}
         activeDotStyle={styles.activeDot}
         paginationStyle={styles.pagination}
+        loop={false}
       >
         {images?.map((imageUrl, index) => (
-          <View style={styles.slide} key={index}>
-             <Image style={[styles.image, imageStyle]}source={{ uri: imageUrl }} />
+          <View key={index} style={[styles.slide, { height: maxHeight }]}>
+            <Image
+              style={[
+                styles.image,
+                imageStyle,
+                { height: imageHeights[index] || maxHeight, resizeMode: 'contain' }
+              ]}
+              source={{ uri: imageUrl }}
+              onLoad={() => onImageLoad(imageUrl, index)}
+            />
           </View>
         ))}
       </Swiper>
@@ -72,20 +77,16 @@ const ImageSwiper = ({ images, showNavigation = false , imageStyle = {},containe
 
 const styles = StyleSheet.create({
   container: {
-    height: 230,
     position: 'relative',
-    
+    width: '100%',
   },
   slide: {
-    
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
   image: {
-    height: 230,
     width: '100%',
-    resizeMode: 'cover',
-   
   },
   activeDot: {
     backgroundColor: '#000',
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: 'absolute',
-    bottom:theme.verticalSpacing.space_24,
+    bottom: theme.verticalSpacing.space_24,
     left: 0,
     right: 0,
     alignItems: 'center',

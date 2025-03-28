@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useRef} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView,Share,AppState } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView,Share,AppState, useWindowDimensions } from 'react-native';
 import Video from 'react-native-video'; 
 import YoutubePlayer from 'react-native-youtube-iframe'; 
 import { useGetAllBlogsQuery, useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
@@ -23,7 +23,9 @@ const BlogDetailsScreen = ({ route }) => {
   const [paused, setPaused] = useState(true)
  const isFocused = useIsFocused();
  const scrollViewRef = useRef(null);
- 
+   const { width } = useWindowDimensions();
+
+
   console.log('id436475',id)
   // Fetch blog data
   const { data: blogApiData, isLoading: isBlogApiDataLoading } = useGetAllBlogsQuery({});
@@ -113,6 +115,9 @@ const isVideoLink = (url) => /\.(mp4|mov|mkv|webm|avi|flv)$/i.test(url);
 
 
 
+
+ const isHTML = /<\/?[a-z][\s\S]*>/i.test(description);
+  
   return (
     <SafeAreaView style={{ flex: 1,backgroundColor:'#FFF' }}>
       <Loader isLoading={blogDetailsIsLoading || isBlogApiDataLoading} />
@@ -124,7 +129,7 @@ const isVideoLink = (url) => /\.(mp4|mov|mkv|webm|avi|flv)$/i.test(url);
           <View style={{ position: 'relative' }}>
      {isYouTubeLink(addLink) ? (
   <YoutubePlayer height={220} play={false} videoId={getYouTubeId(addLink)} />
-) : isVimeoLink(addLink) ? (
+   ) : isVimeoLink(addLink) ? (
         <WebView
           source={{ uri: getVimeoEmbedUrl(addLink) }}
           style={{ flex: 1 }}
@@ -147,10 +152,13 @@ image && isVideoFile(image) ? (
     paused={paused}
   />
 ) : image && (Array.isArray(image) || !isVideoFile(image)) ? (
+  <View style={{}}>
   <ImageSwiper 
+      imageStyle={{  }}
     images={Array.isArray(image) ? image : [image]} 
     showNavigation={Array.isArray(image) && image.length > 1} 
   />
+  </View>
 ) : (
   <Text style={styles.noMediaText}>Oops🥺 No media available for this blog.</Text>
 )}
@@ -164,7 +172,8 @@ image && isVideoFile(image) ? (
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingHorizontal: 19 }}>
+          <View style={{ paddingHorizontal: 19,
+           }}>
             <Text style={styles.detailsTitle}>{title}</Text>
             <View style={[styles.authorContainer, { flexDirection: "row", justifyContent:"space-between" }]}>
               <View style={{ flexDirection: "row" }}>
@@ -181,18 +190,28 @@ image && isVideoFile(image) ? (
              </TouchableOpacity>
            
             </View>
-             <View style={{marginTop:5}}>
-            <RenderHTML source={{ html: description }} 
-             tagsStyles={{
-                      p: { 
-                                marginVertical:8, 
-                                lineHeight:20,
-                                fontSize: theme.fontSizes.size_16,
-                              fontWeight: '400', 
-                              }
-                            }}
-            
-            />
+             <View style={{marginTop:theme.verticalSpacing.space_14}}>
+          {isHTML ? (
+        <RenderHTML 
+        contentWidth={width}
+          source={{ html: description }}
+           baseStyle={{
+    fontSize:theme.fontSizes.size_16, 
+    lineHeight:20, 
+    fontWeight: '500',
+    // marginVertical:5,
+  }}/>
+      ) : (
+        <Text style={{
+          marginVertical:8,
+          lineHeight: 20,
+          fontSize: theme.fontSizes.size_14,
+          fontWeight: '400',
+          
+        }}> 
+          {description}
+        </Text>
+      )}
             </View>
           </View>
 
@@ -219,7 +238,8 @@ const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
     borderRadius: 8,
-    backgroundColor:'#FFF'
+    backgroundColor:'#FFF',
+
   },
   video: {
     width: '100%',
@@ -296,14 +316,7 @@ const styles = StyleSheet.create({
  
 },
 
-//  buttonText:{
-//     width:theme.horizontalSpacing.space_110,
-//     height:theme.verticalSpacing.space_50,
-//     backgroundColor:theme.lightColor.brownColor,
-//     alignItems:"center",
-//     justifyContent:"center",
-//     marginBottom:100
-//   } 
+
 });
 
 

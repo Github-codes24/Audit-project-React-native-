@@ -19,7 +19,7 @@ const WelcomeScreen = ({ navigation }) => {
 
   return (
     <View style={style.container}>
-      <StatusBar backgroundColor={'#F2F3F5'} />
+      <StatusBar backgroundColor={theme.lightColor.brownColor} />
 
       <View style={style.imageContainer}>
         <Image
@@ -49,7 +49,7 @@ const WelcomeScreen = ({ navigation }) => {
 
       <TouchableOpacity onPress={openVerificationLink} style={style.verificationContainer}>
         <Text style={style.verificationText}>
-          {'Authorised and regulated by the Solicitors Regulation. SRA No. 8006464. '}
+ {'Authorised and regulated by the Solicitors Regulation.\nSRA No. 8006464.'}
           <Text style={style.verifyHereText}>Verify here</Text>
         </Text>
       </TouchableOpacity>
@@ -60,7 +60,7 @@ const WelcomeScreen = ({ navigation }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   imageContainer: {
     backgroundColor: theme.lightColor.brownColor,
@@ -73,7 +73,8 @@ const style = StyleSheet.create({
   image: {
     width: theme.horizontalSpacing.space_374,
     height: theme.verticalSpacing.space_350,
-    alignSelf:"center"
+    alignSelf:"center",
+    
   },
   textContainer: {
     justifyContent: 'center',

@@ -14,11 +14,11 @@ import { useWindowDimensions } from 'react-native';
 const AboutUsScreen = () => {
   const swiperRef = useRef(null);
   const { width } = useWindowDimensions();
-  const [isAutoplay, setIsAutoplay] = useState(true);  // To control autoplay
-  const [clickCount, setClickCount] = useState(0);  // Track number of clicks
-  const [lastClickedTime, setLastClickedTime] = useState(null);  // Track last click time
-  const [intervalId, setIntervalId] = useState(null);  // To store interval reference
-  const [debounceTimeout, setDebounceTimeout] = useState(null); // To store debounce timeout reference
+  const [isAutoplay, setIsAutoplay] = useState(true);
+  const [clickCount, setClickCount] = useState(0);
+  const [lastClickedTime, setLastClickedTime] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const { 
     data: getAboutdata, 
@@ -26,13 +26,14 @@ const AboutUsScreen = () => {
   } = useGetAboutUsApiQuery({}); 
 
   const content = getAboutdata?.aboutUs?.[0]?.content || '';
-const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p>"
+  const images = getAboutdata?.aboutUs?.[0]?.image || [];
+  const hasMultipleImages = images.length > 1; // Check if multiple images exist
 
   useEffect(() => {
     if (intervalId) {
       clearInterval(intervalId);
     }
-    if (isAutoplay) {
+    if (isAutoplay && hasMultipleImages) {
       const newIntervalId = setInterval(() => {
         if (swiperRef.current) {
           swiperRef.current.scrollBy(1, true); 
@@ -45,28 +46,34 @@ const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p
         clearInterval(intervalId);  
       }
     };
-  }, [isAutoplay]);  
+  }, [isAutoplay, hasMultipleImages]);  
  
- const handleArrowPress = useCallback(() => {
-  const currentTime = Date.now();
-  setClickCount((prevCount) => prevCount + 1);  
-  if (swiperRef.current) {
-    swiperRef.current.scrollBy(1);
-    setIsAutoplay(false); 
-  }
-  setLastClickedTime(currentTime);
-  if (clickCount >= 2 && currentTime - lastClickedTime < 1000) {
-    setIsAutoplay(false);
-  }
-  if (debounceTimeout) {
-    clearTimeout(debounceTimeout);
-  }
-  const timeoutId = setTimeout(() => {
-    setClickCount(0); 
-    setIsAutoplay(true);  
-  }, 800);
-  setDebounceTimeout(timeoutId);
-}, [clickCount, lastClickedTime, debounceTimeout]);
+  const handleArrowPress = useCallback(() => {
+    const currentTime = Date.now();
+    setClickCount((prevCount) => prevCount + 1);
+    
+    if (swiperRef.current) {
+      swiperRef.current.scrollBy(1);
+      setIsAutoplay(false);
+    }
+
+    setLastClickedTime(currentTime);
+
+    if (clickCount >= 2 && currentTime - lastClickedTime < 1000) {
+      setIsAutoplay(false);
+    }
+
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      setClickCount(0);
+      setIsAutoplay(true);
+    }, 800);
+
+    setDebounceTimeout(timeoutId);
+  }, [clickCount, lastClickedTime, debounceTimeout]);
 
   return (
     <SafeAreaView>
@@ -78,51 +85,54 @@ const htmlContent = "<p>This is a paragraph.</p><p>This is another paragraph.</p
 
           <View style={{ marginHorizontal: 10 }}>
             {/* Image Slider */}
-            <View style={{ height: 300,marginTop:theme.verticalSpacing.space_20 }}>
+            <View style={{ height:300, marginTop: theme.verticalSpacing.space_20, }}>
               <Swiper
                 ref={swiperRef}
                 style={styles.wrapper}
-                autoplay={isAutoplay}  // Control autoplay dynamically
+                autoplay={isAutoplay && hasMultipleImages} 
                 autoplayTimeout={3} 
-                loop={true}
-                showsPagination={true} 
+                loop={hasMultipleImages} // Enable loop only if multiple images
+                showsPagination={hasMultipleImages} // Show dots only if multiple images
                 dotColor={"#A7A7A7"}
                 activeDotColor={"white"} 
               >
-                {getAboutdata?.aboutUs?.[0]?.image?.length > 0 && (
-                  getAboutdata.aboutUs[0].image.map((slide, index) => (
+                {images.length > 0 && (
+                  images.map((slide, index) => (
                     <View style={styles.slide} key={index}>
-                      <Image style={styles.image} source={{ uri: slide }} />
+                      <Image style={styles.image} source={{ uri: slide }} resizeMode='cover'  />
                     </View>
                   ))
                 )}
               </Swiper>
 
-              {/* Right Arrow Button */}
-              <TouchableOpacity 
-                style={styles.nextButton} 
-                onPress={handleArrowPress}
-              >
-                <Svg.ArrowRight />
-              </TouchableOpacity>
+              {/* Right Arrow Button (Only show when more than 1 image) */}
+              {hasMultipleImages && (
+                <TouchableOpacity 
+                  style={styles.nextButton} 
+                  onPress={handleArrowPress}
+                >
+                  <Svg.ArrowRight />
+                </TouchableOpacity>
+              )}
             </View>
 
-             <View style={{marginHorizontal:3}}>
-            {/<[a-z][\s\S]*>/i.test(content) ? (
-              <RenderHtml contentWidth={width} source={{ html: content }} 
-              
-              tagsStyles={{
-                              p: { 
-                               
-                                marginVertical:5, 
-                                lineHeight:20,
-                                fontSize: theme.fontSizes.size_16,
-                              fontWeight: '400', 
-                              }
-                            }}/>
-            ) : (
-              <Text style={styles.contentText}>{content}</Text>
-            )}
+            <View style={{ marginHorizontal: 3, marginTop: theme.verticalSpacing.space_10 }}>
+              {/<[a-z][\s\S]*>/i.test(content) ? (
+                <RenderHtml 
+                  contentWidth={width} 
+                  source={{ html: content }}  
+                  tagsStyles={{
+                    p: { 
+                      marginVertical: 5, 
+                      lineHeight: 20,
+                      fontSize: theme.fontSizes.size_16,
+                      fontWeight: '400',
+                    }
+                  }} 
+                />
+              ) : (
+                <Text style={styles.contentText}>{content}</Text>
+              )}
             </View>
           </View>
         </View>
@@ -138,7 +148,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: theme.fontSizes.size_20,
     marginHorizontal: 10,
-   marginTop:theme.verticalSpacing.space_20
+    marginTop: theme.verticalSpacing.space_20,
   },
   wrapper: {
     // backgroundColor: 'red',
@@ -148,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    height: theme.verticalSpacing.space_390,
+    height: 300,
     width: '100%',
     borderRadius: 10,
   },
@@ -185,7 +195,7 @@ const styles = StyleSheet.create({
   contentText: {
     margin: theme.horizontalSpacing.space_10,
     fontSize: theme.fontSizes.size_16,
-    lineHeight: 20,
+    lineHeight:20,
     fontWeight: "400",
   },
 });

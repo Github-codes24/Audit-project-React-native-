@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity,ScrollView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import QuestionCard from "../categoryList/questionComponent";
-import { useGetcompilanceQuestionsQuery,useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
+import { useGetcompilanceQuestionsQuery, useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useGetEligibilityQuestionsQuery } from "../../redux/apiSlice/eligibilityApiSlice";
 import Loader from "../loader/loader";
-
 import { theme } from "../../utils";
 
 const QuestionSection = ({
   selectedCategory,
   handlePrevious,
   handleNext,
-  checkerType='compliance',
+  checkerType = 'compliance',
   onSubmit
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+
   const {
     isLoading: isLoadingEligibilityQuestions,
     isError: isErrorEligibilityQuestions,
     data: eligibilityQuestions,
-  }= useGetEligibilityQuestionsQuery({
+  } = useGetEligibilityQuestionsQuery({
     category: selectedCategory?.name,
-  },{
+  }, {
     skip: checkerType === 'compliance'
-  })
-
+  });
 
   const {
     isLoading: isLoadingComplianceQuestions,
     isError: isErrorComplianceQuestions,
     data: complianceQuestions,
-  }= useGetcompilanceQuestionsQuery({
+  } = useGetcompilanceQuestionsQuery({
     category: selectedCategory?.name,
-   },{
+  }, {
     skip: checkerType === 'eligibility'
-  })
- 
-const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
+  });
+
+  const questions = checkerType === 'compliance' ? complianceQuestions?.data : eligibilityQuestions?.data;
   const getQuestionsToDisplay = () => {
     return questions?.slice(currentIndex, currentIndex + 2);
   };
@@ -46,29 +46,33 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
     if (currentIndex - 2 >= 0) {
       setCurrentIndex((prevIndex) => prevIndex - 2);
       handlePrevious?.(false);
-    }
-    else{
+    } else {
       handlePrevious?.(true);
-    } 
+    }
+    setErrorMessage('');
   };
 
   const handleOptionSelect = (selectedOption, questionId) => {
-    console.log(
-      "Selected Option:",
-      selectedOption,
-      "Question ID:",
-      questionId
-    )
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
       [questionId]: selectedOption,
     }));
+    setErrorMessage('');
   };
 
   const handleNextLocal = () => {
+    const currentQuestions = getQuestionsToDisplay();
+    const allAnswered = currentQuestions?.every(q => selectedAnswers[q?._id] !== undefined);
+
+    if (!allAnswered) {
+      setErrorMessage('Please answer all questions before proceeding.');
+      return;
+    }
+
     if (currentIndex + 2 < questions?.length) {
       setCurrentIndex((prevIndex) => prevIndex + 2);
       handleNext?.();
+      setErrorMessage('');
     }
   };
 
@@ -79,99 +83,98 @@ const questions = checkerType === 'compliance' ? complianceQuestions?.data : eli
         answer,
       })
     );
-      return {
+    return {
       category: selectedCategory?.name,
       questionsAndAnswers,
     };
   };
 
   const handleSubmit = () => {
+    const currentQuestions = getQuestionsToDisplay();
+    const allAnswered = currentQuestions?.every(q => selectedAnswers[q?._id] !== undefined);
+    if (!allAnswered) {
+      setErrorMessage('Please answer all questions before submitting.');
+      return;
+    }
     const payload = createPayload(selectedCategory, selectedAnswers);
     onSubmit?.(payload);
   };
 
   return (
-    <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
-    <View style={{}}>
-        <Loader
-        isLoading={isLoadingComplianceQuestions||isLoadingEligibilityQuestions}/>
-        {checkerType==='compliance' ?
-      <Text style={styles.header}>Check Your Sponsor Licence Compliance Score</Text>
-      :      <Text style={styles.header}>Check Your Eligibility For Sponsor Licence</Text>
-        }
-     
-      {getQuestionsToDisplay()?.map((questionData,index) => (
-        <QuestionCard
-          key={questionData?.id}
-          question={questionData?.questions?.questionText}
-          options={questionData?.questions?.answerOptions}
-          selectedOption={selectedAnswers[questionData?._id]}
-          onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
-          questionNumber={currentIndex + index + 1} 
-          totalQuestions={questions?.length}
+    <ScrollView style={{ marginBottom: theme.verticalSpacing.space_100 }}>
+      <View>
+        <Loader isLoading={isLoadingComplianceQuestions || isLoadingEligibilityQuestions} />
+        <Text style={styles.header}>{
+          checkerType === 'compliance'
+            ? 'Check Your Sponsor Licence Compliance Score'
+            : 'Check Your Eligibility For Sponsor Licence'
+        }</Text>
+
+        {getQuestionsToDisplay()?.map((questionData, index) => (
+          <QuestionCard
+            key={questionData?._id}
+            question={questionData?.questions?.questionText}
+            options={questionData?.questions?.answerOptions}
+            selectedOption={selectedAnswers[questionData?._id]}
+            onSelect={(selectedOption) => handleOptionSelect(selectedOption, questionData?._id)}
+            questionNumber={currentIndex + index + 1}
+            totalQuestions={questions?.length}
+          />
+        ))}
           
-        />
-      ))}
-
-      <View style={styles.navigationButtons}>
-        
-       {currentIndex + 2 >= questions?.length ? (
-        // When "Submit" button appears, move "Previous" button to top
+        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
         <View style={styles.navigationButtons}>
-          <TouchableOpacity style={{backgroundColor:"white",borderWidth:.3,width:theme.horizontalSpacing.space_110,height:theme.verticalSpacing.space_50,alignItems:"center",justifyContent:'center',borderRadius:10}} onPress={handlePreviousLocal}>
-            <Text style={{alignSelf:'center',textAlign:"center", color:theme.lightColor.brownColor,fontWeight:'500',fontSize:theme.fontSizes.size_16  }}>Previous</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.buttonStyle,{width:theme.horizontalSpacing.space_374,marginTop:20}]} onPress={handleSubmit}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16  }}>Submit</Text>
-          </TouchableOpacity>
+          {currentIndex + 2 >= questions?.length ? (
+            <View style={styles.navigationButtons}>
+              <TouchableOpacity style={{ backgroundColor: "white", borderWidth: 0.3, width: theme.horizontalSpacing.space_110, height: theme.verticalSpacing.space_50, alignItems: "center", justifyContent: 'center', borderRadius: 10 }} onPress={handlePreviousLocal}>
+                <Text style={{ color: theme.lightColor.brownColor, fontWeight: '500', fontSize: theme.fontSizes.size_16 }}>Previous</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.buttonStyle, { width: theme.horizontalSpacing.space_374, marginTop: 20 }]} onPress={handleSubmit}>
+                <Text style={{ color: "white", fontWeight: '500', fontSize: theme.fontSizes.size_16 }}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={[styles.navigationButtons, { flexDirection: "row" }]}> 
+              <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
+                <Text style={{ color: "white", fontWeight: '500', fontSize: theme.fontSizes.size_16 }}>Previous</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
+                <Text style={{ color: "white", fontWeight: '500', fontSize: theme.fontSizes.size_16 }}>Next</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
-      ) : (
-        // Normal Previous/Next button layout
-        <View style={[styles.navigationButtons,{flexDirection:"row"}]}>
-          <TouchableOpacity style={styles.buttonStyle} onPress={handlePreviousLocal}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16}}>Previous</Text>
-          </TouchableOpacity>
-     
-          <TouchableOpacity style={styles.buttonStyle} onPress={handleNextLocal}>
-            <Text style={{ color: "white",fontWeight:'500',fontSize:theme.fontSizes.size_16}}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      )}
       </View>
-    </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    fontSize:theme.fontSizes.size_18,
+    fontSize: theme.fontSizes.size_18,
     fontWeight: "700",
-    marginTop:theme.verticalSpacing.space_20,
-    marginLeft:theme.horizontalSpacing.space_20
+    marginTop: theme.verticalSpacing.space_20,
+    marginLeft: theme.horizontalSpacing.space_20
   },
-  selectedCategoryText: {
-    fontSize:theme.fontSizes.size_16,
-    margin:10,
-    marginHorizontal:15,
-    fontWeight: "400",
-
+  errorText: {
+    color: 'red',
+    fontSize: theme.fontSizes.size_14,
+    marginLeft: theme.horizontalSpacing.space_20,
+    marginBottom: theme.verticalSpacing.space_10,
   },
   navigationButtons: {
-   
     alignItems: "center",
     justifyContent: "center",
-    marginTop:theme.verticalSpacing.space_20,
+    marginTop: theme.verticalSpacing.space_20,
   },
   buttonStyle: {
     alignItems: "center",
     justifyContent: "center",
-    width:theme.horizontalSpacing.space_173,
-   height:theme.verticalSpacing.space_50,
-    backgroundColor: "#592951", 
+    width: theme.horizontalSpacing.space_173,
+    height: theme.verticalSpacing.space_50,
+    backgroundColor: "#592951",
     borderRadius: 10,
-    marginHorizontal:theme.horizontalSpacing.space_12
+    marginHorizontal: theme.horizontalSpacing.space_12
   },
 });
 

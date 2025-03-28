@@ -15,6 +15,7 @@ import Loader from '../../reusableComponent/loader/loader';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/native';
+import Video from 'react-native-video';
 
 
 const NotificationScreen = ({  }) => {
@@ -73,6 +74,11 @@ const NotificationScreen = ({  }) => {
   setRefreshing(JSON.stringify(prevData) !== JSON.stringify(data?.notifications));
 };
 
+const isVideo = (url) => {
+  return url?.match(/\.(mp4|mov|avi|wmv|flv|mkv)$/i);
+};
+
+
   const NotificationItem = ({ item }) => (
     <TouchableOpacity  
       style={[
@@ -88,7 +94,19 @@ const NotificationScreen = ({  }) => {
         navigation.navigate(MainRoutes?.BLOG_DETAILS_SCREEN ,{id:item?.blogId});
       }}
     >
-      <Image style={styles.NotificationImage} source={require('../../assets/images/manImage.png')} />
+      {isVideo(item?.image) ? (
+     <View style={styles.videoWrapper}>
+  <Video
+    source={{ uri: item.image }}
+    style={styles.NotificationVideo}
+    resizeMode="cover"
+    controls={true}
+    paused={true}
+  />
+</View>
+    ) : (
+      <Image style={styles.NotificationImage} source={{ uri: item?.image || '' }} />
+    )}
       <View>
         <Text style={styles.NotificationMsg}>{item.title}</Text>
         <Text style={styles.timestamp}>{formatDate(item?.createdAt)}</Text>
@@ -189,8 +207,20 @@ const styles = StyleSheet.create({
     width:"65%"
   },
   NotificationImage: {
-    height: theme.horizontalSpacing.space_36,
-    width: theme.verticalSpacing.space_36,
+    height: theme.horizontalSpacing.space_60,
+    width: theme.verticalSpacing.space_60,
+    borderRadius:30
+  },
+  NotificationVideo: {
+    height: theme.horizontalSpacing.space_60,
+    width: theme.verticalSpacing.space_60,
+    borderRadius:30
+  },
+ videoWrapper: {
+    height: theme.horizontalSpacing.space_60,
+    width: theme.verticalSpacing.space_60,
+    borderRadius:30,
+    overflow: 'hidden', 
   },
   timestamp: {
     color: 'gray',

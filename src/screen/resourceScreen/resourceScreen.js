@@ -83,8 +83,8 @@ const ResourceScreen = ({ navigation }) => {
       paused={true}
     />
   ) : (
-    <View style={{ width: theme.horizontalSpacing.space_60, height: theme.verticalSpacing.space_60 }}>
-      <Image source={{ uri }} style={styles.blogMedia} />
+    <View style={{ width: theme.horizontalSpacing.space_70, height: theme.verticalSpacing.space_70 }}>
+      <Image source={{ uri }} style={styles.blogMedia} resizeMode='cover' />
     </View>
   );
 };
@@ -110,8 +110,8 @@ const ResourceScreen = ({ navigation }) => {
       
        <View style={styles.readMoreContainer}>
           <Text style={styles.readMoreText}>{'Read more'}</Text>
-          <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
-          <Svg.Arrow style={styles.arrowIcon} />
+          <View style={{marginLeft:5}}>
+          <Svg.Arrow/>
           </View>
         </View>
       <View style={styles.blogDetails}>
@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
     
   },
   blogMedia: {
-    width: theme.horizontalSpacing.space_60,
-    height: theme.verticalSpacing.space_60,
+    width: theme.horizontalSpacing.space_70,
+    height: theme.verticalSpacing.space_70,
     borderRadius: 8,
 
     // marginRight: theme.horizontalSpacing.space_12,
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_12,
   },
   arrowIcon: {
-    marginLeft: theme.horizontalSpacing.space_10,
+    marginLeft: 5,
   },
   noImageText: {
   fontSize: theme.fontSizes.size_14,

@@ -11,7 +11,7 @@ const CustomCheckbox = ({ isChecked, onPress, text, link, linkText, linkText2, l
         style={[styles.checkbox, isChecked && styles.checkedCheckbox]}
         onPress={onPress}
       >
-        {isChecked && <Svg.CheckBoxActive />}
+        {isChecked && <Svg.CheckBoxActive  color={theme.lightColor.brownColor}/>}
       </TouchableOpacity>
 
       {/* Text with links in the same line */}
@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:2
+    marginTop:5
   },
   checkedCheckbox: {
     backgroundColor: 'white',
     borderColor: theme.lightColor.borderColor,
   },
   checkboxText: {
-    fontSize: theme.fontSizes.size_16,
+    fontSize:theme.fontSizes.size_16,
     color: theme.lightColor.blackColor,
     flexShrink: 1,
     fontWeight: '400',
