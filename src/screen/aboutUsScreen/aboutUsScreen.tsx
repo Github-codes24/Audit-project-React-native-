@@ -91,8 +91,8 @@ const AboutUsScreen = () => {
                 style={styles.wrapper}
                 autoplay={isAutoplay && hasMultipleImages} 
                 autoplayTimeout={3} 
-                loop={hasMultipleImages} // Enable loop only if multiple images
-                showsPagination={hasMultipleImages} // Show dots only if multiple images
+                loop={hasMultipleImages} 
+                showsPagination={hasMultipleImages} 
                 dotColor={"#A7A7A7"}
                 activeDotColor={"white"} 
               >

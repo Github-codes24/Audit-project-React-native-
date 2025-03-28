@@ -6,7 +6,7 @@ import { theme } from '../../utils';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const ImageSwiper = ({ images, showNavigation = false, imageStyle = {}, containerStyle = {} }) => {
+const ImageSwiper = ({ images, showNavigation = false, imageStyle = {}, containerStyle = {}, borderRadius = 0}) => {
   const swiperRef = useRef(null);
   const [imageHeights, setImageHeights] = useState([]);
   const [maxHeight, setMaxHeight] = useState(200); // Default height
@@ -59,15 +59,17 @@ const ImageSwiper = ({ images, showNavigation = false, imageStyle = {}, containe
       >
         {images?.map((imageUrl, index) => (
           <View key={index} style={[styles.slide, { height: maxHeight }]}>
-            <Image
-              style={[
-                styles.image,
-                imageStyle,
-                { height: imageHeights[index] || maxHeight, resizeMode: 'contain' }
-              ]}
-              source={{ uri: imageUrl }}
-              onLoad={() => onImageLoad(imageUrl, index)}
-            />
+            <View style={[styles.imageWrapper, { borderRadius, overflow: 'hidden' }]}>
+              <Image
+                style={[
+                  styles.image,
+                  imageStyle,
+                  { height: imageHeights[index] || maxHeight, borderRadius }
+                ]}
+                source={{ uri: imageUrl }}
+                onLoad={() => onImageLoad(imageUrl, index)}
+              />
+            </View>
           </View>
         ))}
       </Swiper>
@@ -85,8 +87,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  imageWrapper: {
+    width: '100%',
+  },
   image: {
     width: '100%',
+    resizeMode: 'cover',
   },
   activeDot: {
     backgroundColor: '#000',

@@ -152,7 +152,7 @@ const openVerificationLink = () => {
         <View style={{ paddingBottom:theme.verticalSpacing.space_100 }}>
           <View style={style.imageSwiperContainer}>
             <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}>
-              <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []} />
+              <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []}  borderRadius={10}/>
             </TouchableOpacity>
           </View>
            <TouchableOpacity style={{flexDirection:"row"}} onPress={openVerificationLink}>
