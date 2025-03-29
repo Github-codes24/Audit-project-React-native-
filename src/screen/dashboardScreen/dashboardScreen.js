@@ -113,7 +113,7 @@ const openVerificationLink = () => {
         />
         <Header userName={"John Doe"} />
         <View style={{paddingHorizontal:19}}>
-        <Text style={style.sponsorText}>{"Welcome to Sponsor Licence Compliance Guru"}</Text>
+        <Text style={style.sponsorText}>{"Welcome🎉"}</Text>
          <View style={{marginTop:theme.verticalSpacing.space_10}}>
         <LicenseCard
           title={"Check Your Sponsor Licence Compliance Score"}
@@ -137,7 +137,7 @@ const openVerificationLink = () => {
         />
         </View>
         <View style={[style.horizontalAlignContainer, { marginTop: 10 }]}>
-          <Text style={style.latestBlogText}>{"Latest Blog"}</Text>
+          <Text style={style.latestBlogText}>{"Latest Resources"}</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Resource")}>
             <Text style={style.seeAllText}>{"See all"}</Text>
           </TouchableOpacity>
@@ -155,8 +155,8 @@ const openVerificationLink = () => {
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []}  borderRadius={10}/>
             </TouchableOpacity>
           </View>
-           <TouchableOpacity style={{flexDirection:"row"}} onPress={openVerificationLink}>
-          <Text style={{marginTop:theme.verticalSpacing.space_30,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_16}}>{'Authorised and regulated by the Solicitors Regulation.\n SRA No. 8006464.'}<Text style={{color:theme.lightColor.brownColor,lineHeight:20,}}>{'Verify here'}</Text> </Text>
+           <TouchableOpacity style={{flexDirection:"row",alignItems:"center",justifyContent:'center'}} onPress={openVerificationLink}>
+          <Text style={{marginTop:theme.verticalSpacing.space_30,color:'gray',textAlign:"center",fontSize:theme.fontSizes.size_14,alignSelf:'center'}}>{'Authorised and regulated by the Solicitors Regulation.\n SRA No. 8006464.'}<Text style={{color:theme.lightColor.brownColor,lineHeight:20,}}>{'Verify here'}</Text> </Text>
           
        </TouchableOpacity>
         </View>

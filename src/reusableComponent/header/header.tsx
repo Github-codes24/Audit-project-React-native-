@@ -61,7 +61,7 @@ const {
                 />
               </View>
               <View style={{ marginLeft: theme.horizontalSpacing.space_10 }}>
-                <Text style={styles.welcomeText}>Hello, Welcome 🎉</Text>
+                <Text style={styles.welcomeText}>Hello,</Text>
                 <Text style={styles.userName}>{firstName} {lastName}</Text>
               </View>
             </TouchableOpacity>

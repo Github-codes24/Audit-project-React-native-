@@ -66,6 +66,7 @@ const EmailVerificationScreen = ({ navigation, route }) => {
       setModalVisible(true);
       setTimer(30);
       setIsResendDisabled(true);
+       setOtp(['', '', '', '']);
       await ResendOtpRegistrationPasswordApi({ email });
     }
   };
@@ -86,13 +87,13 @@ const EmailVerificationScreen = ({ navigation, route }) => {
         <CustomModal
           visible={isModalVisible}
           onClose={closeModal}
-          title="Code sent!"
-          description="Code has been sent to your email, please check your inbox."
+          title="Code resent!"
+          description="A 4-digit code has been resent to your email, please check your inbox."
           buttons={[{ label: 'Verify code', type: 'primary', onPress: closeModal }]}
         />
         <CustomHeader onBackPress={() => navigation.goBack()} leftIcon={<Svg.ArrowBack />} title="Verify Your Email" />
         <Text style={styles.description}>
-          We have sent a 4-digit code to your email <Text style={styles.email}>{email}</Text>. Please check your inbox and spam folder.
+          We have sent a 4-digit code to your email <Text style={styles.email} >{email}</Text>. Please check your inbox and spam folder.
         </Text>
         <Text style={styles.instruction}>Please enter the code below to verify your account.</Text>
 
@@ -168,8 +169,9 @@ const styles = StyleSheet.create({
   },
   email: {
     fontWeight: '400',
-    color:theme.lightColor.borderColor,
-    fontSize:theme.fontSizes.size_16
+    color:theme.lightColor.brownColor,
+    fontSize:theme.fontSizes.size_16,
+    
   },
   otpContainer: {
     alignItems:"center",
@@ -183,13 +185,13 @@ const styles = StyleSheet.create({
   },
   otpInput: {
   
-    width:theme.horizontalSpacing.space_60,
-    height:theme.verticalSpacing.space_60,
+    width:theme.horizontalSpacing.space_70,
+    height:theme.verticalSpacing.space_70,
     borderRadius: 8,
     borderWidth: 1,
     borderColor:theme.lightColor.borderColor,
     textAlign: 'center',
-    fontSize: theme.fontSizes.size_18,
+    fontSize: theme.fontSizes.size_22,
     backgroundColor:"white",
      marginTop:theme.verticalSpacing.space_114
    

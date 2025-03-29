@@ -147,7 +147,7 @@ const navigation=useNavigation()
               marginLeft: -3
             }}
           >
-            {"Contact us"}
+            {"Book a consulation/contact us"}
           </Text>
           <Text style={[style.textBox,{marginBottom:5}]}>{'I want to'}</Text>
           <Dropdown

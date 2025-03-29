@@ -69,7 +69,8 @@ const OtpScreen = ({ navigation, route }) => {
     if (!isResendDisabled) {
       setIsResendDisabled(true);
        setModalVisible(true); 
-      setTimer(30);
+       setOtp(['', '', '', ''])
+      setTimer(60);
       resendOtp({ email });
     
     }
@@ -192,13 +193,13 @@ const styles = StyleSheet.create({
   },
   otpInput: {
     
-    width: theme.horizontalSpacing.space_60,
-    height: theme.verticalSpacing.space_60,
+    width: theme.horizontalSpacing.space_70,
+    height: theme.verticalSpacing.space_70,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#DDD',
     textAlign: 'center',
-    fontSize: theme.fontSizes.size_18,
+    fontSize: theme.fontSizes.size_22,
     backgroundColor: theme.lightColor.whiteColor,
   },
   resendContainer: {

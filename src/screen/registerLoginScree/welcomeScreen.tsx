@@ -65,10 +65,10 @@ const style = StyleSheet.create({
   imageContainer: {
     backgroundColor: theme.lightColor.brownColor,
     justifyContent: 'center',
-    
     alignItems: 'center',
     height:'50%',
-
+  borderBottomLeftRadius:10,
+  borderBottomRightRadius:10,
   },
   image: {
     width: theme.horizontalSpacing.space_374,
@@ -134,7 +134,7 @@ const style = StyleSheet.create({
   },
   verificationText: {
     textAlign: 'center',
-    fontSize: theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_14,
     color: '#000',
     lineHeight: 20,
     marginHorizontal:19

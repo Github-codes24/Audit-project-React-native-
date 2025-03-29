@@ -46,12 +46,12 @@ const ImageCard = ({
 
       <View style={styles.overlay}>
         <View>
-          <View style={styles.fieldContainer}>
+          {/* <View style={styles.fieldContainer}>
            
             <Text style={styles.field}>{field}</Text>
        
           </View>
-        
+         */}
           <Text style={styles.title}>{title}</Text>
        
         </View>
@@ -74,32 +74,33 @@ const styles = StyleSheet.create({
     height:theme.horizontalSpacing.space_110
   },
   overlay: {
-    // position: 'absolute',
-    // bottom:0,
-    // left: 0,
-    // right: 0,
-    padding: 12,
+   paddingVertical:10,
+   paddingHorizontal:12,
+  //  backgroundColor:"red"
   },
   fieldContainer: {
     backgroundColor: '#FCEADE',
-    borderRadius: 5,
+    borderRadius:5,
     paddingHorizontal: theme.horizontalSpacing.space_10,
     alignSelf: 'flex-start',
     alignItems: "center",
     justifyContent: "center",
-    // marginTop:-10
+   
   },
   field: {
     color: theme.lightColor.brownColor, 
     fontSize: theme.fontSizes.size_16,
     fontWeight: '400',
+    alignItems:"center",
+    justifyContent:"center"
   },
   title: {
     color: '#000',
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    marginTop:5
+    fontSize:theme.fontSizes.size_14,
+    fontWeight: '600',
+    marginTop:5,
+    marginLeft:2,
+    // backgroundColor:"red"
   },
 });
 

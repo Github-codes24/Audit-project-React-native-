@@ -69,7 +69,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
         <CustomModal
           visible={isModalVisible}
           onClose={() => setModalVisible(false)}
-          title="Email verification code send!"
+          title="Email verification code sent!"
           description="A 4-digit email verification code has been sent to your email. Please check your inbox or spam folder to confirm your account."
           buttons={[
             {
@@ -92,7 +92,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           <Text style={styles.label}>Phone number</Text>
           <View style={styles.phoneContainer}>
           
-            <View style={{height:theme.verticalSpacing.space_50,borderWidth:1,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5,borderColor:theme.lightColor.borderColor}}>
+            <View style={{height:theme.verticalSpacing.space_50,borderWidth:1,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5,borderColor:theme.lightColor.borderColor,paddingHorizontal:10}}>
           <TouchableOpacity onPress={() => setShowModal(true)} style={{}}>
         <Text style={{ fontSize:theme.fontSizes.size_16, color: '#000', fontWeight: '400',alignItems:"center",justifyContent:"center" }}>
           {countryCode}
@@ -125,7 +125,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
           </View>
 
           {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
-
+           <View style={{marginTop:theme.verticalSpacing.space_10}}>
           <CustomCheckbox
             isChecked={isPrivacyChecked}
             onPress={() => setPrivacyChecked(!isPrivacyChecked)}
@@ -136,7 +136,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
             link2="https://your-privacy-policy-link.com"
             showAndText={true}
           />
-
+      </View>
           {privacyError && <Text style={styles.errorText}>{privacyError}</Text>}
 
           <View style={styles.footer}>

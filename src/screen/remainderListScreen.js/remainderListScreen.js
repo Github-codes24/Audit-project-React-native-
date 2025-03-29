@@ -81,7 +81,9 @@ const ReminderListScreen = ({ navigation }) => {
               ) : (
                 <>
                   <Text style={styles.deleteText}>Delete</Text>
+                   <View >
                   <Svg.DeleteIcon />
+                  </View>
                 </>
               )}
             </TouchableOpacity>
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   title: { fontSize: theme.fontSizes.size_14, fontWeight: "bold", color: "#000", width: 130 },
   description: { fontSize: theme.fontSizes.size_16, color: theme.lightColor.blackColor, fontWeight: "700", marginTop:5,width:theme.horizontalSpacing.space_260 },
   actionContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderRadius: 8 },
-  deleteButton: { marginRight:theme.horizontalSpacing.space_20, flexDirection:'row', backgroundColor:theme.lightColor.brownColor, borderRadius:10, alignItems:"center", paddingHorizontal:5, paddingVertical:5,marginRight:theme.horizontalSpacing.space_26 },
+  deleteButton: { marginRight:theme.horizontalSpacing.space_20, flexDirection:'row', backgroundColor:theme.lightColor.brownColor, borderRadius:10, alignItems:"center", paddingHorizontal:10, paddingVertical:5,marginRight:theme.horizontalSpacing.space_26,justifyContent:"center"},
   deleteText: { fontSize: theme.fontSizes.size_16, color: "white", fontWeight: "600", marginRight: 5 },
   addButton: { backgroundColor: theme.lightColor.brownColor, height: theme.verticalSpacing.space_50, borderRadius: 12, position: "absolute", bottom: theme.verticalSpacing.space_100, alignSelf: "center", width: "90%", alignItems: "center", flexDirection: "row", justifyContent: 'center' },
   addButtonText: { fontSize: theme.fontSizes.size_16, fontWeight: "500", color: "#FFFFFF", marginLeft: 5 },

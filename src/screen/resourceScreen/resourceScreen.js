@@ -19,10 +19,18 @@ import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
 import moment from 'moment';
 
-const ResourceScreen = ({ navigation }) => {
-  const [selectedCategory, setSelectedCategory] = useState('');
+const ResourceScreen = ({ navigation,route }) => {
+
+ const {blogType = ''}=route?.params || {}
+
+  const [selectedCategory, setSelectedCategory] = useState(blogType || '');
 
   const [refreshing, setRefreshing] = useState(false);
+
+ 
+
+  console.log('blogType',blogType)
+
 
   const {
     data: categoryApiData,
@@ -36,20 +44,22 @@ const ResourceScreen = ({ navigation }) => {
     isLoading: isSelectedCategoryApiLoading,
     refetch: selectedCategoryApiData,
   } = useGetAllBlogsQuery(
-    selectedCategory && selectedCategory !== 'Recent Blogs'
+    selectedCategory && selectedCategory !== 'Recent Posts'
       ? { category: selectedCategory }
       : {}
   );
 
+
+
   // Set default category once the data is available
   useEffect(() => {
     if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
-      setSelectedCategory('Recent Blogs');
+      setSelectedCategory(blogType||'Recent Posts');
     }
-  }, [isCategoryApiDataSuccess, categoryApiData]);
+  }, [isCategoryApiDataSuccess, categoryApiData,blogType]);
 
   const uniqueCategories = [
-    'Recent Blogs',
+    'Recent Posts',
     ...new Set(categoryApiData?.data?.map((item) => item?.category)),
   ];
 
@@ -138,7 +148,7 @@ const ResourceScreen = ({ navigation }) => {
       <View style={styles.container}>
         <Loader isLoading={isCategoryDataLoading || isSelectedCategoryApiLoading} />
         <Header />
-        <Text style={styles.header}>Blogs</Text>
+        <Text style={styles.header}>Resources</Text>
         <View style={styles.categoryContainer}>
           <FlatList
             data={uniqueCategories}

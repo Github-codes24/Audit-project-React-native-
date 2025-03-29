@@ -19,8 +19,8 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
           <Text style={styles.description}>
             Your password has been changed successfully  
           </Text>
-          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5}}>{'You can now use your new password to log in'}</Text>
-          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5}}>{'to your account.'}</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5,alignSelf:"center"}}>{'You can now use your new password to log in'}</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5,alignSelf:"center"}}>{'to your account.'}</Text>
          </View>
          </View>
          
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
   },
   container: {
-    
+    marginTop:theme.verticalSpacing.space_40,
     alignItems:"center",
-    justifyContent:"center",
+    // justifyContent:"center",
 
     paddingHorizontal: theme.horizontalSpacing.space_20,
   },
@@ -64,13 +64,15 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_30,
     marginVertical: theme.verticalSpacing.space_16,
     color: theme.lightColor.blackColor,
+    marginTop:theme.verticalSpacing.space_40
   },
   description: {
     lineHeight: 20,
     fontSize: theme.fontSizes.size_16,
     fontWeight:'400',
     color: theme.lightColor.blackColor,
-   marginLeft:5
+   marginLeft:5,
+   alignSelf:"center"
     // marginVertical: theme.verticalSpacing.space_16,
   },
   buttonContainer: {

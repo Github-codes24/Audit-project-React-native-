@@ -185,8 +185,8 @@ image && isVideoFile(image) ? (
                   </Text>
                 </View>
               </View>
-              <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.RESOURCE_SCREEN)}>
-              <Text style={{ textAlign: 'right', color: 'gray',backgroundColor:theme.lightColor.brownColor,padding:5,borderRadius:5,color:'white' }}>{category}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.RESOURCE_SCREEN,{blogType:category})}>
+              <Text style={{ textAlign: 'right', color: 'gray',padding:5,borderRadius:5,color:'black',textDecorationLine:'underline' }}>{category}</Text>
              </TouchableOpacity>
            
             </View>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_22,
     fontWeight: '700',
     // marginBottom: 8,
-    marginTop: theme.verticalSpacing.space_14,
+    marginTop: theme.verticalSpacing.space_20,
   },
   categoryContainer: {
     position: 'absolute',
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   authorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: theme.verticalSpacing.space_14,
+    marginTop: theme.verticalSpacing.space_20,
   },
   authorImage: {
     width:theme.horizontalSpacing.space_50,

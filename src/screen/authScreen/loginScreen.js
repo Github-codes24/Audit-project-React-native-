@@ -177,7 +177,7 @@ const style = StyleSheet.create({
     justifyContent: "space-between", 
     alignItems: "center", 
     marginTop: 5, 
-    paddingHorizontal: 7
+    paddingHorizontal:3
   },
   forgetText: {
     color: theme.lightColor.blackColor,
