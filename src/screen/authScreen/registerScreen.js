@@ -52,9 +52,11 @@ const RegisterScreen = ({ navigation }) => {
     if (!lastName) newErrors.lastName = "Last name is required";
     else if (lastName.length < 2) newErrors.lastName = "Must be at least 2 characters";
 
-    if (!email) newErrors.email = "Email is required";
-    else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email))
-      newErrors.email = "Enter a valid Gmail address";
+    if (!email) {
+  newErrors.email = "Email is required";
+} else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+  newErrors.email = "Enter a valid email address";
+}
 
     if (!password) newErrors.password = "Password is required";
     else if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/.test(password))
@@ -244,6 +246,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: theme.fontSizes.size_14,
     marginTop: 5,
+    marginLeft:5
   },
   buttonContainer: {
     width: "100%",

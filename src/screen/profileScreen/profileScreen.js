@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   flexDirection: 'row',
   justifyContent: "center",
   alignItems: "center",
- marginTop:theme.verticalSpacing.space_114
+ marginTop:theme.verticalSpacing.space_50
 },
 logoutButton: {
   backgroundColor: theme.lightColor.brownColor,

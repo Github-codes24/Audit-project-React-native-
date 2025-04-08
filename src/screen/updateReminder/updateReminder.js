@@ -142,6 +142,10 @@ const validateEmail = (email) => {
         <View style={{ marginVertical: theme.horizontalSpacing.space_10 }}>
           <Text style={style.remainderText}>{"Reminder"}</Text>
 
+         <Text style={style.textStyle}>{"Reminder for"}</Text>
+          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} />
+
+
           <Text style={style.textStyle}>{"Reminder name"}</Text>
           <TextInput
             value={reminderName}
@@ -186,8 +190,7 @@ const validateEmail = (email) => {
             )}
           </View>
 
-          <Text style={style.textStyle}>{"Reminder for"}</Text>
-          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} />
+         
 
           <Text style={style.textStyle}>{"Description (optional)"}</Text>
           <TextInput

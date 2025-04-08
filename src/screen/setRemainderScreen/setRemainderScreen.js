@@ -93,6 +93,9 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
        
         <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
           <Text style={style.remainderText}>{"Reminder"}</Text>
+         <Text style={style.textStyle}>{"Reminder for"}</Text>
+          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} />
+
           <Text style={style.textStyle}>{"Reminder name"}</Text>
           <TextInput
             value={reminderName}
@@ -138,8 +141,7 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
             )}
           </View>
 
-          <Text style={style.textStyle}>{"Reminder for"}</Text>
-          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} />
+          
 
           <Text style={style.textStyle}>{"Description (optional)"}</Text>
           <TextInput

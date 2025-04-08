@@ -47,12 +47,12 @@ const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) =>
           {showText && (
             <Text style={styles.title}>
               {isEligible
-                ? "Congratulations 🎉\nyou are eligible!"
-                : "Sorry\nyou are not eligible!"}
+                ? "Congratulations 🎉"
+                : "Sorry\nyou are not eligible"}
             </Text>
           )}
           <Text style={styles.subtitle}>{isEligible
-              ? "Your business is potentially eligible for sponsor licence*. Book a consultation with our experts."
+              ? "Your business is potentially eligible for sponsor licence*. Book a consultation with our experts to discuss in details."
               : "Book a consultation for tailored advice."}
           </Text>
 
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: theme.horizontalSpacing.space_222,
     height: theme.verticalSpacing.space_290,
-    marginTop: theme.verticalSpacing.space_50,
+
   },
   loaderContainer: {
     position: 'absolute',

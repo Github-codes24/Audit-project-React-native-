@@ -4509,6 +4509,7 @@ __metadata:
     react-native-safe-area-context: "npm:^5.2.0"
     react-native-screens: "npm:^4.9.1"
     react-native-shadow-2: "npm:^7.1.1"
+    react-native-speedometer: "npm:^1.0.5"
     react-native-svg: "npm:^15.10.1"
     react-native-svg-transformer: "npm:^1.5.0"
     react-native-swiper: "npm:^1.6.0"
@@ -10042,7 +10043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -10379,6 +10380,18 @@ __metadata:
     react-native: "*"
     react-native-svg: ">=12.1.0"
   checksum: 10c0/279dc8da38528939e8067bf2e724840ea9a5bf490a1abb27bf58b03d01f9bc20622fbffe3e937550a076609c267961bbfbd1bc26b1218074ac2d34b73fc5b651
+  languageName: node
+  linkType: hard
+
+"react-native-speedometer@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "react-native-speedometer@npm:1.0.5"
+  dependencies:
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ^16.5.2
+    react-native: ^0.57.1
+  checksum: 10c0/832852b910c5f1b7ddb92208f324d86c76ee757bedc4ae20f30e57418d7c7828e19f10c28470f4fa1e99774589cba6c7b51d7e0aa4276ad5e7a005d3e66a95d0
   languageName: node
   linkType: hard
 

@@ -75,13 +75,15 @@ const newPayload={
     <View style={styles.main}>
       <Header/>
       {step==='category' && ( 
-        // <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+   
+         
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
         />  
-      // </ScrollView>
+       
+       
       )
       }
    

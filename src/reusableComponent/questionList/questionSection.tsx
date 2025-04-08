@@ -16,7 +16,7 @@ const QuestionSection = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-
+   const [errorType, setErrorType] = useState(null);
   const {
     isLoading: isLoadingEligibilityQuestions,
     isError: isErrorEligibilityQuestions,
@@ -66,6 +66,7 @@ const QuestionSection = ({
 
     if (!allAnswered) {
       setErrorMessage('Please answer all questions before proceeding.');
+     
       return;
     }
 
@@ -89,16 +90,29 @@ const QuestionSection = ({
     };
   };
 
-  const handleSubmit = () => {
-    const currentQuestions = getQuestionsToDisplay();
-    const allAnswered = currentQuestions?.every(q => selectedAnswers[q?._id] !== undefined);
-    if (!allAnswered) {
-      setErrorMessage('Please answer all questions before submitting.');
-      return;
-    }
-    const payload = createPayload(selectedCategory, selectedAnswers);
-    onSubmit?.(payload);
-  };
+ const handleSubmit = () => {
+  const currentQuestions = getQuestionsToDisplay();
+
+  if (!currentQuestions || currentQuestions.length === 0) {
+    setErrorMessage('No questions found for this category.');
+     setErrorType('noQuestions');
+    return;
+  }
+
+  const allAnswered = currentQuestions.every(q => selectedAnswers[q._id] !== undefined);
+
+  if (!allAnswered) {
+    setErrorMessage('Please answer all questions before submitting.');
+     setErrorType('incomplete');
+   
+    return;
+  }
+setErrorMessage('');
+setErrorType(null);
+  const payload = createPayload(selectedCategory, selectedAnswers);
+  onSubmit?.(payload);
+};
+
 
   return (
     <ScrollView style={{ marginBottom: theme.verticalSpacing.space_100 }}>
@@ -122,7 +136,14 @@ const QuestionSection = ({
           />
         ))}
           
-        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+{errorMessage !== '' && (
+  <View style={[
+    styles.errorBox,
+    errorType === 'noQuestions' ? styles.errorBoxCritical : styles.errorBoxWarning
+  ]}>
+    <Text style={styles.errorText}>{errorMessage}</Text>
+  </View>
+)}
         <View style={styles.navigationButtons}>
           {currentIndex + 2 >= questions?.length ? (
             <View style={styles.navigationButtons}>
@@ -176,6 +197,27 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: theme.horizontalSpacing.space_12
   },
+  errorBox: {
+  padding: 10,
+  borderRadius: 8,
+  marginTop: 12,
+  marginBottom: 8,
+},
+
+errorBoxCritical: {
+   alignItems:"center"
+  
+ 
+},
+
+errorBoxWarning: {
+ 
+  
+ 
+},
+
+
+
 });
 
 export default QuestionSection;

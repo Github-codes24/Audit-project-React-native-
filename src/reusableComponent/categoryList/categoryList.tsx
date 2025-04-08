@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import CustomButton from '../button/button';
 import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
@@ -12,25 +19,31 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   const [refreshing, setRefreshing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Fetch categories based on checkerType
   const {
     data: complianceCategoryData,
     isLoading: isLoadingCompliance,
     isError: isErrorCompliance,
-    refetch: refetchCompliance
+    refetch: refetchCompliance,
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
   const {
     data: eligibilityCategoryData,
     isLoading: isLoadingEligibility,
     isError: isErrorEligibility,
-    refetch: refetchEligibility
+    refetch: refetchEligibility,
   } = useGetEligibilityCategoryQuery({}, { skip: checkerType !== 'eligibility' });
 
-  const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
-  const isLoading = checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
-  const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
-  const refetchData = checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
+  const categoryData =
+    checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
+
+  const isLoading =
+    checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
+
+  const isError =
+    checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
+
+  const refetchData =
+    checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
 
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategoryId(selectedCategory?._id);
@@ -67,15 +80,19 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        {checkerType === 'compliance' ? 'Check Your Sponsor License Compliance Score' : 'Check Your Eligibility For Sponsor License'}
+        {checkerType === 'compliance'
+          ? 'Check Your Sponsor License Compliance Score'
+          : 'Check Your Eligibility For Sponsor Licence'}
       </Text>
 
       <Text style={styles.subHeader}>Select your business category</Text>
-
-      <View style={styles.scrollContainer}>
+        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      <View style={styles.contentWrapper}>
         <ScrollView
+          style={styles.scrollWrapper}
           contentContainerStyle={styles.categoriesContainer}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          showsVerticalScrollIndicator={false}
         >
           {categoryData?.length > 0 ? (
             categoryData.map((category) => (
@@ -98,9 +115,8 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
           ) : (
             <Text>No categories available</Text>
           )}
-                                {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-        </ScrollView>
 
+        </ScrollView>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -114,6 +130,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 19,
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: theme.fontSizes.size_20,
@@ -126,12 +143,15 @@ const styles = StyleSheet.create({
     marginTop: theme.verticalSpacing.space_100,
     fontWeight: '600',
   },
-  scrollContainer: {
-    height: '100%',
-    marginBottom: 80,
+  contentWrapper: {
+    flex: 1,
+  },
+  scrollWrapper: {
+    flex: 1,
   },
   categoriesContainer: {
-    paddingBottom: theme.verticalSpacing.space_80,
+   
+    paddingBottom:200, 
   },
   category: {
     flexDirection: 'row',
@@ -165,20 +185,17 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: theme.fontSizes.size_16,
     color: 'red',
-   marginLeft:2,
-    // marginTop:10,
+    marginLeft: 2,
+    margin: 10,
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: theme.verticalSpacing.space_100,
+    bottom:theme.verticalSpacing.space_80,
     left: 0,
     right: 0,
     paddingHorizontal: 19,
-    backgroundColor: '#F2F3F5',
-    paddingVertical: 10,
-    height: theme.verticalSpacing.space_50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: 15,
+  
   },
 });
 
