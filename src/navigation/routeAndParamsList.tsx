@@ -38,6 +38,8 @@ export const MainRoutes = {
   RESOURCE_SCREEN:'ResourceScreen',
   NOTIFICATION_DETAILS_SCREEN:'NotificationDetailsScreen',
   UPDATE_REMINDER_SCREEN:'UpdateReminderScreen',
+ IMPORTANT_LINK_SCREEN:'ImportantLinkScreen'
+
 };
 
 export const RootStackParamList = {
@@ -69,6 +71,7 @@ export const RootStackParamList = {
    [MainRoutes.UPDATE_SUCCESSFULLY]:{}|undefined,
   [MainRoutes.NOTIFICATION_DETAILS_SCREEN]:{}|undefined,
   [MainRoutes.UPDATE_REMINDER_SCREEN]:{}|undefined,
+  [MainRoutes.IMPORTANT_LINK_SCREEN]:{}|undefined,
 
 };
 

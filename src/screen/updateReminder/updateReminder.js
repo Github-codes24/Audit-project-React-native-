@@ -31,6 +31,7 @@ const UpdateReminderScreen = ({ navigation, route }) => {
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
     { label: "Right to work check", value: "Right to work check" },
+     { label: "Passport validity", value: "Passport validity" },
     { label: "Other", value: "Other" },
   ];
 
@@ -203,7 +204,7 @@ const validateEmail = (email) => {
           />
         </View>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             width: theme.horizontalSpacing.space_374,
             backgroundColor: theme.lightColor.brownColor,
@@ -218,7 +219,7 @@ const validateEmail = (email) => {
         >
           <Svg.DeleteIcon />
           <Text style={{ color: "white", fontWeight: "600", marginHorizontal: 10 }}>{"Delete"}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <CustomButton title={"Update reminder"} onPress={handleSetReminder} isLoading={isSetRemainderApiMutationLoading} />
       </View>

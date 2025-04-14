@@ -20,6 +20,7 @@ import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/no
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -111,7 +112,10 @@ const HomeStack = () => {
         name={MainRoutes.ELIGIBILITY_SCREEN}
         component={EligibilityScreen} 
       />
-
+      <Stack.Screen
+             name={MainRoutes.IMPORTANT_LINK_SCREEN}
+             component={ImportantLinkScreen} 
+           />
 
 
       </Stack.Navigator>

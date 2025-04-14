@@ -59,4 +59,9 @@ updateReminder:'api/reminder/updateReminderById',
 getReminderById:'api/reminder/getReminderById',
 deleteReminder:"api/reminder/deleteReminderById",
 
+
+// Important LINK Api
+
+importantLink:"api/importantLinks/getImportantLinks"
+
 };

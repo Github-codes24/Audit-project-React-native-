@@ -25,11 +25,12 @@ const SetRemainderScreen = ({ navigation, route }) => {
   const [employeeEmail, setEmployeeEmail] = useState(remainderdata?.employeeEmail || "");
   const [reminderFor, setReminderFor] = useState(remainderdata?.reminderFor || "");
   const [description, setDescription] = useState(remainderdata?.description || "");
-  const [loading, setLoading] = useState(false); // Loader state
+  const [loading, setLoading] = useState(false); 
 
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
     { label: "Right to work check", value: "Right to work check" },
+    { label: "Passport validity", value: "Passport validity" },
     { label: "Other", value: "Other" },
   ];
 
@@ -94,7 +95,10 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
         <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
           <Text style={style.remainderText}>{"Reminder"}</Text>
          <Text style={style.textStyle}>{"Reminder for"}</Text>
-          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} />
+          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} 
+          
+          
+          />
 
           <Text style={style.textStyle}>{"Reminder name"}</Text>
           <TextInput

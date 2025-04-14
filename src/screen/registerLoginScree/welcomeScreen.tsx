@@ -34,7 +34,7 @@ const WelcomeScreen = ({ navigation }) => {
       </View>
 
       <Text style={style.description}>
-        Sponsor licence compliance checker app by Nara Solicitors to check sponsor licence eligibility, sponsor licence compliance score of your business and more.
+        Sponsor licence compliance checker app by Nara Solicitors to check sponsor licence eligibility and compliance score of your business and more.
       </Text>
 
       <View style={style.buttonContainer}>

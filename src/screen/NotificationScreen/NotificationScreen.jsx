@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     marginBottom: theme.verticalSpacing.space_6,
     // backgroundColor:"red",
-    width:"65%"
+    width:"45%"
   },
   NotificationImage: {
     height: theme.horizontalSpacing.space_60,

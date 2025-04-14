@@ -65,7 +65,7 @@ const ReminderListScreen = ({ navigation }) => {
 
   const renderReminderItem = ({ item }) => (
     <View style={styles.reminderCard}>
-      <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.UPDATE_REMINDER_SCREEN, { remainderdata: item })}>
+    
         <View style={styles.reminderContent}>
           <View style={styles.reminderHeader}>
             <Text style={styles.employeeName}>{item?.employeeName}</Text>
@@ -75,21 +75,38 @@ const ReminderListScreen = ({ navigation }) => {
           <Text style={styles.title}>{item?.reminderFor}</Text>
           <View style={styles.actionContainer}>
             <Text style={styles.description}>{item?.description}</Text>
+
+            <TouchableOpacity 
+             onPress={()=>navigation.navigate(MainRoutes.UPDATE_REMINDER_SCREEN,{ remainderdata: item })}
+             
+             style={{flexDirection:"row",alignItems:"center",paddingVertical:5,paddingHorizontal:10,borderRadius:10,marginRight:5}}>
+            <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"500",}}>Edit</Text>
+          <View style={{marginLeft:5}}>
+            <Svg.Edit
+            
+            />
+            </View>
+         </TouchableOpacity>
+
+
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item?._id)}>
               {loadingId === item?._id ? (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator size="small" color="#000" />
               ) : (
                 <>
-                  <Text style={styles.deleteText}>Delete</Text>
+                 
                    <View >
-                  <Svg.DeleteIcon />
+                  <Svg.DeleteIcon 
+                  color="black"
+                  />
                   </View>
+                  
                 </>
               )}
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+     
     </View>
   );
 
@@ -119,25 +136,111 @@ const ReminderListScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { height: '100%', backgroundColor: "#F2F3F5" },
-  header: { fontSize: theme.fontSizes.size_20, fontWeight: "600", marginVertical: theme.verticalSpacing.space_20, marginLeft: theme.horizontalSpacing.space_20, color: theme.lightColor.blackColor },
-  listContent: { paddingHorizontal: 16 },
-  flatList: { marginBottom: theme.verticalSpacing.space_156 },
-  reminderCard: { backgroundColor: "#FFFFFF", borderRadius: 12, padding: theme.horizontalSpacing.space_14, marginVertical: 5 },
-  reminderContent: { width: theme.horizontalSpacing.space_374 },
-  reminderHeader: { flexDirection: 'row', justifyContent: 'space-between', paddingRight: theme.horizontalSpacing.space_30 },
-  employeeName: { fontWeight: '600', fontSize: theme.fontSizes.size_20 },
-  date: { fontSize: theme.fontSizes.size_20, fontWeight: '600' },
-  reminderName: { fontSize: theme.fontSizes.size_16, fontWeight: '500', marginVertical: 5 },
-  title: { fontSize: theme.fontSizes.size_14, fontWeight: "bold", color: "#000", width: 130 },
-  description: { fontSize: theme.fontSizes.size_16, color: theme.lightColor.blackColor, fontWeight: "700", marginTop:5,width:theme.horizontalSpacing.space_260 },
-  actionContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderRadius: 8 },
-  deleteButton: { marginRight:theme.horizontalSpacing.space_20, flexDirection:'row', backgroundColor:theme.lightColor.brownColor, borderRadius:10, alignItems:"center", paddingHorizontal:10, paddingVertical:5,marginRight:theme.horizontalSpacing.space_26,justifyContent:"center"},
-  deleteText: { fontSize: theme.fontSizes.size_16, color: "white", fontWeight: "600", marginRight: 5 },
-  addButton: { backgroundColor: theme.lightColor.brownColor, height: theme.verticalSpacing.space_50, borderRadius: 12, position: "absolute", bottom: theme.verticalSpacing.space_100, alignSelf: "center", width: "90%", alignItems: "center", flexDirection: "row", justifyContent: 'center' },
-  addButtonText: { fontSize: theme.fontSizes.size_16, fontWeight: "500", color: "#FFFFFF", marginLeft: 5 },
-  errorText: { width: '100%', height: '100%', alignSelf: "center", textAlign: 'center' },
-  noDataText: { textAlign: "center", alignSelf: 'center' },
+  container: {
+     height: '100%', 
+     backgroundColor: "#F2F3F5"
+     },
+  header: { 
+    fontSize: theme.fontSizes.size_20, 
+    fontWeight: "600", 
+    marginVertical: theme.verticalSpacing.space_20, 
+    marginLeft: theme.horizontalSpacing.space_20, 
+    color: theme.lightColor.blackColor 
+  },
+  listContent: { 
+    paddingHorizontal:theme.horizontalSpacing.space_16 
+  },
+  flatList: { 
+    marginBottom: theme.verticalSpacing.space_156 
+  },
+  reminderCard: { 
+    backgroundColor: "#FFFFFF", 
+    borderRadius: 12, 
+    padding: theme.horizontalSpacing.space_14, marginVertical: 5 
+  },
+  reminderContent: { 
+    width: theme.horizontalSpacing.space_374 
+  },
+  reminderHeader: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    paddingRight: theme.horizontalSpacing.space_30 
+  },
+  employeeName: { 
+    fontWeight: '600',
+     fontSize: theme.fontSizes.size_20 
+    },
+  date: { 
+    fontSize: theme.fontSizes.size_20, 
+    fontWeight: '600'
+   },
+  reminderName: { 
+    fontSize: theme.fontSizes.size_16, 
+    fontWeight: '500', marginVertical: 5 
+  },
+  title: { 
+    fontSize: theme.fontSizes.size_14,
+     fontWeight: "700", 
+     color: "#000", 
+     width:theme.horizontalSpacing.space_130,
+    //  backgroundColor:"red"
+    },
+  description: { 
+    fontSize: theme.fontSizes.size_16, 
+    color: theme.lightColor.blackColor, 
+    fontWeight: "700",
+     marginTop:5,
+     width:theme.horizontalSpacing.space_230, 
+    },
+  actionContainer: { 
+    flexDirection: "row",
+     justifyContent: "space-between", 
+     alignItems: "center", 
+     borderRadius: 8 
+    },
+  deleteButton: 
+  { 
+    //  backgroundColor:theme.lightColor.brownColor, 
+    borderRadius:theme.horizontalSpacing.space_10, 
+    alignItems:"center", 
+    paddingHorizontal:theme.horizontalSpacing.space_10, 
+    paddingVertical:5,
+    justifyContent:"center",
+    marginRight:theme.horizontalSpacing.space_30
+  },
+  deleteText:{ 
+    fontSize: theme.fontSizes.size_16, color: "white", 
+    fontWeight: "600", 
+  },
+  addButton:
+   { 
+    backgroundColor: theme.lightColor.brownColor, 
+    height: theme.verticalSpacing.space_50, 
+    borderRadius:theme.horizontalSpacing.space_12,
+     position: "absolute",
+      bottom: theme.verticalSpacing.space_100, 
+      alignSelf: "center", 
+      width: "90%", 
+      alignItems: "center", 
+      flexDirection: "row", 
+      justifyContent: 'center'
+     },
+  addButtonText: { 
+    fontSize: theme.fontSizes.size_16,
+     fontWeight: "500", 
+     color: "#FFFFFF",
+      marginLeft: 5 
+    },
+  errorText: { 
+    width: '100%', 
+    height: '100%', 
+    alignSelf: "center", 
+    textAlign: 'center'
+  },
+  noDataText: { 
+    textAlign: "center", 
+    alignSelf: 'center' 
+  },
 });
 
 export default ReminderListScreen;

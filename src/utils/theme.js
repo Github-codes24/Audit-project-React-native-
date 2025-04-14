@@ -160,6 +160,7 @@ const theme = {
     space_96: wp(96),
     space_98: wp(98),
     space_100: wp(100),
+    space_130: wp(130),
     space_328: wp(328),
      space_358: wp(358),
     space_156: wp(156),

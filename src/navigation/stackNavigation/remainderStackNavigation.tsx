@@ -22,6 +22,7 @@ import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import ReminderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import UpdateReminderScreen from '../../screen/updateReminder/updateReminder';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 const Stack = createStackNavigator();
 
 const RemainderStack = () => {
@@ -104,6 +105,13 @@ const RemainderStack = () => {
         name={MainRoutes.BLOG_DETAILS_SCREEN}
         component={BlogDetailsScreen} 
       />
+
+      <Stack.Screen
+             name={MainRoutes.IMPORTANT_LINK_SCREEN}
+             component={ImportantLinkScreen} 
+           />
+
+
       </Stack.Navigator>
   );
 };

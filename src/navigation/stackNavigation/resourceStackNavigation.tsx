@@ -20,6 +20,7 @@ import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 const Stack = createStackNavigator();
 
 const ResourceStack = () => {
@@ -105,6 +106,13 @@ const ResourceStack = () => {
         name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
         component={NotificationDetailsScreen} 
       />
+ <Stack.Screen
+        name={MainRoutes.IMPORTANT_LINK_SCREEN}
+        component={ImportantLinkScreen} 
+      />
+
+
+
       </Stack.Navigator>
   );
 };

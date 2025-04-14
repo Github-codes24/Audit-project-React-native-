@@ -22,6 +22,7 @@ import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessful
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 
 
 const Stack = createStackNavigator();
@@ -98,6 +99,10 @@ const MainStackNavigation = () => {
       <Stack.Screen
         name={MainRoutes.RESOURCE_SCREEN}
         component={ResourceScreen} 
+      />
+       <Stack.Screen
+        name={MainRoutes.IMPORTANT_LINK_SCREEN}
+        component={ImportantLinkScreen} 
       />
       </Stack.Navigator>
       

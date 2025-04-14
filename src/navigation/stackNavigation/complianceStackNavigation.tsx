@@ -18,6 +18,7 @@ import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
 import { MainRoutes } from '../routeAndParamsList';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 // import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 
 const Stack = createStackNavigator();
@@ -100,6 +101,13 @@ const ComplianceStack = () => {
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
       />
+     <Stack.Screen
+            name={MainRoutes.IMPORTANT_LINK_SCREEN}
+            component={ImportantLinkScreen} 
+          />
+
+
+
       </Stack.Navigator>
   );
 };

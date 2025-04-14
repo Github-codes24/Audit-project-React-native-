@@ -136,16 +136,25 @@ const openVerificationLink = () => {
           icon={require("../../assets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
+       
         </View>
         <View style={[style.horizontalAlignContainer, { marginTop: 10 }]}>
           <Text style={style.latestBlogText}>{"Latest Resources"}</Text>
+          
           <TouchableOpacity onPress={() => navigation.navigate("Resource")}>
             <Text style={style.seeAllText}>{"See all"}</Text>
           </TouchableOpacity>
         </View>
+        
         <View style={{ marginHorizontal:-10}}>
           <HorizontalCardList data={blogApiData?.data || {}} />
         </View>
+         <LicenseCard
+          title={"Home content"}
+          
+          icon={require("../../assets/images/Calendr.png")}
+          onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
+        />
         <Text style={style.aboutUsText}>{"About Us"}</Text>
         <View style={{}}>
           <AboutUsContent content={aboutUsData?.aboutUs?.[0]?.content} />

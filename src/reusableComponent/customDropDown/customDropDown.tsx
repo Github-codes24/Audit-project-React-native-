@@ -11,7 +11,7 @@ const CustomDropDown = ({
   onSelect,
   containerWidth = '100%',
   containerStyle,
-  maxHeight = theme.verticalSpacing.space_100 * 2,
+  maxHeight = theme.verticalSpacing.space_100 * 3,
   listItemTextStyle,
   rightIconContainerWidth = theme.horizontalSpacing.space_10,
   isShowLabel = true,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 0, 
     marginVertical: 0,
+    
      
   },
   placeholderStyle: {
@@ -125,13 +126,14 @@ const styles = StyleSheet.create({
     color: theme.lightColor.blackColor,
     paddingVertical:0, // Reduce item spacing
     marginVertical: 0,  // Ensure no extra margin
-    
+   
   },
   labelContainer: {
     position: 'absolute',
     left: theme.horizontalSpacing.space_8,
     backgroundColor: theme.lightColor.whiteColor,
     paddingHorizontal: 4,
+    
   },
   labelText: {
     fontSize: theme.fontSizes.size_12,
