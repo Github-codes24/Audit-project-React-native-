@@ -11,6 +11,13 @@ export const importantLinkApi = baseApi.injectEndpoints({
         keepUnusedDataFor: 5,
       }),
     }),
+     homeContentApi:builder.query({
+      query: () => ({
+        url: apiEndPoints?.homecontent,
+        method: 'GET',
+        keepUnusedDataFor: 5,
+      }),
+    }),
 
   }),
   overrideExisting: true,
@@ -19,4 +26,5 @@ export const importantLinkApi = baseApi.injectEndpoints({
 export const {
 
   useImporttantLinkApiSliceQuery,
+  useHomeContentApiQuery,
 } = importantLinkApi;

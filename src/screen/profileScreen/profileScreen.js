@@ -28,6 +28,9 @@ const response=useSelector(getLoginResponse)
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
+
+  // console.log('getuserdata',getuserdata)
+
   const [logOutApi,{isLoading:logoutApiisLoading}] = useLogoutApiMutation();
 
 

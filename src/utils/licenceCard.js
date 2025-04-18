@@ -1,21 +1,57 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 import theme from './theme';
-import * as Svg from '../assets/images/svg'
-const Card = ({ title, description, icon, onPress }) => {
+import * as Svg from '../assets/images/svg';
+
+const Card = ({ title, description, icon, onPress, showButton = true }) => {
+  const { width } = useWindowDimensions();
+
+  // ❗️If no title and no description, don't render the card at all
+  if (!title && !description) {
+    return null;
+  }
+
+  const isHtml = typeof description === 'string' && /<\/?[a-z][\s\S]*>/i.test(description);
+
+  const renderDescription = () => {
+    if (!description) return null;
+
+    if (isHtml) {
+      return (
+        <RenderHtml
+          contentWidth={width}
+          source={{ html: description }}
+          baseStyle={styles.description}
+        />
+      );
+    }
+
+    return <Text style={styles.description}>{description}</Text>;
+  };
+
+  const hasDescription = !!description;
+
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
       <View style={styles.content}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>Get started </Text>
-          <View style={{marginLeft:5}}>
-          <Svg.RightArrow/>
-          </View>
-        </TouchableOpacity>
+        {title ? <Text style={styles.title}>{title}</Text> : null}
+
+        {renderDescription()}
+
+        {showButton && (
+          <TouchableOpacity style={styles.button} onPress={onPress}>
+            <Text style={styles.buttonText}>Get started</Text>
+            <View style={{ marginLeft: 5 }}>
+              <Svg.RightArrow />
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
-      <Image source={icon} style={styles.icon} resizeMode="contain" />
+
+      {hasDescription && (
+        <Image source={icon} style={styles.icon} resizeMode="contain" />
+      )}
     </TouchableOpacity>
   );
 };
@@ -26,48 +62,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
-    padding:theme.horizontalSpacing.space_16,
+    padding: theme.horizontalSpacing.space_16,
     borderRadius: 12,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.1,
-    // shadowRadius: 5,
-    // shadowOffset: { width: 0, height: 2 },
-    // elevation: 3,
-    marginVertical:8,
-   
+    marginVertical: 8,
   },
   content: {
     flex: 1,
     marginRight: 12,
   },
   title: {
-    fontSize:theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
-    width:231
+    width: 231,
   },
   description: {
-    fontSize:theme.fontSizes.size_14,
-    color:'gray',
+    fontSize: theme.fontSizes.size_14,
+    color: 'gray',
     marginBottom: 12,
   },
   button: {
-    // backgroundColor:'pink',
-    borderRadius: 8,  
-  // justifyContent:'center',
-width:130,
-flexDirection:'row',
-alignItems:'center',
-height:theme.verticalSpacing.space_40
-
+    borderRadius: 8,
+    width: 130,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: theme.verticalSpacing.space_40,
   },
   buttonText: {
-    // backgroundColor:"red",
-    fontSize:theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: '700',
-    color:theme.lightColor.blackColor,
-    
+    color: theme.lightColor.blackColor,
   },
   icon: {
     width: 64,

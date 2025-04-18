@@ -62,6 +62,6 @@ deleteReminder:"api/reminder/deleteReminderById",
 
 // Important LINK Api
 
-importantLink:"api/importantLinks/getImportantLinks"
-
+importantLink:"api/importantLinks/getImportantLinks",
+homecontent:'api/homeContend/getHomeContend',
 };

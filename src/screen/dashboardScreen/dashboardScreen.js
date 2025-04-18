@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { acceptCookies, rejectCookies, customizeCookies } from "../../redux/stateSlice/cookiesStateSlice";
 import { getCookiesStatus } from "../../redux/stateSelector";
 import { AboutUsContent } from "../../reusableComponent/aboutUsContent/aboutUsContent";
+import { useHomeContentApiQuery } from "../../redux/apiSlice/importantLinkSlice";
 
 const DashBoardScreen = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -36,6 +37,13 @@ const DashBoardScreen = ({ navigation }) => {
     refetch: refetchAboutUs,
   } = useAboutUsQuery({});
 
+const {
+  data:homeContentData,
+  isError:homeContentisError,
+  refetch:homeContentrefetch
+}=useHomeContentApiQuery()
+
+
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -43,6 +51,7 @@ const DashBoardScreen = ({ navigation }) => {
 
   const onRefresh = async () => {
     setRefreshing(true);
+    homeContentrefetch()
     refetchAboutUs();
     setRefreshing(false);
   };
@@ -64,6 +73,13 @@ const openVerificationLink = () => {
     const url = "https://www.sra.org.uk/consumers/register/organisation/?sraNumber=8006464";
     Linking.openURL(url).catch(err => console.error("Error opening link: ", err));
   };
+
+ 
+
+console.log('homeContentData',homeContentData)
+
+ const homeContent=homeContentData?.data
+
 
   return (
     <ScrollView
@@ -136,6 +152,12 @@ const openVerificationLink = () => {
           icon={require("../../assets/images/Calendr.png")}
           onPress={() => navigation.navigate("Reminder")}
         />
+         <LicenseCard
+          title={"Important Link"}
+          description={"Set reminders and receive notifications for your employee visa expiries."}
+          icon={require("../../assets/images/Calendr.png")}
+          onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
+        />
        
         </View>
         <View style={[style.horizontalAlignContainer, { marginTop: 10 }]}>
@@ -150,16 +172,17 @@ const openVerificationLink = () => {
           <HorizontalCardList data={blogApiData?.data || {}} />
         </View>
          <LicenseCard
-          title={"Home content"}
-          
-          icon={require("../../assets/images/Calendr.png")}
-          onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
+          title={homeContent?.title}
+         description={homeContent?.description}
+         showButton={false}
+          // icon={require("../../assets/images/Calendr.png")}
+          // onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
         />
         <Text style={style.aboutUsText}>{"About Us"}</Text>
         <View style={{}}>
           <AboutUsContent content={aboutUsData?.aboutUs?.[0]?.content} />
         </View>
-        <View style={{ paddingBottom:theme.verticalSpacing.space_100 }}>
+        <View style={{paddingBottom:theme.verticalSpacing.space_100 }}>
           <View style={style.imageSwiperContainer}>
             <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.ABOUTUS_SCREEN)}>
               <ImageSwiper images={aboutUsData?.aboutUs?.[0]?.image || []}  borderRadius={10}/>

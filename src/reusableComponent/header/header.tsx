@@ -48,7 +48,7 @@ const {
           <View style={{ flexDirection: "row", alignItems: "center", height: theme.verticalSpacing.space_70 }}>
             <TouchableOpacity 
               style={{ flexDirection: 'row', alignItems: "center" }} 
-              onPress={() => navigation.navigate(MainRoutes.PROFILE_SCREEN)}
+              onPress={() => navigation.navigate(MainRoutes?.PROFILE_SCREEN)}
             >
               <View style={styles.profileImageContainer}>
                 <Image

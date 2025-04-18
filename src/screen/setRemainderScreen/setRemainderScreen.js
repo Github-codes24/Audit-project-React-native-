@@ -93,7 +93,7 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
       <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",  }}>
        
         <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
-          <Text style={style.remainderText}>{"Reminder"}</Text>
+          <Text style={style.remainderText}>{"Reminder for your own reference"}</Text>
          <Text style={style.textStyle}>{"Reminder for"}</Text>
           <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} 
           
@@ -127,7 +127,7 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
             style={style.textInput}
           />
 
-          <Text style={style.textStyle}>{"Date"}</Text>
+          <Text style={style.textStyle}>{" Reminder date"}</Text>
           <View style={[style.textInput, { alignItems: "center", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10 }]}>
             <TextInput
               placeholderTextColor="#BABABA"
