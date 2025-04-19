@@ -134,13 +134,21 @@ const onRefresh = () => {
 {
   step === 'result' && (  
     <ComplianceResult
-    scorePercentage={ calculateCompilanceScoreData?.scorePercentage % 1 === 0
-      ? calculateCompilanceScoreData?.scorePercentage 
-      : calculateCompilanceScoreData?.scorePercentage?.toFixed(2) }
-    onPressRetakeExam={()=>setStep('category')} 
+      scorePercentage={calculateCompilanceScoreData?.scorePercentage}
+      displayScore={
+        calculateCompilanceScoreData?.scorePercentage === 0
+          ? 10
+          : calculateCompilanceScoreData?.scorePercentage === 100
+            ? 90
+            : calculateCompilanceScoreData?.scorePercentage % 1 === 0
+              ? calculateCompilanceScoreData?.scorePercentage
+              : calculateCompilanceScoreData?.scorePercentage?.toFixed(2)
+      }
+      onPressRetakeExam={() => setStep('category')} 
     />
   )
 }
+
       
     </View>
   );

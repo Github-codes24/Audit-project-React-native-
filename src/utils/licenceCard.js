@@ -1,18 +1,29 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, useWindowDimensions } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import theme from './theme';
 import * as Svg from '../assets/images/svg';
 
-const Card = ({ title, description, icon, onPress, showButton = true }) => {
+const Card = ({ title, description, icon, onPress, showButton = true,SvgIcon }) => {
   const { width } = useWindowDimensions();
 
-  // ❗️If no title and no description, don't render the card at all
-  if (!title && !description) {
+  // Function to strip HTML tags and trim whitespace
+  const stripHtml = (html) => html.replace(/<[^>]*>/g, '').trim();
+
+  // ❗️If no title and no meaningful description, don't render the card at all
+  if (!description || stripHtml(description) === '') {
     return null;
   }
 
-  const isHtml = typeof description === 'string' && /<\/?[a-z][\s\S]*>/i.test(description);
+  const isHtml =
+    typeof description === 'string' && /<\/?[a-z][\s\S]*>/i.test(description);
 
   const renderDescription = () => {
     if (!description) return null;
@@ -49,9 +60,12 @@ const Card = ({ title, description, icon, onPress, showButton = true }) => {
         )}
       </View>
 
-      {hasDescription && (
-        <Image source={icon} style={styles.icon} resizeMode="contain" />
-      )}
+     {hasDescription && (
+  <View style={styles.iconWrapper}>
+    {SvgIcon && <View style={styles.svgIcon}>{SvgIcon}</View>}
+    {icon && <Image source={icon} style={styles.icon} resizeMode="contain" />}
+  </View>
+)}
     </TouchableOpacity>
   );
 };
@@ -98,6 +112,20 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
   },
+  iconWrapper: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+},
+svgIcon: {
+  width: 32,
+  height: 32,
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingRight:theme.horizontalSpacing.space_16
+},
+
 });
 
 export default Card;

@@ -35,8 +35,9 @@ import ArrowRight from "./common/arrowRight";
 import ArrowLeftDown from "./common/leftArrow";
 import ProfileEdit from "./common/profileEdit";
 import DeleteIcon from "./common/deleteIcon";
-
+import LinkChain from "./common/link";
 export {
+LinkChain,
 CheckList,
 ArrowBack,
 EyeOpen,

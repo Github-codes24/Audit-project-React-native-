@@ -24,7 +24,7 @@ import { acceptCookies, rejectCookies, customizeCookies } from "../../redux/stat
 import { getCookiesStatus } from "../../redux/stateSelector";
 import { AboutUsContent } from "../../reusableComponent/aboutUsContent/aboutUsContent";
 import { useHomeContentApiQuery } from "../../redux/apiSlice/importantLinkSlice";
-
+import * as Svg from '../../assets/images/svg'
 const DashBoardScreen = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const cookiesStatus = useSelector(getCookiesStatus);
@@ -155,7 +155,8 @@ console.log('homeContentData',homeContentData)
          <LicenseCard
           title={"Important Link"}
           description={"Set reminders and receive notifications for your employee visa expiries."}
-          icon={require("../../assets/images/Calendr.png")}
+         SvgIcon={<Svg.LinkChain/>}
+          // icon={''}
           onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
         />
        
@@ -174,9 +175,10 @@ console.log('homeContentData',homeContentData)
          <LicenseCard
           // title={homeContent?.title}
          description={homeContent?.description}
+        
          showButton={false}
           // icon={require("../../assets/images/Calendr.png")}
-          // onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
+         
         />
         <Text style={style.aboutUsText}>{"About Us"}</Text>
         <View style={{}}>
