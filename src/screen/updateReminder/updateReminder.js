@@ -61,9 +61,6 @@ const validateEmail = (email) => {
     return true;
   };
 
-
-
-
   const handleSetReminder = () => {
      if (employeeEmail && !validateEmail(employeeEmail)) {
       alertError("Please enter a valid email.");

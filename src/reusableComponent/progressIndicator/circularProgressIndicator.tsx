@@ -9,7 +9,7 @@ const CircularProgress = ({ percentage = 0 }) => {
 
   const getLabels = () => {
     const defaultLabels = [
-      {
+      { 
         name: '',
         labelColor: '#ff2900',
         activeBarColor: '#ff2900',

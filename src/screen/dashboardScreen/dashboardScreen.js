@@ -172,7 +172,7 @@ console.log('homeContentData',homeContentData)
           <HorizontalCardList data={blogApiData?.data || {}} />
         </View>
          <LicenseCard
-          title={homeContent?.title}
+          // title={homeContent?.title}
          description={homeContent?.description}
          showButton={false}
           // icon={require("../../assets/images/Calendr.png")}

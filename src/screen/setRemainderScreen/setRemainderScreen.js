@@ -89,18 +89,14 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
   return (
     <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
       <Header />
-
       <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",  }}>
-       
         <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
-          <Text style={style.remainderText}>{"Reminder for your own reference"}</Text>
+          <Text style={style.remainderText}>{"Reminder"}</Text>
          <Text style={style.textStyle}>{"Reminder for"}</Text>
           <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} 
-          
-          
           />
 
-          <Text style={style.textStyle}>{"Reminder name"}</Text>
+          <Text style={style.textStyle}>{"Reminder name (for your own reference)"}</Text>
           <TextInput
             value={reminderName}
             onChangeText={setReminderName}
