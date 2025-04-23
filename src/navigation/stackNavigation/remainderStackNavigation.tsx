@@ -110,7 +110,10 @@ const RemainderStack = () => {
              name={MainRoutes.IMPORTANT_LINK_SCREEN}
              component={ImportantLinkScreen} 
            />
-
+  <Stack.Screen
+             name={MainRoutes.RESOURCE_SCREEN}
+             component={ResourceScreen} 
+           />
 
       </Stack.Navigator>
   );

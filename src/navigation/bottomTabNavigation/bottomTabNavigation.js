@@ -25,7 +25,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         const label = options.tabBarLabel ?? route.name;
 
         const isFocused = state.index === index;
-
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
@@ -85,12 +84,11 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color, size }) => <Svg.Eligibility color={color} size={size} />,
         }}
       />
-      
       <Tab.Screen
         name="Resource"
         component={ResourceStack}
         options={{
-          tabBarIcon: ({ color, size }) => <Svg.Resource color={color} size={size} />,
+          tabBarIcon: ({color, size }) => <Svg.Resource color={color} size={size} />,
         }}
       />
       <Tab.Screen
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
     backgroundColor: theme.lightColor.whiteColor,
-    height: 70,
+    height:70,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

@@ -19,6 +19,7 @@ import { MainRoutes } from '../routeAndParamsList';
 import ComplianceScreen from '../../screen/complianceScreen/complianceScreen';
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
+import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
 // import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 
 const Stack = createStackNavigator();
@@ -106,7 +107,10 @@ const ComplianceStack = () => {
             component={ImportantLinkScreen} 
           />
 
-
+<Stack.Screen
+            name={MainRoutes.RESOURCE_SCREEN}
+            component={ResourceScreen} 
+          />
 
       </Stack.Navigator>
   );

@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { theme } from '../../../../utils';
 
-const LinkChain = ({ size =40, color = '#000' }) => {
+const LinkChain = ({ size =40, color = '#FF22DA' }) => {
   return (
   <Svg
       width={size}

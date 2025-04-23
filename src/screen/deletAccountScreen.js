@@ -62,7 +62,7 @@ const response=useSelector(getLoginResponse)
           style={styles.warningImage} 
         />
         <Text style={styles.warningText}>
-         If you confirm the deletion of your account, it will be permanently removed from our database
+       If you confirm the deletion of your account, it will be permanently removed from our database
        and cannot be recovered. Additionally, all your reminders will be lost and cannot be restored.
         </Text>
          <View style={{marginTop:theme.verticalSpacing.space_50}}>
@@ -72,9 +72,6 @@ const response=useSelector(getLoginResponse)
       />
       </View>
       </View>
-      
-      {/* Confirm Button */}
-     
     </View>
   );
 };
@@ -83,13 +80,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-   marginHorizontal:19,
+    marginHorizontal:19,
     marginTop:20
   },
   headerText: {
     fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
-    marginBottom: 24,
+    marginBottom:24,
   },
   userCard: { 
     // alignItems: 'center',
