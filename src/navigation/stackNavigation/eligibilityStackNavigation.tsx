@@ -21,6 +21,8 @@ import EligibilityScreen from '../../screen/eligibilityScreen/eligibilityScreen'
 import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
 import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
 import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+import ReminderListScreen from '../../screen/remainderListScreen.js/remainderListScreen';
+import UpdateReminderScreen from '../../screen/updateReminder/updateReminder';
 const Stack = createStackNavigator();
 
 const EligibilityStack = () => {
@@ -29,27 +31,16 @@ const EligibilityStack = () => {
     screenOptions={{
     headerShown: false, 
   }}
-  >
+      >
+
     <Stack.Screen
-  name={MainRoutes.ELIGIBILITY_SCREEN}
-  component={EligibilityScreen} 
-/>
-  {/* <Stack.Screen
-  name={MainRoutes.COMPLIANCE_SCREEN}
-  component={ComplianceScreen} 
-/> */}
-      
+        name={MainRoutes?.ELIGIBILITY_SCREEN}
+        component={EligibilityScreen} 
+      />
+
         <Stack.Screen
         name={MainRoutes.DASHBOARD_SCREEN}
         component={DashBoardScreen} 
-      />
-        <Stack.Screen
-        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
-        component={NotificationDetailsScreen} 
-      />
-       <Stack.Screen
-        name={MainRoutes.TERMANDCONDITION_SCREEN}
-        component={TermsAndConditionScreen} 
       />
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
@@ -71,10 +62,14 @@ const EligibilityStack = () => {
         name={MainRoutes.DELETE_SCREEN}
         component={DeleteScreen} 
       />
-      
        <Stack.Screen
-        name={MainRoutes.NOTIFICATION_SCREEN}
-        component={NotificationScreen} 
+        name={MainRoutes.TERMANDCONDITION_SCREEN}
+        component={TermsAndConditionScreen} 
+      />
+
+      <Stack.Screen
+        name={MainRoutes.RESOURCE_SCREEN}
+        component={ResourceScreen} 
       />
       <Stack.Screen
         name={MainRoutes.ABOUTUS_SCREEN}
@@ -83,36 +78,41 @@ const EligibilityStack = () => {
         name={MainRoutes.CONTACTUS_SCREEN}
         component={ContactScreen} 
       />
-       
 
- <Stack.Screen
+       <Stack.Screen
         name={MainRoutes.BLOG_DETAILS_SCREEN}
         component={BlogDetailsScreen} 
       />
-
-    {/* <Stack.Screen
+    <Stack.Screen
       name={MainRoutes.SET_REMAINDER_SCREEN}
        component={SetRemainderScreen} 
-      /> */}
+      />
 
     {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 
       />
+      <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
       />
- <Stack.Screen
-        name={MainRoutes.IMPORTANT_LINK_SCREEN}
-        component={ImportantLinkScreen} 
+      
+
+
+     <Stack.Screen
+        name={MainRoutes.COMPLIANCE_SCREEN}
+        component={ComplianceScreen} 
       />
 
- <Stack.Screen
-        name={MainRoutes.RESOURCE_SCREEN}
-        component={ResourceScreen} 
-      />
+      <Stack.Screen
+             name={MainRoutes?.IMPORTANT_LINK_SCREEN}
+             component={ImportantLinkScreen} 
+           />
 
 
       </Stack.Navigator>

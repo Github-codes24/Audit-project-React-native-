@@ -39,6 +39,9 @@ console.log('userId90798786',userId)
 ]= useCalculateEligibilityScoreMutation()
 
 
+
+console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
+
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
     `Selected Option for Question ${questionId}:`,
@@ -105,6 +108,8 @@ const newPayload={
   step==='result' && <EligibityResult
   isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='eligible'}
   eligibilityImage={calculateCompilanceScoreData?.eligibilityImage}
+   eligibleText1={calculateCompilanceScoreData?.eligibleText1}
+  eligibleText2={calculateCompilanceScoreData?.eligibleText2}
   onPressRetakeExam={()=>{ 
     setStep('category')
   }}

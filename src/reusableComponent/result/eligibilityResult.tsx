@@ -5,7 +5,8 @@ import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { theme } from "../../utils";
 
-const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) => {
+const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage, eligibleText1,
+  eligibleText2 }) => {
   const navigation = useNavigation();
   const isValidImage = eligibilityImage && eligibilityImage.startsWith('http');
   const [showText, setShowText] = useState(false);
@@ -27,6 +28,7 @@ const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) =>
           <Text style={styles.resultHeader}>{''}</Text>
 
           {/* Eligibility Image with Loader */}
+
           {isValidImage && (
             <View style={styles.imageContainer}>
               {!imageLoaded && (
@@ -44,26 +46,25 @@ const EligibityResult = ({ onPressRetakeExam, isEligible, eligibilityImage }) =>
           )}
 
           {/* Eligibility Message */}
-          {showText && (
+         
             <Text style={styles.title}>
-              {isEligible
-                ? "Congratulations 🎉"
-                : "Sorry\nyou are not eligible"}
+      {eligibleText2?.toLowerCase().includes("congratulations")
+    ? `${eligibleText2} 🎉`
+    : eligibleText2}
+
             </Text>
-          )}
-          <Text style={styles.subtitle}>{isEligible
-              ? "Your business is potentially eligible for sponsor licence*. Book a consultation with our experts to discuss in details."
-              : "Book a consultation for tailored advice."}
+      
+          <Text style={styles.subtitle}>
+            {eligibleText1}
           </Text>
 
           {/* Contact Us Button */}
           <TouchableOpacity
             style={styles.contactButton}
-            onPress={() => navigation.navigate(MainRoutes.CONTACTUS_SCREEN)}
+            onPress={() => navigation.navigate(MainRoutes?.CONTACTUS_SCREEN)}
           >
             <Text style={styles.contactText}>Book a Consultation</Text>
           </TouchableOpacity>
-
           {/* Retake Exam Button */}
           <CustomButton title={"Retake the test"} onPress={onPressRetakeExam} />
         </View>

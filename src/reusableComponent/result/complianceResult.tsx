@@ -28,13 +28,13 @@ const ComplianceResult = ({ onPressRetakeExam, scorePercentage, displayScore }) 
           {`You scored ${displayScore}% in sponsor licence compliance`}
         </Text>
         <Text style={styles.subtitle}>
-          Your sponsor licence compliance can be at potential risk.
-          Book a consultation with our experts.
+          Your sponsor licence compliance can be at potential risk,
+          Book a consultation with our experts to discuss in detail.
         </Text>
         <TouchableOpacity
           style={styles.contactButton}
           onPress={() => {
-            navigation.navigate(MainRoutes.CONTACTUS_SCREEN);
+            navigation.navigate(MainRoutes?.CONTACTUS_SCREEN);
           }}
         >
           <Text style={styles.contactText}>Book a Consultation</Text>

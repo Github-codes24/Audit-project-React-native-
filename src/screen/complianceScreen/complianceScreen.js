@@ -15,9 +15,6 @@ import { getLoginResponse } from "../../redux/stateSelector";
 import { useSelector } from "react-redux";
 
 const ComplianceScreen = () => {
-
-
-
 const response=useSelector(getLoginResponse)
    
 const userId=response?.data?.id
@@ -31,6 +28,20 @@ console.log('userId90798786',userId)
    const [refreshing, setRefreshing] = useState(false);
 
  console.log('selectedCategory',selectedCategory)
+
+  const actualScore = calculateCompilanceScoreData?.scorePercentage;
+
+let displayScore;
+if (actualScore === 10) {
+  displayScore = 0;
+} else if (actualScore === 90) {
+  displayScore = 100;
+} else if (actualScore % 1 === 0) {
+  displayScore = actualScore;
+} else {
+  displayScore = actualScore?.toFixed(2);
+}
+
 
  const [
   calculateCompilanceScore,
@@ -134,11 +145,17 @@ const onRefresh = () => {
 {
   step === 'result' && (  
     <ComplianceResult
-      scorePercentage={calculateCompilanceScoreData?.scorePercentage}
+      scorePercentage={
+        calculateCompilanceScoreData?.scorePercentage === 10
+          ? 0   
+          : calculateCompilanceScoreData?.scorePercentage === 90
+            ? 100  
+            : calculateCompilanceScoreData?.scorePercentage
+      }
       displayScore={
-        calculateCompilanceScoreData?.scorePercentage === 0
+        calculateCompilanceScoreData?.scorePercentage === 10
           ? 10
-          : calculateCompilanceScoreData?.scorePercentage === 100
+          : calculateCompilanceScoreData?.scorePercentage === 90
             ? 90
             : calculateCompilanceScoreData?.scorePercentage % 1 === 0
               ? calculateCompilanceScoreData?.scorePercentage
@@ -148,6 +165,8 @@ const onRefresh = () => {
     />
   )
 }
+
+
 
       
     </View>

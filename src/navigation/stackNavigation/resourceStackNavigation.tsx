@@ -34,7 +34,7 @@ const ResourceStack = () => {
   name={MainRoutes.RESOURCE_SCREEN}
   component={ResourceScreen} 
 />
-    <Stack.Screen
+   <Stack.Screen
   name={MainRoutes.ELIGIBILITY_SCREEN}
   component={EligibilityScreen} 
 />
@@ -110,9 +110,6 @@ const ResourceStack = () => {
         name={MainRoutes.IMPORTANT_LINK_SCREEN}
         component={ImportantLinkScreen} 
       />
-
-
-
       </Stack.Navigator>
   );
 };

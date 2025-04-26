@@ -151,14 +151,14 @@ console.log('imageUrl3264',imageUrl)
               title={"Check Your Eligibility for Sponsor Licence"}
               description={"Check if your business is eligible for a sponsor licence in the UK "}
               icon={require("../../assets/images/Checklist.png")}
-              onPress={() => navigation.navigate('Eligibility')}
+              onPress={() => navigation.navigate(MainRoutes.ELIGIBILITY_SCREEN)}
             />
 
             <LicenseCard
               title={"Check Your Sponsor Licence Compliance Score"}
               description={"Use this tool to check your compliance with sponsor licence duties."}
               icon={require("../../assets/images/Compliance.png")}
-              onPress={() => navigation.navigate('Compliance')}
+              onPress={() => navigation.navigate(MainRoutes.COMPLIANCE_SCREEN)}
             />
 
             <LicenseCard
@@ -170,7 +170,7 @@ console.log('imageUrl3264',imageUrl)
 
             <LicenseCard
               title={"Important Link"}
-              description={"Set reminders and receive notifications for your employee visa expiries."}
+              description={"Right to work checks and other important links from the home office."}
               SvgIcon={<Svg.LinkChain />}
               onPress={() => navigation.navigate(MainRoutes?.IMPORTANT_LINK_SCREEN)}
             />

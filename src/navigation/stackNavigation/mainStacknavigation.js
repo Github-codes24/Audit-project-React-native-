@@ -83,7 +83,7 @@ const MainStackNavigation = () => {
        component={SetRemainderScreen} 
       />
 
-    {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
+   
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 

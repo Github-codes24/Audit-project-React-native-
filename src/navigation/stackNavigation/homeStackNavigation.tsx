@@ -34,6 +34,17 @@ const HomeStack = () => {
         name={MainRoutes.DASHBOARD_SCREEN}
         component={DashBoardScreen} 
       />
+
+     <Stack.Screen
+        name={MainRoutes.COMPLIANCE_SCREEN}
+        component={ComplianceScreen} 
+      />
+    <Stack.Screen
+        name={MainRoutes?.ELIGIBILITY_SCREEN}
+        component={EligibilityScreen} 
+      />
+
+
       <Stack.Screen
         name={MainRoutes.PROFILE_SCREEN}
         component={ProfileScreen} 
@@ -83,7 +94,7 @@ const HomeStack = () => {
        component={SetRemainderScreen} 
       />
 
-    {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
+   
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 
@@ -104,16 +115,9 @@ const HomeStack = () => {
         name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
         component={NotificationDetailsScreen} 
       />
-     <Stack.Screen
-        name={MainRoutes.COMPLIANCE_SCREEN}
-        component={ComplianceScreen} 
-      />
-    <Stack.Screen
-        name={MainRoutes.ELIGIBILITY_SCREEN}
-        component={EligibilityScreen} 
-      />
+
       <Stack.Screen
-             name={MainRoutes.IMPORTANT_LINK_SCREEN}
+             name={MainRoutes?.IMPORTANT_LINK_SCREEN}
              component={ImportantLinkScreen} 
            />
 
