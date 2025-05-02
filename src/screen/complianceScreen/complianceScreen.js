@@ -12,21 +12,23 @@ import Loader from "../../reusableComponent/loader/loader";
 import ComplianceResult from "../../reusableComponent/result/complianceResult";
 import Header from "../../reusableComponent/header/header";
 import { getLoginResponse } from "../../redux/stateSelector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setComplianceResult, setComplianceTestGiven } from "../../redux/stateSlice/complianceStateSlice";
+import { getIsComplianceTestGiven } from "../../redux/stateSelector/complinceStateSelector";
 
 const ComplianceScreen = () => {
 const response=useSelector(getLoginResponse)
    
 const userId=response?.data?.id
+const dispatch=useDispatch()
 
-console.log('userId90798786',userId)
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
  const [selectedCategory, setSelectedCategory] = useState();
    const [refreshing, setRefreshing] = useState(false);
-
+const isComplaincetestGiven= useSelector(getIsComplianceTestGiven)
  console.log('selectedCategory',selectedCategory)
 
   const actualScore = calculateCompilanceScoreData?.scorePercentage;
@@ -54,11 +56,21 @@ if (actualScore === 10) {
 ]= useCalculateCompilanceScoreMutation()
 
 
-useEffect(() => {
-  if (isSuccessCalculateCompilanceScore) {
+useEffect(()=>{
+  if(isSuccessCalculateCompilanceScore){
     setStep('result');
+   dispatch(setComplianceTestGiven(true))
+  dispatch(setComplianceResult(calculateCompilanceScoreData))
+
   }
-}, [isSuccessCalculateCompilanceScore]);
+},[
+  isSuccessCalculateCompilanceScore
+])
+
+
+
+
+
 
 
   const handleOptionSelect = (selectedOption, questionId) => {

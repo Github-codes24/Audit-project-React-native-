@@ -151,14 +151,18 @@ console.log('imageUrl3264',imageUrl)
               title={"Check Your Eligibility for Sponsor Licence"}
               description={"Check if your business is eligible for a sponsor licence in the UK "}
               icon={require("../../assets/images/Checklist.png")}
-              onPress={() => navigation.navigate(MainRoutes.ELIGIBILITY_SCREEN)}
-            />
+              onPress={() => navigation.reset({
+          index: 0, 
+          routes: [{ name: MainRoutes.ELIGIBILITY }], 
+          })}
+            />      
 
             <LicenseCard
               title={"Check Your Sponsor Licence Compliance Score"}
               description={"Use this tool to check your compliance with sponsor licence duties."}
               icon={require("../../assets/images/Compliance.png")}
-              onPress={() => navigation.navigate(MainRoutes.COMPLIANCE_SCREEN)}
+              onPress={()=>navigation.navigate(MainRoutes?.COMPLIANCE)}
+        
             />
 
             <LicenseCard

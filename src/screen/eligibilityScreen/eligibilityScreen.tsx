@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity,ScrollView } from "react-native";
 import { theme } from "../../utils";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
@@ -7,26 +7,28 @@ import QuestionSection from "../../reusableComponent/questionList/questionSectio
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 import Header from "../../reusableComponent/header/header";
 import { useCalculateEligibilityScoreMutation } from "../../redux/apiSlice/eligibilityApiSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLoginResponse } from "../../redux/stateSelector";
-
+import { setEligibilityResult, setEligibilityTestGiven } from "../../redux/stateSlice/eligibilityStateSlice";
+import { getIsEligibilityTestGiven } from "../../redux/stateSelector/eligibilityStateSelector";
+import { useIsFocused } from '@react-navigation/native';
 const EligibilityScreen = () => {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
   const [selectedCategory, setSelectedCategory] = useState();
+  const isFocused= useIsFocused()
+  const [refreshKey, setRefreshKey] = useState(0); 
 
-
-
+  const dispatch = useDispatch()
+const isEligibilityTestGiven= useSelector(getIsEligibilityTestGiven)
+// console.log('isEligibility test given',isEligibilityTestGiven)
 const response=useSelector(getLoginResponse)
    
 const userId=response?.data?.id
 
-console.log('userId90798786',userId)
-
-
-
+// console.log('userId90798786',userId)
 
   const [
  calculateEligibilityScore,
@@ -37,6 +39,16 @@ console.log('userId90798786',userId)
     data: calculateCompilanceScoreData,
   }
 ]= useCalculateEligibilityScoreMutation()
+
+useEffect(()=>{
+  if(isSuccessCalculateCompilanceScore){
+   dispatch(setEligibilityTestGiven(true))
+  dispatch(setEligibilityResult(calculateCompilanceScoreData))
+
+  }
+},[
+  isSuccessCalculateCompilanceScore
+])
 
 
 
@@ -65,6 +77,16 @@ console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
   const handleNext = () => {
   };
 
+  useEffect(()=>{
+    console.log('Focus:', isFocused, 'Eligibility:', isEligibilityTestGiven);
+    if(isEligibilityTestGiven){
+      setStep('result')
+    }
+  },[
+   isEligibilityTestGiven ,
+   isFocused
+  ])
+
 const onSubmit = (payload) => {
 const newPayload={
     userId:userId,
@@ -72,6 +94,7 @@ const newPayload={
 }
     calculateEligibilityScore(newPayload)
     setStep('result');
+    
   }
 
   return (

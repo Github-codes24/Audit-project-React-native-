@@ -14,7 +14,7 @@ const App = () => {
       <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
         <NavigationContainer>
           <RootNavigator />
-          <FCMHandler />  {/* ✅ Place inside Provider to access Redux */}
+          <FCMHandler />  
         </NavigationContainer>
       </PersistGate>
       <ToastComponent />

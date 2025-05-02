@@ -216,10 +216,10 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.horizontalSpacing.space_20,
     fontSize: theme.fontSizes.size_14,
     fontWeight: '500',
-    color: 'black',
+    color: 'gray',
   },
   categoryTextSelected: {
-    color: 'gray',
+    color: 'black',
   },
   blogList: {
     paddingBottom: theme.verticalSpacing.space_100,

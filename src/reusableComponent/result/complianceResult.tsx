@@ -5,9 +5,29 @@ import CustomButton from "../button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CircularProgress from "../progressIndicator/circularProgressIndicator";
 import { useNavigation } from "@react-navigation/native";
-
-const ComplianceResult = ({ onPressRetakeExam, scorePercentage, displayScore }) => {
+import { getComplianceResult } from "../../redux/stateSelector/complinceStateSelector";
+import { useSelector } from "react-redux";
+const ComplianceResult = ({ onPressRetakeExam,scorePercentage,displayScore}) => {
   const navigation = useNavigation();
+  
+  const complianceResult=useSelector(getComplianceResult)
+
+  // const {
+  //   scorePercentage='',
+
+  // } = complianceResult||{}
+
+//   let displayScore=0
+// if (scorePercentage === 10) {
+//   displayScore = 0;
+// } else if (scorePercentage === 90) {
+//   displayScore = 100;
+// } else if (scorePercentage % 1 === 0) {
+//   displayScore = scorePercentage;
+// } else {
+//   displayScore = scorePercentage?.toFixed(2);
+// }
+
 
   return (
     <View style={styles.container}>

@@ -36,6 +36,8 @@ const EligibilityStack = () => {
     <Stack.Screen
         name={MainRoutes?.ELIGIBILITY_SCREEN}
         component={EligibilityScreen} 
+      
+        
       />
 
         <Stack.Screen

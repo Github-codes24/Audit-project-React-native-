@@ -59,6 +59,7 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false, 
+        unmountOnBlur:true
       }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
@@ -69,18 +70,20 @@ const BottomTabNavigator = () => {
         tabBarIcon: ({ color, size }) => <Svg.HomeIcon color={color} size={size} />,
         }}
       />
-      <Tab.Screen
-        name="Eligibility"
-        component={EligibilityStack}
-        options={{
-          tabBarIcon: ({ color, size }) => <Svg.ComplianceIcon color={color} size={size} />,
-        }}
-      />
+  <Tab.Screen
+  name="Eligibility"
+  children={() => <EligibilityStack key={Date.now()} />}
+  options={{
+     unmountOnBlur: true,
+    tabBarIcon: ({ color, size }) => <Svg.ComplianceIcon color={color} size={size} />,
+  }}
+/>
 
       <Tab.Screen
         name="Compliance"
         component={ComplianceStack}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => <Svg.Eligibility color={color} size={size} />,
         }}
       />

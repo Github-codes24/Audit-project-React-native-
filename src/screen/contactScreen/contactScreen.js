@@ -129,7 +129,7 @@ const navigation=useNavigation()
               type: "primary",
               onPress: () => {
                 closeModal();
-                navigation.navigate(MainRoutes?.DASHBOARD_SCREEN);
+                navigation.navigate('Home');
               },
             },
           ]}
@@ -272,6 +272,7 @@ const navigation=useNavigation()
             <Text style={[style.textStyle, {  }]}>Email</Text>
           </View>
           <TouchableOpacity onPress={() => Linking.openURL('mailto:admin@narasolicitors.com')}>
+            
             <Text style={{
               color: 'black',
               fontSize: theme.fontSizes.size_16,
