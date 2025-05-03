@@ -36,6 +36,9 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
   const categoryData =
     checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
 
+
+
+    console.log('j',categoryData)
   const isLoading =
     checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
 
@@ -86,7 +89,8 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
       </Text>
 
       <Text style={styles.subHeader}>Select your business category</Text>
-        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+
       <View style={styles.contentWrapper}>
         <ScrollView
           style={styles.scrollWrapper}
@@ -101,7 +105,7 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
                 style={styles.category}
                 onPress={() => handleCategorySelect(category)}
               >
-                <Text style={styles.categoryText}>{category.name}</Text>
+                <Text style={styles.categoryText}>{category?.name}</Text>
                 <View
                   style={[
                     styles.circle,
@@ -113,9 +117,8 @@ const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance'
               </TouchableOpacity>
             ))
           ) : (
-            <Text>No categories available</Text>
+            <Text style={styles.emptyText}>No categories available</Text>
           )}
-
         </ScrollView>
       </View>
 
@@ -150,8 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoriesContainer: {
-   
-    paddingBottom:200, 
+    paddingBottom: 200,
   },
   category: {
     flexDirection: 'row',
@@ -190,12 +192,17 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom:theme.verticalSpacing.space_80,
+    bottom: theme.verticalSpacing.space_80,
     left: 0,
     right: 0,
     paddingHorizontal: 19,
     paddingVertical: 15,
-  
+  },
+  emptyText: {
+    fontSize: theme.fontSizes.size_16,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 

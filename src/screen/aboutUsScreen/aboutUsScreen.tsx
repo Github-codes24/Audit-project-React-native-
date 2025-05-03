@@ -27,7 +27,7 @@ const AboutUsScreen = () => {
 
   const content = getAboutdata?.aboutUs?.[0]?.content || '';
   const images = getAboutdata?.aboutUs?.[0]?.image || [];
-  const hasMultipleImages = images.length > 1; // Check if multiple images exist
+  const hasMultipleImages = images.length > 1; 
 
   useEffect(() => {
     if (intervalId) {
