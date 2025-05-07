@@ -50,7 +50,6 @@ const ResourceScreen = ({ navigation,route }) => {
   );
 
 
-
   // Set default category once the data is available
   useEffect(() => {
     if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {

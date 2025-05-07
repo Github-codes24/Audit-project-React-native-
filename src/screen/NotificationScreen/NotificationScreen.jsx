@@ -46,6 +46,9 @@ const NotificationScreen = ({  }) => {
     refetch: refetchRead 
   } = useGet10UserReadApiSliceQuery(userId);
 
+console.log('get10userUnReadApiNotificationApidata',get10userUnReadApiNotificationApidata)
+
+
   const [markNotificationAsRead, { isLoading: markNotificationAsReadApiIsLoading }] = useMarkNotificationAsReadMutation();
 
   const getFilteredNotifications = () => {
@@ -53,6 +56,9 @@ const NotificationScreen = ({  }) => {
     if (selectedTab === 'Unread') return get10userUnReadApiNotificationApidata?.notifications || [];
     return getAllUserNotificationApidata?.notifications || [];
   };
+
+
+
 
   const formatDate = (date) => {
     const createdAt = moment(date);
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     marginBottom: theme.verticalSpacing.space_6,
     // backgroundColor:"red",
-    width:"45%"
+    width:theme.horizontalSpacing.space_285
   },
   NotificationImage: {
     height: theme.horizontalSpacing.space_60,
@@ -214,13 +220,15 @@ const styles = StyleSheet.create({
   NotificationVideo: {
     height: theme.horizontalSpacing.space_60,
     width: theme.verticalSpacing.space_60,
-    borderRadius:30
+    borderRadius:30,
+    
   },
  videoWrapper: {
     height: theme.horizontalSpacing.space_60,
     width: theme.verticalSpacing.space_60,
     borderRadius:30,
     overflow: 'hidden', 
+    // backgroundColor:"green"
   },
   timestamp: {
     color: 'gray',

@@ -28,14 +28,7 @@ const theme = {
   },
 
   fontFamily: {
-    inter: {
-      regular_400:'inter_18pt-Regular',
-      medium_500: 'inter_18pt-Medium',
-      bold_700: 'inter_18pt-Bold',
-      extrabold_800: 'inter_18pt-ExtraBold',
-      semibold_600: 'inter_18pt-SemiBold',
-      thin_100: 'inter_18pt-hin',
-    },
+   
    
   },
 

@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>440109330451-6lar4vd3evj5ufa17vht84o1gfo86ald.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.440109330451-6lar4vd3evj5ufa17vht84o1gfo86ald</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>440109330451-8bfbormes603clbvcgoq7o107c3289bf.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAZJDb7DfMbsUlmzfqQBZsYR__fDErYjYM</string>
+	<string>AIzaSyAzTo0lSLM3S3yPgnYbxtq4rXbQM8QvH7s</string>
 	<key>GCM_SENDER_ID</key>
-	<string>440109330451</string>
+	<string>234134612479</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.MintChalk</string>
+	<string>com.nara.narasolicitors</string>
 	<key>PROJECT_ID</key>
-	<string>mintchalk-372101</string>
+	<string>nara-solicitors-58558</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mintchalk-372101.appspot.com</string>
+	<string>nara-solicitors-58558.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:440109330451:ios:26484390498720d4348fe6</string>
+	<string>1:234134612479:ios:b226d7a942ae5820749fca</string>
 </dict>
 </plist>

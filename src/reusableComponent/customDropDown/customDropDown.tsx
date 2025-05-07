@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: theme.fontSizes.size_16,
     color: theme.lightColor.blackColor,
-    fontFamily: theme.fontFamily.inter.regular_400,
+   
     paddingHorizontal: theme.horizontalSpacing.space_8,
   },
   rightIconContainer: {

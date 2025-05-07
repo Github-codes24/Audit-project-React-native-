@@ -48,6 +48,10 @@ const EligibilityStack = () => {
         name={MainRoutes.PROFILE_SCREEN}
         component={ProfileScreen} 
       />
+            <Stack.Screen
+        name={MainRoutes.NOTIFICATION_SCREEN}
+        component={NotificationScreen} 
+      />
       <Stack.Screen
       name={MainRoutes.EDITPROFILE_SCREEN}
       component={EditProfile}

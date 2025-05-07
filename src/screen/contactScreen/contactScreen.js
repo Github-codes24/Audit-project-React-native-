@@ -69,8 +69,6 @@ const navigation=useNavigation()
  const handleFormSubmit = () => {
   setMobileError('');
   setMessageError('');
-
-  // Validate mobile number only if it's not empty
   if (!mobileNumber.trim()) {
     setMobileError('Mobile number is required.');
     return;
@@ -80,8 +78,6 @@ const navigation=useNavigation()
     setMobileError('Mobile number must be exactly 10 digits.');
     return;
   }
-
-  // Validate message field
   if (!message.trim()) {
     setMessageError('Message cannot be empty.');
     return;
@@ -165,7 +161,7 @@ const navigation=useNavigation()
     fontSize: theme.fontSizes.size_16,
     fontWeight: "400",
     color: "black",
-  }} //
+  }} 
             data={data}
             labelField="label"
             valueField="value"

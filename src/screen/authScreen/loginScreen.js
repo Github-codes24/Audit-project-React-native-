@@ -25,6 +25,9 @@ const LoginScreen = ({ navigation }) => {
   const loginResponse = useSelector(getLoginResponse);
   const FcmToken = useSelector(getFcmToken);
 
+
+  console.log('FcmToken',FcmToken)
+
   const [loginApi, { 
     isLoading: isLoginApiLoading, 
     isSuccess: isLoginApiSuccess, 

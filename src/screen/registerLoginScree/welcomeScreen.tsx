@@ -90,7 +90,7 @@ const style = StyleSheet.create({
   description: {
     lineHeight: 20,
     textAlign: 'center',
-    fontFamily: theme.fontFamily.inter.regular_400,
+   
     fontSize: theme.fontSizes.size_16,
     marginTop: theme.verticalSpacing.space_42,
     paddingHorizontal: 20,

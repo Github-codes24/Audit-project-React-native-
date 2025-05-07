@@ -72,9 +72,9 @@ const BottomTabNavigator = () => {
       />
   <Tab.Screen
   name="Eligibility"
-  children={() => <EligibilityStack key={Date.now()} />}
+  component={EligibilityStack}
   options={{
-     unmountOnBlur: true,
+    unmountOnBlur: true,
     tabBarIcon: ({ color, size }) => <Svg.ComplianceIcon color={color} size={size} />,
   }}
 />

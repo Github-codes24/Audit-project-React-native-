@@ -28,42 +28,50 @@ const FCMHandler = () => {
       } catch (err) {
         console.warn('Error requesting Android permissions:', err);
       }
+    } else {
+      try {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (!enabled) {
+          console.log('iOS notification permission not granted');
+        } else {
+          console.log('iOS notification permission granted:', authStatus);
+        }
+      } catch (err) {
+        console.warn('Error requesting iOS permissions:', err);
+      }
     }
   };
 
   const getFCMToken = async () => {
     try {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-      if (enabled) {
-        const token = await messaging().getToken();
-        console.log('FCM Token:', token);
-        dispatch(setFcmToken(token));
-      } else {
-        console.log('FCM Permission not granted');
-      }
+        await messaging().registerDeviceForRemoteMessages();
+      const token = await messaging().getToken();
+      console.log('FCM Token:', token);
+      dispatch(setFcmToken(token));
     } catch (error) {
       console.error('Error getting FCM token:', error);
     }
   };
 
   const setupNotificationHandlers = () => {
-    // Handle foreground notifications
+    // Foreground messages
     messaging().onMessage(async remoteMessage => {
       console.log('🔥 Foreground Message Received:', JSON.stringify(remoteMessage));
       await displayNotification(remoteMessage);
     });
 
-    // Handle background notification click
+    // Background opened notifications
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log('🚀 App opened from background:', remoteMessage);
       handleNotificationNavigation(remoteMessage);
     });
 
-   
+    // App opened from quit state
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
@@ -73,7 +81,7 @@ const FCMHandler = () => {
         }
       });
 
-    // Handle foreground notification click
+    // Foreground notification click
     notifee.onForegroundEvent(({ type, detail }) => {
       if (type === EventType.PRESS) {
         console.log('🔎 Notification clicked in foreground:', detail.notification);
@@ -88,7 +96,7 @@ const FCMHandler = () => {
 
     if (screen && blogId) {
       console.log(`Navigating to ${screen} with blogId: ${blogId}`);
-      navigation.navigate(screen, { id:blogId });
+      navigation.navigate(screen, { id: blogId });
     } else {
       console.warn('⚠️ Missing screen or blogId in notification data');
     }
@@ -117,7 +125,7 @@ const FCMHandler = () => {
         body,
         android: {
           channelId,
-          smallIcon: 'ic_launcher',
+          smallIcon: 'ic_launcher', // Ensure this icon exists in your Android project
           pressAction: {
             id: 'default',
           },
