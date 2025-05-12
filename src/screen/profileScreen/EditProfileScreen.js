@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView, SafeAreaView, Alert, Platform, } from "react-native";
 import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from '../../assets/images/svg';
@@ -12,6 +12,8 @@ import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+
 
 const EditProfile = ({ navigation, route }) => {
     const { profileData = {} } = route?.params || {};
@@ -80,27 +82,57 @@ const EditProfile = ({ navigation, route }) => {
         );
     };
 
-    const captureImageFromCamera = () => {
-        launchCamera(
-            {
-                mediaType: 'photo',
-                quality: 1,
-            },
-            (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled camera');
-                } else if (response.errorMessage) {
-                    console.error('Camera Error:', response.errorMessage);
-                } else if (response.assets && response.assets.length > 0) {
-                    setImageUri(response.assets[0].uri);
-                    setIsModalVisible(false);
-                }
-            }
-        );
-    };
+    const requestCameraPermission = async () => {
+        try {
+          const permission = Platform.select({
+            ios: PERMISSIONS.IOS.CAMERA,
+            android: PERMISSIONS.ANDROID.CAMERA,
+          });
+      
+          const status = await check(permission);
+      
+          if (status === RESULTS.GRANTED) {
+            return true;
+          } else if (status === RESULTS.DENIED || status === RESULTS.LIMITED) {
+            const result = await request(permission);
+            return result === RESULTS.GRANTED;
+          } else if (status === RESULTS.BLOCKED) {
+            Alert.alert(
+              'Camera Permission Required',
+              'Please enable camera permission in settings to use this feature.',
+              [{ text: 'OK' }]
+            );
+            return false;
+          } else if (status === RESULTS.UNAVAILABLE) {
+            Alert.alert('Camera Unavailable', 'Camera is not available on this device.');
+            return false;
+          }
+      
+          return false;
+        } catch (error) {
+          console.error('Permission check failed:', error);
+          Alert.alert('Error', 'Failed to check camera permission.');
+          return false;
+        }
+      };
+      
+      const captureImageFromCamera = async () => {
+        const granted = await requestCameraPermission();
+        if (!granted) return;
+      
+        launchCamera({ mediaType: 'photo', quality: 1 }, (response) => {
+          if (response?.assets?.length > 0) {
+            setImageUri(response.assets[0].uri);
+            setIsModalVisible(false);
+          } else if (response?.errorCode) {
+            console.error('Camera Error:', response.errorMessage || response.errorCode);
+            Alert.alert('Camera Error', response.errorMessage || 'Unknown error occurred');
+          }
+        });
+      };
+
 
     const handleSubmit = () => {
-        // Validate phone number before submission
         if (!validatePhoneNumber(phoneNumber)) {
             setPhoneError('Please enter a valid 10 to 12-digit phone number.');
             return; 

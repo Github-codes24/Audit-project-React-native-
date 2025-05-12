@@ -55,7 +55,13 @@ const DashBoardScreen = ({ navigation }) => {
     refetch: refetchCategoryData,
   } = useGetAllBlogsQuery({});
 
+
+
+
   const homeContent = homeContentData?.data;
+
+console.log('blogApiData',blogApiData)
+
 
   const closeModal = () => {
     setModalVisible(false);
@@ -314,7 +320,7 @@ const style = StyleSheet.create({
   seeAllText: {
     fontSize: theme.fontSizes.size_16,
     fontWeight: "400",
-    fontFamily: "inter",
+    // fontFamily: "inter",
   },
   aboutUsText: {
     fontSize: theme.fontSizes.size_20,
