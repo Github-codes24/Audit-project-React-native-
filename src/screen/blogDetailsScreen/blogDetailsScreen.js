@@ -93,6 +93,9 @@ const isVideoLink = (url) => /\.(mp4|mov|mkv|webm|avi|flv)$/i.test(url);
     }
   };
  
+
+
+
  useEffect(() => {
     if (!isFocused) {
       setPaused(true); 

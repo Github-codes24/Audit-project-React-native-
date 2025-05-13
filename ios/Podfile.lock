@@ -1,5 +1,6 @@
 PODS:
   - boost (1.84.0)
+  - BranchSDK (3.10.0)
   - BVLinearGradient (2.8.3):
     - React-Core
   - DoubleConversion (1.1.6)
@@ -1343,6 +1344,9 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
+  - react-native-branch (6.6.0):
+    - BranchSDK (= 3.10.0)
+    - React-Core
   - react-native-fbsdk-next (13.4.1):
     - React-Core
     - react-native-fbsdk-next/Core (= 13.4.1)
@@ -2173,6 +2177,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-render-html (from `../node_modules/react-native-render-html`)
@@ -2222,6 +2227,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - BranchSDK
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -2318,6 +2324,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
   react-native-fbsdk-next:
     :path: "../node_modules/react-native-fbsdk-next"
   react-native-image-picker:
@@ -2413,6 +2421,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
+  BranchSDK: 5678ea6de1b289812e99b55e828e826b00688f06
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2467,6 +2476,7 @@ SPEC CHECKSUMS:
   React-logger: 5320a2acb25baa566cda59b611231929dd3ed7fc
   React-Mapbuffer: 9af3695e354816d30d4429992714e0c8cefac25f
   React-microtasksnativemodule: ab4c1c9d4841e71a4116f167a4cd3f8dc1ab50ba
+  react-native-branch: e8e64ee592b1fd495ae53dec6850f76f1b6dd578
   react-native-fbsdk-next: 1baeeacf0ecdeb839cca16ca75cb16a9bbbf8e03
   react-native-image-picker: 23cd9b24becdf3c888bbb272f9acc024aa09418c
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
@@ -2508,13 +2518,13 @@ SPEC CHECKSUMS:
   RNFBMessaging: 099972ab397d61815f32610514b0573d1db2b1e1
   RNGestureHandler: 3ca128bc8b8f15f04ba00dbbd05b90df34404b05
   RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
-  RNPermissions: 6503568f2099791dd84a6e7ef8c7b4583327238a
+  RNPermissions: 265ebf4beee9e8daa4ccc493464d40a6973a4dd1
   RNReanimated: e94006244a8c86126a7f699073210c92be8736ee
   RNScreens: ef58b1f3077f7ee62b58f958536ee5ccb52d96b5
   RNSVG: 58d18dfd1774ad6be87c14200a53c988c233f3b9
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 23fb98904c6937028692aa0e5bb63624ff41c4a1
 
-PODFILE CHECKSUM: 87d7d0621a980ef04d8062323b043a22cc11f39b
+PODFILE CHECKSUM: b976b330237a6abe1903daf65f29deab3b135c2d
 
 COCOAPODS: 1.15.2

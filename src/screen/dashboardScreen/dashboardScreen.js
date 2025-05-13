@@ -155,7 +155,7 @@ console.log('imageUrl3264',imageUrl)
           <View style={{ marginTop: theme.verticalSpacing.space_10 }}>
             <LicenseCard
               title={"Check Your Eligibility for Sponsor Licence"}
-              description={"Check if your business is eligible for a sponsor licence in the UK "}
+              description={"Check if your business is eligible for a sponsor licence in the UK."}
               icon={require("../../assets/images/Checklist.png")}
               onPress={() => navigation.reset({
           index: 0, 
