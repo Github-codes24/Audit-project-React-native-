@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -52,31 +53,36 @@
 	</dict>
 
 	<!-- ✅ Permissions -->
+
 	 <key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera to take photos.</string>
+<string>This app requires access to your camera to take a profile photo.</string>
 
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app may request access to your photo library to allow image selection or uploading if needed.</string>
+	<string>This app requires access to your photo library to allow you to select a profile picture.</string>
+
 
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app needs permission to save images to your photo library.</string>
+	<string>This app needs permission to save your updated profile photo to your photo library if you choose to do so.</string>
+
+<key>NSAppleMusicUsageDescription</key>
+<string>This app uses video playback to display blog-related content. We do not access your personal media or music library.</string>
 
 <key>NSMicrophoneUsageDescription</key>
-<string>This app does not use the microphone. This message is required due to a third-party library.</string>
-	
-	<key>NSAppleMusicUsageDescription</key>
-<string>This app does not use Apple Music directly. This message is required due to a third-party library.</string>
+<string>This app does not use the microphone directly. Access may be triggered by a third-party video library to support playback features.</string>
 
+	
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>This app uses your location to enhance certain features.</string>
 
 	<!-- ✅ Background modes -->
+
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
 
 	<!-- ✅ Launch and device -->
+	
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 
@@ -86,6 +92,7 @@
 	</array>
 
 	<!-- ✅ UI Settings -->
+
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
@@ -99,6 +106,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
+		
 	</array>
 </dict>
 </plist>

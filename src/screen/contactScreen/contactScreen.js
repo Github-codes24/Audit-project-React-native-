@@ -96,7 +96,7 @@ const navigation=useNavigation()
       }
     })
     .catch((error) => {
-      alertError("Failed to submit the form. Please try again.");
+     console.log("Failed to submit the form. Please try again.");
     });
 };
 

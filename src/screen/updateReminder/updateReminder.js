@@ -63,7 +63,7 @@ const validateEmail = (email) => {
 
   const handleSetReminder = () => {
      if (employeeEmail && !validateEmail(employeeEmail)) {
-      alertError("Please enter a valid email.");
+      console.log("Please enter a valid email.");
       return;
     }
 
@@ -82,7 +82,7 @@ const validateEmail = (email) => {
         console.log("Reminder updated successfully");
       })
       .catch((err) => {
-        alertError(err?.data?.message || "Error setting reminder.");
+       console.log(err?.data?.message || "Error setting reminder.");
       });
   };
 
@@ -106,7 +106,7 @@ const validateEmail = (email) => {
                 navigation.navigate(MainRoutes.REMAINDERLIST_SCREEN);
               })
               .catch((error) => {
-                alertError(error?.data?.message || "Error deleting reminder.");
+                console.log(error?.data?.message || "Error deleting reminder.");
               });
           },
           style: "destructive",

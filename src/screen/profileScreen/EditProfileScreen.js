@@ -55,7 +55,7 @@ const EditProfile = ({ navigation, route }) => {
         return passwordRegEx.test(password);
 
  if (password && confirmPassword !== password) {
-        alertError('Confirm password does not match the password.');
+        console.log('Confirm password does not match the password.');
         return;
     }
 
@@ -175,7 +175,7 @@ const EditProfile = ({ navigation, route }) => {
             })
             .catch((error) => {
                 console.error('Error updating profile:', error);
-                alertError('Failed to update profile');
+                console.log('Failed to update profile');
             });
     };
 

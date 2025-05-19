@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import * as Svg from "../../assets/images/svg";
 import { theme } from "../../utils";
@@ -65,6 +65,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
       <View style={styles.container}>
         <CustomModal
           visible={isModalVisible}
@@ -146,6 +147,7 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
 
         {isLoading && <Loader isLoading={isLoading} />}
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

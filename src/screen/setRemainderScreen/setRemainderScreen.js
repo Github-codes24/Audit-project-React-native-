@@ -66,9 +66,9 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
     setRemainderApi({ userId, body })
       .then((res) => {
         if (res?.error) {
-          alertError(res.error.data?.message || "Error setting reminder.");
+          console.log(res.error.data?.message || "Error setting reminder.");
         } else {
-          alertSuccess("Reminder set successfully!");
+          console.log("Reminder set successfully!");
           navigation.navigate(MainRoutes.REMAINDERLIST_SCREEN);
         }
       })

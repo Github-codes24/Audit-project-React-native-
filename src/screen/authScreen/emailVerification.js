@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ActivityIndicator, ScrollView } from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
 import * as Svg from '../../assets/images/svg';
 import BackgroundLayout from '../../reusableComponent/backgroundLayout/backgroundLayout';
@@ -38,7 +38,7 @@ const EmailVerificationScreen = ({ navigation, route }) => {
       if (result?.error) {
         setErrorText(result?.error?.data?.message || 'Invalid OTP. Please try again.');
       } else {
-        navigation.navigate(MainRoutes.ACCOUNT_VERIFIED_SCREEN, { verifyOtpApiData: result.data });
+        navigation.navigate(MainRoutes?.ACCOUNT_VERIFIED_SCREEN, { verifyOtpApiData: result.data });
       }
     } catch (error) {
       setErrorText('Something went wrong. Please try again.');
@@ -83,6 +83,7 @@ const EmailVerificationScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView>
+      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
       <View style={styles.container}>
         <CustomModal
           visible={isModalVisible}
@@ -127,6 +128,7 @@ const EmailVerificationScreen = ({ navigation, route }) => {
         </View>
         <Text style={styles.timerText}>Resend code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
