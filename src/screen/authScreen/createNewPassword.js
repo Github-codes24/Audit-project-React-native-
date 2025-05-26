@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
@@ -53,7 +53,7 @@ const CreateNewPassword = ({ navigation, route }) => {
   }, [isResetPasswordApiSuccess, resetPasswordApiError]);
 
   return (
-    <BackgroundLayout>
+    <ScrollView>
       <View style={styles.container}>
         <View style={{}}>
         <CustomHeader onBackPress={() => navigation.goBack()} title="Create New Password" />
@@ -107,7 +107,7 @@ const CreateNewPassword = ({ navigation, route }) => {
            </View>
         </View>
       </View>
-    </BackgroundLayout>
+      </ScrollView>
   );
 };
 

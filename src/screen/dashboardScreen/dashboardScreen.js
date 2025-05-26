@@ -28,6 +28,10 @@ import { useHomeContentApiQuery } from "../../redux/apiSlice/importantLinkSlice"
 import * as Svg from '../../assets/images/svg';
 import he from 'he';
 import RenderHTML from "react-native-render-html";
+import { useFocusEffect } from '@react-navigation/native';
+import { useRef } from 'react';
+
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -36,6 +40,7 @@ const DashBoardScreen = ({ navigation }) => {
   const cookiesStatus = useSelector(getCookiesStatus);
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
+  const scrollViewRef = useRef(null);
 
   const {
     data: aboutUsData,
@@ -67,12 +72,7 @@ console.log('blogApiData',blogApiData)
     setModalVisible(false);
   };
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-    homeContentrefetch();
-    refetchAboutUs();
-    setRefreshing(false);
-  };
+  
 
   useEffect(() => {
     if (
@@ -109,14 +109,39 @@ const stripHtmlTags = (html) => {
   const imageUrl = extractImageSrc(homeContent?.description);
 const plainTextDescription = stripHtmlTags(homeContent?.description);
 
+const onRefresh = () => {
+  setRefreshing(true);
 
-console.log('imageUrl3264',imageUrl)
+  // Just trigger the queries to refetch data
+  homeContentrefetch();
+  refetchAboutUs();
+  refetchCategoryData();
 
+  // Add a small timeout to simulate the refresh ending smoothly
+  setTimeout(() => {
+    setRefreshing(false);
+  }, 1000); // 1 second, adjust if needed
+};
+
+
+useFocusEffect(
+  React.useCallback(() => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    onRefresh();
+    return () => {}; 
+  }, [])
+);
 
   return (
     <ScrollView
       style={{ flex: 1 }}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      ref={scrollViewRef}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#592951" 
+        />}
     >
       <View style={style.main}>
         <StatusBar backgroundColor={"#592951"} />

@@ -5,6 +5,7 @@ import RenderHtml from "react-native-render-html";
 import { useWindowDimensions } from "react-native";
 import { theme } from "../../utils";
 import * as Svg from '../../assets/images/svg'
+import Header from "../../reusableComponent/header/header";
 
 const ImportantLinkScreen = ({navigation}) => {
   const { data: importantLinkData, isLoading, isError } = useImporttantLinkApiSliceQuery();
@@ -19,6 +20,8 @@ const ImportantLinkScreen = ({navigation}) => {
 
   return (
     <ScrollView style={{ margin: 19, flex: 1 }}>
+      <View>
+      <Header/>
        <TouchableOpacity style={{marginBottom:theme.verticalSpacing.space_30}} onPress={() => navigation.goBack()}>
                  <Svg.ArrowBack />
                </TouchableOpacity>
@@ -32,6 +35,7 @@ const ImportantLinkScreen = ({navigation}) => {
     // marginVertical:5,
   }}
       source={{ html: item.description }} />
+      </View>
     </ScrollView>
   );
 };

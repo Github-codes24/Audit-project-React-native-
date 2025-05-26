@@ -6,8 +6,16 @@ import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { theme } from "../../utils";
 import { useSelector } from "react-redux";
 import { getEligibiltyResult } from "../../redux/stateSelector/eligibilityStateSelector";
+import { getLoginResponse } from "../../redux/stateSelector";
 
 const EligibityResult = ({ onPressRetakeExam}) => {
+
+  const response=useSelector(getLoginResponse)
+  
+  const userId=response?.data?.id||''
+
+  console.log('response',userId)
+
   const navigation = useNavigation();
   
 const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -73,12 +81,14 @@ const isValidImage = eligibilityImage && eligibilityImage.startsWith('http');
         
 
           {/* Contact Us Button */}
-          <TouchableOpacity
-            style={styles.contactButton}
-            onPress={() => navigation.navigate(MainRoutes?.CONTACTUS_SCREEN)}
-          >
-            <Text style={styles.contactText}>Book a Consultation</Text>
-          </TouchableOpacity>
+          {userId !== "68231fc9fa6c852bbfbbe143" && (
+  <TouchableOpacity
+    style={styles.contactButton}
+    onPress={() => navigation.navigate(MainRoutes?.CONTACTUS_SCREEN)}
+  >
+    <Text style={styles.contactText}>Book a Consultation</Text>
+  </TouchableOpacity>
+)}
 
           {/* Retake Exam Button */}
           <CustomButton title={"Retake the test"} onPress={onPressRetakeExam} />

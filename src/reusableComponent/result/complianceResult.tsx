@@ -7,10 +7,14 @@ import CircularProgress from "../progressIndicator/circularProgressIndicator";
 import { useNavigation } from "@react-navigation/native";
 import { getComplianceResult } from "../../redux/stateSelector/complinceStateSelector";
 import { useSelector } from "react-redux";
+import { getLoginResponse } from "../../redux/stateSelector";
 const ComplianceResult = ({ onPressRetakeExam,scorePercentage,displayScore}) => {
   const navigation = useNavigation();
   
   const complianceResult=useSelector(getComplianceResult)
+
+  const response=useSelector(getLoginResponse)
+  const userId=response?.data?.id
 
   // const {
   //   scorePercentage='',
@@ -51,14 +55,14 @@ const ComplianceResult = ({ onPressRetakeExam,scorePercentage,displayScore}) => 
           Your sponsor licence compliance can be at potential risk,
           Book a consultation with our experts to discuss in detail.
         </Text>
-        <TouchableOpacity
-          style={styles.contactButton}
-          onPress={() => {
-            navigation.navigate(MainRoutes?.CONTACTUS_SCREEN);
-          }}
-        >
-          <Text style={styles.contactText}>Book a Consultation</Text>
-        </TouchableOpacity>
+        {userId !== "68231fc9fa6c852bbfbbe143" && (
+         <TouchableOpacity
+           style={styles.contactButton}
+           onPress={() => navigation.navigate(MainRoutes?.CONTACTUS_SCREEN)}
+         >
+           <Text style={styles.contactText}>Book a Consultation</Text>
+         </TouchableOpacity>
+       )}
         <CustomButton
           title={'Retake the test'}
           onPress={onPressRetakeExam}

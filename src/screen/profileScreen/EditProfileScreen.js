@@ -185,7 +185,7 @@ const EditProfile = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{flex:1}}>
-        <ScrollView style={{flex:1,marginBottom:theme.verticalSpacing.space_100 }}>
+        <ScrollView style={{}}>
             <Loader isLoading={isLoading} />
             <View style={{ paddingHorizontal: 7 }}>
                 <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}

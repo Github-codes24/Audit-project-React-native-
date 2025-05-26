@@ -84,7 +84,7 @@ const supportItems = [
   ];
   return (
     <SafeAreaView>
-      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+      <ScrollView style={{}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}

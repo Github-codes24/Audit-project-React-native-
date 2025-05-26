@@ -90,7 +90,9 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="Resource"
         component={ResourceStack}
+        
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({color, size }) => <Svg.Resource color={color} size={size} />,
         }}
       />
