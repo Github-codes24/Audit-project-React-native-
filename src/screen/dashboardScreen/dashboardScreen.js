@@ -123,7 +123,6 @@ const onRefresh = () => {
   }, 1000); // 1 second, adjust if needed
 };
 
-
 useFocusEffect(
   React.useCallback(() => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });

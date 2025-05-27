@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,7 +18,6 @@ import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 
 const RegisterScreen = ({ navigation }) => {
-  const inputRef = useRef(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +25,6 @@ const RegisterScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  // Error state
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -53,17 +51,20 @@ const RegisterScreen = ({ navigation }) => {
     else if (lastName.length < 2) newErrors.lastName = "Must be at least 2 characters";
 
     if (!email) {
-  newErrors.email = "Email is required";
-} else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-  newErrors.email = "Enter a valid email address";
-}
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+    ) {
+      newErrors.email = "Enter a valid email address";
+    }
 
     if (!password) newErrors.password = "Password is required";
     else if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/.test(password))
       newErrors.password = "Must be 8+ chars, include 1 uppercase & 1 special char.";
 
     if (!confirmPassword) newErrors.confirmPassword = "Confirm password is required";
-    else if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    else if (password !== confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -83,28 +84,25 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.flexContainer}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.flexContainer}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
-        >
+      <KeyboardAvoidingView
+        style={styles.flexContainer}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+      >
+        <View style={styles.flexContainer}>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
             <View style={styles.container}>
-              {/* Custom Header */}
               <CustomHeader
                 leftIcon={<Svg.ArrowBack />}
                 title={"Getting Started"}
                 subtitle={"Let’s create your free account here"}
               />
 
-              {/* Form Fields */}
               <View style={styles.nameView}>
-                {/* Labels */}
                 <View style={styles.row}>
                   <Text style={styles.label}>First name</Text>
                   <Text style={[styles.label, { marginLeft: theme.horizontalSpacing.space_10 }]}>
@@ -112,10 +110,8 @@ const RegisterScreen = ({ navigation }) => {
                   </Text>
                 </View>
 
-                {/* Inputs */}
                 <View style={styles.row}>
                   <TextInput
-                    ref={inputRef}
                     value={firstName}
                     onChangeText={(text) => {
                       setFirstName(text.replace(/\s/g, ""));
@@ -137,7 +133,6 @@ const RegisterScreen = ({ navigation }) => {
                   />
                 </View>
 
-                {/* Error Messages */}
                 <View style={styles.row}>
                   {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
                   {errors.lastName && (
@@ -191,15 +186,15 @@ const RegisterScreen = ({ navigation }) => {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
 
-        {/* Fixed Button - Stays at bottom */}
-        {!isKeyboardVisible && (
-          <View style={styles.buttonContainer}>
-            <CustomButton onPress={handleRegister} title={"Continue"} />
-          </View>
-        )}
-      </View>
+          {/* Fixed Button */}
+          {!isKeyboardVisible && (
+            <View style={styles.buttonContainer}>
+              <CustomButton onPress={handleRegister} title={"Continue"} />
+            </View>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
@@ -210,14 +205,13 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: 80, // Prevents overlapping of button
+    paddingBottom: 150,
   },
   container: {
     flex: 1,
     paddingHorizontal: 19,
   },
   nameView: {
-    flex: 1,
     marginTop: theme.verticalSpacing.space_40,
   },
   row: {
@@ -239,22 +233,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
     fontSize: theme.fontSizes.size_16,
-    color:'black',
-    marginTop:5
+    color: "black",
+    marginTop: 5,
   },
   errorText: {
     color: "red",
     fontSize: theme.fontSizes.size_14,
     marginTop: 5,
-    marginLeft:5
+    marginLeft: 5,
+    flex: 1,
   },
   buttonContainer: {
     width: "100%",
     position: "absolute",
-    bottom:theme.verticalSpacing.space_40,
+    bottom: theme.verticalSpacing.space_40,
     paddingHorizontal: 19,
     alignSelf: "center",
-    // backgroundColor: "white",
     paddingVertical: 10,
   },
   TextStyle: {

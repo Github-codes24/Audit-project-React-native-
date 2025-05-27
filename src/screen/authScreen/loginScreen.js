@@ -157,7 +157,7 @@ const LoginScreen = ({ navigation }) => {
               style={{
                 fontSize: theme.fontSizes.size_14,
                 fontWeight: "600",
-                color: theme.lightColor.borderColor,
+                color: theme.lightColor.brownColor,
                 marginLeft: 5,
               }}
             >

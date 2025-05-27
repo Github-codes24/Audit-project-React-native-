@@ -153,7 +153,7 @@ const closeModal = () => {
         <View style={styles.resendContainer}>
           <Text style={styles.resendText}>Didn’t receive code?</Text>
           <TouchableOpacity onPress={handleResendCode} disabled={isResendDisabled}>
-            <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}>Resend code</Text>
+            <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}> Resend code</Text>
           </TouchableOpacity>
         </View>
 
