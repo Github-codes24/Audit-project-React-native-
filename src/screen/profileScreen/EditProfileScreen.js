@@ -13,15 +13,11 @@ import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-
+import CountryPicker from "react-native-country-picker-modal";
 
 const EditProfile = ({ navigation, route }) => {
     const { profileData = {} } = route?.params || {};
     const [imageUri, setImageUri] = useState(profileData?.image || '');
-
-    console.log('profileData@@', profileData, route?.params);
-    console.log('Phone Number:', profileData?.phoneNumber);
-    
     const inputRef = useRef(null);
     const [firstName, setFirstName] = useState(profileData?.firstName || '');
     const [lastName, setLastName] = useState(profileData?.lastName || '');
@@ -33,11 +29,15 @@ const EditProfile = ({ navigation, route }) => {
     const [phoneError, setPhoneError] = useState(''); 
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-
+    const [countryCode, setCountryCode] = useState("+44");
+    const [selectedCountry, setSelectedCountry] = useState("GB");
+const [showModal, setShowModal] = useState(false);
 
     const response = useSelector(getLoginResponse);
     const userId = response?.data?.id;
+
+
+     const countryPickerRef = useRef(null);
 
     console.log('userId256654455',userId)
 
@@ -187,7 +187,7 @@ const EditProfile = ({ navigation, route }) => {
         <SafeAreaView style={{flex:1}}>
         <ScrollView style={{}}>
             <Loader isLoading={isLoading} />
-            <View style={{ paddingHorizontal: 7 }}>
+            <View style={{ paddingHorizontal: 7,}}>
                 <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
                     onPress={() => navigation.goBack()}
                 >
@@ -202,7 +202,7 @@ const EditProfile = ({ navigation, route }) => {
                     <Image
                         source={
                             imageUri ? { uri: imageUri }
-                            : require('../../assets/images/manImage.png')
+                            : require('../../assets/images/narasolicitor.jpeg')
                         }
                         style={styles.profileImage}
                     />
@@ -262,16 +262,39 @@ const EditProfile = ({ navigation, route }) => {
                     />
                {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
                     <Text style={styles.TextStyle}>Phone number</Text>
-                    <CustomTextInput
-                        value={phoneNumber}
-                        onChangeText={(text) => {
-                         const formattedText = text.replace(/\D/g, '').slice(0, 12);
-                            setPhoneNumber(formattedText);
-                            setPhoneError(''); 
-                        }}
-                        maxLength={12}
-                        placeholder={'+44 (0) XXXX XXX XXX'}
-                    />
+                    <View style={styles.phoneContainer}>
+          
+          <View style={{height:theme.verticalSpacing.space_50,borderWidth:1,borderRadius:8,alignItems:'center',justifyContent:"center",backgroundColor:'#FFF',padding:5,marginTop:5,marginRight:-5,borderColor:theme.lightColor.borderColor,paddingHorizontal:10}}>
+        <TouchableOpacity onPress={() => setShowModal(true)} style={{}}>
+      <Text style={{ fontSize:theme.fontSizes.size_16, color: '#000', fontWeight: '400',alignItems:"center",justifyContent:"center" }}>
+        {countryCode}
+      </Text>
+    </TouchableOpacity>
+         
+          <CountryPicker
+      ref={countryPickerRef}
+      withCallingCode
+      withFlag
+      onSelect={(country) => {
+        setCountryCode(`+${country.callingCode?.[0] || '1'}`);
+        setSelectedCountry(country.cca2);
+        setShowModal(false);
+      }}
+      countryCode={selectedCountry}
+      visible={showModal}
+      onClose={() => setShowModal(false)}
+      renderFlagButton={() => null} 
+    />
+          </View>
+          <CustomTextInput
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="numeric"
+            placeholder="Enter phone number"
+            style={styles.phoneInput}
+            maxLength={12}
+          />
+        </View>
                     {phoneError ? <Text style={{ color: 'red', fontSize: 14 }}>{phoneError}</Text> : null} {/* Display error message */}
 
                     <Text style={styles.TextStyle}>Company name</Text>
@@ -401,6 +424,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: theme.horizontalSpacing.space_10,
+        marginBottom:theme.verticalSpacing.space_100
     },
     actionText: {
         fontWeight:'500',
@@ -409,6 +433,13 @@ const styles = StyleSheet.create({
         color: theme.lightColor.whiteColor,
         textAlign: 'center',
     },
+    phoneInput: {  
+        marginLeft: 10,
+        width:theme.horizontalSpacing.space_320
+    },
+    phoneContainer: { 
+        flexDirection: "row",
+         alignItems: "center" },
 });
 
 export default EditProfile;

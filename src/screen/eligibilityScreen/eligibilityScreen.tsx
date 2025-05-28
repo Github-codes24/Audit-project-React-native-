@@ -12,6 +12,8 @@ import { getLoginResponse } from "../../redux/stateSelector";
 import { setEligibilityResult, setEligibilityTestGiven } from "../../redux/stateSlice/eligibilityStateSlice";
 import { getIsEligibilityTestGiven } from "../../redux/stateSelector/eligibilityStateSelector";
 import { useIsFocused } from '@react-navigation/native';
+import { resetEligibility } from "../../redux/stateSlice/eligibilityStateSlice";
+
 const EligibilityScreen = () => {
   
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,7 +25,6 @@ const EligibilityScreen = () => {
 
   const dispatch = useDispatch()
 const isEligibilityTestGiven= useSelector(getIsEligibilityTestGiven)
-// console.log('isEligibility test given',isEligibilityTestGiven)
 const response=useSelector(getLoginResponse)
    
 const userId=response?.data?.id
@@ -50,9 +51,7 @@ useEffect(()=>{
   isSuccessCalculateCompilanceScore
 ])
 
-
-
-console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
+// console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -78,7 +77,6 @@ console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
   };
 
   useEffect(()=>{
-    console.log('Focus:', isFocused, 'Eligibility:', isEligibilityTestGiven);
     if(isEligibilityTestGiven){
       setStep('result')
     }
@@ -114,7 +112,7 @@ const newPayload={
       }
    
    {step==='question' &&
-   <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+   <ScrollView style={{}}>
    <QuestionSection
         selectedCategory={selectedCategory}
         handleOptionSelect={handleOptionSelect}
@@ -134,6 +132,7 @@ const newPayload={
    eligibleText1={calculateCompilanceScoreData?.eligibleText1}
   eligibleText2={calculateCompilanceScoreData?.eligibleText2}
   onPressRetakeExam={()=>{ 
+    dispatch(resetEligibility());
     setStep('category')
   }}
   />

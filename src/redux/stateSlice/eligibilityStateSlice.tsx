@@ -17,7 +17,7 @@ export const eligibilitySlice = createSlice({
   reducers: {
     setEligibilityTestGiven: (state, action: PayloadAction<boolean>) => {
       console.log('action.payload',action.payload)
-      state.isEligibilityTestGiven = action.payload;  // Set whether the test was given
+      state.isEligibilityTestGiven = action.payload;  
     },
 
      setEligibilityResult: (state, action: PayloadAction<object>) => {
@@ -25,7 +25,8 @@ export const eligibilitySlice = createSlice({
     },
 
     resetEligibility: state => {
-      state.isEligibilityTestGiven = false;  // Reset to default state (not given)
+      state.isEligibilityTestGiven = false; 
+      state.EligibilityResult = {};
     },
   },
 });

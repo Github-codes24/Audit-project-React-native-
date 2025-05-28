@@ -111,8 +111,8 @@ const navigation=useNavigation()
   ];
 
   return (
-    <ScrollView style={{ marginBottom: theme.verticalSpacing.space_100 }} showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1, backgroundColor: "#F2F3F5", }}>
+    <ScrollView style={{  }} showsVerticalScrollIndicator={false}>
+      <View style={{ flex: 1, backgroundColor: "#F2F3F5",marginBottom:theme.verticalSpacing.space_100 }}>
         <Loader isLoading={isLoading} />
         <CustomModal
           visible={isModalVisible}

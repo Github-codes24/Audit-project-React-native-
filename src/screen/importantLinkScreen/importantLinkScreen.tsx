@@ -16,12 +16,14 @@ const ImportantLinkScreen = ({navigation}) => {
 
   const item = importantLinkData.data;
 
-  console.log('importantLinkData',importantLinkData)
+ 
 
   return (
-    <ScrollView style={{ margin: 19, flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <View>
       <Header/>
+
+      <View style={{margin:20}}>
        <TouchableOpacity style={{marginBottom:theme.verticalSpacing.space_30}} onPress={() => navigation.goBack()}>
                  <Svg.ArrowBack />
                </TouchableOpacity>
@@ -35,6 +37,7 @@ const ImportantLinkScreen = ({navigation}) => {
     // marginVertical:5,
   }}
       source={{ html: item.description }} />
+      </View>
       </View>
     </ScrollView>
   );

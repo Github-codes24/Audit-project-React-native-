@@ -15,6 +15,7 @@ import { getLoginResponse } from "../../redux/stateSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { setComplianceResult, setComplianceTestGiven } from "../../redux/stateSlice/complianceStateSlice";
 import { getIsComplianceTestGiven } from "../../redux/stateSelector/complinceStateSelector";
+import { useIsFocused } from "@react-navigation/native";
 
 const ComplianceScreen = () => {
 const response=useSelector(getLoginResponse)
@@ -22,6 +23,7 @@ const response=useSelector(getLoginResponse)
 const userId=response?.data?.id
 const dispatch=useDispatch()
 
+const isFocused= useIsFocused()
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTestStarted, setIsTestStarted] = useState(false);
@@ -67,11 +69,14 @@ useEffect(()=>{
   isSuccessCalculateCompilanceScore
 ])
 
-
-
-
-
-
+// useEffect(()=>{
+//   if(isComplaincetestGiven){
+//     setStep('result')
+//   }
+// },[
+//   isComplaincetestGiven ,
+//  isFocused
+// ])
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(

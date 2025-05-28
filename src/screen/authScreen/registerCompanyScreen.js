@@ -25,6 +25,9 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
  const [showModal, setShowModal] = useState(false);
   const countryPickerRef = useRef(null);
 
+
+
+
   const [registerApi, { isLoading, isSuccess, error }] = useRegisterMutation();
 
   const handleVerify = () => {

@@ -28,17 +28,8 @@ const response=useSelector(getLoginResponse)
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
-
-  // console.log('getuserdata',getuserdata)
-
   const [logOutApi,{isLoading:logoutApiisLoading}] = useLogoutApiMutation();
 
-
-  // console.log('getuserdata:', getuserdata); 
-  // console.log('isLoading:', getUserdataApiIsLoading); 
-  // console.log('error:', getUserdataApiError); 
- 
- 
 const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
     getuserdata?.getUser||{}
 
@@ -67,8 +58,6 @@ const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
     Alert.alert('Error', 'Something went wrong. Please try again.');
   }
 };
-
-
 
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.ProfileEdit/>,route: MainRoutes.EDITPROFILE_SCREEN,
@@ -103,24 +92,23 @@ const supportItems = [
       source={
     image?.length > 0
       ? { uri:image } 
-      : require('../../assets/images/manImage.png') 
+      : require('../../assets/images/narasolicitor.jpeg') 
      }
-  style={styles.profileImage}
+           style={styles.profileImage}
       />
 
         <View style={{marginLeft:10}}>
         <Text style={styles.profileName}>{firstName} {lastName}</Text>
-        <Text style={styles.profileInfo}>{phoneNumber}</Text>
+        <Text style={styles.profileInfo}>
+          +{phoneNumber}</Text>
         <Text style={styles.profileInfo}>{email}</Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.personalDetails}>Personal details →</Text>
-        </TouchableOpacity> */}
+       
         </View>
       </View>
 
       {/* Support Board */}
       <View style={styles.supportBoard}>
-        <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
+       
       {supportItems.map((item, index) => (
           <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation?.navigate?.(item?.route,item?.params)} >
             <Text style={styles.supportIcon}>{item.icon}</Text>

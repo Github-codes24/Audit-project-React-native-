@@ -92,9 +92,18 @@ const BottomTabNavigator = () => {
         component={ResourceStack}
         
         options={{
-          unmountOnBlur: true,
-          tabBarIcon: ({color, size }) => <Svg.Resource color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Svg.Resource color={color} size={size} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (e && typeof e.preventDefault === 'function') {
+              e.preventDefault();
+            }
+            navigation.navigate('Resource', {
+              screen: 'ResourceScreen', 
+            });
+          },
+        })}
       />
       <Tab.Screen
         name="Reminder"

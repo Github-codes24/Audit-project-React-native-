@@ -56,7 +56,7 @@ const {
                   source={
                     image?.length > 0
                       ? { uri: image } 
-                      : require('../../assets/images/manImage.png') 
+                      : require('../../assets/images/narasolicitor.jpeg') 
                   }
                 />
               </View>

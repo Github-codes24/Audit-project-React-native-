@@ -25,7 +25,7 @@ export const complianceSlice = createSlice({
 
     resetCompliance: (state) => {
       state.isComplianceTestGiven = false;
-      state.complianceResult = {}; // reset result too if needed
+      state.complianceResult = {}; 
     },
   },
 });
