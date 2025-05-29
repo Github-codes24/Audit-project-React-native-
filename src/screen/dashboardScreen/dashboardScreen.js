@@ -183,7 +183,7 @@ useFocusEffect(
               icon={require("../../assets/images/Checklist.png")}
               onPress={() => navigation.reset({
           index: 0, 
-          routes: [{ name: MainRoutes.ELIGIBILITY }], 
+          routes: [{ name: MainRoutes?.ELIGIBILITY }], 
           })}
             />      
 
@@ -191,7 +191,10 @@ useFocusEffect(
               title={"Check Your Sponsor Licence Compliance Score"}
               description={"Use this tool to check your compliance with sponsor licence duties."}
               icon={require("../../assets/images/Compliance.png")}
-              onPress={()=>navigation.navigate(MainRoutes?.COMPLIANCE)}
+              onPress={() => navigation.reset({
+                index: 0, 
+                routes: [{ name: MainRoutes?.COMPLIANCE }], 
+                })}
         
             />
 

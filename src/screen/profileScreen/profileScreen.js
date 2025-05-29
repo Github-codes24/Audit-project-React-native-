@@ -73,7 +73,7 @@ const supportItems = [
   ];
   return (
     <SafeAreaView>
-      <ScrollView style={{}}>
+      <ScrollView style={{height:'100%',backgroundColor:'#F5F5F5'}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}

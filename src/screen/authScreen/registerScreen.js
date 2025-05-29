@@ -152,6 +152,8 @@ const RegisterScreen = ({ navigation }) => {
                     setErrors({ ...errors, email: "" });
                   }}
                   placeholder={"Enter your email address"}
+                  autoCapitalize="none"   
+                  autoCorrect={false}
                 />
                 {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 

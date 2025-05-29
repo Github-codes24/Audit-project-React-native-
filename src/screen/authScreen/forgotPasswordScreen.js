@@ -94,12 +94,14 @@ const ForgotPasswordScreen = () => {
             value={email}
             onChangeText={(text) => setEmail(text)}
             placeholder={'Enter your email address'}
+            autoCapitalize="none"   
+            autoCorrect={false}
           />
         </View>
 
         <View style={style.forgetView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(MainRoutes.LOGIN_SCREEN)}
+            onPress={() => navigation.navigate(MainRoutes?.LOGIN_SCREEN)}
           >
             <Text style={style.backToLoginText}>Back to login</Text>
           </TouchableOpacity>

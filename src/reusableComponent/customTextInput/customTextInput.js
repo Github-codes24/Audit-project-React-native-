@@ -20,7 +20,9 @@ const CustomTextInput = ({
   multiline = false,
   editable = true,
   onRightIconPress,
-  textColor
+  textColor,
+  autoCapitalize = 'sentences', 
+  autoCorrect = true  
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
 
@@ -50,6 +52,8 @@ const CustomTextInput = ({
         secureTextEntry={secureTextEntry && isPasswordVisible} 
         style={[styles.input, inputStyle, { color: textColor }]}
         placeholderTextColor={'#BABABA'}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
         ref={ref}
       />
 

@@ -111,6 +111,8 @@ const LoginScreen = ({ navigation }) => {
             value={email}
             onChangeText={(text) => setEmail(text)}
             placeholder={"Enter your email address"}
+            autoCapitalize="none"   
+            autoCorrect={false}
           />
           <Text style={{ marginTop: 10 }}>Password</Text>
           <CustomTextInput 

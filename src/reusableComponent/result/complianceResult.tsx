@@ -16,10 +16,10 @@ const ComplianceResult = ({ onPressRetakeExam,scorePercentage,displayScore}) => 
   const response=useSelector(getLoginResponse)
   const userId=response?.data?.id
 
-  // const {
-  //   scorePercentage='',
+//   const {
+//     scorePercentage='',
 
-  // } = complianceResult||{}
+//   } = complianceResult||{}
 
 //   let displayScore=0
 // if (scorePercentage === 10) {
