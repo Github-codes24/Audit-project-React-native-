@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - BranchSDK (3.10.0)
+  - BranchSDK (3.12.1)
   - BVLinearGradient (2.8.3):
     - React-Core
   - DoubleConversion (1.1.6)
@@ -1344,8 +1344,8 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
-  - react-native-branch (6.6.0):
-    - BranchSDK (= 3.10.0)
+  - react-native-branch (6.7.1):
+    - BranchSDK (= 3.12.1)
     - React-Core
   - react-native-fbsdk-next (13.4.1):
     - React-Core
@@ -2421,7 +2421,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  BranchSDK: 5678ea6de1b289812e99b55e828e826b00688f06
+  BranchSDK: 7135af6602a105fa6be3ad6c606a7f78b0131b5d
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2476,7 +2476,7 @@ SPEC CHECKSUMS:
   React-logger: 5320a2acb25baa566cda59b611231929dd3ed7fc
   React-Mapbuffer: 9af3695e354816d30d4429992714e0c8cefac25f
   React-microtasksnativemodule: ab4c1c9d4841e71a4116f167a4cd3f8dc1ab50ba
-  react-native-branch: e8e64ee592b1fd495ae53dec6850f76f1b6dd578
+  react-native-branch: 3f06a27a30ebaae599959d6679d5efb861510e5b
   react-native-fbsdk-next: 1baeeacf0ecdeb839cca16ca75cb16a9bbbf8e03
   react-native-image-picker: 23cd9b24becdf3c888bbb272f9acc024aa09418c
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
