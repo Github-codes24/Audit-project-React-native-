@@ -13,7 +13,7 @@ const ImageSwiper = ({ images, showNavigation = false, imageStyle = {}, containe
 
   useEffect(() => {
     if (imageHeights.length > 0) {
-      setMaxHeight(Math.max(...imageHeights)); // Adjust container height dynamically
+      setMaxHeight(Math.max(...imageHeights)); 
     }
   }, [imageHeights]);
 

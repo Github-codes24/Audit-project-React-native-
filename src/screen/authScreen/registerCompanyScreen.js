@@ -50,8 +50,9 @@ const RegisterCompanyScreen = ({ navigation, route }) => {
       firstName,
       lastName,
       company,
-      phoneNumber: `${countryCode}${phoneNumber}`,
+      phoneNumber:phoneNumber,
       confirmPassword,
+      countryCode:countryCode
     });
   };
 

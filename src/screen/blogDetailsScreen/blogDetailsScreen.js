@@ -14,18 +14,18 @@ import { MainRoutes } from '../../navigation/routeAndParamsList';
 import RenderHTML from 'react-native-render-html';
 import he from 'he';
 import { useIsFocused } from '@react-navigation/native';
+import branch from 'react-native-branch';
 
 const BlogDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { id } = route?.params;
-  const [selectedBlogId, setSelectedBlogId] = React.useState(id);
+  const [selectedBlogId, setSelectedBlogId] =useState(id);
   const [paused, setPaused] = useState(true)
   const isFocused = useIsFocused();
   const scrollViewRef = useRef(null);
   const { width } = useWindowDimensions();
 
-  console.log('id436475',id)
-  // Fetch blog data
+ 
   const { data: blogApiData, isLoading: isBlogApiDataLoading } = useGetAllBlogsQuery({});
   const { data: getBlogDetailsData, isLoading: blogDetailsIsLoading } = useGetblogsByIdQuery({ id: selectedBlogId });
 
@@ -42,7 +42,11 @@ const BlogDetailsScreen = ({ route }) => {
     addLink = '', 
   } = blog || {};
 
-  // ✅ Check if the URL is a video file
+ console.log('authorImage',authorImage)
+
+
+  let isSharing = false;
+
   const isVideoFile = (url) => /\.(mp4|mkv|mov|avi|webm)$/i.test(url);
   const videoUrl = image?.length > 0 && isVideoFile(image[0]) ? image[0] : null;
   
@@ -74,20 +78,49 @@ const BlogDetailsScreen = ({ route }) => {
   };
 
   const handleShare = async () => {
+    if (isSharing) return;
+    isSharing = true;
+  
     try {
-      const cleanTitle = he.decode(title);
-     
-      const deepLinkUrl = `https://ud7q4.app.link/sample-link/?blogId=${selectedBlogId}`;
-    
-      const shareMessage = `${cleanTitle}\n\nRead more: ${deepLinkUrl}`;
-    
-      await Share.share({
-        message: shareMessage,
+      const cleanTitle = he.decode(title || '');
+  
+      const branchUniversalObject = await branch.createBranchUniversalObject(
+        `blog/${selectedBlogId}`,
+        {
+          title: cleanTitle,
+          contentDescription: description?.substring(0, 100) || '',
+          contentImageUrl: image || '', // Prevent iOS crash if image is undefined
+          contentMetadata: {
+            customMetadata: {
+              screen: MainRoutes.BLOG_DETAILS_SCREEN,
+              id: selectedBlogId,
+            },
+          },
+        }
+      );
+  
+      const { url } = await branchUniversalObject.generateShortUrl({
+        feature: 'share',
+        channel: 'app',
+        campaign: 'blog',
       });
+  
+      console.log('Branch URL:', url);
+  
+      const shareMessage = `${cleanTitle}\n\nRead more: ${url}`;
+      await Share.share({ message: shareMessage });
+  
+      // Optional cleanup (helps iOS release memory)
+      await branchUniversalObject.release?.();
     } catch (error) {
-      console.error('Error sharing:', error);
+      console.error('Error sharing blog link:', error);
+    } finally {
+      isSharing = false;
     }
   };
+  
+
+
   useEffect(() => {
     if (!isFocused) {
       setPaused(true); 

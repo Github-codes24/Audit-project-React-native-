@@ -1,38 +1,59 @@
 import { useEffect } from 'react';
-import { Alert } from 'react-native';
 import branch from 'react-native-branch';
 import { navigationRef } from '../../../App';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 
 const BranchLinkHandler = () => {
   useEffect(() => {
+    // 🔁 Subscribe for branch link opens (while app is running or resumed)
     const unsubscribe = branch.subscribe(({ error, params }) => {
       if (error) {
         console.error('❌ Branch error:', error);
         return;
       }
 
-      console.log('🔗 Branch params:', params);
+      console.log('📩 Branch link opened with params (live):', params);
 
-      if (params['+clicked_branch_link']) {
-        const blogId = params.blogId;
-
-        if (blogId) {
-          const waitForNav = setInterval(() => {
-            if (navigationRef.isReady()) {
-              console.log('✅ Navigation ready — navigating to BLOG_DETAILS_SCREEN');
-              navigationRef.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: blogId });
-              clearInterval(waitForNav);
-            } else {
-              console.log('⏳ Waiting for navigation to be ready...');
-            }
-          }, 100);
-        }
-      }
+      handleBranchNavigation(params, 'live');
     });
 
-    return () => unsubscribe(); // Clean up on unmount
+    // ✅ Handle cold start by checking latest params
+    const checkInitialBranchLink = async () => {
+      const params = await branch.getLatestReferringParams();
+      console.log('🧊 Initial Branch link params (cold start):', params);
+
+      if (params?.['+clicked_branch_link']) {
+        handleBranchNavigation(params, 'cold');
+      }
+    };
+
+    checkInitialBranchLink();
+
+    return () => unsubscribe();
   }, []);
+
+  const handleBranchNavigation = (params: any, source: string) => {
+    const blogId = params?.id;
+    const screen = params?.screen;
+
+    if (screen === MainRoutes.BLOG_DETAILS_SCREEN && blogId) {
+      waitForNavAndNavigate(String(blogId), source);
+    } else {
+      console.log(`⚠️ Unsupported Branch screen or missing ID in ${source} link`);
+    }
+  };
+
+  const waitForNavAndNavigate = (id: string, source: string) => {
+    const interval = setInterval(() => {
+      if (navigationRef.isReady()) {
+        console.log(`✅ Navigation is ready (${source}). Navigating to BlogDetails with ID:`, id);
+        navigationRef.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id });
+        clearInterval(interval);
+      } else {
+        console.log(`⏳ Navigation not ready yet (${source})`);
+      }
+    }, 100);
+  };
 
   return null;
 };

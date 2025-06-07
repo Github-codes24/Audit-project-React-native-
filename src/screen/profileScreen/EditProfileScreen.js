@@ -29,7 +29,7 @@ const EditProfile = ({ navigation, route }) => {
     const [phoneError, setPhoneError] = useState(''); 
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [countryCode, setCountryCode] = useState("+44");
+    const [countryCode, setCountryCode] = useState(`${profileData?.countryCode}`||'');
     const [selectedCountry, setSelectedCountry] = useState("GB");
 const [showModal, setShowModal] = useState(false);
 

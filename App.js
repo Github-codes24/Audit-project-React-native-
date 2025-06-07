@@ -19,12 +19,16 @@ export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
   console.log('🚀 App initialized');
+
+
   return (
     <Provider store={store}>
       <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+       
+      <BranchLinkHandler />
         <NavigationContainer ref={navigationRef} fallback={<ActivityIndicator />}>
           <RootNavigator />
-          <BranchLinkHandler />
+         
           <FCMHandler />
         </NavigationContainer>
         <ToastComponent />

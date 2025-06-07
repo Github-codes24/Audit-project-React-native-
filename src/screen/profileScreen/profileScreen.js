@@ -28,9 +28,11 @@ const response=useSelector(getLoginResponse)
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
+  console.log('getuserdata9894994',getuserdata)
+
   const [logOutApi,{isLoading:logoutApiisLoading}] = useLogoutApiMutation();
 
-const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
+const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image,countryCode } =
     getuserdata?.getUser||{}
 
 
@@ -100,7 +102,7 @@ const supportItems = [
         <View style={{marginLeft:10}}>
         <Text style={styles.profileName}>{firstName} {lastName}</Text>
         <Text style={styles.profileInfo}>
-          +{phoneNumber}</Text>
+          {countryCode} {phoneNumber}</Text>
         <Text style={styles.profileInfo}>{email}</Text>
        
         </View>
