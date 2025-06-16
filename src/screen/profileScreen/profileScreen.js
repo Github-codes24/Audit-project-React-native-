@@ -12,6 +12,7 @@ import { useGetuserApiQuery, useLogoutApiMutation } from '../../redux/apiSlice/p
 import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
 import { useLoginApiMutation } from '../../redux/apiSlice/authApiSlice';
 import { apiEndPoints } from '../../constants/apiConstants';
+import { getFcmToken } from '../../redux/stateSelector';
 
 
 
@@ -21,7 +22,9 @@ const dispatch=useDispatch()
  
 const response=useSelector(getLoginResponse)
  const userId=response?.data?.id
-// console.log('userId',userId)
+  const FcmToken = useSelector(getFcmToken);
+   
+  console.log('FcmToken8378484',FcmToken)
  const { 
     data: getuserdata, 
     error: getUserdataApiError, 
@@ -45,11 +48,14 @@ const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image,coun
   }
 
   try {
-    console.log('Calling Logout API:', `${apiEndPoints?.logOutApi}/${userId}`);
-
-    const response = await logOutApi(userId).unwrap();
-
+    const response = await logOutApi({userId,
+      
+      body:{ fcmToken: FcmToken }
+    
+  }).unwrap();
+      console.log('response00000',response)
     if (response?.success) {
+
       dispatch(resetAuth());
       dispatch(resetCookies());
     } else {

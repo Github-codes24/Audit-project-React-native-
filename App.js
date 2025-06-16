@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto'; // Must be at the very top
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -10,26 +10,38 @@ import { NavigationContainer, createNavigationContainerRef } from '@react-naviga
 import { ToastComponent } from './src/utils/Toast';
 import FCMHandler from './src/reusableComponent/fcmHandler/fcmHandler';
 import Branch from 'react-native-branch';
-import { MainRoutes } from './src/navigation/routeAndParamsList';
-import { Linking } from 'react-native';
 import BranchLinkHandler from './src/reusableComponent/branchHandler/branchHandler';
-// Create navigation ref
+
 export const navigationRef = createNavigationContainerRef();
 
-
 const App = () => {
-  console.log('🚀 App initialized');
+  const [isBranchHandled, setIsBranchHandled] = useState(false);
 
+  useEffect(() => {
+    const checkBranch = async () => {
+      const params = await Branch.getLatestReferringParams();
+      console.log('⏳ App.tsx Branch params:', params);
+      setTimeout(() => {
+        setIsBranchHandled(true);
+      }, 1000);
+    };
+
+    checkBranch();
+  }, []);
 
   return (
     <Provider store={store}>
       <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-       
-      <BranchLinkHandler />
+        <BranchLinkHandler />
         <NavigationContainer ref={navigationRef} fallback={<ActivityIndicator />}>
-          <RootNavigator />
-         
-          <FCMHandler />
+          {isBranchHandled ? (
+            <>
+              <RootNavigator />
+              <FCMHandler />
+            </>
+          ) : (
+            <ActivityIndicator style={{ flex: 1 }} />
+          )}
         </NavigationContainer>
         <ToastComponent />
       </PersistGate>

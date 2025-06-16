@@ -48,8 +48,6 @@ getAllNotificationsApi:'api/user/getAllUserNotifications',
 markNotificationAsRead:'api/user/markNotificationAsReadOfUser',
 get10UserReadNotificationApi:'api/user/get10ReadUserNotifications',
 get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
-
-
 //Remainder Api
 
 createRemainderApi:'api/reminder/createReminder',
@@ -58,10 +56,6 @@ getReaminderForOptionApi:'api/reminder/getReminderForOptions',
 updateReminder:'api/reminder/updateReminderById',
 getReminderById:'api/reminder/getReminderById',
 deleteReminder:"api/reminder/deleteReminderById",
-
-
-// Important LINK Api
-
 importantLink:"api/importantLinks/getImportantLinks",
 homecontent:'api/homeContend/getHomeContend',
 };

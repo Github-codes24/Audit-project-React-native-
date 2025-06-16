@@ -1,9 +1,13 @@
-import React,{useState,useEffect,useRef} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView, Share, AppState, useWindowDimensions, Linking } from 'react-native';
-import Video from 'react-native-video'; 
-import YoutubePlayer from 'react-native-youtube-iframe'; 
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView,
+  ScrollView, Share, AppState, useWindowDimensions
+} from 'react-native';
+import { WebView } from 'react-native-webview';
+import Video from 'react-native-video';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import { useGetAllBlogsQuery, useGetblogsByIdQuery } from '../../redux/apiSlice/blogApiSlice';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import * as Svg from '../../assets/images/svg';
 import moment from 'moment';
 import Loader from '../../reusableComponent/loader/loader';
@@ -13,21 +17,33 @@ import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import RenderHTML from 'react-native-render-html';
 import he from 'he';
-import { useIsFocused } from '@react-navigation/native';
 import branch from 'react-native-branch';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const BlogDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { id } = route?.params;
-  const [selectedBlogId, setSelectedBlogId] =useState(id);
-  const [paused, setPaused] = useState(true)
-  const isFocused = useIsFocused();
   const scrollViewRef = useRef(null);
   const { width } = useWindowDimensions();
-
  
+
+  const [selectedBlogId, setSelectedBlogId] = useState(null);
+  const [paused, setPaused] = useState(true);
+  const isFocused = useIsFocused();
+  // Set blog ID on screen focus
+  useFocusEffect(
+    useCallback(() => {
+      if (route?.params?.id) {
+        setSelectedBlogId(route.params.id);
+      }
+    }, [route?.params?.id])
+  );
+
   const { data: blogApiData, isLoading: isBlogApiDataLoading } = useGetAllBlogsQuery({});
-  const { data: getBlogDetailsData, isLoading: blogDetailsIsLoading } = useGetblogsByIdQuery({ id: selectedBlogId });
+  const { data: getBlogDetailsData, isLoading: blogDetailsIsLoading } = useGetblogsByIdQuery(
+    selectedBlogId ? { id: selectedBlogId } : skipToken
+  );
 
   const { blog = {} } = getBlogDetailsData || {};
   const {
@@ -39,18 +55,14 @@ const BlogDetailsScreen = ({ route }) => {
     authorName = '',
     createdAt = '',
     readTime = '',
-    addLink = '', 
+    addLink = '',
   } = blog || {};
-
- console.log('authorImage',authorImage)
-
 
   let isSharing = false;
 
   const isVideoFile = (url) => /\.(mp4|mkv|mov|avi|webm)$/i.test(url);
   const videoUrl = image?.length > 0 && isVideoFile(image[0]) ? image[0] : null;
-  
-  // ✅ Check if `addLink` is a YouTube link
+
   const isYouTubeLink = (url) => /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(url);
   const getYouTubeId = (url) => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
@@ -58,13 +70,17 @@ const BlogDetailsScreen = ({ route }) => {
   };
 
   const isVimeoLink = (url) => /^(https?:\/\/)?(www\.)?vimeo\.com/.test(url);
+  const getVimeoEmbedUrl = (url) => {
+    const match = url.match(/vimeo\.com\/(\d+)/);
+    return match ? `https://player.vimeo.com/video/${match[1]}` : url;
+  };
+
   const isVideoLink = (url) => /\.(mp4|mov|mkv|webm|avi|flv)$/i.test(url);
 
   const handleNavigation = (direction) => {
     if (!blogApiData || !Array.isArray(blogApiData.data)) return;
     const blogs = blogApiData.data;
-   
-   
+
     const currentIndex = blogs.findIndex((item) => item._id === selectedBlogId);
     if (direction === 'next' && currentIndex < blogs.length - 1) {
       setSelectedBlogId(blogs[currentIndex + 1]._id);
@@ -80,16 +96,15 @@ const BlogDetailsScreen = ({ route }) => {
   const handleShare = async () => {
     if (isSharing) return;
     isSharing = true;
-  
+
     try {
       const cleanTitle = he.decode(title || '');
-  
       const branchUniversalObject = await branch.createBranchUniversalObject(
         `blog/${selectedBlogId}`,
         {
           title: cleanTitle,
           contentDescription: description?.substring(0, 100) || '',
-          contentImageUrl: image || '', // Prevent iOS crash if image is undefined
+          contentImageUrl: image || '',
           contentMetadata: {
             customMetadata: {
               screen: MainRoutes.BLOG_DETAILS_SCREEN,
@@ -98,19 +113,18 @@ const BlogDetailsScreen = ({ route }) => {
           },
         }
       );
-  
+
       const { url } = await branchUniversalObject.generateShortUrl({
         feature: 'share',
         channel: 'app',
         campaign: 'blog',
+        ios_url:'https://apps.apple.com/in/app/sponsor-licence-compliance/id6745505330',
+        android_url:'https://play.google.com/store/apps/details?id=com.nara.solicitor',
       });
-  
-      console.log('Branch URL:', url);
-  
+
       const shareMessage = `${cleanTitle}\n\nRead more: ${url}`;
       await Share.share({ message: shareMessage });
-  
-      // Optional cleanup (helps iOS release memory)
+
       await branchUniversalObject.release?.();
     } catch (error) {
       console.error('Error sharing blog link:', error);
@@ -118,54 +132,41 @@ const BlogDetailsScreen = ({ route }) => {
       isSharing = false;
     }
   };
-  
-
 
   useEffect(() => {
     if (!isFocused) {
-      setPaused(true); 
+      setPaused(true);
     }
   }, [isFocused]);
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState) => {
       if (nextAppState === 'background' || nextAppState === 'inactive') {
-        setPaused(true); 
+        setPaused(true);
       }
     };
 
     const appStateListener = AppState.addEventListener('change', handleAppStateChange);
-
     return () => {
       appStateListener.remove();
     };
   }, []);
 
   const isHTML = /<\/?[a-z][\s\S]*>/i.test(description);
-  
+
   return (
-    <SafeAreaView style={{ flex: 1,backgroundColor:'#FFF' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
       <Loader isLoading={blogDetailsIsLoading || isBlogApiDataLoading} />
-      <ScrollView
-        ref={scrollViewRef}
-      >
+      <ScrollView ref={scrollViewRef}>
         <Header />
         <View style={styles.detailsContainer}>
           <View style={{ position: 'relative' }}>
             {isYouTubeLink(addLink) ? (
               <YoutubePlayer height={220} play={false} videoId={getYouTubeId(addLink)} />
             ) : isVimeoLink(addLink) ? (
-              <WebView
-                source={{ uri: getVimeoEmbedUrl(addLink) }}
-                style={{ flex: 1 }}
-              />
+              <WebView source={{ uri: getVimeoEmbedUrl(addLink) }} style={{ flex: 1 }} />
             ) : isVideoLink(addLink) ? (
-              <Video
-                source={{ uri: addLink }}
-                style={{ width: "100%", height: 220 }}
-                controls
-                resizeMode="contain"
-              />
+              <Video source={{ uri: addLink }} style={{ width: "100%", height: 220 }} controls resizeMode="contain" />
             ) : image && isVideoFile(image) ? (
               <Video
                 source={{ uri: image }}
@@ -176,12 +177,8 @@ const BlogDetailsScreen = ({ route }) => {
                 paused={paused}
               />
             ) : image && (Array.isArray(image) || !isVideoFile(image)) ? (
-              <View style={{}}>
-                <ImageSwiper 
-                  imageStyle={{  }}
-                  images={Array.isArray(image) ? image : [image]} 
-                  showNavigation={Array.isArray(image) && image.length > 1} 
-                />
+              <View>
+                <ImageSwiper images={Array.isArray(image) ? image : [image]} showNavigation={image.length > 1} />
               </View>
             ) : (
               <Text style={styles.noMediaText}>Oops🥺 No media available for this blog.</Text>
@@ -194,7 +191,7 @@ const BlogDetailsScreen = ({ route }) => {
 
           <View style={{ paddingHorizontal: 19 }}>
             <Text style={styles.detailsTitle}>{title}</Text>
-            <View style={[styles.authorContainer, { flexDirection: "row", justifyContent:"space-between" }]}>
+            <View style={[styles.authorContainer, { flexDirection: "row", justifyContent: "space-between" }]}>
               <View style={{ flexDirection: "row" }}>
                 <Image style={styles.authorImage} source={{ uri: authorImage }} />
                 <View style={styles.authorTextContainer}>
@@ -204,44 +201,30 @@ const BlogDetailsScreen = ({ route }) => {
                   </Text>
                 </View>
               </View>
-              <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.RESOURCE_SCREEN,{blogType:category})}>
-                <Text style={{ textAlign: 'right', color: 'gray',padding:5,borderRadius:5,color:'black',textDecorationLine:'underline' }}>{category}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate(MainRoutes.RESOURCE_SCREEN, { blogType: category })}>
+                <Text style={{ color: 'black', padding: 5, textDecorationLine: 'underline' }}>{category}</Text>
               </TouchableOpacity>
             </View>
-            <View style={{marginTop:theme.verticalSpacing.space_14}}>
+
+            <View style={{ marginTop: theme.verticalSpacing.space_14 }}>
               {isHTML ? (
-                <RenderHTML 
+                <RenderHTML
                   contentWidth={width}
                   source={{ html: description }}
                   baseStyle={{
-                    fontSize:theme.fontSizes.size_16, 
-                    lineHeight:20, 
+                    fontSize: theme.fontSizes.size_16,
+                    lineHeight: 20,
                     fontWeight: '500',
                   }}
                 />
               ) : (
                 <Text style={{
-                  marginVertical:8,
+                  marginVertical: 8,
                   lineHeight: 20,
                   fontSize: theme.fontSizes.size_14,
                   fontWeight: '400',
-                }}> 
+                }}>
                   {description}
-                </Text>
-              )}
-
-              {/* CLICKABLE DEEP LINK TEXT */}
-              {selectedBlogId && (
-                <Text
-                  style={{ 
-                    color: 'blue', 
-                    textDecorationLine: 'underline', 
-                    marginTop: 20, 
-                    textAlign: 'center' 
-                  }}
-
-                >
-                
                 </Text>
               )}
             </View>
@@ -266,7 +249,7 @@ const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
     borderRadius: 8,
-    backgroundColor:'#FFF',
+    backgroundColor: '#FFF',
   },
   video: {
     width: '100%',
@@ -290,9 +273,9 @@ const styles = StyleSheet.create({
     marginTop: theme.verticalSpacing.space_20,
   },
   authorImage: {
-    width:theme.horizontalSpacing.space_50,
-    height:theme.verticalSpacing.space_54,
-    borderRadius:theme.horizontalSpacing.space_24,
+    width: theme.horizontalSpacing.space_50,
+    height: theme.verticalSpacing.space_54,
+    borderRadius: theme.horizontalSpacing.space_24,
   },
   authorTextContainer: {
     marginLeft: 10,
@@ -300,8 +283,8 @@ const styles = StyleSheet.create({
   navigationButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal:19,
-    marginVertical:theme.verticalSpacing.space_20
+    marginHorizontal: 19,
+    marginVertical: theme.verticalSpacing.space_20,
   },
   backButton: {
     backgroundColor: theme.lightColor.brownColor,
@@ -311,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginBottom:theme.verticalSpacing.space_100
+    marginBottom: theme.verticalSpacing.space_100,
   },
   svgIconContainer: {
     position: 'absolute',

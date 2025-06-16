@@ -33,14 +33,18 @@ export const profileApiSlice = baseApi.injectEndpoints({
         keepUnusedDataFor: 5,
       }),
     }),
-  logoutApi: builder.mutation({
-  query: (userId) => ({
-    url: `${apiEndPoints?.logOutApi}/${userId}`,
-    method: 'PUT',
-    keepUnusedDataFor: 5,
-  }),
-}),
-
+    logoutApi: builder.mutation({
+      query: ({ userId, body }) => ({
+        url: `${apiEndPoints?.logOutApi}/${userId}`,
+        method: 'PUT',
+        body:body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        keepUnusedDataFor: 5,
+      }),
+    }),
+    
  updateUserProfileApiSlice: builder.mutation({
   query: ({ id, formData }) => ({
     url: `${apiEndPoints?.updateUserApi}/${id}`,

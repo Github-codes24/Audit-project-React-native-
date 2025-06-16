@@ -152,6 +152,7 @@ const [showModal, setShowModal] = useState(false);
         formData.append('password', password);
         formData.append('confirmPassword', confirmPassword);
         formData.append('phoneNumber', phoneNumber);
+        formData.append('countryCode',countryCode);
         formData.append('company', companyName);
         if (imageUri) {
             const file = {
@@ -178,9 +179,9 @@ const [showModal, setShowModal] = useState(false);
                 console.log('Failed to update profile');
             });
     };
-
+   
     const supportItems = [
-        { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
+     { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
     ];
 
     return (
