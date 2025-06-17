@@ -115,6 +115,9 @@ const FCMHandler = () => {
       });
 
       const { notification, data } = remoteMessage;
+     
+      console.log('notification',notification,data)
+
       const title = notification?.title || data?.title || 'New Notification';
       const body = notification?.body || data?.message || 'You have a new message';
 
@@ -125,7 +128,7 @@ const FCMHandler = () => {
         body,
         android: {
           channelId,
-          smallIcon: 'ic_launcher', // Ensure this icon exists in your Android project
+          smallIcon: 'ic_launcher',
           pressAction: {
             id: 'default',
           },

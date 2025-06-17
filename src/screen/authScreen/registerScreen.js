@@ -87,8 +87,9 @@ const RegisterScreen = ({ navigation }) => {
       <KeyboardAvoidingView
         style={styles.flexContainer}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
+      
         <View style={styles.flexContainer}>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
@@ -204,6 +205,7 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
+    
   },
   scrollContainer: {
     flexGrow: 1,

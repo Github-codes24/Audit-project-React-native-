@@ -58,6 +58,9 @@ const BlogDetailsScreen = ({ route }) => {
     addLink = '',
   } = blog || {};
 
+console.log('image9894',image)
+
+
   let isSharing = false;
 
   const isVideoFile = (url) => /\.(mp4|mkv|mov|avi|webm)$/i.test(url);
@@ -93,18 +96,38 @@ const BlogDetailsScreen = ({ route }) => {
     }
   };
 
+  let firstImage = '';
+
+  if (Array.isArray(image) && image.length > 0) {
+    firstImage = image[0];
+    console.log('firstImage from array:', firstImage);
+  } else if (typeof image === 'string') {
+    firstImage = image;
+    console.log('firstImage from string:', firstImage);
+  } else {
+    console.warn('No valid image found');
+  }
+  
+  
+  console.log('firstImage', firstImage);
+
+
   const handleShare = async () => {
     if (isSharing) return;
     isSharing = true;
-
+  
     try {
       const cleanTitle = he.decode(title || '');
+  
+      // ✅ Create a unique path using timestamp to prevent Branch caching old meta
+      const uniqueBlogPath = `blog/${selectedBlogId}-${Date.now()}`;
+  
       const branchUniversalObject = await branch.createBranchUniversalObject(
-        `blog/${selectedBlogId}`,
+        uniqueBlogPath,
         {
           title: cleanTitle,
-          contentDescription: description?.substring(0, 100) || '',
-          contentImageUrl: image || '',
+         // contentDescription: description?.substring(0, 100) || '',
+          contentImageUrl: firstImage,
           contentMetadata: {
             customMetadata: {
               screen: MainRoutes.BLOG_DETAILS_SCREEN,
@@ -113,18 +136,28 @@ const BlogDetailsScreen = ({ route }) => {
           },
         }
       );
-
+  
       const { url } = await branchUniversalObject.generateShortUrl({
         feature: 'share',
         channel: 'app',
         campaign: 'blog',
-        ios_url:'https://apps.apple.com/in/app/sponsor-licence-compliance/id6745505330',
-        android_url:'https://play.google.com/store/apps/details?id=com.nara.solicitor',
+        controlParams: {
+          $fallback_url: 'https://narasolicitors.com/',
+          $android_url: 'https://play.google.com/store/apps/details?id=com.nara.solicitor',
+          $ios_url: 'https://apps.apple.com/in/app/sponsor-licence-compliance/id6745505330',
+          $desktop_url: 'https://narasolicitors.com/',
+          $deeplink_path: `blog/${selectedBlogId}`,
+          $always_deeplink: true,
+          $fallback_redirect_url: 'https://play.google.com/store/apps/details?id=com.nara.solicitor',
+          $disable_redirect: false,
+          $journey_disabled: true,
+          $og_image_url: 'https://res.cloudinary.com/dzpdf5zz8/image/upload/v1750074218/Audit_Project/vyv7mxevtauzih4psctu.jpg', // 👈 for social previews
+        },
       });
-
+  
       const shareMessage = `${cleanTitle}\n\nRead more: ${url}`;
-      await Share.share({ message: shareMessage });
-
+      await Share.share({ message: shareMessage, });
+  
       await branchUniversalObject.release?.();
     } catch (error) {
       console.error('Error sharing blog link:', error);
@@ -132,6 +165,7 @@ const BlogDetailsScreen = ({ route }) => {
       isSharing = false;
     }
   };
+  
 
   useEffect(() => {
     if (!isFocused) {
