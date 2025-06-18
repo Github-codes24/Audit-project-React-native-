@@ -11,6 +11,7 @@ import { ToastComponent } from './src/utils/Toast';
 import FCMHandler from './src/reusableComponent/fcmHandler/fcmHandler';
 import Branch from 'react-native-branch';
 import BranchLinkHandler from './src/reusableComponent/branchHandler/branchHandler';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -18,6 +19,8 @@ const App = () => {
   const [isBranchHandled, setIsBranchHandled] = useState(false);
 
   useEffect(() => {
+    PushNotificationIOS.setApplicationIconBadgeNumber(0);
+
     const checkBranch = async () => {
       const params = await Branch.getLatestReferringParams();
       console.log('⏳ App.tsx Branch params:', params);

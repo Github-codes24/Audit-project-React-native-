@@ -267,14 +267,14 @@ const navigation=useNavigation()
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: theme.verticalSpacing.space_10, }}>
             <Text style={[style.textStyle, {  }]}>Email</Text>
           </View>
-          <TouchableOpacity onPress={() => Linking.openURL('mailto:admin@narasolicitors.com')}>
+          <TouchableOpacity onPress={() => Linking.openURL('mailto:info@narasolicitors.com')}>
             
             <Text style={{
               color: 'black',
               fontSize: theme.fontSizes.size_16,
               fontWeight: '500',
             }}>
-              {'admin@narasolicitors.com'}
+              {'info@narasolicitors.com'}
             </Text>
           </TouchableOpacity>
 

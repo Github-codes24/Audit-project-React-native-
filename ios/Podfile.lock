@@ -1847,6 +1847,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNCPushNotificationIOS (1.11.0):
+    - React-Core
   - RNDateTimePicker (8.3.0):
     - DoubleConversion
     - glog
@@ -2214,6 +2216,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -2398,6 +2401,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
@@ -2513,6 +2518,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 29ce81e823688a8dc66e1d2cf081b97216718fa8
   ReactCommon: ad39e4549e2920b3b065a28603921a75619d0639
   RNCAsyncStorage: 320c8b9217695928a64d8ae993653425c8605368
+  RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNDateTimePicker: 0037a03f1099b7745f0a37d994b029204405dff3
   RNFBApp: fda4a8b08fe31bea8492808106aa638d1bb595b7
   RNFBMessaging: 099972ab397d61815f32610514b0573d1db2b1e1

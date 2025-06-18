@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PermissionsAndroid, Platform } from 'react-native';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
 import { useDispatch } from 'react-redux';
@@ -52,6 +52,7 @@ const FCMHandler = () => {
         await messaging().registerDeviceForRemoteMessages();
       const token = await messaging().getToken();
       console.log('FCM Token:', token);
+      // Alert.alert('FCM Token', token);
       dispatch(setFcmToken(token));
     } catch (error) {
       console.error('Error getting FCM token:', error);

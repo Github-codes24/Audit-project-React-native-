@@ -26,7 +26,7 @@ const TermsAndConditionScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+      <ScrollView style={{}}>
       <View style={styles.container}>
         <Loader isLoading={profileTermAndConditionIsLoading} />
 
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     padding: 20,
+    marginBottom:theme.verticalSpacing.space_80
   },
   backButton: {
     marginBottom: 20,

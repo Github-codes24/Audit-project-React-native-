@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {theme, useCustomStyles} from '../../utils';
+import { Text } from 'react-native-svg';
 const SplashScreen = () => {
   
   return (
@@ -17,7 +18,7 @@ const styles =
         height:'100%',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor:theme.lightColor.whiteColor
+    
     },
     backgroundImage: {
      width:280,

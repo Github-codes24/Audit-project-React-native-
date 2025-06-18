@@ -3357,6 +3357,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/push-notification-ios@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "@react-native-community/push-notification-ios@npm:1.11.0"
+  dependencies:
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    react: ">=16.6.3"
+    react-native: ">=0.58.4"
+  checksum: 10c0/dda1052069b196eed2b23bd843f4824ff53e54978b625e016a78203978eae75af0779c398dbf324ae8c82cfd409b781a1273d5f8b05a77249457810c7756fe84
+  languageName: node
+  linkType: hard
+
 "@react-native-firebase/app@npm:^21.11.0":
   version: 21.14.0
   resolution: "@react-native-firebase/app@npm:21.14.0"
@@ -4484,6 +4496,7 @@ __metadata:
     "@react-native-community/cli-platform-android": "npm:15.0.1"
     "@react-native-community/cli-platform-ios": "npm:15.0.1"
     "@react-native-community/datetimepicker": "npm:^8.3.0"
+    "@react-native-community/push-notification-ios": "npm:^1.11.0"
     "@react-native-firebase/app": "npm:^21.11.0"
     "@react-native-firebase/messaging": "npm:^21.11.0"
     "@react-native/babel-preset": "npm:0.76.5"

@@ -77,8 +77,8 @@ const AboutUsScreen = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ marginBottom: theme.verticalSpacing.space_100 }}>
-        <View style={{ flex: 1 }}>
+      <ScrollView style={{  }}>
+        <View style={{ flex: 1,marginBottom: theme.verticalSpacing.space_100 }}>
           <Header />
           <Loader isLoading={getGetAboutApiIsLoading} />
           <Text style={styles.title}>About Us</Text>

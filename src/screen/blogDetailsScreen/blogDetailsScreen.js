@@ -212,7 +212,7 @@ console.log('image9894',image)
               />
             ) : image && (Array.isArray(image) || !isVideoFile(image)) ? (
               <View>
-                <ImageSwiper images={Array.isArray(image) ? image : [image]} showNavigation={image.length > 1} />
+                <ImageSwiper images={Array.isArray(image) ? image : [image]} showNavigation={Array.isArray(image) && image.length > 1}/>
               </View>
             ) : (
               <Text style={styles.noMediaText}>Oops🥺 No media available for this blog.</Text>
