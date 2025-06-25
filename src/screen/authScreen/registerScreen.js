@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { theme } from "../../utils";
 import * as Svg from "../../assets/images/svg";
-import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
@@ -24,39 +22,30 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () =>
-      setKeyboardVisible(true)
-    );
-    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () =>
-      setKeyboardVisible(false)
-    );
+  const scrollRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
+  useEffect(() => {
+    const showSub = Keyboard.addListener("keyboardDidShow", () => setKeyboardVisible(true));
+    const hideSub = Keyboard.addListener("keyboardDidHide", () => setKeyboardVisible(false));
     return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
+      showSub.remove();
+      hideSub.remove();
     };
   }, []);
 
   const validateInputs = () => {
     let newErrors = {};
-
     if (!firstName) newErrors.firstName = "First name is required";
     else if (firstName.length < 2) newErrors.firstName = "Must be at least 2 characters";
 
     if (!lastName) newErrors.lastName = "Last name is required";
     else if (lastName.length < 2) newErrors.lastName = "Must be at least 2 characters";
 
-    if (!email) {
-      newErrors.email = "Email is required";
-    } else if (
-      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
-    ) {
-      newErrors.email = "Enter a valid email address";
-    }
+    if (!email) newErrors.email = "Email is required";
+    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) newErrors.email = "Enter a valid email address";
 
     if (!password) newErrors.password = "Password is required";
     else if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/.test(password))
@@ -72,7 +61,6 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleRegister = () => {
     if (!validateInputs()) return;
-
     navigation.navigate(MainRoutes.REGISTER_COMPANY_SCREEN, {
       email,
       password,
@@ -84,120 +72,123 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.flexContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-      >
-      
-        <View style={styles.flexContainer}>
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.container}>
-              <CustomHeader
-                leftIcon={<Svg.ArrowBack />}
-                title={"Getting Started"}
-                subtitle={"Let’s create your free account here"}
-              />
+      <View style={styles.flexContainer}>
+        <KeyboardAwareScrollView
+          ref={scrollRef}
+          enableOnAndroid
+          extraScrollHeight={30}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom:30 }}
+        >
+          <View style={styles.container}>
+            <CustomHeader
+              leftIcon={<Svg.ArrowBack />}
+              title="Getting Started"
+              subtitle="Let’s create your free account here"
+            />
 
-              <View style={styles.nameView}>
-                <View style={styles.row}>
-                  <Text style={styles.label}>First name</Text>
-                  <Text style={[styles.label, { marginLeft: theme.horizontalSpacing.space_10 }]}>
-                    Last name
-                  </Text>
-                </View>
+            <View style={styles.nameView}>
+              <View style={styles.row}>
+                <Text style={styles.label}>First name</Text>
+                <Text style={[styles.label, { marginLeft: theme.horizontalSpacing.space_10 }]}>Last name</Text>
+              </View>
 
-                <View style={styles.row}>
-                  <TextInput
-                    value={firstName}
-                    onChangeText={(text) => {
-                      setFirstName(text.replace(/\s/g, ""));
-                      setErrors({ ...errors, firstName: "" });
-                    }}
-                    style={styles.nameTextInput}
-                    placeholder="First name"
-                    placeholderTextColor="#BABABA"
-                  />
-                  <TextInput
-                    value={lastName}
-                    onChangeText={(text) => {
-                      setLastName(text.replace(/\s/g, ""));
-                      setErrors({ ...errors, lastName: "" });
-                    }}
-                    style={[styles.nameTextInput, { marginLeft: 10 }]}
-                    placeholder="Last name"
-                    placeholderTextColor="#BABABA"
-                  />
-                </View>
-
-                <View style={styles.row}>
-                  {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
-                  {errors.lastName && (
-                    <Text
-                      style={[styles.errorText, { marginLeft: theme.horizontalSpacing.space_10 }]}
-                    >
-                      {errors.lastName}
-                    </Text>
-                  )}
-                </View>
-
-                <Text style={styles.TextStyle}>Enter your email address</Text>
-                <CustomTextInput
-                  value={email}
+              <View style={styles.row}>
+                <TextInput
+                  value={firstName}
                   onChangeText={(text) => {
-                    setEmail(text);
-                    setErrors({ ...errors, email: "" });
+                    setFirstName(text.replace(/\s/g, ""));
+                    setErrors({ ...errors, firstName: "" });
                   }}
-                  placeholder={"Enter your email address"}
-                  autoCapitalize="none"   
-                  autoCorrect={false}
+                  style={styles.nameTextInput}
+                  placeholder="First name"
+                  placeholderTextColor="#BABABA"
                 />
-                {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-
-                <Text style={styles.TextStyle}>Password</Text>
-                <CustomTextInput
-                  textColor={theme.lightColor.blackColor}
-                  secureTextEntry={true}
-                  value={password}
+                <TextInput
+                  value={lastName}
                   onChangeText={(text) => {
-                    setPassword(text);
-                    setErrors({ ...errors, password: "" });
+                    setLastName(text.replace(/\s/g, ""));
+                    setErrors({ ...errors, lastName: "" });
                   }}
-                  placeholder={"Password"}
-                  rightIcon={<Svg.CloseEye />}
+                  style={[styles.nameTextInput, { marginLeft: 10 }]}
+                  placeholder="Last name"
+                  placeholderTextColor="#BABABA"
                 />
-                {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+              </View>
 
-                <Text style={styles.TextStyle}>Confirm password</Text>
-                <CustomTextInput
-                  textColor={theme.lightColor.blackColor}
-                  secureTextEntry={true}
-                  value={confirmPassword}
-                  onChangeText={(text) => {
-                    setConfirmPassword(text);
-                    setErrors({ ...errors, confirmPassword: "" });
-                  }}
-                  placeholder={"Confirm password"}
-                />
-                {errors.confirmPassword && (
-                  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+              <View style={styles.row}>
+                {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
+                {errors.lastName && (
+                  <Text style={[styles.errorText, { marginLeft: theme.horizontalSpacing.space_10 }]}> {errors.lastName} </Text>
                 )}
               </View>
-            </View>
-          </ScrollView>
 
-          {/* Fixed Button */}
-          {!isKeyboardVisible && (
-            <View style={styles.buttonContainer}>
-              <CustomButton onPress={handleRegister} title={"Continue"} />
+              <Text style={styles.TextStyle}>Enter your email address</Text>
+              <TextInput
+                value={email}
+                onChangeText={(text) => {
+                  setEmail(text);
+                  setErrors({ ...errors, email: "" });
+                }}
+                style={styles.nameTextInput}
+                placeholder="Enter your email address"
+                placeholderTextColor="#BABABA"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+              />
+              {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+
+              <Text style={styles.TextStyle}>Password</Text>
+              <TextInput
+                secureTextEntry
+                value={password}
+                onChangeText={(text) => {
+                  setPassword(text);
+                  setErrors({ ...errors, password: "" });
+                }}
+                style={styles.nameTextInput}
+                placeholder="Password"
+                placeholderTextColor="#BABABA"
+              />
+              {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+
+              <Text style={styles.TextStyle}>Confirm password</Text>
+              <TextInput
+                ref={confirmPasswordRef}
+                // onFocus={() => {
+                //   setTimeout(() => {
+                //     if (scrollRef.current && confirmPasswordRef.current) {
+                //       scrollRef.current.scrollToFocusedInput(confirmPasswordRef.current,50);
+                //     }
+                //   }, 300);
+                // }}
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={(text) => {
+                  setConfirmPassword(text);
+                  setErrors({ ...errors, confirmPassword: "" });
+                }}
+                style={styles.nameTextInput}
+                placeholder="Confirm password"
+                placeholderTextColor="#BABABA"
+              />
+              {errors.confirmPassword && (
+                <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+              )}
+
+              <View style={{ height: 30 }} />
             </View>
-          )}
-        </View>
-      </KeyboardAvoidingView>
+          </View>
+        </KeyboardAwareScrollView>
+
+        {!isKeyboardVisible && (
+          <View style={styles.buttonContainer}>
+            <CustomButton onPress={handleRegister} title="Continue" />
+          </View>
+        )}
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -205,14 +196,9 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
-    
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    paddingBottom: 150,
+    backgroundColor: theme.lightColor.backgroundColor || "#F0F0F0",
   },
   container: {
-    flex: 1,
     paddingHorizontal: 19,
   },
   nameView: {
@@ -250,7 +236,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     position: "absolute",
-    bottom: theme.verticalSpacing.space_40,
+    bottom: Platform.OS === "ios" ? 20 : 30,
     paddingHorizontal: 19,
     alignSelf: "center",
     paddingVertical: 10,

@@ -1,7 +1,7 @@
 import 'react-native-url-polyfill/auto'; // Must be at the very top
 
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/redux/store';
@@ -19,7 +19,9 @@ const App = () => {
   const [isBranchHandled, setIsBranchHandled] = useState(false);
 
   useEffect(() => {
-    PushNotificationIOS.setApplicationIconBadgeNumber(0);
+    if (Platform.OS === 'ios') {
+      PushNotificationIOS.setApplicationIconBadgeNumber(0);
+    }
 
     const checkBranch = async () => {
       const params = await Branch.getLatestReferringParams();

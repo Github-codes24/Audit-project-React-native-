@@ -118,16 +118,13 @@ console.log('image9894',image)
   
     try {
       const cleanTitle = he.decode(title || '');
-  
-      // ✅ Create a unique path using timestamp to prevent Branch caching old meta
       const uniqueBlogPath = `blog/${selectedBlogId}-${Date.now()}`;
   
       const branchUniversalObject = await branch.createBranchUniversalObject(
         uniqueBlogPath,
         {
           title: cleanTitle,
-         // contentDescription: description?.substring(0, 100) || '',
-          contentImageUrl: firstImage,
+          contentImageUrl:'https://res.cloudinary.com/dzpdf5zz8/image/upload/v1750243372/Audit_Project/x5i2028oyabtq2hy58ir.jpg',
           contentMetadata: {
             customMetadata: {
               screen: MainRoutes.BLOG_DETAILS_SCREEN,
@@ -151,12 +148,16 @@ console.log('image9894',image)
           $fallback_redirect_url: 'https://play.google.com/store/apps/details?id=com.nara.solicitor',
           $disable_redirect: false,
           $journey_disabled: true,
-          $og_image_url: 'https://res.cloudinary.com/dzpdf5zz8/image/upload/v1750074218/Audit_Project/vyv7mxevtauzih4psctu.jpg', // 👈 for social previews
+          $og_image_url:'https://res.cloudinary.com/dzpdf5zz8/image/upload/v1750243372/Audit_Project/x5i2028oyabtq2hy58ir.jpg',
+        $og_title: cleanTitle,
+    $og_description: 'Check out this blog on Nara Solicitors!',
         },
       });
   
       const shareMessage = `${cleanTitle}\n\nRead more: ${url}`;
-      await Share.share({ message: shareMessage, });
+      await Share.share({ message: shareMessage, 
+
+      });
   
       await branchUniversalObject.release?.();
     } catch (error) {
