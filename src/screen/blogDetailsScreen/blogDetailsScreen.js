@@ -83,14 +83,17 @@ console.log('image9894',image)
   const handleNavigation = (direction) => {
     if (!blogApiData || !Array.isArray(blogApiData.data)) return;
     const blogs = blogApiData.data;
-
+  
     const currentIndex = blogs.findIndex((item) => item._id === selectedBlogId);
-    if (direction === 'next' && currentIndex < blogs.length - 1) {
-      setSelectedBlogId(blogs[currentIndex + 1]._id);
-    } else if (direction === 'previous' && currentIndex > 0) {
-      setSelectedBlogId(blogs[currentIndex - 1]._id);
+  
+    if (direction === 'next') {
+      const nextIndex = (currentIndex + 1) % blogs.length;
+      setSelectedBlogId(blogs[nextIndex]._id);
+    } else if (direction === 'previous') {
+      const prevIndex = (currentIndex - 1 + blogs.length) % blogs.length;
+      setSelectedBlogId(blogs[prevIndex]._id);
     }
-
+  
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ y: 0, animated: true });
     }

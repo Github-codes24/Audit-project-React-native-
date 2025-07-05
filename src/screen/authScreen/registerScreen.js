@@ -75,11 +75,15 @@ const RegisterScreen = ({ navigation }) => {
       <View style={styles.flexContainer}>
         <KeyboardAwareScrollView
           ref={scrollRef}
-          enableOnAndroid
-          extraScrollHeight={30}
+          enableOnAndroid 
+          enableAutomaticScroll
+  
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom:30 }}
+         
+          extraScrollHeight={Platform.OS === 'ios' ? 10 : 0}  
+  extraHeight={Platform.OS === 'ios' ? 10: 0}       
+  contentContainerStyle={{ paddingBottom:10 }}   
         >
           <View style={styles.container}>
             <CustomHeader
@@ -157,13 +161,7 @@ const RegisterScreen = ({ navigation }) => {
               <Text style={styles.TextStyle}>Confirm password</Text>
               <TextInput
                 ref={confirmPasswordRef}
-                // onFocus={() => {
-                //   setTimeout(() => {
-                //     if (scrollRef.current && confirmPasswordRef.current) {
-                //       scrollRef.current.scrollToFocusedInput(confirmPasswordRef.current,50);
-                //     }
-                //   }, 300);
-                // }}
+               
                 secureTextEntry
                 value={confirmPassword}
                 onChangeText={(text) => {
@@ -236,7 +234,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     position: "absolute",
-    bottom: Platform.OS === "ios" ? 20 : 30,
+    bottom: Platform.OS === "ios" ? 40: 40,
     paddingHorizontal: 19,
     alignSelf: "center",
     paddingVertical: 10,

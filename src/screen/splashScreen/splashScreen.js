@@ -18,7 +18,7 @@ const styles =
         height:'100%',
       justifyContent: 'center',
       alignItems: 'center',
-    
+    backgroundColor:'#FFF'
     },
     backgroundImage: {
      width:280,
