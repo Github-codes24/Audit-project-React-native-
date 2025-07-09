@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, Alert } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, Alert, SafeAreaView, KeyboardAvoidingView, Keyboard } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
 import * as Svg from "../../assets/images/svg";
@@ -12,6 +12,7 @@ import { alertError, alertSuccess } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useDispatch } from "react-redux";
 import Loader from "../../reusableComponent/loader/loader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const UpdateReminderScreen = ({ navigation, route }) => {
   const { remainderdata } = route?.params || {};
@@ -27,7 +28,7 @@ const UpdateReminderScreen = ({ navigation, route }) => {
   const [reminderFor, setReminderFor] = useState('');
   const [description, setDescription] = useState('');
     const [emailError, setEmailError] = useState("");
-
+const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
     { label: "Right to work check", value: "Right to work check" },
@@ -131,9 +132,30 @@ const validateEmail = (email) => {
   const showDatePicker = () => {
     setShow(true);
   };
+useEffect(() => {
+    const showListener = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardVisible(true);
+    });
+    const hideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+    };
+  }, []);
 
   return (
-    <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
+    <SafeAreaView style={{flex:1}}>
+      
+    <KeyboardAwareScrollView
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
+                      keyboardShouldPersistTaps="handled"
+                      enableOnAndroid
+                      extraScrollHeight={Platform.OS === "ios" ? 100 : 80}
+                      showsVerticalScrollIndicator={false}
+                  >
       <Header />
       <Loader isLoading={isSetRemainderApiMutationLoading} />
       <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center", paddingHorizontal: 10 }}>
@@ -220,7 +242,9 @@ const validateEmail = (email) => {
 
         <CustomButton title={"Update reminder"} onPress={handleSetReminder} isLoading={isSetRemainderApiMutationLoading} />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
+   
+    </SafeAreaView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -29,7 +29,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const EditProfile = ({ navigation, route }) => {
   const { profileData = {} } = route?.params || {};
   const [imageUri, setImageUri] = useState(profileData?.image || '');
-  const inputRef = useRef(null);
   const [firstName, setFirstName] = useState(profileData?.firstName || '');
   const [lastName, setLastName] = useState(profileData?.lastName || '');
   const [password, setPassword] = useState('');
@@ -46,13 +45,10 @@ const EditProfile = ({ navigation, route }) => {
 
   const response = useSelector(getLoginResponse);
   const userId = response?.data?.id;
-  const countryPickerRef = useRef(null);
-  const companyRef = useRef(null);
 
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileApiSliceMutation();
 
   const validatePhoneNumber = (phone) => /^[0-9]{10,12}$/.test(phone);
-
   const validatePassword = (password) => {
     if (!password) return true;
     return /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password);
@@ -138,109 +134,70 @@ const EditProfile = ({ navigation, route }) => {
       });
   };
 
-  const supportItems = [{ label: 'Edit Image', icon: <Svg.EditImage /> }];
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
           keyboardShouldPersistTaps="handled"
           enableOnAndroid
-          extraScrollHeight={80}
+          extraScrollHeight={Platform.OS === "ios" ? 100 : 80}
           showsVerticalScrollIndicator={false}
         >
           <Loader isLoading={isLoading} />
 
-          {/* Header */}
           <View style={{ paddingHorizontal: 7 }}>
-            <TouchableOpacity
-              style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
-              onPress={() => navigation.goBack()}
-            >
+            <TouchableOpacity style={{ marginTop: 20, paddingHorizontal: 10 }} onPress={() => navigation.goBack()}>
               <Svg.ArrowBack />
             </TouchableOpacity>
-            <Text style={{ fontWeight: '700', fontSize: theme.fontSizes.size_20, marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}>
+            <Text style={{ fontWeight: '700', fontSize: 20, marginTop: 30, paddingHorizontal: 10 }}>
               Edit profile
             </Text>
           </View>
 
-          {/* Profile Image */}
           <View style={styles.profileSection}>
-            <View style={styles.profileImageContainer}>
-              <Image
-                source={imageUri ? { uri: imageUri } : require('../../assets/images/narasolicitor.jpeg')}
-                style={styles.profileImage}
-              />
-            </View>
-            {supportItems.map((item, index) => (
-              <TouchableOpacity key={index} onPress={() => setIsModalVisible(true)}>
-                <View style={styles.iconTextContainer}>
-                  <Text style={styles.supportIcon}>{item.icon}</Text>
-                  <Text style={styles.supportText}>{item.label}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+            <Image
+              source={imageUri ? { uri: imageUri } : require('../../assets/images/narasolicitor.jpeg')}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+              <View style={styles.iconTextContainer}>
+                <Text style={styles.supportIcon}><Svg.EditImage /></Text>
+                <Text style={styles.supportText}>Edit Image</Text>
+              </View>
+            </TouchableOpacity>
 
-            {/* Name Fields */}
             <View style={styles.nameView}>
               <View style={styles.rowContainer}>
                 <View style={styles.halfWidth}>
                   <Text style={styles.TextStyle}>First name</Text>
-                  <TextInput
-                    ref={inputRef}
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    style={styles.nameTextInput}
-                    placeholder="First name"
-                  />
+                  <TextInput value={firstName} onChangeText={setFirstName} style={styles.nameTextInput} placeholder="First name" />
                 </View>
                 <View style={styles.halfWidth}>
                   <Text style={styles.TextStyle}>Last name</Text>
-                  <TextInput
-                    value={lastName}
-                    onChangeText={setLastName}
-                    style={styles.nameTextInput}
-                    placeholder="Last name"
-                  />
+                  <TextInput value={lastName} onChangeText={setLastName} style={styles.nameTextInput} placeholder="Last name" />
                 </View>
               </View>
             </View>
 
-            {/* Password */}
             <Text style={styles.TextStyle}>Password</Text>
-            <CustomTextInput
-              textColor={theme.lightColor.blackColor}
-              value={password}
-              onChangeText={(text) => { setPassword(text); setPasswordError(''); }}
-              placeholder="**********"
-              secureTextEntry
-            />
+            <CustomTextInput value={password} onChangeText={(text) => { setPassword(text); setPasswordError(''); }} placeholder="********" secureTextEntry />
             {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 
-            {/* Confirm Password */}
-            <Text style={styles.TextStyle}>Confirm password</Text>
-            <CustomTextInput
-              textColor={theme.lightColor.blackColor}
-              value={confirmPassword}
-              onChangeText={(text) => { setConfirmPassword(text); setConfirmPasswordError(''); }}
-              placeholder="**********"
-              secureTextEntry
-            />
+            <Text style={styles.TextStyle}>Confirm Password</Text>
+            <CustomTextInput value={confirmPassword} onChangeText={(text) => { setConfirmPassword(text); setConfirmPasswordError(''); }} placeholder="********" secureTextEntry />
             {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
 
-            {/* Phone */}
             <Text style={styles.TextStyle}>Phone number</Text>
             <View style={styles.phoneContainer}>
               <TouchableOpacity onPress={() => setShowModal(true)} style={styles.countryCodeBox}>
-                <Text style={{ fontSize: theme.fontSizes.size_16 }}>{countryCode}</Text>
+                <Text style={{ fontSize: 16 }}>{countryCode}</Text>
               </TouchableOpacity>
               <CountryPicker
-                ref={countryPickerRef}
                 withCallingCode
                 withFlag
                 onSelect={(country) => {
-                  setCountryCode(`+${country.callingCode?.[0] || '1'}`);
+                  setCountryCode(`+${country.callingCode[0]}`);
                   setSelectedCountry(country.cca2);
                   setShowModal(false);
                 }}
@@ -249,30 +206,13 @@ const EditProfile = ({ navigation, route }) => {
                 onClose={() => setShowModal(false)}
                 renderFlagButton={() => null}
               />
-              <CustomTextInput
-                value={phoneNumber}
-                onChangeText={(text) => {
-                  setPhoneNumber(text);
-                  setPhoneError('');
-                }}
-                keyboardType="numeric"
-                placeholder="Enter phone number"
-                style={styles.phoneInput}
-                maxLength={12}
-              />
+              <CustomTextInput value={phoneNumber} onChangeText={(text) => { setPhoneNumber(text); setPhoneError(''); }} keyboardType="numeric" placeholder="Enter phone number" style={styles.phoneInput} />
             </View>
             {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
-            {/* Company Name */}
             <Text style={styles.TextStyle}>Company name</Text>
-            <CustomTextInput
-              ref={companyRef}
-              value={companyName}
-              onChangeText={setCompanyName}
-              placeholder="Enter your company name"
-            />
+            <CustomTextInput value={companyName} onChangeText={setCompanyName} placeholder="Enter your company name" />
 
-            {/* Submit */}
             <View style={styles.actions}>
               <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
                 <Text style={styles.actionText}>Save changes</Text>
@@ -316,7 +256,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
   },
-  iconTextContainer: { flexDirection: 'row' },
+  iconTextContainer: { flexDirection: 'row', alignItems: 'center' },
   supportIcon: { marginRight: 8 },
   supportText: {
     fontSize: 16,
@@ -336,7 +276,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   TextStyle: { marginTop: 16, fontSize: 16, fontWeight: '500' },
-  actions: { marginTop: 30, alignItems: 'center' },
+  actions: { marginTop: theme.verticalSpacing.space_20, alignItems: 'center' },
   SavechangesButton: {
     width: '95%',
     height: 50,
@@ -350,8 +290,8 @@ const styles = StyleSheet.create({
   phoneInput: { marginLeft: 10, flex: 1 },
   phoneContainer: { flexDirection: "row", alignItems: "center" },
   countryCodeBox: {
-    height: 50,
-    borderWidth: 1,
+    height: theme.verticalSpacing.space_50,
+    borderWidth: .3,
     borderRadius: 8,
     backgroundColor: '#FFF',
     paddingHorizontal: 10,
@@ -372,19 +312,19 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   modalOption: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.size_16,
     marginVertical: 10,
     marginLeft: 10,
   },
   cancelText: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.size_16,
     marginVertical: 10,
     color: "red",
   },
   errorText: {
     color: 'red',
-    fontSize: 14,
-    marginTop: 5
+    fontSize: theme.fontSizes.size_14,
+    marginTop: 5,
   }
 });
 

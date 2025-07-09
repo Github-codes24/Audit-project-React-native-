@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator, Keyboard, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
 import * as Svg from "../../assets/images/svg";
@@ -14,6 +14,7 @@ import { alertError, alertSuccess } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../../reusableComponent/loader/loader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SetRemainderScreen = ({ navigation, route }) => {
   const { remainderdata } = route?.params || {};
@@ -26,6 +27,8 @@ const SetRemainderScreen = ({ navigation, route }) => {
   const [reminderFor, setReminderFor] = useState(remainderdata?.reminderFor || "");
   const [description, setDescription] = useState(remainderdata?.description || "");
   const [loading, setLoading] = useState(false); 
+const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+const companyref=useRef()
 
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
@@ -86,10 +89,36 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
     setShow(true);
   };
 
+ useEffect(() => {
+    const showListener = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardVisible(true);
+    });
+    const hideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+    };
+  }, []);
+
+
+
   return (
-    <ScrollView style={{ flex: 1, marginBottom: theme.verticalSpacing.space_100 }}>
+     <SafeAreaView style={{flex:1}}>
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+         contentContainerStyle={{ flexGrow: 1, paddingBottom:theme.verticalSpacing.space_70 }}
+                  keyboardShouldPersistTaps="handled"
+                  enableOnAndroid
+                  extraScrollHeight={100}
+                  keyboardOpeningTime={100}
+                  enableAutomaticScroll
+                  showsVerticalScrollIndicator={false}
+              >
       <Header />
-      <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",  }}>
+      <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",marginBottom:theme.verticalSpacing.space_100  }}>
         <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
           <Text style={style.remainderText}>{"Reminder"}</Text>
          <Text style={style.textStyle}>{"Reminder for"}</Text>
@@ -145,6 +174,7 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
 
           <Text style={style.textStyle}>{"Description (optional)"}</Text>
           <TextInput
+           ref={companyref}
             value={description}
             onChangeText={setDescription}
             placeholderTextColor="#BABABA"
@@ -162,7 +192,9 @@ const dataremainder = getReminderForOptionData?.data?.map(item => ({
         />
         </View>
       </View>
-    </ScrollView>
+      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
+      </SafeAreaView>
   );
 };
 
