@@ -151,10 +151,10 @@ useEffect(() => {
       
     <KeyboardAwareScrollView
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
-                      keyboardShouldPersistTaps="handled"
-                      enableOnAndroid
-                      extraScrollHeight={Platform.OS === "ios" ? 100 : 80}
-                      showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+               enableOnAndroid
+               extraScrollHeight={Platform.OS === "ios" ? 80 :100}
+               showsVerticalScrollIndicator={false}
                   >
       <Header />
       <Loader isLoading={isSetRemainderApiMutationLoading} />

@@ -138,11 +138,14 @@ const EditProfile = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
-          keyboardShouldPersistTaps="handled"
-          enableOnAndroid
-          extraScrollHeight={Platform.OS === "ios" ? 100 : 80}
-          showsVerticalScrollIndicator={false}
+         contentContainerStyle={styles.scrollContent}
+                      keyboardShouldPersistTaps="handled"
+                      enableOnAndroid
+                      enableResetScrollToCoords={false}
+                      extraScrollHeight={Platform.OS === 'ios' ? 80 :100}
+                      scrollEnabled
+                      
+                      showsVerticalScrollIndicator={false}
         >
           <Loader isLoading={isLoading} />
 

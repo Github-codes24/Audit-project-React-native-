@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   View,
-  Keyboard,
-  TouchableWithoutFeedback,
   SafeAreaView,
+  KeyboardAvoidingView,
   Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { theme } from "../../utils";
@@ -23,6 +24,21 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
+      setKeyboardVisible(true)
+    );
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () =>
+      setKeyboardVisible(false)
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const validateInputs = () => {
     const newErrors = {};
@@ -61,119 +77,128 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.flex}>
-          <KeyboardAwareScrollView
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            enableOnAndroid
-            extraScrollHeight={Platform.OS === "ios" ? 20 : 100}
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.container}>
-              <CustomHeader
-                leftIcon={<Svg.ArrowBack />}
-                title="Getting Started"
-                subtitle="Let’s create your free account here"
-              />
+      {/* <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      > */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.flex}>
+            <KeyboardAwareScrollView
+             contentContainerStyle={styles.scrollContent}
+             keyboardShouldPersistTaps="handled"
+             enableOnAndroid
+             enableResetScrollToCoords={false}
+             extraScrollHeight={Platform.OS === 'ios' ? 40 :100}
+             scrollEnabled
+             
+             showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.container}>
+                <CustomHeader
+                  leftIcon={<Svg.ArrowBack />}
+                  title="Getting Started"
+                  subtitle="Let’s create your free account here"
+                />
 
-              <View style={styles.nameView}>
-                <View style={styles.row}>
-                  <Text style={styles.label}>First name</Text>
-                  <Text style={[styles.label, { marginLeft: theme.horizontalSpacing.space_10 }]}>
-                    Last name
-                  </Text>
-                </View>
+                <View style={styles.nameView}>
+                  <View style={styles.row}>
+                    <Text style={styles.label}>First name</Text>
+                    <Text style={[styles.label, { marginLeft: 10 }]}>Last name</Text>
+                  </View>
 
-                <View style={styles.row}>
+                  <View style={styles.row}>
+                    <TextInput
+                      value={firstName}
+                      onChangeText={(text) => {
+                        setFirstName(text.replace(/\s/g, ""));
+                        setErrors({ ...errors, firstName: "" });
+                      }}
+                      style={styles.nameTextInput}
+                      placeholder="First name"
+                      placeholderTextColor="#BABABA"
+                    />
+                    <TextInput
+                      value={lastName}
+                      onChangeText={(text) => {
+                        setLastName(text.replace(/\s/g, ""));
+                        setErrors({ ...errors, lastName: "" });
+                      }}
+                      style={[styles.nameTextInput, { marginLeft: 10 }]}
+                      placeholder="Last name"
+                      placeholderTextColor="#BABABA"
+                    />
+                  </View>
+
+                  <View style={styles.row}>
+                    {errors.firstName && (
+                      <Text style={styles.errorText}>{errors.firstName}</Text>
+                    )}
+                    {errors.lastName && (
+                      <Text style={[styles.errorText, { marginLeft: 10 }]}>
+                        {errors.lastName}
+                      </Text>
+                    )}
+                  </View>
+
+                  <Text style={styles.TextStyle}>Enter your email address</Text>
                   <TextInput
-                    value={firstName}
+                    value={email}
                     onChangeText={(text) => {
-                      setFirstName(text.replace(/\s/g, ""));
-                      setErrors({ ...errors, firstName: "" });
+                      setEmail(text);
+                      setErrors({ ...errors, email: "" });
                     }}
                     style={styles.nameTextInput}
-                    placeholder="First name"
+                    placeholder="Enter your email address"
                     placeholderTextColor="#BABABA"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
                   />
-                  <TextInput
-                    value={lastName}
-                    onChangeText={(text) => {
-                      setLastName(text.replace(/\s/g, ""));
-                      setErrors({ ...errors, lastName: "" });
-                    }}
-                    style={[styles.nameTextInput, { marginLeft: 10 }]}
-                    placeholder="Last name"
-                    placeholderTextColor="#BABABA"
-                  />
-                </View>
+                  {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
-                <View style={styles.row}>
-                  {errors.firstName && <Text style={styles.errorText}>{errors.firstName}</Text>}
-                  {errors.lastName && (
-                    <Text
-                      style={[styles.errorText, { marginLeft: theme.horizontalSpacing.space_10 }]}
-                    >
-                      {errors.lastName}
-                    </Text>
+                  <Text style={styles.TextStyle}>Password</Text>
+                  <TextInput
+                    secureTextEntry
+                    value={password}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      setErrors({ ...errors, password: "" });
+                    }}
+                    style={styles.nameTextInput}
+                    placeholder="Password"
+                    placeholderTextColor="#BABABA"
+                  />
+                  {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+
+                  <Text style={styles.TextStyle}>Confirm password</Text>
+                  <TextInput
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={(text) => {
+                      setConfirmPassword(text);
+                      setErrors({ ...errors, confirmPassword: "" });
+                    }}
+                    style={styles.nameTextInput}
+                    placeholder="Confirm password"
+                    placeholderTextColor="#BABABA"
+                  />
+                  {errors.confirmPassword && (
+                    <Text style={styles.errorText}>{errors.confirmPassword}</Text>
                   )}
                 </View>
-
-                <Text style={styles.TextStyle}>Enter your email address</Text>
-                <TextInput
-                  value={email}
-                  onChangeText={(text) => {
-                    setEmail(text);
-                    setErrors({ ...errors, email: "" });
-                  }}
-                  style={styles.nameTextInput}
-                  placeholder="Enter your email address"
-                  placeholderTextColor="#BABABA"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                />
-                {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-
-                <Text style={styles.TextStyle}>Password</Text>
-                <TextInput
-                  secureTextEntry
-                  value={password}
-                  onChangeText={(text) => {
-                    setPassword(text);
-                    setErrors({ ...errors, password: "" });
-                  }}
-                  style={styles.nameTextInput}
-                  placeholder="Password"
-                  placeholderTextColor="#BABABA"
-                />
-                {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-
-                <Text style={styles.TextStyle}>Confirm password</Text>
-                <TextInput
-                  secureTextEntry
-                  value={confirmPassword}
-                  onChangeText={(text) => {
-                    setConfirmPassword(text);
-                    setErrors({ ...errors, confirmPassword: "" });
-                  }}
-                  style={styles.nameTextInput}
-                  placeholder="Confirm password"
-                  placeholderTextColor="#BABABA"
-                />
-                {errors.confirmPassword && (
-                  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-                )}
               </View>
-            </View>
-          </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView>
 
-          {/* Fixed bottom button */}
-          <View style={styles.buttonFixed}>
-            <CustomButton onPress={handleRegister} title="Continue" />
+            {/* Button hidden when keyboard is visible */}
+            {!isKeyboardVisible && (
+              <View style={styles.bottomButtonContainer}>
+                <CustomButton onPress={handleRegister} title="Continue" />
+              </View>
+            )}
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };
@@ -187,8 +212,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    flexGrow: 1,
-    paddingBottom: 160, // leaves space for the fixed button
+    paddingBottom:theme.verticalSpacing.space_20,
   },
   container: {
     paddingHorizontal: 19,
@@ -228,11 +252,10 @@ const styles = StyleSheet.create({
   TextStyle: {
     marginTop: theme.verticalSpacing.space_20,
   },
-  buttonFixed: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
+  bottomButtonContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: Platform.OS === "ios" ? 30 : 20,
+    backgroundColor: theme.lightColor.backgroundColor,
   },
 });
 
