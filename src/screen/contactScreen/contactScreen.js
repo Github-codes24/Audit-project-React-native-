@@ -101,8 +101,6 @@ const navigation=useNavigation()
 };
 
 
-
-  
   const data = [
     { label: "Book consultation for sponsor licence", value: "Book consultation for sponsor licence" },
     { label: "Book consultation for compliance audit.", value: "Book consultation for compliance audit." },
@@ -143,7 +141,7 @@ const navigation=useNavigation()
               marginLeft: -3
             }}
           >
-            {"Book a consulation/contact us"}
+            {"Book a consultation/contact us"}
           </Text>
           <Text style={[style.textBox,{marginBottom:5}]}>{'I want to'}</Text>
           <Dropdown

@@ -25,6 +25,7 @@ import Loader from "../../reusableComponent/loader/loader";
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import CountryPicker from "react-native-country-picker-modal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import CustomButton from "../../reusableComponent/button/button";
 
 const EditProfile = ({ navigation, route }) => {
   const { profileData = {} } = route?.params || {};
@@ -178,7 +179,7 @@ const EditProfile = ({ navigation, route }) => {
                 </View>
                 <View style={styles.halfWidth}>
                   <Text style={styles.TextStyle}>Last name</Text>
-                  <TextInput value={lastName} onChangeText={setLastName} style={styles.nameTextInput} placeholder="Last name" />
+                  <TextInput value={lastName} onChangeText={setLastName} style={[styles.nameTextInput,{marginRight:theme.horizontalSpacing.space_20}]} placeholder="Last name" />
                 </View>
               </View>
             </View>
@@ -217,9 +218,13 @@ const EditProfile = ({ navigation, route }) => {
             <CustomTextInput value={companyName} onChangeText={setCompanyName} placeholder="Enter your company name" />
 
             <View style={styles.actions}>
-              <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
+              <CustomButton
+              title={'Save change'}
+              onPress={handleSubmit}
+              />
+              {/* <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
                 <Text style={styles.actionText}>Save changes</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
 
@@ -262,45 +267,77 @@ const styles = StyleSheet.create({
   iconTextContainer: { flexDirection: 'row', alignItems: 'center' },
   supportIcon: { marginRight: 8 },
   supportText: {
-    fontSize: 16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: '600',
     color: '#000',
   },
   nameView: { marginTop: 5 },
-  rowContainer: { flexDirection: 'row', justifyContent: 'space-between' },
-  halfWidth: { width: '48%' },
+  rowContainer: { 
+    flexDirection: 'row',
+    justifyContent: 'space-between' },
+  halfWidth: {
+     width: '48%'
+
+   },
   nameTextInput: {
-    height: 50,
-    borderWidth: 0.3,
+    height:theme.horizontalSpacing.space_46,
+    borderWidth:1,
     borderRadius: 10,
-    borderColor: 'gray',
-    paddingHorizontal: 10,
+     borderColor:theme.lightColor.borderColor,
+    paddingHorizontal:theme.horizontalSpacing.space_10,
     backgroundColor: '#fff',
     marginTop: 5,
+    width:theme.horizontalSpacing.space_173,
+    // backgroundColor:"red"
   },
-  TextStyle: { marginTop: 16, fontSize: 16, fontWeight: '500' },
-  actions: { marginTop: theme.verticalSpacing.space_20, alignItems: 'center' },
-  SavechangesButton: {
-    width: '95%',
-    height: 50,
-    borderRadius: 10,
-    backgroundColor: 'rgba(89, 41, 81, 1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 100,
+  TextStyle: {
+     marginTop:theme.verticalSpacing.space_16,
+   fontSize: theme.fontSizes.size_16,
+      fontWeight: '500'
+     },
+  actions: {
+     marginTop: theme.verticalSpacing.space_20, 
+     alignItems: 'center' 
+    },
+  // SavechangesButton: {
+  //   width: theme.horizontalSpacing.space_374,
+  //   height:theme.horizontalSpacing.space_50,
+  //   borderRadius: 10,
+  //   backgroundColor: 'rgba(89, 41, 81, 1)',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   marginBottom:theme.verticalSpacing.space_100,
+  // },
+  actionText: { 
+    fontWeight: '500', 
+  fontSize: theme.fontSizes.size_16,
+     color: '#fff' 
+    },
+  phoneInput: { marginLeft: 10, 
+ width:'83%',
+
   },
-  actionText: { fontWeight: '500', fontSize: 16, color: '#fff' },
-  phoneInput: { marginLeft: 10, flex: 1 },
-  phoneContainer: { flexDirection: "row", alignItems: "center" },
-  countryCodeBox: {
-    height: theme.verticalSpacing.space_50,
-    borderWidth: .3,
-    borderRadius: 8,
-    backgroundColor: '#FFF',
-    paddingHorizontal: 10,
-    justifyContent: 'center',
-    marginRight: -5,
+  phoneContainer: {
+     flexDirection: "row", 
+
+     alignItems:"center",
+
   },
+ countryCodeBox: {
+  height: theme.verticalSpacing.space_50,
+  borderWidth: 1,
+  borderColor: theme.lightColor.borderColor,
+  borderRadius: 8,
+  backgroundColor: '#FFF',
+  paddingHorizontal: 8,
+  justifyContent: 'center',
+  marginRight: -5,
+  marginTop: 5,
+
+  minWidth: 50,
+  maxWidth:theme.horizontalSpacing.space_80,
+},
+
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
