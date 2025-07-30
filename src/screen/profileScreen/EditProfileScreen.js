@@ -137,9 +137,10 @@ const EditProfile = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+    <View style={{}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAwareScrollView
-         contentContainerStyle={styles.scrollContent}
+         contentContainerStyle={{}}
                       keyboardShouldPersistTaps="handled"
                       enableOnAndroid
                       enableResetScrollToCoords={false}
@@ -193,25 +194,40 @@ const EditProfile = ({ navigation, route }) => {
             {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
 
             <Text style={styles.TextStyle}>Phone number</Text>
-            <View style={styles.phoneContainer}>
-              <TouchableOpacity onPress={() => setShowModal(true)} style={styles.countryCodeBox}>
-                <Text style={{ fontSize: 16 }}>{countryCode}</Text>
-              </TouchableOpacity>
-              <CountryPicker
-                withCallingCode
-                withFlag
-                onSelect={(country) => {
-                  setCountryCode(`+${country.callingCode[0]}`);
-                  setSelectedCountry(country.cca2);
-                  setShowModal(false);
-                }}
-                countryCode={selectedCountry}
-                visible={showModal}
-                onClose={() => setShowModal(false)}
-                renderFlagButton={() => null}
-              />
-              <CustomTextInput value={phoneNumber} onChangeText={(text) => { setPhoneNumber(text); setPhoneError(''); }} keyboardType="numeric" placeholder="Enter phone number" style={styles.phoneInput} />
-            </View>
+        <View style={styles.phoneContainer}>
+          <View style={{borderRightWidth:1,borderColor:theme.lightColor.borderColor}}>
+  <TouchableOpacity onPress={() => setShowModal(true)}>
+    <Text style={styles.countryCode}>{countryCode}</Text>
+  </TouchableOpacity>
+
+      <CountryPicker
+    withCallingCode
+    withFlag
+    onSelect={(country) => {
+      setCountryCode(`+${country.callingCode[0]}`);
+      setSelectedCountry(country.cca2);
+      setShowModal(false);
+    }}
+    countryCode={selectedCountry}
+    visible={showModal}
+    onClose={() => setShowModal(false)}
+    renderFlagButton={() => null}
+  />
+</View>
+  <TextInput
+    style={styles.phoneInput}
+    value={phoneNumber}
+    onChangeText={(text) => {
+      setPhoneNumber(text);
+      setPhoneError('');
+    }}
+    keyboardType="numeric"
+    placeholder="Enter phone number"
+    placeholderTextColor="#999"
+  />
+</View>
+
+
             {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
             <Text style={styles.TextStyle}>Company name</Text>
@@ -252,6 +268,7 @@ const EditProfile = ({ navigation, route }) => {
           </Modal>
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
+      </View>
     </SafeAreaView>
   );
 };
@@ -271,16 +288,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
   },
-  nameView: { marginTop: 5 },
+  nameView: { },
   rowContainer: { 
     flexDirection: 'row',
     justifyContent: 'space-between' },
-  halfWidth: {
-     width: '48%'
+   halfWidth: {
+     width:'47%'
 
    },
   nameTextInput: {
-    height:theme.horizontalSpacing.space_46,
+    height:theme.horizontalSpacing.space_48,
     borderWidth:1,
     borderRadius: 10,
      borderColor:theme.lightColor.borderColor,
@@ -296,8 +313,9 @@ const styles = StyleSheet.create({
       fontWeight: '500'
      },
   actions: {
-     marginTop: theme.verticalSpacing.space_20, 
-     alignItems: 'center' 
+     marginTop: theme.verticalSpacing.space_16, 
+     marginRight:3
+ 
     },
   // SavechangesButton: {
   //   width: theme.horizontalSpacing.space_374,
@@ -313,13 +331,10 @@ const styles = StyleSheet.create({
   fontSize: theme.fontSizes.size_16,
      color: '#fff' 
     },
-  phoneInput: { marginLeft: 10, 
- width:'83%',
-
-  },
+ 
   phoneContainer: {
      flexDirection: "row", 
-
+ 
      alignItems:"center",
 
   },
@@ -334,8 +349,8 @@ const styles = StyleSheet.create({
   marginRight: -5,
   marginTop: 5,
 
-  minWidth: 50,
-  maxWidth:theme.horizontalSpacing.space_80,
+  
+Width:theme.horizontalSpacing.space_100,
 },
 
   modalOverlay: {
@@ -365,7 +380,31 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: theme.fontSizes.size_14,
     marginTop: 5,
-  }
+  },
+  phoneContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  width:theme.horizontalSpacing.space_374,
+  borderWidth: 1,
+  borderColor: theme.lightColor.borderColor,
+  borderRadius: 8,
+  paddingHorizontal: 12,
+ height:theme.verticalSpacing.space_50,
+  backgroundColor:'#FFF',
+  marginTop:5
+},
+
+countryCode: {
+  fontSize: theme.fontSizes.size_16,
+  marginRight: 8,
+},
+
+phoneInput: {
+  flex: 1,
+  fontSize: theme.fontSizes.size_16,
+  paddingLeft:theme.horizontalSpacing.space_10
+},
+
 });
 
 export default EditProfile;

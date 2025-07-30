@@ -86,7 +86,7 @@ const BottomTabNavigator = () => {
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,
-        keyboardHidesTabBar: true, // Default, but won't work with custom tab bar
+        keyboardHidesTabBar: true, 
       }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderTopColor: '#F2F3F5',
     borderTopWidth: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal:theme.horizontalSpacing.space_12,
   },
   tabBarItem: {
     paddingHorizontal: 10,
