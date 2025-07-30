@@ -1,4 +1,4 @@
-import { AboutUs } from "../../asstets/images/svg";
+import { AboutUs } from "../../assets/images/svg";
 
 export const apiEndPoints = {
   //auth API endpoint
@@ -30,13 +30,11 @@ getPrivacyPolicy:'api/privacyPolicy/getPrivacyPolicy',
 getTermAndDondition:'api/termsAndConditions/getTermsAndConditions',
 aboutUSGetApi:'api/aboutUs/getAboutUs',
 updateUserApi:'api/user/updateUser',
-
+logOutApi:'/api/user/logout',
 
 //blogs api endpoint
 getAllBlogs:'api/blogRoutes/getAllBlogs',
 getBlogById:'api/blogRoutes/getBlogById',
-
-
 
 //customer support api slice
 contactUs:'api/contactUs/createContactUs',
@@ -50,13 +48,14 @@ getAllNotificationsApi:'api/user/getAllUserNotifications',
 markNotificationAsRead:'api/user/markNotificationAsReadOfUser',
 get10UserReadNotificationApi:'api/user/get10ReadUserNotifications',
 get10userUnreadNotificationApi:'api/user/get10UnreadUserNotifications',
-
-
 //Remainder Api
 
 createRemainderApi:'api/reminder/createReminder',
 getAllRemainderApi:'api/reminder/getAllReminder',
 getReaminderForOptionApi:'api/reminder/getReminderForOptions',
-
-
+updateReminder:'api/reminder/updateReminderById',
+getReminderById:'api/reminder/getReminderById',
+deleteReminder:"api/reminder/deleteReminderById",
+importantLink:"api/importantLinks/getImportantLinks",
+homecontent:'api/homeContend/getHomeContend',
 };

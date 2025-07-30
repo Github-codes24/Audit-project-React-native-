@@ -9,293 +9,305 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
+import Video from 'react-native-video';
 
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import Header from '../../reusableComponent/header/header';
-import { useSelector,useDispatch } from 'react-redux';
 import { useGetAllBlogsQuery } from '../../redux/apiSlice/blogApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
+import moment from 'moment';
+
+const ResourceScreen = ({ navigation,route }) => {
+
+ const {blogType = ''}=route?.params || {}
+
+  const [selectedCategory, setSelectedCategory] = useState(blogType || '');
+
+  const [refreshing, setRefreshing] = useState(false);
+
+ 
+
+  console.log('blogType',blogType)
 
 
-const ResourceScreen=({navigation})=>{
-const [selectedBlog, setSelectedBlog] = useState(null);
- const [selectedCategory, setSelectedCategory] = useState('');
+  const {
+    data: categoryApiData,
+    isLoading: isCategoryDataLoading,
+    isSuccess: isCategoryApiDataSuccess,
+    refetch: refetchCategoryData,
+  } = useGetAllBlogsQuery({});
 
-const [refreshing, setRefreshing] = useState(false);
+  const {
+    data: selectedCategoryApidata,
+    isLoading: isSelectedCategoryApiLoading,
+    refetch: selectedCategoryApiData,
+  } = useGetAllBlogsQuery(
+    selectedCategory && selectedCategory !== 'Recent Posts'
+      ? { category: selectedCategory }
+      : {}
+  );
 
-//  console.log(selectedCategory)
 
-useEffect(() => {
+  // Set default category once the data is available
+  useEffect(() => {
     if (isCategoryApiDataSuccess && categoryApiData?.data?.length > 0) {
-      setSelectedCategory(categoryApiData?.data?.[0]?.category); 
+      setSelectedCategory(blogType||'Recent Posts');
     }
-  }, [isCategoryApiDataSuccess]);
+  }, [isCategoryApiDataSuccess, categoryApiData,blogType]);
 
+  const uniqueCategories = [
+    'Recent Posts',
+    ...new Set(categoryApiData?.data?.map((item) => item?.category)),
+  ];
 
-const {
-  data: categoryApiData,
-  isLoading: isCategoryDataLoading,
-  isSuccess:isCategoryApiDataSuccess,
-  error: isCategoryDataError,
-  refetch: refetchCategoryData,
-} = useGetAllBlogsQuery({});
-
-const {
-  data: selectedCategoryApidata,
-  isLoading: isSelectedCategoryApiLoading,
-  error: SelectedCategoryApiError,
-  refetch: selectedCategoryApiData,
-} = useGetAllBlogsQuery({category:selectedCategory});
-
-
-console.log('categoryApiData',categoryApiData)
-
-const uniqueCategories = categoryApiData?.data
-  .map((item) => item?.category) 
-  .filter((category, index, self) => self.indexOf(category) === index); 
-
-// console.log('uniqueCategories',uniqueCategories);
-
-const onRefresh = async () => {
-    setRefreshing(true); 
-    refetchCategoryData();
-    setRefreshing(false); 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchCategoryData();
+    setRefreshing(false);
   };
 
-const handleCategorySelect = (item) => {
-  console.log('item',item)
+  const handleCategorySelect = (item) => {
     setSelectedCategory(item);
   };
 
-  const renderBlogItem = ({ item }) => (
-    <ScrollView
-    style={{flex:1}}
-      refreshControl={
-       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-       }
-    >
-    <TouchableOpacity
-      style={styles.blogItem}
-      onPress={() => {
-        // console.log('idrrrrr',item?._id)
-      navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, {id: item?._id });
-    }}
-    >
-      <Image source={{uri:item?.image}} style={styles.blogImage} />
-      <View style={styles.blogInfo}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',width:'85%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
-        <Text style={styles.blogTitle}>{item?.title}</Text>
-        <Text style={{color:'gray',fontSize:theme.fontSizes.size_12}}>{item?.readTime}</Text>
-        </View>
-        <View style={{flexDirection:"row",justifyContent:"space-between",width:'95%',marginLeft:theme.horizontalSpacing.space_10,paddingRight:theme.horizontalSpacing.space_20}}>
-            <View>
-        {/* <Text style={styles.blogAuthor}>-{item?.content}</Text> */}
-        <Text style={styles.blogDiscription}>{item?.shortDescription}</Text>
-        </View>
-        <View style={{flexDirection:'row',alignItems:'center',width:theme.horizontalSpacing.space_100}}>
-          <Text style={{color:theme.lightColor.borderColor,fontSize:theme.fontSizes.size_12}}>{'Read more'}</Text>
-       <View style={{marginLeft:theme.horizontalSpacing.space_10}}>
-        <Svg.Arrow/>
-        </View>
-        </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-    </ScrollView>
-  );
-
-    return(
-       <View style={[styles.container,{}]}>
-        <Loader isLoading={isCategoryDataLoading||isSelectedCategoryApiLoading} />
-      <Header/>
-       <Loader isLoading={isCategoryDataLoading} />
-      <Text style={styles.header}>Blogs</Text>
-    <View style={{ flexDirection: "row", width: "100%",borderBottomWidth:1 }}>
-      
-      <FlatList
-    data={uniqueCategories}
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    keyExtractor={(item, index) => `category-${index}`}
-    renderItem={({ item }) => (
-      <TouchableOpacity
-        onPress={() => handleCategorySelect(item)}
-        style={{
-          marginHorizontal: theme.horizontalSpacing.space_10,
-          paddingVertical: theme.verticalSpacing.space_10,
-          borderBottomWidth: selectedCategory === item ? 2 : 0,
-          borderBottomColor: selectedCategory === item ? theme.lightColor.brownColor : 'transparent',
-        }}
-      >
-        <Text
-          style={{
-            marginHorizontal:theme.horizontalSpacing.space_20,
-            fontSize: theme.fontSizes.size_14,
-            fontWeight: '500',
-            color: selectedCategory === item ? 'gray' : 'black',
-          }}
-        >
-          {item}
-        </Text>
-      </TouchableOpacity>
-    )}
-  />
-    </View>
-          
-{/* {selectedCategory===uniqueCategories && ( */}
- <FlatList
-    contentContainerStyle={{ paddingBottom:theme.verticalSpacing.space_80 }}
-            data={selectedCategoryApidata?.data}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item?.id}
-             refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-          />
-  {/* )}   */}
-
-{/* {selectedCategory==="local_news"&& (
- <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)} */}
-
-
-
-   {/* {selectedCategory==="sports" && (
-    <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)}       */}
-
-    {/* {selectedCategory=== "lifestyles" && (
-         <FlatList
-            data={blogs}
-            renderItem={renderBlogItem}
-            keyExtractor={(item) => item.id}
-          />
-
-)}       */}
+  const renderMedia = (uri) => {
+  if (!uri) {
+    return (
+    <View style={{width:theme.horizontalSpacing.space_60,height:theme.verticalSpacing.space_60,borderWidth:.3,borderRadius:10,justifyContent:"center"}}>
+    <Text style={styles.noImageText}>No Image</Text>
     </View>
     )
-}
+  }
+
+  const isVideo = uri.match(/\.(mp4|mov|avi|mkv|webm)$/i);
+  
+  return isVideo ? (
+    <Video
+      source={{ uri }}
+      style={styles.blogMedia}
+      controls={false}
+      resizeMode="cover"
+      paused={true}
+    />
+  ) : (
+    <View style={{ width: theme.horizontalSpacing.space_70, height: theme.verticalSpacing.space_70 }}>
+      <Image source={{ uri }} style={styles.blogMedia} resizeMode='cover' />
+    </View>
+  );
+};
+
+
+  const renderBlogItem = ({ item }) => (
+  <TouchableOpacity
+    style={styles.blogItem}
+    onPress={() =>
+      navigation.navigate(MainRoutes.BLOG_DETAILS_SCREEN, { id: item?._id })
+    }
+  >
+    <View style={styles.blogInfo}>
+        <Text style={styles.readTime}>
+           {moment(item?.createdAt).format('DD MMM YYYY')}
+          </Text>
+      
+        <Text style={styles.blogTitle}>{item?.title}</Text>
+      
+        
+     
+      
+      
+       <View style={styles.readMoreContainer}>
+          <Text style={styles.readMoreText}>{'Read more'}</Text>
+          <View style={{marginLeft:5}}>
+          <Svg.Arrow/>
+          </View>
+        </View>
+      <View style={styles.blogDetails}>
+        {/* <Text
+          style={styles.blogDescription}
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
+          {''}
+        </Text> */}
+       
+      </View>
+    </View>
+    {renderMedia(item?.image)}
+  </TouchableOpacity>
+);
+
+
+
+  return (
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    >
+      <View style={styles.container}>
+        <Loader isLoading={isCategoryDataLoading || isSelectedCategoryApiLoading} />
+        <Header />
+        <Text style={styles.header}>Resources</Text>
+        <View style={styles.categoryContainer}>
+          <FlatList
+            data={uniqueCategories}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item, index) => `category-${index}`}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => handleCategorySelect(item)}
+                style={[
+                  styles.categoryItem,
+                  selectedCategory === item && styles.categoryItemSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.categoryText,
+                    selectedCategory === item && styles.categoryTextSelected,
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+
+        <FlatList
+          contentContainerStyle={styles.blogList}
+          data={selectedCategoryApidata?.data}
+          renderItem={renderBlogItem}
+          keyExtractor={(item) => item?._id}
+          // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        />
+      </View>
+    </ScrollView>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
-   flex:1,
+    flex: 1,
     backgroundColor: '#F5F5F5',
   },
-  headerView:{
-        height:105,
-        backgroundColor:"#592951",
-        // borderBottomLeftRadius:60,
-        // borderBottomRightRadius:60,
-        paddingHorizontal:30,
-        justifyContent:'center'
-      
-    },
   header: {
-    fontSize:theme.fontSizes.size_20,
+    fontSize: theme.fontSizes.size_20,
     fontWeight: 'bold',
-    // marginBottom: 16,
-    padding:20
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    marginTop: theme.verticalSpacing.space_20,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    borderBottomWidth: 1,
+  },
+  categoryItem: {
+    marginTop: 10,
+    paddingVertical: theme.verticalSpacing.space_10,
+  },
+  categoryItemSelected: {
+    borderBottomWidth: 2,
+    borderBottomColor: theme.lightColor.brownColor,
+  },
+  categoryText: {
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    fontSize: theme.fontSizes.size_14,
+    fontWeight: '500',
+    color: 'gray',
+  },
+  categoryTextSelected: {
+    color: 'black',
+  },
+  blogList: {
+    paddingBottom: theme.verticalSpacing.space_100,
   },
   blogItem: {
-    flex:1,
     flexDirection: 'row',
     backgroundColor: '#FFF',
-    paddingHorizontal:10,
-    marginBottom: 12,
+    justifyContent:"space-between",
     borderRadius: 8,
+    marginHorizontal: theme.horizontalSpacing.space_20,
+    alignItems: 'center',
+    marginTop: theme.verticalSpacing.space_20,
+    padding: theme.horizontalSpacing.space_10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    // elevation: 2,
-    marginHorizontal:theme.horizontalSpacing.space_10,
-    alignItems:"center",
-    // justifyContent:"center",
-    padding:theme.horizontalSpacing.space_10,
-    marginTop:theme.verticalSpacing.space_10
-    // marginBottom:100
+   
+    
   },
-  blogImage: {
-    width:theme.horizontalSpacing.space_50,
-    height:theme.verticalSpacing.space_50,
+  blogMedia: {
+    width: theme.horizontalSpacing.space_70,
+    height: theme.verticalSpacing.space_70,
     borderRadius: 8,
-    marginRight:theme.horizontalSpacing.space_12,
+
+    // marginRight: theme.horizontalSpacing.space_12,
   },
   blogInfo: {
-    justifyContent: 'center',
+     width:theme.horizontalSpacing.space_260,
+    // backgroundColor:"red",
+    //  alignItems:"center"
+   justifyContent:"center",
    
+  },
+  blogHeader: {
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // width: '80%',
+    // marginLeft: theme.horizontalSpacing.space_10,
+    // paddingRight: theme.horizontalSpacing.space_20,
+    // backgroundColor:"pink"
   },
   blogTitle: {
-    fontSize:theme.fontSizes.size_16,
+    fontSize: theme.fontSizes.size_16,
     fontWeight: 'bold',
+    // alignItems:'center',
+    // justifyContent:"center",
+    // backgroundColor:'red',
+    width:theme.horizontalSpacing.space_260,
+    marginVertical:10
   },
-  blogAuthor: {
-    fontSize:theme.fontSizes.size_14,
-    color:theme.lightColor.blackColor,
-  },
-  blogDiscription: {
-    fontSize:theme.fontSizes.size_14,
-    color:theme.lightColor.blackColor,
-  },
-  detailsContainer: {
-    flex: 1,
+  readTime: {
+    color: 'gray',
+    fontSize: theme.fontSizes.size_12,
+    // marginLeft:5
     
-    // alignItems: 'center',
-   
-    backgroundColor: '#FFF',
-    borderRadius: 8,
   },
-  detailsImage: {
-    width: '100%',
-    height: 200,   
-    marginBottom: 16,
+  blogDetails: {
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // width: '85%',
+    // marginLeft: theme.horizontalSpacing.space_10,
+    // paddingRight: theme.horizontalSpacing.space_20,
+    // backgroundColor:"red"
   },
-  detailsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    paddingLeft:10
+  blogDescription: {
+    fontSize: theme.fontSizes.size_16,
+    width: theme.horizontalSpacing.space_187,
+    color: theme.lightColor.blackColor,
+    
   },
-  detailsAuthor: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 4,
+  readMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  detailsDate: {
-    fontSize: 14,
-    color: '#AAA',
-    marginBottom: 16,
+  readMoreText: {
+    color: theme.lightColor.borderColor,
+    fontSize: theme.fontSizes.size_12,
   },
-  detailsContent: {
-    fontSize: 16,
-    textAlign: 'justify', // Makes the text evenly aligned on both sides
-    marginBottom: 20,
-    paddingHorizontal: 15, // Adds some padding for better readability
-    lineHeight: 26, // Increases space between lines for clarity
-    color: '#333', // Optional: Adjusts text color for better contrast
+  arrowIcon: {
+    marginLeft: 5,
+  },
+  noImageText: {
+  fontSize: theme.fontSizes.size_14,
+  color: 'black',
+  textAlign: 'center',
+  marginVertical: theme.verticalSpacing.space_10,
+
 },
-  backButton: {
-    backgroundColor: '#673AB7',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems:'center',
-    justifyContent:"center",
-    marginHorizontal:20
-  },
-  backButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
+
 });
+
 export default ResourceScreen;

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import CustomButton from '../reusableComponent/button/button';
 import CustomHeader from '../reusableComponent/customHeader/customHeader';
-import * as Svg from '../asstets/images/svg'
+import * as Svg from '../assets/images/svg'
 import { theme } from '../utils';
 import { MainRoutes } from '../navigation/routeAndParamsList';
 import { getLoginResponse } from '../redux/stateSelector/authStateSelector';
@@ -58,12 +58,12 @@ const response=useSelector(getLoginResponse)
       
       <View style={styles.warningSection}>
         <Image 
-          source={require('../asstets/images/delete.png')} // Replace with actual image URL
+          source={require('../assets/images/delete.png')}
           style={styles.warningImage} 
         />
         <Text style={styles.warningText}>
-          If you confirm the deletion of your account, it will be permanently 
-          removed from our database and cannot be recovered.
+       If you confirm the deletion of your account, it will be permanently removed from our database
+       and cannot be recovered. Additionally, all your reminders will be lost and cannot be restored.
         </Text>
          <View style={{marginTop:theme.verticalSpacing.space_50}}>
       <CustomButton
@@ -72,9 +72,6 @@ const response=useSelector(getLoginResponse)
       />
       </View>
       </View>
-      
-      {/* Confirm Button */}
-     
     </View>
   );
 };
@@ -83,18 +80,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    padding: 16,
+    marginHorizontal:19,
     marginTop:20
   },
   headerText: {
-    fontSize: 20,
+    fontSize:theme.fontSizes.size_20,
     fontWeight: 'bold',
-    marginBottom: 24,
+    marginBottom:24,
   },
-  userCard: {
-    
+  userCard: { 
     // alignItems: 'center',
-    
    marginTop:theme.verticalSpacing.space_20,
     borderRadius: 8,
     shadowColor: '#000',
@@ -132,11 +127,12 @@ const styles = StyleSheet.create({
   },
   warningText: {
     // backgroundColor:"red",
-    width:theme.horizontalSpacing.space_327,
-    fontSize:theme.fontSizes.size_18,
+    width:theme.horizontalSpacing.space_374,
+    // width:theme.horizontalSpacing.space_327,
+    fontSize:theme.fontSizes.size_16,
     color: '#000000',
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 20,
     marginVertical:30,
     fontWeight:'400'
   },

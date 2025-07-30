@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { theme } from "../../utils";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
@@ -83,7 +83,7 @@ const EditImage = ({ navigation }) => {
             source={
               imageUri
                 ? { uri: imageUri } 
-                : require('../../asstets/images/manImage.png') 
+                : require('../../assets/images/manImage.png') 
             }
             style={styles.profileImage}
           />
@@ -94,7 +94,7 @@ const EditImage = ({ navigation }) => {
             <TouchableOpacity
               key={index}
               style={styles.supportItem}
-              onPress={item.onPress} // Call the respective function
+              onPress={item.onPress} 
             >
               <View style={styles.iconTextContainer}>
                 <Text style={styles.supportIcon}>{item.icon}</Text>

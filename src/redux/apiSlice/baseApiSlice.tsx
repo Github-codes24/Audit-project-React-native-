@@ -47,7 +47,7 @@ const baseQueryWithReauth: BaseQueryFn<
   }
 
   if (result?.error) {
-    alertError(
+    console.log(
       'Error',
       result?.error?.data?.error||  result?.error?.data?.message||'Something went wrong' ,
       

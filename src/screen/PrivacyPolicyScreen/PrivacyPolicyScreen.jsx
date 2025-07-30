@@ -1,73 +1,84 @@
 import {
   SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-  } from 'react-native';
-  import React from 'react';
-  import * as Svg from '../../asstets/images/svg';
-  import {theme} from '../../utils';
-  import { useGetPrivacyPolicyQuery } from '../../redux/apiSlice/profileApiSlice';
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React from 'react';
+import * as Svg from '../../assets/images/svg';
+import { theme } from '../../utils';
+import { useGetPrivacyPolicyQuery } from '../../redux/apiSlice/profileApiSlice';
 import Loader from '../../reusableComponent/loader/loader';
-  const PrivacyPolicyScreen = ({navigation}) => {
+import RenderHtml from 'react-native-render-html';
+import { useWindowDimensions } from 'react-native';
 
+const PrivacyPolicyScreen = ({ navigation }) => {
+  const { width } = useWindowDimensions();
 
-    const {
-      data: privacyPolicyData,
-      error: privacyPolicyError,
-      isLoading: privacyPolicyIsLoading
+  const {
+    data: privacyPolicyData,
+    isLoading: privacyPolicyIsLoading
+  } = useGetPrivacyPolicyQuery({});
 
-    }= useGetPrivacyPolicyQuery({})
+  const content = privacyPolicyData?.data?.sections || '';
 
-   
-
-    return (
-      <SafeAreaView style={{flex:1}}>
+  return (
+    <SafeAreaView>
+      <ScrollView>
       <View style={styles.container}>
         <Loader isLoading={privacyPolicyIsLoading} />
+
         {/* Header */}
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Svg.ArrowBack />
         </TouchableOpacity>
-  
+
         <Text style={styles.HeadText}>{privacyPolicyData?.data?.title}</Text>
-        <ScrollView>
-          <Text style={styles.privactpolicyText}>
-            {privacyPolicyData?.data?.sections}
-          </Text>
-        </ScrollView>
-      </View>
-      </SafeAreaView>
-    );
-  };
-  
-  export default PrivacyPolicyScreen;
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#F5F5F5',
-      padding: 20,
-    },
-    backButton: {
-      marginBottom: 20,
-    },
-    backArrow: {
-      fontSize: 18,
-    },
-    HeadText: {
-      fontSize: theme.fontSizes.size_30,
-      fontWeight: '600',
-      marginTop: theme.verticalSpacing.space_50,
-      marginBottom: theme.verticalSpacing.space_20,
-    },
-    privactpolicyText: {
+        
+        
+          {/<[a-z][\s\S]*>/i.test(content) ? (
+            <RenderHtml contentWidth={width} source={{ html: content }} 
+            tagsStyles={{
+    p: { 
+      marginVertical:5, 
+      lineHeight: 20,
       fontSize: theme.fontSizes.size_16,
-      fontWeight: '400',
-    },
-  });
-  
+    fontWeight: '400', 
+    }
+  }}
+            />
+          ) : (
+            <Text style={styles.privacyPolicyText}>{content}</Text>
+          )}
+       
+      </View>
+       </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default PrivacyPolicyScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    padding: 20,
+    marginBottom:theme.verticalSpacing.space_80
+  },
+  backButton: {
+    marginBottom: 20,
+  },
+  HeadText: {
+    fontSize: theme.fontSizes.size_30,
+    fontWeight: '600',
+    marginTop: theme.horizontalSpacing.space_50,
+    marginBottom: theme.verticalSpacing.space_20,
+  },
+  privacyPolicyText: {
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: '400',
+  },
+});

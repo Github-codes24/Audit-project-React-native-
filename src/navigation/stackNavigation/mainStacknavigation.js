@@ -9,7 +9,7 @@ import ProfileScreen from '../../screen/profileScreen/profileScreen';
 import DeleteScreen from '../../screen/deletAccountScreen';
 import EditProfile from '../../screen/profileScreen/EditProfileScreen';
 import EditImage from '../../screen/profileScreen/EditImageScreen';
-import { Notification } from '../../asstets/images/svg';
+import { Notification } from '../../assets/images/svg';
 import NotificationScreen from '../../screen/NotificationScreen/NotificationScreen';
 import TermsAndConditionScreen from '../../screen/TermsAndConditionScreen/TermsAndConditionScreen';
 import PrivacyPolicyScreen from '../../screen/PrivacyPolicyScreen/PrivacyPolicyScreen';
@@ -20,6 +20,11 @@ import SetRemainderScreen from '../../screen/setRemainderScreen/setRemainderScre
 import DeleteSuccessFully from '../../screen/DeleteSuccessfully/deleteSuccessfully';
 import UpdateSuccessFully from '../../screen/updateSuccessfully/updateSuccessfully';
 import DashBoardScreen from '../../screen/dashboardScreen/dashboardScreen';
+import NotificationDetailsScreen from '../../screen/NotificationDetailsScreen/notificationDetailsScreen';
+import ResourceScreen from '../../screen/resourceScreen/resourceScreen';
+import ImportantLinkScreen from '../../screen/importantLinkScreen/importantLinkScreen';
+
+
 const Stack = createStackNavigator();
 
 const MainStackNavigation = () => {
@@ -78,7 +83,7 @@ const MainStackNavigation = () => {
        component={SetRemainderScreen} 
       />
 
-    {/* <Stack.Screen name={MainRoutes.DASHBOARD_SCREEN} component={DashBoardScreen}/>     */}
+   
    <Stack.Screen
         name={MainRoutes.DELETE_SUCCESSFULLY}
         component={DeleteSuccessFully} 
@@ -86,6 +91,18 @@ const MainStackNavigation = () => {
 <Stack.Screen
         name={MainRoutes.UPDATE_SUCCESSFULLY}
         component={UpdateSuccessFully} 
+      />
+       <Stack.Screen
+        name={MainRoutes.NOTIFICATION_DETAILS_SCREEN}
+        component={NotificationDetailsScreen} 
+      />
+      <Stack.Screen
+        name={MainRoutes.RESOURCE_SCREEN}
+        component={ResourceScreen} 
+      />
+       <Stack.Screen
+        name={MainRoutes.IMPORTANT_LINK_SCREEN}
+        component={ImportantLinkScreen} 
       />
       </Stack.Navigator>
       

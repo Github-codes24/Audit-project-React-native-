@@ -1,344 +1,410 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Modal, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+  Modal,
+  SafeAreaView,
+  Alert,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { theme } from "../../utils";
-import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
-import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-import { alertError, alertSuccess } from "../../utils/Toast";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { useUpdateUserProfileApiSliceMutation } from "../../redux/apiSlice/profileApiSlice";
 import Loader from "../../reusableComponent/loader/loader";
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import CountryPicker from "react-native-country-picker-modal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import CustomButton from "../../reusableComponent/button/button";
 
 const EditProfile = ({ navigation, route }) => {
-    const { profileData = {} } = route?.params || {};
-    const [imageUri, setImageUri] = useState(profileData?.image || '');
+  const { profileData = {} } = route?.params || {};
+  const [imageUri, setImageUri] = useState(profileData?.image || '');
+  const [firstName, setFirstName] = useState(profileData?.firstName || '');
+  const [lastName, setLastName] = useState(profileData?.lastName || '');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}` || '');
+  const [companyName, setCompanyName] = useState(profileData?.company || '');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [countryCode, setCountryCode] = useState(`${profileData?.countryCode}` || '');
+  const [selectedCountry, setSelectedCountry] = useState("GB");
+  const [showModal, setShowModal] = useState(false);
 
-    console.log('profileData@@', profileData, route?.params);
-    console.log('Phone Number:', profileData?.phoneNumber);
-    
-    const inputRef = useRef(null);
-    const [firstName, setFirstName] = useState(profileData?.firstName || '');
-    const [lastName, setLastName] = useState(profileData?.lastName || '');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState(`${profileData?.phoneNumber}` || '');
-    const [companyName, setCompanyName] = useState(profileData?.company || '');
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [phoneError, setPhoneError] = useState(''); 
+  const response = useSelector(getLoginResponse);
+  const userId = response?.data?.id;
 
-    const response = useSelector(getLoginResponse);
-    const userId = response?.data?.id;
+  const [updateUserProfile, { isLoading }] = useUpdateUserProfileApiSliceMutation();
 
-    const [updateUserProfile, { isLoading, error, data }] = useUpdateUserProfileApiSliceMutation();
+  const validatePhoneNumber = (phone) => /^[0-9]{10,12}$/.test(phone);
+  const validatePassword = (password) => {
+    if (!password) return true;
+    return /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password);
+  };
+
+  const pickImageFromGallery = () => {
+    launchImageLibrary({ mediaType: 'photo', quality: 1 }, (response) => {
+      if (response?.assets?.length > 0) {
+        setImageUri(response.assets[0].uri);
+        setIsModalVisible(false);
+      }
+    });
+  };
+
+  const requestCameraPermission = async () => {
+    try {
+      const permission = Platform.select({
+        ios: PERMISSIONS.IOS.CAMERA,
+        android: PERMISSIONS.ANDROID.CAMERA,
+      });
+      const status = await check(permission);
+      if (status === RESULTS.GRANTED) return true;
+      if (status === RESULTS.DENIED || status === RESULTS.LIMITED) {
+        return (await request(permission)) === RESULTS.GRANTED;
+      }
+      if (status === RESULTS.BLOCKED) {
+        Alert.alert('Camera Permission Required', 'Enable camera permission in settings.');
+      }
+      return false;
+    } catch (error) {
+      console.error('Permission check failed:', error);
+      Alert.alert('Error', 'Failed to check camera permission.');
+      return false;
+    }
+  };
+
+  const captureImageFromCamera = async () => {
+    const granted = await requestCameraPermission();
+    if (!granted) return;
+    launchCamera({ mediaType: 'photo', quality: 1 }, (response) => {
+      if (response?.assets?.length > 0) {
+        setImageUri(response.assets[0].uri);
+        setIsModalVisible(false);
+      }
+    });
+  };
+
+  const handleSubmit = () => {
+    if (!validatePhoneNumber(phoneNumber)) {
+      setPhoneError('Please enter a valid 10 to 12-digit phone number.');
+      return;
+    }
+    if (password && !validatePassword(password)) {
+      setPasswordError('Password must be at least 8 characters, include 1 uppercase letter, and 1 special character.');
+      return;
+    }
+    if (password && confirmPassword !== password) {
+      setConfirmPasswordError('Confirm password does not match.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('password', password);
+    formData.append('confirmPassword', confirmPassword);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('countryCode', countryCode);
+    formData.append('company', companyName);
+    if (imageUri) {
+      formData.append('image', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: 'profile_image.jpg',
+      });
+    }
+
+    updateUserProfile({ id: userId, formData })
+      .unwrap()
+      .then(() => navigation.navigate(MainRoutes.UPDATE_SUCCESSFULLY))
+      .catch((error) => {
+        console.error('Error updating profile:', error);
+      });
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{}}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView
+         contentContainerStyle={{}}
+                      keyboardShouldPersistTaps="handled"
+                      enableOnAndroid
+                      enableResetScrollToCoords={false}
+                      extraScrollHeight={Platform.OS === 'ios' ? 80 :100}
+                      scrollEnabled
+                      
+                      showsVerticalScrollIndicator={false}
+        >
+          <Loader isLoading={isLoading} />
+
+          <View style={{ paddingHorizontal: 7 }}>
+            <TouchableOpacity style={{ marginTop: 20, paddingHorizontal: 10 }} onPress={() => navigation.goBack()}>
+              <Svg.ArrowBack />
+            </TouchableOpacity>
+            <Text style={{ fontWeight: '700', fontSize: 20, marginTop: 30, paddingHorizontal: 10 }}>
+              Edit profile
+            </Text>
+          </View>
+
+          <View style={styles.profileSection}>
+            <Image
+              source={imageUri ? { uri: imageUri } : require('../../assets/images/narasolicitor.jpeg')}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+              <View style={styles.iconTextContainer}>
+                <Text style={styles.supportIcon}><Svg.EditImage /></Text>
+                <Text style={styles.supportText}>Edit Image</Text>
+              </View>
+            </TouchableOpacity>
+
+            <View style={styles.nameView}>
+              <View style={styles.rowContainer}>
+                <View style={styles.halfWidth}>
+                  <Text style={styles.TextStyle}>First name</Text>
+                  <TextInput value={firstName} onChangeText={setFirstName} style={styles.nameTextInput} placeholder="First name" />
+                </View>
+                <View style={styles.halfWidth}>
+                  <Text style={styles.TextStyle}>Last name</Text>
+                  <TextInput value={lastName} onChangeText={setLastName} style={[styles.nameTextInput,{marginRight:theme.horizontalSpacing.space_20}]} placeholder="Last name" />
+                </View>
+              </View>
+            </View>
+
+            <Text style={styles.TextStyle}>Password</Text>
+            <CustomTextInput value={password} onChangeText={(text) => { setPassword(text); setPasswordError(''); }} placeholder="********" secureTextEntry />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
+            <Text style={styles.TextStyle}>Confirm Password</Text>
+            <CustomTextInput value={confirmPassword} onChangeText={(text) => { setConfirmPassword(text); setConfirmPasswordError(''); }} placeholder="********" secureTextEntry />
+            {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
+
+            <Text style={styles.TextStyle}>Phone number</Text>
+        <View style={styles.phoneContainer}>
+          <View style={{borderRightWidth:1,borderColor:theme.lightColor.borderColor}}>
+  <TouchableOpacity onPress={() => setShowModal(true)}>
+    <Text style={styles.countryCode}>{countryCode}</Text>
+  </TouchableOpacity>
+
+      <CountryPicker
+    withCallingCode
+    withFlag
+    onSelect={(country) => {
+      setCountryCode(`+${country.callingCode[0]}`);
+      setSelectedCountry(country.cca2);
+      setShowModal(false);
+    }}
+    countryCode={selectedCountry}
+    visible={showModal}
+    onClose={() => setShowModal(false)}
+    renderFlagButton={() => null}
+  />
+</View>
+  <TextInput
+    style={styles.phoneInput}
+    value={phoneNumber}
+    onChangeText={(text) => {
+      setPhoneNumber(text);
+      setPhoneError('');
+    }}
+    keyboardType="numeric"
+    placeholder="Enter phone number"
+    placeholderTextColor="#999"
+  />
+</View>
 
 
-    const validatePhoneNumber = (phone) => {
-        const phoneRegEx = /^[0-9]{10}$/; 
-        return phoneRegEx.test(phone);
-    };
+            {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
-    const pickImageFromGallery = () => {
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                quality: 1,
-            },
-            (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled image picker');
-                } else if (response.errorMessage) {
-                    console.error('ImagePicker Error:', response.errorMessage);
-                } else if (response.assets && response.assets.length > 0) {
-                    setImageUri(response.assets[0].uri);
-                    setIsModalVisible(false);
-                }
-            }
-        );
-    };
+            <Text style={styles.TextStyle}>Company name</Text>
+            <CustomTextInput value={companyName} onChangeText={setCompanyName} placeholder="Enter your company name" />
 
-    const captureImageFromCamera = () => {
-        launchCamera(
-            {
-                mediaType: 'photo',
-                quality: 1,
-            },
-            (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled camera');
-                } else if (response.errorMessage) {
-                    console.error('Camera Error:', response.errorMessage);
-                } else if (response.assets && response.assets.length > 0) {
-                    setImageUri(response.assets[0].uri);
-                    setIsModalVisible(false);
-                }
-            }
-        );
-    };
+            <View style={styles.actions}>
+              <CustomButton
+              title={'Save change'}
+              onPress={handleSubmit}
+              />
+              {/* <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
+                <Text style={styles.actionText}>Save changes</Text>
+              </TouchableOpacity> */}
+            </View>
+          </View>
 
-    const handleSubmit = () => {
-        // Validate phone number before submission
-        if (!validatePhoneNumber(phoneNumber)) {
-            setPhoneError('Please enter a valid 10-digit phone number.');
-            return; // Exit if validation fails
-        }
-
-        const formData = new FormData();
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('password', password);
-        formData.append('confirmPassword', confirmPassword);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('Company', companyName);
-        if (imageUri) {
-            const file = {
-                uri: imageUri,
-                type: 'image/jpeg',
-                name: 'profile_image.jpg',
-            };
-
-            console.log('File Object:', file);
-            formData.append('image', file);
-        }
-        console.log('Form Data:', formData);
-        updateUserProfile({
-            id: userId,
-            formData: formData,
-        })
-            .unwrap()
-            .then((response) => {
-                console.log('Profile updated successfully:', response);
-                navigation.navigate(MainRoutes.UPDATE_SUCCESSFULLY);
-            })
-            .catch((error) => {
-                console.error('Error updating profile:', error);
-                alertError('Failed to update profile');
-            });
-    };
-
-    const supportItems = [
-        { label: 'Edit Image', icon: <Svg.EditImage />, route: MainRoutes.EDITIMAGE_SCREEN }
-    ];
-
-    return (
-        <ScrollView style={{ marginBottom: theme.verticalSpacing.space_30 }}>
-            <Loader isLoading={isLoading} />
-            <View style={{ paddingHorizontal: 7 }}>
-                <TouchableOpacity style={{ marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Svg.ArrowBack />
+          {/* Image Picker Modal */}
+          <Modal transparent visible={isModalVisible} onRequestClose={() => setIsModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <TouchableOpacity onPress={pickImageFromGallery}>
+                  <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                    <Svg.GalleryIcon />
+                    <Text style={styles.modalOption}>Upload from gallery</Text>
+                  </View>
                 </TouchableOpacity>
-                <View>
-                    <Text style={{ fontWeight: '700', fontSize: theme.fontSizes.size_20, marginTop: theme.verticalSpacing.space_30, paddingHorizontal: 10 }}>{'Edit profile'}</Text>
-                </View>
+                <TouchableOpacity onPress={captureImageFromCamera}>
+                  <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                    <Svg.CameraIcon />
+                    <Text style={styles.modalOption}>Open camera</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                  <Text style={styles.cancelText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.profileSection}>
-                <View style={styles.profileImageContainer}>
-                    <Image
-                        source={
-                            imageUri ? { uri: imageUri }
-                            : require('../../asstets/images/manImage.png')
-                        }
-                        style={styles.profileImage}
-                    />
-                </View>
-                <View>
-                    {supportItems.map((item, index) => (
-                        <TouchableOpacity key={index}
-                            onPress={() => setIsModalVisible(true)}
-                        >
-                            <View style={styles.iconTextContainer}>
-                                <Text style={styles.supportIcon}>{item.icon}</Text>
-                                <Text style={styles.supportText}>{item.label}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-                <View style={styles.nameView}>
-                    <View style={styles.rowContainer}>
-                        <View style={styles.halfWidth}>
-                            <Text style={styles.TextStyle}>First name</Text>
-                            <TextInput
-                                ref={inputRef}
-                                value={firstName}
-                                onChangeText={(text) => setFirstName(text)}
-                                style={styles.nameTextInput}
-                                placeholder="John"
-                            />
-                        </View>
-                        <View style={styles.halfWidth}>
-                            <Text style={styles.TextStyle}>Last name</Text>
-                            <TextInput
-                                value={lastName}
-                                onChangeText={(text) => setLastName(text)}
-                                style={styles.nameTextInput}
-                                placeholder="Weak"
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View>
-                    <Text style={styles.TextStyle}>Password</Text>
-                    <CustomTextInput
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                        placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                        secureTextEntry={true}
-                    />
-                    <Text style={styles.TextStyle}>Confirm password</Text>
-                    <CustomTextInput
-                        value={confirmPassword}
-                        onChangeText={(text) => setConfirmPassword(text)}
-                        placeholder={'.  .  .  .  .  .  .  .  .  .'}
-                        secureTextEntry={true}
-                    />
-                    <Text style={styles.TextStyle}>Phone number</Text>
-                    <CustomTextInput
-                        value={phoneNumber}
-                        onChangeText={(text) => {
-                            const formattedText = text.replace(/\D/g, '').slice(0, 10);
-                            setPhoneNumber(formattedText);
-                            setPhoneError(''); 
-                        }}
-                        maxLength={10}
-                        placeholder={'+44 (0) XXXX XXX XXX'}
-                    />
-                    {phoneError ? <Text style={{ color: 'red', fontSize: 14 }}>{phoneError}</Text> : null} {/* Display error message */}
-
-                    <Text style={styles.TextStyle}>Company name</Text>
-                    <CustomTextInput
-                        value={companyName}
-                        onChangeText={(text) => setCompanyName(text)}
-                        placeholder={'Enter your company name'}
-                    />
-                </View>
-                <View style={styles.actions}>
-                    <TouchableOpacity style={styles.SavechangesButton} onPress={handleSubmit}>
-                        <Text style={styles.actionText}>Save changes</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <Modal
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "rgba(0,0,0,0.5)",
-                    }}
-                >
-                    <View
-                        style={{
-                            backgroundColor: "white",
-                            padding: 20,
-                            borderRadius: 10,
-                            alignItems: "center",
-                            width: "80%",
-                           
-                        }}
-                    >
-
-                        <View style={{}}>
-                        <TouchableOpacity onPress={pickImageFromGallery}>
-                            <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                                <Svg.GalleryIcon />
-                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Upload from gallery</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={captureImageFromCamera}>
-                            <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                                <Svg.CameraIcon />
-                                <Text style={{ fontSize: 16, marginVertical: 10, marginLeft: 10 }}>Open camera</Text>
-                            </View>
-                        </TouchableOpacity>
-                      </View>
-                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                            <Text style={{ fontSize: 16, marginVertical: 10, color: "red" }}>Cancel</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-        </ScrollView>
-    );
+          </Modal>
+        </KeyboardAwareScrollView>
+      </TouchableWithoutFeedback>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    profileSection: {
-        paddingHorizontal: 15,
+  profileSection: { paddingHorizontal: 15 },
+  profileImage: {
+    width: 100,
+    height: 110,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  iconTextContainer: { flexDirection: 'row', alignItems: 'center' },
+  supportIcon: { marginRight: 8 },
+  supportText: {
+    fontSize: theme.fontSizes.size_16,
+    fontWeight: '600',
+    color: '#000',
+  },
+  nameView: { },
+  rowContainer: { 
+    flexDirection: 'row',
+    justifyContent: 'space-between' },
+   halfWidth: {
+     width:'47%'
+
+   },
+  nameTextInput: {
+    height:theme.horizontalSpacing.space_48,
+    borderWidth:1,
+    borderRadius: 10,
+     borderColor:theme.lightColor.borderColor,
+    paddingHorizontal:theme.horizontalSpacing.space_10,
+    backgroundColor: '#fff',
+    marginTop: 5,
+    width:theme.horizontalSpacing.space_173,
+    // backgroundColor:"red"
+  },
+  TextStyle: {
+     marginTop:theme.verticalSpacing.space_16,
+   fontSize: theme.fontSizes.size_16,
+      fontWeight: '500'
+     },
+  actions: {
+     marginTop: theme.verticalSpacing.space_16, 
+     marginRight:3
+ 
     },
-    profileImageContainer: {},
-    profileImage: {
-        width: theme.horizontalSpacing.space_100,
-        height: theme.horizontalSpacing.space_110,
-        borderRadius: 10,
-        marginBottom: theme.verticalSpacing.space_10,
-        marginTop: theme.verticalSpacing.space_10,
+  // SavechangesButton: {
+  //   width: theme.horizontalSpacing.space_374,
+  //   height:theme.horizontalSpacing.space_50,
+  //   borderRadius: 10,
+  //   backgroundColor: 'rgba(89, 41, 81, 1)',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   marginBottom:theme.verticalSpacing.space_100,
+  // },
+  actionText: { 
+    fontWeight: '500', 
+  fontSize: theme.fontSizes.size_16,
+     color: '#fff' 
     },
-    iconTextContainer: {
-        flexDirection: 'row',
-    },
-    supportIcon: {
-        marginRight: 8,
-    },
-    supportText: {
-        fontSize: theme.fontSizes.size_16,
-        fontWeight: '600',
-        color: '#000',
-    },
-    nameView: {
-        marginTop: theme.verticalSpacing.space_10,
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    halfWidth: {
-        width: '48%',
-    },
-    nameTextInput: {
-        height: theme.horizontalSpacing.space_50,
-        borderWidth: 1,
-        borderRadius: 8,
-        borderColor: theme.lightColor.grayColor,
-        paddingHorizontal: 10,
-        backgroundColor: theme.lightColor.whiteColor,
-        marginBottom: theme.verticalSpacing.space_10,
-        
-    },
-    TextStyle: {
-        marginTop: theme.verticalSpacing.space_10,
-        fontSize: theme.fontSizes.size_16,
-        fontWeight: '600',
-    },
-    actions: {
-        marginTop: theme.verticalSpacing.space_34,
-        alignItems: 'center',
-    },
-    SavechangesButton: {
-        width: theme.horizontalSpacing.space_374,
-        height: theme.horizontalSpacing.space_50,
-        borderRadius: 10,
-        backgroundColor: 'rgba(89, 41, 81, 1)',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: theme.horizontalSpacing.space_10,
-    },
-    actionText: {
-        fontWeight: '500',
-        fontSize: theme.fontSizes.size_16,
-        lineHeight: 20,
-        color: theme.lightColor.whiteColor,
-        textAlign: 'center',
-    },
+ 
+  phoneContainer: {
+     flexDirection: "row", 
+ 
+     alignItems:"center",
+
+  },
+ countryCodeBox: {
+  height: theme.verticalSpacing.space_50,
+  borderWidth: 1,
+  borderColor: theme.lightColor.borderColor,
+  borderRadius: 8,
+  backgroundColor: '#FFF',
+  paddingHorizontal: 8,
+  justifyContent: 'center',
+  marginRight: -5,
+  marginTop: 5,
+
+  
+Width:theme.horizontalSpacing.space_100,
+},
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    width: "80%",
+  },
+  modalOption: {
+    fontSize: theme.fontSizes.size_16,
+    marginVertical: 10,
+    marginLeft: 10,
+  },
+  cancelText: {
+    fontSize: theme.fontSizes.size_16,
+    marginVertical: 10,
+    color: "red",
+  },
+  errorText: {
+    color: 'red',
+    fontSize: theme.fontSizes.size_14,
+    marginTop: 5,
+  },
+  phoneContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  width:theme.horizontalSpacing.space_374,
+  borderWidth: 1,
+  borderColor: theme.lightColor.borderColor,
+  borderRadius: 8,
+  paddingHorizontal: 12,
+ height:theme.verticalSpacing.space_50,
+  backgroundColor:'#FFF',
+  marginTop:5
+},
+
+countryCode: {
+  fontSize: theme.fontSizes.size_16,
+  marginRight: 8,
+},
+
+phoneInput: {
+  flex: 1,
+  fontSize: theme.fontSizes.size_16,
+  paddingLeft:theme.horizontalSpacing.space_10
+},
+
 });
 
 export default EditProfile;

@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer } from 'redux-persist';
 import  authReducer  from "./stateSlice/authStateSlice";
 import cookiesReducer from "./stateSlice/cookiesStateSlice";
+import eligibiltyReducer from './stateSlice/eligibilityStateSlice'
+import complianceReducer from './stateSlice/complianceStateSlice'
 // Define persist configurations
 const authPersistConfig = {
   key: 'auth',
@@ -22,4 +24,6 @@ export const rootReducer = combineReducers({
 
   authSlice: persistReducer(authPersistConfig, authReducer),
   cookiesStateSlice:persistReducer(authPersistConfig, cookiesReducer),
+  eligibiltyReducer:persistReducer(authPersistConfig,eligibiltyReducer),
+  complianceReducer:persistReducer(authPersistConfig,complianceReducer)
 });

@@ -1,55 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import CustomHeader from '../../reusableComponent/customHeader/customHeader';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import CustomButton from '../../reusableComponent/button/button';
-import { alertSuccess, alertError } from '../../utils/Toast';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
-import { useResendOtpForgotPasswordApiMutation, useVerifyOtpForgotPasswordMutation } from '../../redux/apiSlice/authApiSlice';
-import { ScrollView } from 'react-native-gesture-handler';
+import {
+  useResendOtpForgotPasswordApiMutation,
+  useVerifyOtpForgotPasswordMutation,
+} from '../../redux/apiSlice/authApiSlice';
 import CustomModal from '../../reusableComponent/customModal/customModal';
 
 const OtpScreen = ({ navigation, route }) => {
-  const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(30);
-   const [isModalVisible, setModalVisible] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [timer, setTimer] = useState(60);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Prevent multiple submissions
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
   const intervalRef = useRef(null);
-  const inputs = []; 
+  const inputRef = useRef(null);
 
   const { email } = route.params || {};
 
-  const [forgotPasswordVerifyOtp, { isSuccess: isVerifySuccess, error: verifyError, data: verifyData }] = useVerifyOtpForgotPasswordMutation();
-  const [resendOtp, { isLoading: isResendLoading }] = useResendOtpForgotPasswordApiMutation();
+  const [forgotPasswordVerifyOtp, { isSuccess, error, data }] =
+    useVerifyOtpForgotPasswordMutation();
+  const [resendOtp] = useResendOtpForgotPasswordApiMutation();
 
-  const convertOtpToString = (otpArray) => otpArray.join("");
-
-  const handleForgotPasswordVerifyAccount = () => {
-    if (otp.includes('')) {
-      alertError('Please enter the complete OTP');
-      return;
-    }
-
-    const otpString = convertOtpToString(otp);
+  const handleVerify = () => {
+    if (otp.length < 4) return;
     setIsSubmitting(true);
-    forgotPasswordVerifyOtp({ email, otp: otpString });
+    forgotPasswordVerifyOtp({ email, otp });
   };
 
   useEffect(() => {
-    if (isVerifySuccess && verifyData?.success) {
-
+    if (isSuccess && data?.success) {
       navigation.navigate(MainRoutes.CREATE_NEW_PASSWORD, { email });
-    } else if (verifyError || !verifyData?.success) {
-    console.log('error')
+    } else if (error || !data?.success) {
+      const msg = error?.data?.message || 'Invalid OTP';
+      setErrorText(msg);
     }
     setIsSubmitting(false);
-  }, [isVerifySuccess, verifyData, verifyError, navigation]);
+  }, [isSuccess, data, error]);
 
   useEffect(() => {
     if (timer > 0) {
-      intervalRef.current = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      intervalRef.current = setInterval(() => setTimer((t) => t - 1), 1000);
     } else {
       setIsResendDisabled(false);
       clearInterval(intervalRef.current);
@@ -60,97 +65,102 @@ const OtpScreen = ({ navigation, route }) => {
   const handleResendCode = () => {
     if (!isResendDisabled) {
       setIsResendDisabled(true);
-       setModalVisible(true); 
-      setTimer(30);
+      setOtp('');
+      setTimer(60);
       resendOtp({ email });
-    
+      setModalVisible(true);
     }
   };
 
+  const closeModal = () => setModalVisible(false);
 
-const closeModal = () => {
-    setModalVisible(false);
-  };
-
-
-
-
-  const handleChange = (text, index) => {
-    const newOtp = [...otp];
-    const isBackspace = text === ''; 
-    newOtp[index] = text;
-    setOtp(newOtp);
-    if (!isBackspace && text && index < otp.length - 1) {
-      inputs[index + 1]?.focus(); 
-    } else if (isBackspace && index > 0) {
-      inputs[index - 1]?.focus(); 
+  const handleOtpChange = (text) => {
+    const numeric = text.replace(/[^0-9]/g, '').slice(0, 4);
+    setOtp(numeric);
+    if (numeric.length === 4) {
+      handleVerify();
     }
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
- <CustomModal
+        <CustomModal
           visible={isModalVisible}
           onClose={closeModal}
           title="Code sent!"
-          description={"Code has been sent to your email please check your email"}
+          description="Code has been sent to your email, please check."
           buttons={[
             {
-              label: "Verify code",
-              type: "primary",
-              onPress: () => {
-                closeModal();
-              },
+              label: 'Verify code',
+              type: 'primary',
+              onPress: closeModal,
             },
           ]}
         />
 
+        <CustomHeader
+          onBackPress={() => navigation.goBack()}
+          leftIcon={<Svg.ArrowBack />}
+          title={'Check your email'}
+        />
 
-        <View style={{ }}>
-          <CustomHeader
-            onBackPress={() => navigation.goBack()}
-            leftIcon={<Svg.ArrowBack />}
-            title={'Check your email'}
-          />
-        </View>
         <Text style={styles.description}>
-          Code send to <Text style={styles.email}>{email}</Text>. Please enter the code below.
+          We have sent a 4-digit code to your email{' '}
+          <Text style={styles.email}>{email}</Text>. Please check your inbox and spam folder.
         </Text>
 
-        {/* OTP Input Fields */}
-        <View style={styles.otpContainer}>
-          {otp.map((digit, index) => (
-            <TextInput
-              key={index}
-              style={styles.otpInput}
-              value={digit}
-              onChangeText={(text) => handleChange(text, index)}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={(ref) => (inputs[index] = ref)} // Store input references
-            />
+        <Text style={styles.instruction}>
+          Please enter the code below to verify your account.
+        </Text>
+
+        {/* Hidden TextInput */}
+        <TextInput
+          ref={inputRef}
+          style={styles.hiddenInput}
+          value={otp}
+          onChangeText={handleOtpChange}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          maxLength={4}
+          autoFocus
+        />
+
+        {/* Custom OTP Display */}
+        <View style={styles.otpBoxContainer}>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <TouchableOpacity
+              key={i}
+              style={styles.otpBox}
+              onPress={() => inputRef.current?.focus()}
+              activeOpacity={1}
+            >
+              <Text style={styles.otpText}>{otp[i] || ''}</Text>
+            </TouchableOpacity>
           ))}
         </View>
 
+        {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
+
         <View style={{ marginTop: theme.verticalSpacing.space_114 }}>
           <CustomButton
-            textColor={'#BABABA'}
-            onPress={handleForgotPasswordVerifyAccount}
-            title={'Create new password'}
-            disabled={isSubmitting || otp.includes('')} // Disable if submitting or OTP incomplete
+            onPress={handleVerify}
+            title={isSubmitting ? <ActivityIndicator color="#FFF" /> : 'Create new password'}
+            disabled={isSubmitting || otp.length < 4}
           />
         </View>
 
-        {/* Resend Code Section */}
+        {/* Resend Section */}
         <View style={styles.resendContainer}>
           <Text style={styles.resendText}>Didn’t receive code?</Text>
           <TouchableOpacity onPress={handleResendCode} disabled={isResendDisabled}>
-            <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}>Resend code</Text>
+            <Text style={[styles.resendLink, isResendDisabled && { color: 'gray' }]}>
+              {' '}
+              Resend code
+            </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Timer */}
         {isResendDisabled && (
           <Text style={styles.timerText}>Resend code in 00:{timer < 10 ? `0${timer}` : timer}</Text>
         )}
@@ -161,44 +171,53 @@ const closeModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-
-    paddingLeft:19,
-    paddingRight:17
+    paddingHorizontal: 20,
   },
   description: {
-    marginTop: theme.verticalSpacing.space_20,
-    width: theme.horizontalSpacing.space_370,
+    marginTop: 20,
     fontSize: theme.fontSizes.size_16,
     color: '#3D3D3D',
-    marginVertical: 20,
+    lineHeight: 22,
+    marginBottom: 10,
+  },
+  instruction: {
+    fontSize: theme.fontSizes.size_16,
+    color: '#3D3D3D',
     fontWeight: '400',
-   
-    lineHeight: 20,
   },
   email: {
     fontWeight: 'bold',
     color: theme.lightColor.borderColor,
   },
-  otpContainer: {
-    alignItems: 'center',
+  otpBoxContainer: {
     flexDirection: 'row',
-   
+    justifyContent: 'space-between',
     marginTop: theme.verticalSpacing.space_114,
+    position: 'relative',
   },
-  otpInput: {
-    margin: 5,
-    width: theme.horizontalSpacing.space_50,
-    height: theme.verticalSpacing.space_50,
-    borderRadius: 8,
+  otpBox: {
+    width: 70,
+    height: 70,
     borderWidth: 1,
-    borderColor: '#DDD',
-    textAlign: 'center',
-    fontSize: theme.fontSizes.size_18,
-    backgroundColor: theme.lightColor.whiteColor,
+    borderRadius: 8,
+    borderColor: theme.lightColor.borderColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  otpText: {
+    fontSize: theme.fontSizes.size_22,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  hiddenInput: {
+    position: 'absolute',
+    opacity: 0,
+    width: '100%',
+    height: 1,
   },
   resendContainer: {
     flexDirection: 'row',
-    
     marginTop: 20,
   },
   resendText: {
@@ -210,8 +229,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   timerText: {
-    
+    marginTop: 5,
     color: '#3D3D3D',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+    fontSize: theme.fontSizes.size_16,
   },
 });
 

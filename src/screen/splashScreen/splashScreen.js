@@ -1,12 +1,12 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {theme, useCustomStyles} from '../../utils';
+import { Text } from 'react-native-svg';
 const SplashScreen = () => {
   
   return (
     <View style={styles.container}>
-      <Image source={require('../../asstets/images/naralogo.png')} style={styles.backgroundImage} />
-
+      <Image source={require('../../assets/images/naralogo.png')} style={styles.backgroundImage} />
     </View>
   );
 };
@@ -18,7 +18,7 @@ const styles =
         height:'100%',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor:theme.lightColor.whiteColor
+    backgroundColor:'#FFF'
     },
     backgroundImage: {
      width:280,

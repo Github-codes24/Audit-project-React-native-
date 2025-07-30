@@ -1,145 +1,166 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import CustomButton from '../button/button';
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from '../../utils';
 import { useGetCompilanceQuestionsCategoryQuery } from '../../redux/apiSlice/complianceApiSlice';
 import { useGetEligibilityCategoryQuery } from '../../redux/apiSlice/eligibilityApiSlice';
 import Loader from '../loader/loader';
 
-const CategorySelector = ({ 
-  handleSelect, 
-  onTakeTest,
-  checkerType = 'compliance', // Determines the type of category to load
-}) => {
+const CategorySelector = ({ handleSelect, onTakeTest, checkerType = 'compliance' }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Fetch compliance categories if checkerType is 'compliance'
   const {
     data: complianceCategoryData,
     isLoading: isLoadingCompliance,
     isError: isErrorCompliance,
-    refetch: refetchCompliance
+    refetch: refetchCompliance,
   } = useGetCompilanceQuestionsCategoryQuery({}, { skip: checkerType !== 'compliance' });
 
-
-console.log('complianceCategoryData',complianceCategoryData)
-
-
-  // Fetch eligibility categories if checkerType is 'eligibility'
   const {
     data: eligibilityCategoryData,
     isLoading: isLoadingEligibility,
     isError: isErrorEligibility,
-    refetch: refetchEligibility
+    refetch: refetchEligibility,
   } = useGetEligibilityCategoryQuery({}, { skip: checkerType !== 'eligibility' });
 
-  // Determine the current category data based on checkerType
-  const categoryData = checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
-  const isError = checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
-  const isLoading = checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
-  const refetchData = checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
+  const categoryData =
+    checkerType === 'compliance' ? complianceCategoryData?.data : eligibilityCategoryData?.data;
 
-  // Handle category selection
+
+
+    console.log('j',categoryData)
+  const isLoading =
+    checkerType === 'compliance' ? isLoadingCompliance : isLoadingEligibility;
+
+  const isError =
+    checkerType === 'compliance' ? isErrorCompliance : isErrorEligibility;
+
+  const refetchData =
+    checkerType === 'compliance' ? refetchCompliance : refetchEligibility;
+
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategoryId(selectedCategory?._id);
-    handleSelect && handleSelect(selectedCategory); // Call the handleSelect callback if provided
+    handleSelect && handleSelect(selectedCategory);
+    setErrorMessage('');
   };
 
- 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetchData(); 
+    await refetchData();
     setRefreshing(false);
   };
 
-  // Loading state
+  const handleContinue = () => {
+    if (!selectedCategoryId) {
+      setErrorMessage('Please select a category before continuing.');
+      return;
+    }
+    onTakeTest();
+  };
+
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   }
 
-  // Error state
   if (isError) {
     return (
-      <ScrollView
-        contentContainerStyle={styles.container}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
+      <View style={styles.container}>
         <Text style={styles.errorText}>Failed to load categories. Please try again later.</Text>
-      </ScrollView>
+      </View>
     );
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
+    <View style={styles.container}>
       <Text style={styles.header}>
-        {checkerType === 'compliance' ? 'Sponsor License Compliance Checker' : 'Sponsor License Eligibility Checker'}
+        {checkerType === 'compliance'
+          ? 'Check Your Sponsor License Compliance Score'
+          : 'Check Your Eligibility For Sponsor Licence'}
       </Text>
-      
-      <Text style={styles.subHeader}>Select category</Text>
 
-      {categoryData?.length > 0 ? (
-        categoryData.map((category) => (
-          <TouchableOpacity
-            key={category?._id}
-            style={styles.category}
-            onPress={() => handleCategorySelect(category)}
-          >
-            <Text style={styles.categoryText}>{category.name}</Text>
-            <View
-              style={[
-                styles.circle,
-                selectedCategoryId === category?._id && styles.selectedCircle,
-              ]}
-            >
-              {selectedCategoryId === category?._id && <Svg.CheckIcon />}
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text>No categories available</Text>
-      )}
+      <Text style={styles.subHeader}>Select your business category</Text>
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
-      <View style={{ marginTop: theme.verticalSpacing.space_100 }}>
-        <CustomButton
-          title="Take test"
-          onPress={onTakeTest} 
-          disabled={!selectedCategoryId} // Disable button if no category is selected
-        />
+      <View style={styles.contentWrapper}>
+        <ScrollView
+          style={styles.scrollWrapper}
+          contentContainerStyle={styles.categoriesContainer}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          showsVerticalScrollIndicator={false}
+        >
+          {categoryData?.length > 0 ? (
+            categoryData.map((category) => (
+              <TouchableOpacity
+                key={category?._id}
+                style={styles.category}
+                onPress={() => handleCategorySelect(category)}
+              >
+                <Text style={styles.categoryText}>{category?.name}</Text>
+                <View
+                  style={[
+                    styles.circle,
+                    selectedCategoryId === category?._id && styles.selectedCircle,
+                  ]}
+                >
+                  {selectedCategoryId === category?._id && <Svg.CheckIcon />}
+                </View>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.emptyText}>No categories available</Text>
+          )}
+        </ScrollView>
       </View>
-    </ScrollView>
+
+      <View style={styles.buttonContainer}>
+        <CustomButton title="Continue" onPress={handleContinue} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 19,
-    backgroundColor: '#F2F3F5',
-    
+    backgroundColor: '#fff',
   },
   header: {
-    fontSize:theme.fontSizes.size_20,
+    fontSize: theme.fontSizes.size_20,
     fontWeight: '700',
     marginBottom: 10,
-    marginTop:15,
-    
+    marginTop: theme.verticalSpacing.space_20,
   },
   subHeader: {
     fontSize: theme.fontSizes.size_20,
     marginTop: theme.verticalSpacing.space_100,
-    fontWeight:'600',
-    
+    fontWeight: '600',
+  },
+  contentWrapper: {
+    flex: 1,
+  },
+  scrollWrapper: {
+    flex: 1,
+  },
+  categoriesContainer: {
+    paddingBottom: 200,
   },
   category: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height:theme.verticalSpacing.space_58,
-    paddingHorizontal:10,
+    height: theme.verticalSpacing.space_58,
+    paddingHorizontal: 10,
     marginVertical: 5,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -164,10 +185,24 @@ const styles = StyleSheet.create({
     borderColor: 'green',
   },
   errorText: {
-    fontSize: theme.fontSizes.size_14,
+    fontSize: theme.fontSizes.size_16,
     color: 'red',
+    marginLeft: 2,
+    margin: 10,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: theme.verticalSpacing.space_80,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 19,
+    paddingVertical: 15,
+  },
+  emptyText: {
+    fontSize: theme.fontSizes.size_16,
+    color: '#666',
     textAlign: 'center',
-    marginBottom: 10,
+    marginTop: 20,
   },
 });
 

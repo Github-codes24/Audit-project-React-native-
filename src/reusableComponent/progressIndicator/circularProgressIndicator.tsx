@@ -1,82 +1,75 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Svg, { Circle, G } from 'react-native-svg';
+import { View, StyleSheet } from 'react-native';
+import RNSpeedometer from 'react-native-speedometer';
 import { theme } from '../../utils';
+import { ThemeContext } from '@react-navigation/native';
 
-const CircularProgress = ({ percentage }) => {
-  const radius = 100; 
-  const strokeWidth = 15; 
-  const circumference = 2 * Math.PI * radius;
-  const progress = (percentage / 100) * circumference;
+const CircularProgress = ({ percentage = 0 }) => {
+  const clampedValue = Math.max(0, Math.min(100, percentage));
 
-  // Determine the color based on the percentage
-  const progressColor = percentage > 99 ? '#4CAF50' : '#D32F2F'; 
+  const getLabels = () => {
+    const defaultLabels = [
+      { 
+        name: '',
+        labelColor: '#ff2900',
+        activeBarColor: '#ff2900',
+      },
+      {
+        name: '',
+        labelColor: '#ff6f00',
+        activeBarColor: '#ff6f00',
+      },
+      {
+        name: '',
+        labelColor: '#f4ab44',
+        activeBarColor: '#f4ab44',
+      },
+      {
+        name: '',
+        labelColor: '#c5f200',
+        activeBarColor: '#c5f200',
+      },
+      {
+        name: '',
+        labelColor: '#00ff6b', 
+        activeBarColor: '#00ff6b',
+      },
+    ];
+
+    if (clampedValue === 100) {
+      defaultLabels[4] = {
+        name: '',
+        labelColor: '#00ff6b',
+        activeBarColor: '#00ff6b',
+      };
+    }
+
+    return defaultLabels;
+  };
 
   return (
     <View style={styles.container}>
-      <Svg width="250" height="250" viewBox="0 0 250 250">
-        <G rotation="-90" origin="125, 125">
-          {/* Background Circle */}
-          <Circle
-            cx="125"
-            cy="125"
-            r={radius}
-            stroke="#E0E0E0"
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          {/* Progress Circle */}
-          <Circle
-            cx="125"
-            cy="125"
-            r={radius}
-            stroke={progressColor}
-            strokeWidth={strokeWidth}
-            strokeDasharray={`${circumference} ${circumference}`}
-            strokeDashoffset={circumference - progress}
-            strokeLinecap="round"
-            fill="none"
-          />
-        </G>
-      </Svg>
-      {/* Percentage Text */}
-     
-      <View style={styles.percentageContainer}>
-      {percentage &&  <Text style={styles.percentageText}>{percentage}%</Text>}
-      
-      </View>
+      <RNSpeedometer
+        value={clampedValue}
+        size={theme.horizontalSpacing.space_374}
+        minValue={0}
+        maxValue={100}
+        numberOfLevels={5}
+        labels={getLabels()}
+        labelStyle={{ opacity: 0 }}
+        valueTextStyle={{ opacity: 0 }}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop:40,
-    // backgroundColor:'red',
+    width: theme.horizontalSpacing.space_327,
+    height: theme.horizontalSpacing.space_222,
     justifyContent: 'center',
     alignItems: 'center',
-    width:'100%',
-  },
-  percentageContainer: {
-    height:160,
-    width:160,
-    backgroundColor:'#F8F6FD',
-    elevation:5,
-    borderRadius:80,
-    position: 'absolute',
-    // top: '42%',
-    // left: '38%',
-    justifyContent: 'center',
-    alignItems: 'center',
-     shadowColor: '#000', 
-  shadowOffset: { width: 0, height: 2 }, 
-  shadowOpacity: 0.2, 
-  shadowRadius: 4, 
-  },
-  percentageText: {
-    fontSize:theme.fontSizes.size_40,
-    fontWeight: '700',
-    color: theme.lightColor.brownColor,
+    marginTop:theme.verticalSpacing.space_40,
   },
 });
 

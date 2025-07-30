@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity,ScrollView } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
-import CustomButton from "../../reusableComponent/button/button";
 import CategorySelector from "../../reusableComponent/categoryList/categoryList";
-import QuestionCard from "../../reusableComponent/categoryList/questionComponent";
 
 import QuestionSection from "../../reusableComponent/questionList/questionSection";
 import EligibityResult from "../../reusableComponent/result/eligibilityResult";
 import Header from "../../reusableComponent/header/header";
-import { useCalculateCompilanceScoreMutation } from "../../redux/apiSlice/complianceApiSlice";
 import { useCalculateEligibilityScoreMutation } from "../../redux/apiSlice/eligibilityApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoginResponse } from "../../redux/stateSelector";
+import { setEligibilityResult, setEligibilityTestGiven } from "../../redux/stateSlice/eligibilityStateSlice";
+import { getIsEligibilityTestGiven } from "../../redux/stateSelector/eligibilityStateSelector";
+import { useIsFocused } from '@react-navigation/native';
+import { resetEligibility } from "../../redux/stateSlice/eligibilityStateSlice";
 
 const EligibilityScreen = () => {
   
@@ -18,6 +20,16 @@ const EligibilityScreen = () => {
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [step, setStep] = useState('category');
   const [selectedCategory, setSelectedCategory] = useState();
+  const isFocused= useIsFocused()
+  const [refreshKey, setRefreshKey] = useState(0); 
+
+  const dispatch = useDispatch()
+const isEligibilityTestGiven= useSelector(getIsEligibilityTestGiven)
+const response=useSelector(getLoginResponse)
+   
+const userId=response?.data?.id
+
+// console.log('userId90798786',userId)
 
   const [
  calculateEligibilityScore,
@@ -29,6 +41,17 @@ const EligibilityScreen = () => {
   }
 ]= useCalculateEligibilityScoreMutation()
 
+useEffect(()=>{
+  if(isSuccessCalculateCompilanceScore){
+   dispatch(setEligibilityTestGiven(true))
+  dispatch(setEligibilityResult(calculateCompilanceScoreData))
+
+  }
+},[
+  isSuccessCalculateCompilanceScore
+])
+
+// console.log('calculateCompilanceScoreData354365',calculateCompilanceScoreData)
 
   const handleOptionSelect = (selectedOption, questionId) => {
   console.log(
@@ -53,28 +76,43 @@ const EligibilityScreen = () => {
   const handleNext = () => {
   };
 
-  const onSubmit = (payload) => {
-    calculateEligibilityScore(payload)
+  useEffect(()=>{
+    if(isEligibilityTestGiven){
+      setStep('result')
+    }
+  },[
+   isEligibilityTestGiven ,
+   isFocused
+  ])
+
+const onSubmit = (payload) => {
+const newPayload={
+    userId:userId,
+    ...payload
+}
+    calculateEligibilityScore(newPayload)
     setStep('result');
+    
   }
 
   return (
     <View style={styles.main}>
       <Header/>
-     
       {step==='category' && ( 
-        <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+   
+         
         <CategorySelector
           handleSelect={handleSelect}
           onTakeTest={handleTakeTest}
           checkerType="eligibility"
         />  
-        </ScrollView>
+       
+       
       )
       }
    
    {step==='question' &&
-   <ScrollView style={{marginBottom:theme.verticalSpacing.space_100}}>
+   <ScrollView style={{}}>
    <QuestionSection
         selectedCategory={selectedCategory}
         handleOptionSelect={handleOptionSelect}
@@ -90,7 +128,11 @@ const EligibilityScreen = () => {
 {
   step==='result' && <EligibityResult
   isEligible={calculateCompilanceScoreData?.isEligible?.toLowerCase() ==='eligible'}
+  eligibilityImage={calculateCompilanceScoreData?.eligibilityImage}
+   eligibleText1={calculateCompilanceScoreData?.eligibleText1}
+  eligibleText2={calculateCompilanceScoreData?.eligibleText2}
   onPressRetakeExam={()=>{ 
+    dispatch(resetEligibility());
     setStep('category')
   }}
   />

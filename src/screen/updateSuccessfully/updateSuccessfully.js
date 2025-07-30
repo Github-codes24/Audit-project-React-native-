@@ -17,26 +17,24 @@ const closeModal = () => {
   };
 
 const onSubmit=()=>{
-  navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-  screen: "Home",
-});
+  navigation.navigate(MainRoutes.DASHBOARD_SCREEN);
 }
 
     return (
     <View style={style.Main}>
-      <View style={{marginTop:'30%'}}>
+      <View style={{marginTop:'30%',alignContent:"center",justifyContent:'center'}}>
         <View style={{width:'100%',justifyContent:"center",alignItems:"center"}}>
       <Image
       style={{width:252,height:375}}
-      source={require('../../asstets/images/updateSuccess.png')}
+      source={require('../../assets/images/updateSuccess.png')}
       />
       </View>
-      <View style={{width:'100%'}}>
-      <Text style={{width:220,fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',marginTop:30,}}>{'Your changes have'}</Text>
-      <Text style={{width:220,fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',}}>been successfully saved!</Text>
+      <View style={{}}>
+      <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',marginTop:30,alignSelf:"center"}}>{'Your changes have'}</Text>
+      <Text style={{fontWeight:'700',fontSize:theme.fontSizes.size_20,alignSelf:"center",textAlign:'center',alignSelf:"center"}}>been successfully saved!</Text>
      </View>
       </View>
-      <View style={{position:'absolute',bottom:theme.verticalSpacing.space_60}}>
+      <View style={{position:'absolute',bottom:theme.verticalSpacing.space_100}}>
        <CustomButton
        onPress={onSubmit}
        title={'Go to home page'}

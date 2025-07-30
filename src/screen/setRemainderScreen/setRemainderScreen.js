@@ -1,76 +1,82 @@
-import React, { useState,useEffect } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View,ScrollView } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator, Keyboard, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import Header from "../../reusableComponent/header/header";
 import { theme } from "../../utils";
-import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
-import * as Svg from "../../asstets/images/svg";
+import * as Svg from "../../assets/images/svg";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import CustomDropDown from "../../reusableComponent/customDropDown/customDropDown";
 import CustomButton from "../../reusableComponent/button/button";
-import { useSetRemainderApiMutation } from "../../redux/apiSlice/reminderApiSlice";
+import { useGetReminderForOptionApiQuery, useSetRemainderApiMutation } from "../../redux/apiSlice/reminderApiSlice";
 import { getLoginResponse } from "../../redux/stateSelector/authStateSelector";
 import { useSelector } from "react-redux";
 import { alertError, alertSuccess } from "../../utils/Toast";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import { useNavigation } from "@react-navigation/native";
+import Loader from "../../reusableComponent/loader/loader";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-
-const SetRemainderScreen = ({navigation,route}) => {
-
-const {remainderdata}=route?.params || {}
-console.log('remainderdata',remainderdata)
+const SetRemainderScreen = ({ navigation, route }) => {
+  const { remainderdata } = route?.params || {};
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [reminderName, setReminderName] = useState(remainderdata?.reminderName);
-  const [employeeName, setEmployeeName] = useState(remainderdata?.employeeName);
-  const [employeeEmail, setEmployeeEmail] = useState(remainderdata?.employeeEmail);
-  const [reminderFor, setReminderFor] = useState(remainderdata?.reminderFor);
-  const [description, setDescription] = useState(remainderdata?.description);
+  const [reminderName, setReminderName] = useState(remainderdata?.reminderName || "");
+  const [employeeName, setEmployeeName] = useState(remainderdata?.employeeName || "");
+  const [employeeEmail, setEmployeeEmail] = useState(remainderdata?.employeeEmail || "");
+  const [reminderFor, setReminderFor] = useState(remainderdata?.reminderFor || "");
+  const [description, setDescription] = useState(remainderdata?.description || "");
+  const [loading, setLoading] = useState(false); 
+const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+const companyref=useRef()
 
   const data = [
     { label: "Visa expiry date", value: "Visa expiry date" },
     { label: "Right to work check", value: "Right to work check" },
+    { label: "Passport validity", value: "Passport validity" },
     { label: "Other", value: "Other" },
   ];
+
+   const { data: getReminderForOptionData, 
+    error: getReminderForOptionDataApiError, 
+    isLoading: getReminderForOptionDataApiIsLoading}=useGetReminderForOptionApiQuery()
+
+
+const dataremainder = getReminderForOptionData?.data?.map(item => ({
+  label: item,
+  value: item.toLowerCase().replace(/\s+/g, '_'),
+})) || [];
+
 
   const response = useSelector(getLoginResponse);
   const userId = response?.data?.id;
 
-  const [
-    setRemainderApi,
-    { isLoading: isSetRemainderApiMutationLoading, isSuccess: isSetRemainderApiMutationSuccess },
-  ] = useSetRemainderApiMutation();
+  const [setRemainderApi] = useSetRemainderApiMutation();
 
- const handleSetReminder = () => {
+  const handleSetReminder = () => {
+    if (loading) return; 
+    setLoading(true);
+
     const body = {
       reminderName,
       employeeName,
       employeeEmail,
       date: moment(date).format("YYYY-MM-DD"),
-      reminderFor: reminderFor,
+      reminderFor,
       description,
     };
 
     setRemainderApi({ userId, body })
-      .unwrap()
-      .then((response) => {
-        console.log("Reminder set successfully:", response);
-       
+      .then((res) => {
+        if (res?.error) {
+          console.log(res.error.data?.message || "Error setting reminder.");
+        } else {
+          console.log("Reminder set successfully!");
+          navigation.navigate(MainRoutes.REMAINDERLIST_SCREEN);
+        }
       })
-      .catch((err) => {
-        alertError(err?.data?.message || "Error setting reminder.");
-      });
+      .finally(() => setLoading(false));
   };
-
-  useEffect(() => {
-    if (isSetRemainderApiMutationSuccess) {
-      navigation.navigate(MainRoutes.DASHBOARD_SCREEN, {
-        screen: 'Reminder', 
-      });
-    }
-  }, [isSetRemainderApiMutationSuccess]);
 
   const onChange = (event, selectedDate) => {
     setShow(false);
@@ -82,88 +88,113 @@ console.log('remainderdata',remainderdata)
   const showDatePicker = () => {
     setShow(true);
   };
+
+ useEffect(() => {
+    const showListener = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardVisible(true);
+    });
+    const hideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+    };
+  }, []);
+
+
+
   return (
-    <ScrollView style={{flex:1}}>
-       <Header />
-    <View style={{ flex: 1, backgroundColor: "#F5F5F5",alignItems:"center",paddingHorizontal:10 }}>
-      <View style={{marginVertical:theme.horizontalSpacing.space_10,}}>
-        <Text style={style.remainderText}>{"Reminder"}</Text>
-        <Text style={style.textStyle}>{"Reminder name"}</Text>
-        <TextInput
-          value={reminderName}
-          onChangeText={(text) => setReminderName(text)}
-          placeholderTextColor="#BABABA"
-          placeholder="Enter reminder name"
-          style={style.textInput}
-        />
-
-        <Text style={style.textStyle}>{"Employee name"}</Text>
-        <TextInput
-          value={employeeName}
-          onChangeText={(text) => setEmployeeName(text)}
-          placeholderTextColor="#BABABA"
-          placeholder="Enter employee name"
-          style={style.textInput}
-        />
-
-        <Text style={style.textStyle}>{"Employee email (optional)"}</Text>
-        <TextInput
-          value={employeeEmail}
-          onChangeText={(text) => setEmployeeEmail(text)}
-          placeholderTextColor="#BABABA"
-          placeholder="Enter employee email"
-          style={style.textInput}
-        />
-
-        <Text style={style.textStyle}>{"Date"}</Text>
-        <View style={[style.textInput, { alignItems: "center", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10 }]}>
-          <TextInput
-            placeholderTextColor="#BABABA"
-            style={{ color: "black" }}
-            placeholder="Enter date"
-            editable={false}
-            value={moment(date).format("DD/MM/YYYY")}
+     <SafeAreaView style={{flex:1}}>
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+         contentContainerStyle={{ flexGrow: 1, paddingBottom:theme.verticalSpacing.space_70 }}
+                  keyboardShouldPersistTaps="handled"
+                  enableOnAndroid
+                  extraScrollHeight={100}
+                  keyboardOpeningTime={100}
+                  enableAutomaticScroll
+                  showsVerticalScrollIndicator={false}
+              >
+      <Header />
+      <View style={{ flex: 1, backgroundColor: "#F5F5F5", alignItems: "center",marginBottom:theme.verticalSpacing.space_100  }}>
+        <View style={{ marginTop:theme.verticalSpacing.space_20 }}>
+          <Text style={style.remainderText}>{"Reminder"}</Text>
+         <Text style={style.textStyle}>{"Reminder for"}</Text>
+          <CustomDropDown data={data} value={reminderFor} onSelect={setReminderFor} isShowLabel={true} 
           />
-          <TouchableOpacity onPress={showDatePicker}>
-            <Svg.DateIcon />
-          </TouchableOpacity>
-      
-          {show && (
-            <DateTimePicker
-              value={date}
-              mode="date"
-              display={Platform.OS === "ios" ? "default" : "default"}
-              onChange={onChange}
+
+          <Text style={style.textStyle}>{"Reminder name (for your own reference)"}</Text>
+          <TextInput
+            value={reminderName}
+            onChangeText={setReminderName}
+            placeholderTextColor="#BABABA"
+            placeholder="Enter reminder name"
+            style={style.textInput}
+          />
+
+          <Text style={style.textStyle}>{"Employee name"}</Text>
+          <TextInput
+            value={employeeName}
+            onChangeText={setEmployeeName}
+            placeholderTextColor="#BABABA"
+            placeholder="Enter employee name"
+            style={style.textInput}
+          />
+
+          <Text style={style.textStyle}>{"Employee email (optional)"}</Text>
+          <TextInput
+            value={employeeEmail}
+            onChangeText={setEmployeeEmail}
+            placeholderTextColor="#BABABA"
+            placeholder="Enter employee email"
+            style={style.textInput}
+          />
+
+          <Text style={style.textStyle}>{" Reminder date"}</Text>
+          <View style={[style.textInput, { alignItems: "center", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10 }]}>
+            <TextInput
+              placeholderTextColor="#BABABA"
+              style={{ color: "black" }}
+              placeholder="Enter date"
+              editable={false}
+              value={moment(date).format("DD/MM/YYYY")}
             />
-          )}
+            <TouchableOpacity onPress={showDatePicker}>
+              <Svg.DateIcon />
+            </TouchableOpacity>
 
+            {show && (
+              <DateTimePicker value={date} mode="date" display="default" onChange={onChange} />
+            )}
+          </View>
+
+          
+
+          <Text style={style.textStyle}>{"Description (optional)"}</Text>
+          <TextInput
+           ref={companyref}
+            value={description}
+            onChangeText={setDescription}
+            placeholderTextColor="#BABABA"
+            placeholder="Custom info for reminder"
+            multiline
+            style={[style.textInput, { height: theme.verticalSpacing.space_114, textAlignVertical: "top" }]}
+          />
         </View>
-
-        <Text style={style.textStyle}>{"Reminder for"}</Text>
-        <CustomDropDown
-          data={data}
-          value={reminderFor}
-          onSelect={(item) => setReminderFor(item)} 
-          // placeholder="Select an option"
-          isShowLabel={true}
+        <View style={{marginTop:theme.verticalSpacing.space_10}}>
+        <CustomButton
+          title={ "Set reminder"}
+          onPress={handleSetReminder}
+          isLoading={loading}
+          disabled={loading}
         />
-        <Text style={style.textStyle}>{"Description (optional)"}</Text>
-        <TextInput
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-          placeholderTextColor="#BABABA"
-          placeholder="Custom info for reminder"
-          multiline
-          style={[style.textInput, { height: theme.verticalSpacing.space_114, textAlignVertical: "top" }]}
-        />
+        </View>
       </View>
-      <CustomButton
-        title={"Set reminder"}
-        onPress={handleSetReminder} 
-        isLoading={isSetRemainderApiMutationLoading} 
-      />
-    </View>
-    </ScrollView>
+      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
+      </SafeAreaView>
   );
 };
 
@@ -179,11 +210,11 @@ const style = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
   },
   textInput: {
-    width:theme.horizontalSpacing.space_374,
+    width: theme.horizontalSpacing.space_374,
     height: theme.verticalSpacing.space_50,
     backgroundColor: theme.lightColor.whiteColor,
     borderRadius: 10,
-    paddingHorizontal: theme.horizontalSpacing.space_16,
+    paddingHorizontal: theme.horizontalSpacing.space_10,
     marginVertical: 4,
   },
 });

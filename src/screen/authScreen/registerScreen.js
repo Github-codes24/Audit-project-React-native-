@@ -1,44 +1,71 @@
-import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { theme } from "../../utils";
-import * as Svg from "../../asstets/images/svg";
-import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
+import * as Svg from "../../assets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
-import BackgroundLayout from "../../reusableComponent/backgroundLayout/backgroundLayout";
-import { alertError } from "../../utils/Toast";
-import { ScrollView } from "react-native-gesture-handler";
+import CustomHeader from "../../reusableComponent/customHeader/customHeader";
 
 const RegisterScreen = ({ navigation }) => {
-  const inputRef = useRef(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
+      setKeyboardVisible(true)
+    );
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () =>
+      setKeyboardVisible(false)
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const validateInputs = () => {
+    const newErrors = {};
+    if (!firstName) newErrors.firstName = "First name is required";
+    else if (firstName.length < 2) newErrors.firstName = "Must be at least 2 characters";
+
+    if (!lastName) newErrors.lastName = "Last name is required";
+    else if (lastName.length < 2) newErrors.lastName = "Must be at least 2 characters";
+
+    if (!email) newErrors.email = "Email is required";
+    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email))
+      newErrors.email = "Enter a valid email address";
+
+    if (!password) newErrors.password = "Password is required";
+    else if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/.test(password))
+      newErrors.password = "Must be 8+ chars, include 1 uppercase & 1 special char.";
+
+    if (!confirmPassword) newErrors.confirmPassword = "Confirm password is required";
+    else if (password !== confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleRegister = () => {
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      alertError("Missing Fields", "Please fill out all fields.");
-      return;
-    }
-
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    if (!emailPattern.test(email)) {
-      alertError("Invalid email", "Please enter a valid Gmail address.");
-      return;
-    }
-
-    if (password.length < 6) {
-      alertError("Password too short", "Password must be at least 6 characters.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alertError("Passwords don't match", "Please make sure both passwords are the same.");
-      return;
-    }
-
+    if (!validateInputs()) return;
     navigation.navigate(MainRoutes.REGISTER_COMPANY_SCREEN, {
       email,
       password,
@@ -49,101 +76,149 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        {/* Custom Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
-            <Svg.ArrowBack />
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginTop: theme.verticalSpacing.space_28, }}>
-          <Text style={styles.headerTitle}>Register Account</Text>
-        </View>
+    <SafeAreaView style={styles.safeArea}>
+      {/* <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      > */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.flex}>
+            <KeyboardAwareScrollView
+             contentContainerStyle={styles.scrollContent}
+             keyboardShouldPersistTaps="handled"
+             enableOnAndroid
+             enableResetScrollToCoords={false}
+             extraScrollHeight={Platform.OS === 'ios' ? 40 :100}
+             scrollEnabled
+             
+             showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.container}>
+                <CustomHeader
+                  leftIcon={<Svg.ArrowBack />}
+                  title="Getting Started"
+                  subtitle="Let’s create your free account here"
+                />
 
-        {/* Form Fields */}
-        <View style={styles.nameView}>
-          {/* Labels */}
-          <View style={styles.row}>
-            <Text style={styles.label}>First name</Text>
-            <Text style={[styles.label,{marginLeft:theme.horizontalSpacing.space_10}]}>Last name</Text>
+                <View style={styles.nameView}>
+                  <View style={styles.row}>
+                    <Text style={styles.label}>First name</Text>
+                    <Text style={[styles.label, { marginLeft: 10 }]}>Last name</Text>
+                  </View>
+
+                  <View style={styles.row}>
+                    <TextInput
+                      value={firstName}
+                      onChangeText={(text) => {
+                        setFirstName(text.replace(/\s/g, ""));
+                        setErrors({ ...errors, firstName: "" });
+                      }}
+                      style={styles.nameTextInput}
+                      placeholder="First name"
+                      placeholderTextColor="#BABABA"
+                    />
+                    <TextInput
+                      value={lastName}
+                      onChangeText={(text) => {
+                        setLastName(text.replace(/\s/g, ""));
+                        setErrors({ ...errors, lastName: "" });
+                      }}
+                      style={[styles.nameTextInput, { marginLeft: 10 }]}
+                      placeholder="Last name"
+                      placeholderTextColor="#BABABA"
+                    />
+                  </View>
+
+                  <View style={styles.row}>
+                    {errors.firstName && (
+                      <Text style={styles.errorText}>{errors.firstName}</Text>
+                    )}
+                    {errors.lastName && (
+                      <Text style={[styles.errorText, { marginLeft: 10 }]}>
+                        {errors.lastName}
+                      </Text>
+                    )}
+                  </View>
+
+                  <Text style={styles.TextStyle}>Enter your email address</Text>
+                  <TextInput
+                    value={email}
+                    onChangeText={(text) => {
+                      setEmail(text);
+                      setErrors({ ...errors, email: "" });
+                    }}
+                    style={styles.nameTextInput}
+                    placeholder="Enter your email address"
+                    placeholderTextColor="#BABABA"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                  />
+                  {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+
+                  <Text style={styles.TextStyle}>Password</Text>
+                  <TextInput
+                    secureTextEntry
+                    value={password}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      setErrors({ ...errors, password: "" });
+                    }}
+                    style={styles.nameTextInput}
+                    placeholder="Password"
+                    placeholderTextColor="#BABABA"
+                  />
+                  {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+
+                  <Text style={styles.TextStyle}>Confirm password</Text>
+                  <TextInput
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={(text) => {
+                      setConfirmPassword(text);
+                      setErrors({ ...errors, confirmPassword: "" });
+                    }}
+                    style={styles.nameTextInput}
+                    placeholder="Confirm password"
+                    placeholderTextColor="#BABABA"
+                  />
+                  {errors.confirmPassword && (
+                    <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                  )}
+                </View>
+              </View>
+            </KeyboardAwareScrollView>
+
+            {/* Button hidden when keyboard is visible */}
+            {!isKeyboardVisible && (
+              <View style={styles.bottomButtonContainer}>
+                <CustomButton onPress={handleRegister} title="Continue" />
+              </View>
+            )}
           </View>
-
-          {/* Inputs */}
-          <View style={styles.row}>
-            <TextInput
-              ref={inputRef}
-              value={firstName}
-              onChangeText={(text) => setFirstName(text)}
-              style={styles.nameTextInput}
-              placeholder="First name"
-              placeholderTextColor="#BABABA"
-            />
-            <TextInput
-              value={lastName}
-              onChangeText={(text) => setLastName(text)}
-              style={[styles.nameTextInput, { marginLeft: 10 }]}
-              placeholder="Last name"
-              placeholderTextColor="#BABABA"
-            />
-          </View>
-
-          <Text style={styles.TextStyle}>Enter your email address</Text>
-          <CustomTextInput
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            placeholder={"Enter your email address"}
-          />
-          <Text style={styles.TextStyle}>Password</Text>
-          <CustomTextInput
-            secureTextEntry={true}
-            textColor={"#BABABA"}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            placeholder={"Password"}
-            rightIcon={<Svg.CloseEye />}
-          />
-          <Text style={styles.TextStyle}>Confirm password</Text>
-          <CustomTextInput
-            secureTextEntry={true}
-            textColor={"#BABABA"}
-            value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
-            placeholder={"Confirm password"}
-          />
-        </View>
-
-        <View style={{ marginTop: theme.verticalSpacing.space_165 }}>
-          <CustomButton onPress={handleRegister} title={"Continue"} />
-        </View>
-      </View>
-    </ScrollView>
+        </TouchableWithoutFeedback>
+      {/* </KeyboardAvoidingView> */}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.lightColor.backgroundColor || "#F0F0F0",
+  },
+  flex: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom:theme.verticalSpacing.space_20,
+  },
   container: {
-    paddingHorizontal:19,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    height: 50,
-    marginBottom: 20,
-  },
-  backIcon: {
-  
-    marginRight: 10,
-  },
-  headerTitle: {
-    fontSize: theme.fontSizes.size_30,
-    fontWeight: "600",
-    color: theme.lightColor.blackColor,
+    paddingHorizontal: 19,
   },
   nameView: {
-    marginTop: theme.verticalSpacing.space_80,
-    
+    marginTop: theme.verticalSpacing.space_40,
   },
   row: {
     flexDirection: "row",
@@ -153,7 +228,6 @@ const styles = StyleSheet.create({
   label: {
     flex: 1,
     textAlign: "left",
-    // marginBottom: 10,
     color: theme.lightColor.blackColor,
   },
   nameTextInput: {
@@ -164,11 +238,24 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.borderColor,
     paddingHorizontal: 15,
     backgroundColor: theme.lightColor.whiteColor,
-  
-    fontSize:theme.fontSizes.size_16
+    fontSize: theme.fontSizes.size_16,
+    color: "black",
+    marginTop: 5,
+  },
+  errorText: {
+    color: "red",
+    fontSize: theme.fontSizes.size_14,
+    marginTop: 5,
+    marginLeft: 5,
+    flex: 1,
   },
   TextStyle: {
-    marginTop: 20,
+    marginTop: theme.verticalSpacing.space_20,
+  },
+  bottomButtonContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: Platform.OS === "ios" ? 30 : 20,
+    backgroundColor: theme.lightColor.backgroundColor,
   },
 });
 

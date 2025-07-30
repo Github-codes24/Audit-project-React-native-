@@ -13,13 +13,11 @@ const CustomButton = ({ title, onPress, style, textStyle }) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor:theme.lightColor.brownColor, 
-    paddingVertical:theme.verticalSpacing.space_12,
-    
     borderRadius:theme.horizontalSpacing.space_10, 
     alignItems: 'center',
     justifyContent: 'center',
-    width:theme.horizontalSpacing.space_370,
-    height:theme.verticalSpacing.space_50,
+    width:theme.horizontalSpacing.space_374,
+   height:theme.verticalSpacing.space_50,
     alignSelf:'center',
     
     // marginHorizontal:theme.horizontalSpacing.space_20

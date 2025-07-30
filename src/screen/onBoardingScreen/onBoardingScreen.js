@@ -36,12 +36,12 @@ const OnboardingScreen = ({ navigation }) => {
       <View style={styles.slide}>
         <Image
           // Replace with your image source
-          source={require('../../asstets/images/onboarding1.png')}
+          source={require('../../assets/images/onboarding1.png')}
           style={styles.image}
         />
         <Text style={styles.title}>All in One Place!</Text>
         <Text style={styles.description}>
-          Efficient tools for all your compliance needs. Manage audits and licenses with confidence.
+          Efficient tools for all your compliance needs. Manage audits and Licence with confidence.
         </Text>
          <View style={{marginTop:50,alignItems:"center"}}>
         <CustomButton onPress={handleNext} title="Next" />

@@ -53,6 +53,7 @@ const AuthStack = () => {
         name={MainRoutes?.ACCOUNT_VERIFIED_SCREEN} 
         component={AccountVerifiedScreen} 
       />
+      
        <Stack.Screen 
         name={MainRoutes?.CHANGE_PASSWORD_SUCCESSFULLY_SCREEN} 
         component={PasswordChnageSuccessFullyScreen} 

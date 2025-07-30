@@ -9,7 +9,7 @@ const DeleteSuccessFully=({navigation})=>{
   const dispatch = useDispatch();
 
   const [isModalVisible, setModalVisible] = useState(true); 
- const [countdown, setCountdown] = useState(5);
+ const [countdown, setCountdown] = useState(3);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -55,7 +55,7 @@ const DeleteSuccessFully=({navigation})=>{
 
         <Image
           style={style.imageStyle}
-          source={require('../../asstets/images/deletesuccess.png')}
+          source={require('../../assets/images/deletesuccess.png')}
         />
   <Text style={{fontWeight:'700',width:290,alignSelf:'center',textAlign:"center",marginTop:20,fontSize:20,}}>{'Your account has been deleted successfully!'}</Text>
       </View>

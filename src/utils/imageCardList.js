@@ -15,7 +15,7 @@ const HorizontalCardList = ({ data }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <ImageCard
-            image={{ uri: item?.image }}
+            mediaUrl={item?.image}
             profileImage={{uri:item?.authorImage}}
             title={item?.title || ''}
             date={item?.createdAt}

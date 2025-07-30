@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from "../../utils";
 
 const QuestionCard = ({
@@ -13,9 +13,13 @@ const QuestionCard = ({
 }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.questionNumber}>{`Question: ${questionNumber}/${totalQuestions}`}</Text>
-      <Text style={styles.question}>{question}</Text>
-      <View style={styles.optionsContainer}>
+
+      
+  <View style={{ flexDirection: 'row', padding: 10,justifyContent:'space-between' }}>
+  <Text style={{  marginRight: 10,fontSize:theme.fontSizes.size_16,fontWeight:'500',width:theme.horizontalSpacing.space_285,}}>{question}</Text>
+  <Text style={{ fontSize:theme.fontSizes.size_16,fontWeight:'500', }}>{`(${questionNumber}/${totalQuestions})`}</Text>
+</View>
+     <View style={styles.optionsContainer}>
         {options.map((option) => (
           <View
             key={option}
@@ -57,11 +61,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    marginHorizontal: 10,
+    marginHorizontal:theme.horizontalSpacing.space_18,
+    marginTop:theme.verticalSpacing.space_20
   },
   questionNumber: {
-    fontSize: 16,
-    marginBottom:4,
+    fontSize: 16, 
   },
   question: {
     fontSize: 16,

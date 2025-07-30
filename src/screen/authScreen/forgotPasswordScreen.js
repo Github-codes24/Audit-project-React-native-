@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView,ScrollView } from "react-native";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
-import * as Svg from '../../asstets/images/svg';
+import * as Svg from '../../assets/images/svg';
 import { theme } from "../../utils";
 import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 import CustomButton from "../../reusableComponent/button/button";
@@ -13,7 +13,7 @@ import { alertError } from "../../utils/Toast";
 import CustomModal from "../../reusableComponent/customModal/customModal";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../../reusableComponent/loader/loader";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
@@ -41,10 +41,12 @@ const ForgotPasswordScreen = () => {
     if (isForgotPasswordApiSuccess) {
       setModalVisible(true);
     } else if (forgotPasswordApiError) {
-      alertError(
-        "Forgot Password Error",
-        forgotPasswordApiError?.data?.message || "Something went wrong. Please try again."
-      );
+
+      console.log('forgotPasswordApiError',forgotPasswordApiError)
+      // alertError(
+      //   "Forgot Password Error",
+      //   forgotPasswordApiError?.data?.message || "Something went wrong. Please try again."
+      // );
     }
   }, [isForgotPasswordApiSuccess, forgotPasswordApiError]);
 
@@ -56,11 +58,11 @@ const ForgotPasswordScreen = () => {
         <CustomModal
           visible={isModalVisible}
           onClose={closeModal}
-          title="Code sent!"
-          description={"Code has been sent to your email please check your email"}
+          title="Email verification code sent!"
+          description={"A 4-digit email verification code has been sent to your email. Please check your inbox or spam folder to confirm your account."}
           buttons={[
             {
-              label: "Verify code",
+              label: "Continue",
               type: "primary",
               onPress: () => {
                 closeModal();
@@ -79,25 +81,27 @@ const ForgotPasswordScreen = () => {
                 <View style={{marginTop:theme.verticalSpacing.space_28,}}>
                    <Text style={style.headerTitle}>{'Forgot Password'}</Text>
                </View>
-               <View style={{paddingRight:10,width:370,}}>
+               <View style={{paddingRight:10,}}>
         <Text style={[style.Textstyle,{}]}>
           No worries! Enter your email address below  
         </Text>
-        <Text style={{marginTop:-8}}>and we will send you a code to reset</Text>
-        <Text style={{}}>password.</Text>
+        <Text style={[style.Textstyle,{marginTop:-8}]}>and we will send you a code to reset</Text>
+        <Text style={[style.Textstyle,{marginTop:-8}]}>password.</Text>
         </View>
         <View style={style.inputView}>
-          <Text>Email</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:'400'}}>Email</Text>
           <CustomTextInput
             value={email}
             onChangeText={(text) => setEmail(text)}
             placeholder={'Enter your email address'}
+            autoCapitalize="none"   
+            autoCorrect={false}
           />
         </View>
 
         <View style={style.forgetView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(MainRoutes.LOGIN_SCREEN)}
+            onPress={() => navigation.navigate(MainRoutes?.LOGIN_SCREEN)}
           >
             <Text style={style.backToLoginText}>Back to login</Text>
           </TouchableOpacity>
@@ -122,19 +126,18 @@ const style = StyleSheet.create({
     width: '100%',
     flexDirection: 'row', 
     justifyContent: 'flex-end', 
-    marginTop:20,
-    height:19
-    
+    marginTop:theme.verticalSpacing.space_20,
+    height:theme.verticalSpacing.space_26, 
+    // backgroundColor:'red'
   },
   backToLoginText: {
     textAlign: 'right',
-   
+   marginRight:theme.horizontalSpacing.space_10,
     color: theme.lightColor.blackColor,
     fontWeight: '600',
     fontSize:theme.fontSizes.size_16
   },
-   backIcon: {
-    
+   backIcon: {  
     marginRight: 10,
   },
   headerTitle: {
@@ -151,21 +154,17 @@ const style = StyleSheet.create({
   },
   Textstyle: {
     marginTop: theme.verticalSpacing.space_10, 
-    fontSize:theme.fontSizes.size_16,
-    
+    fontSize:theme.fontSizes.size_16, 
     color:'black',
     fontWeight:'400', 
-    letterSpacing: theme.fontSizes.size_16 * 0.03,
-     marginBottom: 8,
-
+    marginBottom: 8,
   },
   inputView: {
-    marginTop: theme.verticalSpacing.space_100,
-    
+    marginTop: theme.verticalSpacing.space_100,  
   },
   buttonContainer: {
     width: '100%',
-    marginTop: theme.verticalSpacing.space_156,
+    marginTop:theme.verticalSpacing.space_100,
   },
 });
 

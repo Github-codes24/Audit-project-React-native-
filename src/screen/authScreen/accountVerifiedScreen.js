@@ -10,31 +10,25 @@ import { setLoginResponse } from "../../redux/stateSlice/authStateSlice";
 const AccountVerifiedScreen = ({ navigation, route }) => {
   const { verifyOtpApiData } = route.params || {};
   const [isModalVisible, setModalVisible] = useState(true);
-  const [countdown, setCountdown] = useState(5); 
+  const [countdown, setCountdown] = useState(3); 
 
   const dispatch=useDispatch()
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(interval); 
-          setModalVisible(true); 
-         dispatch(setLoginResponse(verifyOtpApiData));
-         navigation.navigate(MainRoutes.DASHBOARD_SCREEN,{screen:'Home'})
-        }
-        return prev - 1; 
-      });
-    }, 1000); 
+    const timeout = setTimeout(() => {
+      dispatch(setLoginResponse(verifyOtpApiData));
+      navigation.navigate(MainRoutes?.DASHBOARD_SCREEN); 
+    }, 1000);
+    return () => clearTimeout(timeout); 
+  }, [navigation, dispatch]);
 
-    return () => clearInterval(interval); 
-  }, [navigation]);
+  
 
   return (
     <BackgroundLayout>
       <View style={style.Main}>
         {/* Bottom Sheet Modal */}
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={isModalVisible}
@@ -48,11 +42,11 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
               </Text>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
 
         <Image
           style={style.imageStyle}
-          source={require("../../asstets/images/emailverification.png")}
+          source={require("../../assets/images/verificationSuccessful.png")}
         />
         <Text style={style.successTitle}>Verification Successful!</Text>
         <Text style={style.successDescription}>
@@ -67,13 +61,15 @@ const AccountVerifiedScreen = ({ navigation, route }) => {
 
 const style = StyleSheet.create({
   Main: {
-    flex: 1,
+    // backgroundColor:'red',
+    height:'100%',
     alignItems: "center",
     justifyContent: "center",
   },
   imageStyle: {
     width: 342,
-    height: 244,
+    height:350,
+    marginBottom:theme.verticalSpacing.space_20,
   },
   successTitle: {
     fontWeight: "700",
@@ -112,7 +108,7 @@ const style = StyleSheet.create({
     textAlign: "center",
     lineHeight: 20,
     fontWeight: "400",
-    letterSpacing: 0.5,
+    
     marginTop: theme.verticalSpacing.space_50,
   },
   bottomSection: {

@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView } from 'react-native';
-import * as Svg from '../../asstets/images/svg'
+import { View, Text, StyleSheet, Image, TouchableOpacity,Alert, SafeAreaView,ScrollView } from 'react-native';
+import * as Svg from '../../assets/images/svg'
 import { theme } from '../../utils';
 import { resetAuth } from '../../redux/stateSlice/authStateSlice';
 import { useDispatch } from 'react-redux';
@@ -8,8 +8,12 @@ import ConfirmationDialog from '../../utils/confirmationDialog';
 import { MainRoutes } from '../../navigation/routeAndParamsList';
 import { getLoginResponse } from '../../redux/stateSelector/authStateSelector';
 import { useSelector } from 'react-redux';
-import { useGetuserApiQuery } from '../../redux/apiSlice/profileApiSlice';
+import { useGetuserApiQuery, useLogoutApiMutation } from '../../redux/apiSlice/profileApiSlice';
 import { resetCookies } from '../../redux/stateSlice/cookiesStateSlice';
+import { useLoginApiMutation } from '../../redux/apiSlice/authApiSlice';
+import { apiEndPoints } from '../../constants/apiConstants';
+import { getFcmToken } from '../../redux/stateSelector';
+
 
 
 const ProfileScreen = ({navigation}) => {
@@ -17,29 +21,51 @@ const ProfileScreen = ({navigation}) => {
 const dispatch=useDispatch()
  
 const response=useSelector(getLoginResponse)
-  // console.log('2222222',response)
  const userId=response?.data?.id
-// console.log('userId',userId)
+  const FcmToken = useSelector(getFcmToken);
+   
+  console.log('FcmToken8378484',FcmToken)
  const { 
     data: getuserdata, 
     error: getUserdataApiError, 
     isLoading: getUserdataApiIsLoading 
   } = useGetuserApiQuery(userId); 
 
-  console.log('getuserdata:', getuserdata); 
-  console.log('isLoading:', getUserdataApiIsLoading); 
-  console.log('error:', getUserdataApiError); 
- 
- 
-const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image } =
+  console.log('getuserdata9894994',getuserdata)
+
+  const [logOutApi,{isLoading:logoutApiisLoading}] = useLogoutApiMutation();
+
+const { firstName, lastName, email, phoneNumber, createdAt, updatedAt,image,countryCode } =
     getuserdata?.getUser||{}
 
 
- const handleLogOut = () => {
-    dispatch(resetAuth());
-    dispatch(resetCookies()) 
-    setIsDialogVisible(false); 
-  };
+ const handleLogOut = async () => {
+  setIsDialogVisible(false); 
+
+  if (!userId) {
+    Alert.alert('Error', 'User ID not found');
+    return;
+  }
+
+  try {
+    const response = await logOutApi({userId,
+      
+      body:{ fcmToken: FcmToken }
+    
+  }).unwrap();
+      console.log('response00000',response)
+    if (response?.success) {
+
+      dispatch(resetAuth());
+      dispatch(resetCookies());
+    } else {
+      Alert.alert('Error', 'Logout failed. Please try again.');
+    }
+  } catch (error) {
+    console.error('Logout API Error:', error);
+    Alert.alert('Error', 'Something went wrong. Please try again.');
+  }
+};
 
 const supportItems = [
     { label: 'Edit profile', icon: <Svg.ProfileEdit/>,route: MainRoutes.EDITPROFILE_SCREEN,
@@ -54,7 +80,8 @@ const supportItems = [
     { label: 'Notification', icon: <Svg.Notification/>,route:MainRoutes.NOTIFICATION_SCREEN  },
   ];
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView>
+      <ScrollView style={{height:'100%',backgroundColor:'#F5F5F5'}}>
     <View style={styles.container}>
       {/* <CustomHeader
         leftIcon={<Svg.ArrowBack/>}
@@ -73,24 +100,23 @@ const supportItems = [
       source={
     image?.length > 0
       ? { uri:image } 
-      : require('../../asstets/images/manImage.png') 
+      : require('../../assets/images/narasolicitor.jpeg') 
      }
-  style={styles.profileImage}
+           style={styles.profileImage}
       />
 
         <View style={{marginLeft:10}}>
         <Text style={styles.profileName}>{firstName} {lastName}</Text>
-        <Text style={styles.profileInfo}>{phoneNumber}</Text>
+        <Text style={styles.profileInfo}>
+          {countryCode} {phoneNumber}</Text>
         <Text style={styles.profileInfo}>{email}</Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.personalDetails}>Personal details →</Text>
-        </TouchableOpacity> */}
+       
         </View>
       </View>
 
       {/* Support Board */}
       <View style={styles.supportBoard}>
-        <Text style={{fontSize:theme.fontSizes.size_16,marginBottom:10,fontWeight:'500'}}>{'Support board'}</Text>
+       
       {supportItems.map((item, index) => (
           <TouchableOpacity key={index} style={styles.supportItem} onPress={()=> navigation?.navigate?.(item?.route,item?.params)} >
             <Text style={styles.supportIcon}>{item.icon}</Text>
@@ -115,7 +141,6 @@ const supportItems = [
         <ConfirmationDialog
           visible={isDialogVisible}
           title="Confirm Logout"
-          message="Are you sure you want to log out ?"
           onCancel={() => setIsDialogVisible(false)} 
           onConfirm={handleLogOut} 
           cancelText="Cancel"
@@ -123,6 +148,7 @@ const supportItems = [
         />
       </View>
     </View>
+    </ScrollView>
     </SafeAreaView>
   );
 };
@@ -131,18 +157,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    padding: 20,
+    padding:theme.horizontalSpacing.space_20,
   },
   backButton: {
-    marginBottom: 20,
+    marginBottom:theme.verticalSpacing.space_20,
   },
   backArrow: {
-    fontSize: 18,
+    fontSize:theme.fontSizes.size_18 ,
   },
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: theme.verticalSpacing.space_30,
+   
   },
   profileImage: {
    
@@ -175,9 +201,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF',
-    padding: 15,
-    marginBottom: 10,
+    height:theme.verticalSpacing.space_48,
+     paddingHorizontal:theme.horizontalSpacing.space_16,
     borderRadius: 10,
+    marginTop:theme.verticalSpacing.space_20
   },
   supportIcon: {
     marginRight: 15,
@@ -187,31 +214,36 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_16,
     fontWeight: '500',
   },
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop:theme.verticalSpacing.space_40
-  },
-  logoutButton: {
-    backgroundColor: theme.lightColor.brownColor,
-    height:50,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius: 10,
-    flex: 1,
-    marginRight: 10,
-  },
-  deleteAccountButton: {
-    backgroundColor: theme.lightColor.brownColor,
-    padding: 15,
-    borderRadius: 10,
-    flex: 1,
-  },
-  actionText: {
-    color: '#FFF',
-    textAlign: 'center',
-    fontWeight: '600',
-  },
+ actions: {
+  flexDirection: 'row',
+  justifyContent: "center",
+  alignItems: "center",
+ marginTop:theme.verticalSpacing.space_50
+},
+logoutButton: {
+  backgroundColor: theme.lightColor.brownColor,
+ height:theme.verticalSpacing.space_50,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 10,
+  width: theme.horizontalSpacing.space_173,
+  marginHorizontal: 5, 
+},
+deleteAccountButton: {
+  backgroundColor: theme.lightColor.brownColor, 
+height:theme.verticalSpacing.space_50,
+  borderRadius: 10,
+  width: theme.horizontalSpacing.space_173,
+  alignItems: "center",
+  justifyContent: "center",
+  marginHorizontal: 5, 
+},
+actionText: {
+  color: "white",
+  fontSize: theme.fontSizes.size_16,
+  fontWeight: "500",
+},
+
 });
 
 export default ProfileScreen;

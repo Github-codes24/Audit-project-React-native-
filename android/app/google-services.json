@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234134612479",
+    "project_id": "nara-solicitors-58558",
+    "storage_bucket": "nara-solicitors-58558.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234134612479:android:59ccf4a874b443c7749fca",
+        "android_client_info": {
+          "package_name": "com.nara.solicitor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_dpbNhE5hz0tC2P-dMZ9Eytta7DP-AD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

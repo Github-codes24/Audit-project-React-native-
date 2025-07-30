@@ -28,20 +28,8 @@ const theme = {
   },
 
   fontFamily: {
-    notoSans: {
-      regular_400: 'NotoSans-Regular',
-      medium_500: 'NotoSans-Medium',
-      bold_700: 'NotoSans-Bold',
-      extrabold_800: 'NotoSans-ExtraBold',
-      semibold_600: 'NotoSans-SemiBold',
-      thin_100: 'NotoSans-Thin',
-    },
-    jost: {
-      regular_400: 'Jost-Regular',
-      bold_700: 'Jost-Bold',
-      extrabold_800: 'Jost-ExtraBold',
-      semibold_600: 'Jost-SemiBold',
-    },
+   
+   
   },
 
   verticalSpacing: {
@@ -108,6 +96,10 @@ const theme = {
   space_269:hp(269),
   space_290:hp(290),
   space_347:hp(347),
+  space_350:hp(350),
+   space_390:hp(390),
+   space_395:hp(395),
+    space_220:hp(220),
   },
   horizontalSpacing: {
     space_170:wp(170),
@@ -161,6 +153,7 @@ const theme = {
     space_96: wp(96),
     space_98: wp(98),
     space_100: wp(100),
+    space_130: wp(130),
     space_328: wp(328),
      space_358: wp(358),
     space_156: wp(156),
@@ -178,6 +171,8 @@ const theme = {
      space_374: wp(374),
     space_330: wp(330),
       space_285: wp(285),
+     space_385: wp(385),
+     space_320: wp(320),
 
   },
   boderRadius: {

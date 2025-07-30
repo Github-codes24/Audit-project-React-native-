@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../utils';
-import * as Svg from '../../asstets/images/svg'; // Ensure these are valid SVG components or update the import path
+import * as Svg from '../../assets/images/svg'; // Ensure these are valid SVG components or update the import path
 
 const CustomTextInput = ({
   value,
@@ -20,7 +20,9 @@ const CustomTextInput = ({
   multiline = false,
   editable = true,
   onRightIconPress,
-  textColor
+  textColor,
+  autoCapitalize = 'sentences', 
+  autoCorrect = true  
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
 
@@ -50,6 +52,8 @@ const CustomTextInput = ({
         secureTextEntry={secureTextEntry && isPasswordVisible} 
         style={[styles.input, inputStyle, { color: textColor }]}
         placeholderTextColor={'#BABABA'}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
         ref={ref}
       />
 
@@ -85,14 +89,15 @@ const styles = StyleSheet.create({
     borderColor: theme.lightColor.borderColor,
     paddingHorizontal: theme.horizontalSpacing.space_12,
     height: theme.verticalSpacing.space_50,
-    width:theme.horizontalSpacing.space_374
+    width:theme.horizontalSpacing.space_374,
+    marginTop:5
+    
   },
   input: {
     flex: 1,
     fontSize: theme.fontSizes.size_16,
-    color: theme.lightColor.lightGrayColor,
+    color:theme.lightColor.blackColor,
     
-   
     // paddingHorizontal: theme.horizontalSpacing.space_8,
     
   },

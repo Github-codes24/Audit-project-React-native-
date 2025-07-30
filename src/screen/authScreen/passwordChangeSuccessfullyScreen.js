@@ -11,12 +11,19 @@ const PasswordChangeSuccessfullyScreen = ({ navigation }) => {
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={require('../../asstets/images/passwordChange.png')}
+            source={require('../../assets/images/passwordChanges.png')}
           />
+          <View style={{alignItems:"center"}}>
+          <View style={{}}>
           <Text style={styles.title}>Password Changed Successfully</Text>
           <Text style={styles.description}>
-            Your password has been changed successfully. You can now use your new password to log in to your account.
+            Your password has been changed successfully  
           </Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5,alignSelf:"center"}}>{'You can now use your new password to log in'}</Text>
+          <Text style={{fontSize:theme.fontSizes.size_16,fontWeight:"400",marginLeft:5,alignSelf:"center"}}>{'to your account.'}</Text>
+         </View>
+         </View>
+         
           <View style={styles.buttonContainer}>
             <CustomButton
               onPress={() => navigation.navigate(MainRoutes.LOGIN_SCREEN)}
@@ -36,17 +43,19 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
   },
   container: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: theme.horizontalSpacing.space_16,
+    marginTop:theme.verticalSpacing.space_40,
+    alignItems:"center",
+    // justifyContent:"center",
+
+    paddingHorizontal: theme.horizontalSpacing.space_20,
   },
   image: {
     width: theme.horizontalSpacing.space_327,
-    height: 273,
+    height:327,
     resizeMode: "contain",
   },
   title: {
@@ -55,15 +64,16 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.size_30,
     marginVertical: theme.verticalSpacing.space_16,
     color: theme.lightColor.blackColor,
+    marginTop:theme.verticalSpacing.space_40
   },
   description: {
-   
-    width:320,
     lineHeight: 20,
     fontSize: theme.fontSizes.size_16,
     fontWeight:'400',
     color: theme.lightColor.blackColor,
-    marginVertical: theme.verticalSpacing.space_16,
+   marginLeft:5,
+   alignSelf:"center"
+    // marginVertical: theme.verticalSpacing.space_16,
   },
   buttonContainer: {
     marginTop: theme.verticalSpacing.space_30,

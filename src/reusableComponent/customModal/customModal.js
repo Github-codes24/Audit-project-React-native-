@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { theme } from "../../utils";
-import * as Svg from '../../asstets/images/svg'
+import * as Svg from '../../assets/images/svg'
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: theme.fontSizes.size_16,
     color: "#E8E8E8",
-    lineHeight: 24,
+    lineHeight: 20,
     textAlign: "center",
   },
   buttonContainer: {

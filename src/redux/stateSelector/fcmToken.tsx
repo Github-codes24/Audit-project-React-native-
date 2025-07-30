@@ -1,0 +1,1 @@
+export const getFcmToken = (state) => state?.authSlice?.fcmToken; 

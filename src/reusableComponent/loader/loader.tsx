@@ -1,33 +1,43 @@
 import React from "react";
-import { StyleSheet, View, ActivityIndicator, Text, Modal } from "react-native";
+import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
 
-const Loader = ({ isLoading, message, backgroundColor = "rgba(0, 0, 0, 0.1)", color = "#592951" }) => {
+const Loader = ({ isLoading, message, color = "#592951" }) => {
+  if (!isLoading) return null;
+
   return (
-    <Modal
-      visible={isLoading}
-      transparent={true}
-      animationType="none"
-      onRequestClose={() => {}} // Optional: Prevents closing on back button press for Android
-    >
-      <View style={[styles.loaderContainer, { backgroundColor }]}>
+    <View style={styles.overlay}>
+      <View style={styles.content}>
         <ActivityIndicator size="large" color={color} />
-        {message && <Text style={styles.loaderText}>{message}</Text>}
+        {message && <Text style={styles.text}>{message}</Text>}
       </View>
-    </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  loaderContainer: {
-    flex: 1, // Fills the entire screen
-    justifyContent: "center", // Centers content vertically
-    alignItems: "center", // Centers content horizontally
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+    pointerEvents: "none", 
+    zIndex: 999,
   },
-  loaderText: {
-    marginTop: 10,
+  content: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: 20,
+    borderRadius: 10,
+  },
+  text: {
     color: "#fff",
-    fontSize: 16,
+    marginTop: 10,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
