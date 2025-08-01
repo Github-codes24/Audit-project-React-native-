@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { theme } from "../../utils";
@@ -16,6 +17,7 @@ import * as Svg from "../../assets/images/svg";
 import CustomButton from "../../reusableComponent/button/button";
 import { MainRoutes } from "../../navigation/routeAndParamsList";
 import CustomHeader from "../../reusableComponent/customHeader/customHeader";
+import CustomTextInput from "../../reusableComponent/customTextInput/customTextInput";
 
 const RegisterScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
@@ -25,6 +27,11 @@ const RegisterScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+const togglePasswordVisibility = () => {
+  setIsPasswordVisible((prev) => !prev);
+};
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
@@ -158,7 +165,7 @@ const RegisterScreen = ({ navigation }) => {
                   {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
                   <Text style={styles.TextStyle}>Password</Text>
-                  <TextInput
+                  <CustomTextInput
                     secureTextEntry
                     value={password}
                     onChangeText={(text) => {
@@ -172,17 +179,30 @@ const RegisterScreen = ({ navigation }) => {
                   {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
                   <Text style={styles.TextStyle}>Confirm password</Text>
-                  <TextInput
-                    secureTextEntry
-                    value={confirmPassword}
-                    onChangeText={(text) => {
-                      setConfirmPassword(text);
-                      setErrors({ ...errors, confirmPassword: "" });
-                    }}
-                    style={styles.nameTextInput}
-                    placeholder="Confirm password"
-                    placeholderTextColor="#BABABA"
-                  />
+                 <View style={styles.inputContainer}>
+  <TextInput
+    secureTextEntry={!isPasswordVisible}
+    value={confirmPassword}
+    onChangeText={(text) => {
+      setConfirmPassword(text);
+      setErrors({ ...errors, confirmPassword: "" });
+    }}
+    style={styles.textInput}
+    placeholder="Confirm password"
+    placeholderTextColor="#BABABA"
+  />
+
+  <TouchableOpacity
+    onPress={togglePasswordVisibility}
+    style={styles.iconContainer}
+  >
+    {isPasswordVisible ? (
+      <Svg.EyeOpen />
+    ) : (
+      <Svg.CloseEye />
+    )}
+  </TouchableOpacity>
+</View>
                   {errors.confirmPassword && (
                     <Text style={styles.errorText}>{errors.confirmPassword}</Text>
                   )}
@@ -256,6 +276,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: Platform.OS === "ios" ? 30 : 20,
     backgroundColor: theme.lightColor.backgroundColor,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width:theme.horizontalSpacing.space_370,
+    borderColor: '#ccc',
+    marginVertical:5,
+    paddingHorizontal:theme.horizontalSpacing.space_12,
+    backgroundColor:'#FFF',
+    borderRadius:10,
+    borderWidth:1,
+    height:theme.verticalSpacing.space_50,
+   
+  },
+  textInput: {
+   flex:1,
+    height:theme.verticalSpacing.space_50,
+    color: '#000',
+  },
+  iconContainer: {
+  
   },
 });
 
